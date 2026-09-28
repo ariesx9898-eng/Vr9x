@@ -331,26 +331,43 @@ FRotator UMTAbility::GetAimRotation() const
 
 float UMTAbility::PlayMontage(FName Section, float PlayRate)
 {
-	AMTCharacterBase* Owner = GetOwnerCharacter();
-	if (!Owner || Data.Montage.IsNull())
+	if (Data.Montage.IsNull())
 	{
 		return 0.f;
 	}
 	// Faster casting plays the anticipation faster instead of cutting it.
 	const float CastScale = Data.CastTime > 0.f ? FMath::Clamp(Data.CastTime / FMath::Max(0.05f, GetEffectiveCastTime()), 0.75f, 2.f) : 1.f;
-	return Owner->PlaySoftMontage(Data.Montage, PlayRate * CastScale, Section);
+	return PlayAbilityAnim(Data.Montage, PlayRate * CastScale, Section);
+}
+
+float UMTAbility::PlayAbilityAnim(const TSoftObjectPtr<UAnimSequenceBase>& Anim, float PlayRate, FName Section,
+	int32 LoopCount, float BlendIn, float BlendOut)
+{
+	AMTCharacterBase* Owner = GetOwnerCharacter();
+	if (!Owner || Anim.IsNull())
+	{
+		return 0.f;
+	}
+	const float Length = Owner->PlayAnimAsset(Anim, PlayRate, Section, LoopCount, BlendIn, BlendOut);
+	if (Length > 0.f)
+	{
+		ActiveAnimMontage = Owner->GetLastPlayedMontage();
+	}
+	return Length;
 }
 
 void UMTAbility::JumpMontageToSection(FName Section)
 {
 	AMTCharacterBase* Owner = GetOwnerCharacter();
-	if (!Owner || Section.IsNone() || Data.Montage.IsNull())
+	if (!Owner || Section.IsNone())
 	{
 		return;
 	}
+	// Only an authored montage has sections; a plain sequence plays as a single-section dynamic montage.
 	UAnimInstance* Anim = Owner->GetMesh() ? Owner->GetMesh()->GetAnimInstance() : nullptr;
-	UAnimMontage* Montage = Data.Montage.Get();
-	if (Anim && Montage && Anim->Montage_IsPlaying(Montage))
+	UAnimMontage* Montage = Cast<UAnimMontage>(Data.Montage.Get());
+	if (Anim && Montage && ActiveAnimMontage.Get() == Montage && Anim->Montage_IsPlaying(Montage)
+		&& Montage->GetSectionIndex(Section) != INDEX_NONE)
 	{
 		Anim->Montage_JumpToSection(Section, Montage);
 	}
@@ -359,11 +376,82 @@ void UMTAbility::JumpMontageToSection(FName Section)
 void UMTAbility::StopMontage(float BlendOut)
 {
 	AMTCharacterBase* Owner = GetOwnerCharacter();
-	UAnimInstance* Anim = (Owner && Owner->GetMesh()) ? Owner->GetMesh()->GetAnimInstance() : nullptr;
-	UAnimMontage* Montage = Data.Montage.Get();
-	if (Anim && Montage)
+	UAnimMontage* Montage = ActiveAnimMontage.Get();
+	if (Owner && Montage)
 	{
-		Anim->Montage_Stop(BlendOut, Montage);
+		// Montage_Stop is a no-op if something else (a hit reaction, a dodge) already replaced it.
+		Owner->StopPlayedAnim(Montage, BlendOut);
+	}
+	ActiveAnimMontage.Reset();
+	bChargeLoopStarted = false;
+}
+
+void UMTAbility::UpdateChargeAnimation()
+{
+	if (bChargeLoopStarted || Data.ChargeLoopAnim.IsNull() || Phase != EMTAbilityPhase::Anticipation)
+	{
+		return;
+	}
+	AMTCharacterBase* Owner = GetOwnerCharacter();
+	UAnimInstance* Anim = (Owner && Owner->GetMesh()) ? Owner->GetMesh()->GetAnimInstance() : nullptr;
+	if (!Anim)
+	{
+		return;
+	}
+	UAnimMontage* Anticipation = ActiveAnimMontage.Get();
+	bool bStartLoop = false;
+	if (Anticipation && Anim->Montage_IsPlaying(Anticipation))
+	{
+		// Start just before the anticipation's own auto blend-out (0.18 s before its end) so the pose never dips
+		// toward locomotion. The anticipation keeps playing while it crossfades out over the loop's blend-in, so it
+		// still reaches (almost) its final frame, which is the hold pose the loop starts in.
+		const float Rate = FMath::Max(0.01f, FMath::Abs(Anim->Montage_GetPlayRate(Anticipation)));
+		const float Remaining = (Anticipation->GetPlayLength() - Anim->Montage_GetPosition(Anticipation)) / Rate;
+		bStartLoop = Remaining <= 0.2f;
+	}
+	else
+	{
+		// Anticipation finished or never played. Wait while another montage (a hit flinch) is still playing.
+		const UAnimMontage* Current = Anim->GetCurrentActiveMontage();
+		bStartLoop = Current == nullptr || Current == Anticipation;
+	}
+	if (!bStartLoop)
+	{
+		return;
+	}
+	// Large loop count: the hold lasts until release/cancel stops it. Played at rate 1 (holding is not casting).
+	bChargeLoopStarted = true;
+	PlayAbilityAnim(Data.ChargeLoopAnim, 1.f, NAME_None, 1000, 0.15f, 0.1f);
+}
+
+void UMTAbility::PlayReleaseAnimation()
+{
+	if (!Data.ReleaseAnim.IsNull())
+	{
+		StopMontage(0.05f); // hold loop (or a still-running anticipation)
+		PlayAbilityAnim(Data.ReleaseAnim, 1.f, NAME_None, 1, 0.05f, 0.2f);
+		return;
+	}
+	// Authored montage fallback: jump to its release section, or restart it there if the hold loop replaced it.
+	UAnimMontage* Authored = Cast<UAnimMontage>(Data.Montage.Get());
+	if (Authored && !Data.MontageReleaseSection.IsNone() && Authored->GetSectionIndex(Data.MontageReleaseSection) != INDEX_NONE)
+	{
+		AMTCharacterBase* Owner = GetOwnerCharacter();
+		UAnimInstance* Anim = (Owner && Owner->GetMesh()) ? Owner->GetMesh()->GetAnimInstance() : nullptr;
+		if (Anim && ActiveAnimMontage.Get() == Authored && Anim->Montage_IsPlaying(Authored))
+		{
+			JumpMontageToSection(Data.MontageReleaseSection);
+		}
+		else
+		{
+			StopMontage(0.05f);
+			PlayAbilityAnim(Data.Montage, 1.f, Data.MontageReleaseSection, 1, 0.05f, 0.2f);
+		}
+		return;
+	}
+	if (bChargeLoopStarted)
+	{
+		StopMontage(0.2f); // nothing to release into: let go of the hold pose
 	}
 }
 

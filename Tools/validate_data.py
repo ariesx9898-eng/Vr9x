@@ -8,8 +8,11 @@ USTRUCT UPROPERTY names + C++ types) and checks every JSON row against them, the
   * JSON parses; each registry file is a top-level array of objects
   * no unknown keys (recursively, incl. nested structs) and value types match the C++ property types
   * enum strings are valid enumerator names; gameplay tags are registered (MTGameplayTags.h)
-  * soft object/class paths are well formed (/Game/Dir/Asset.Asset, class paths end in _C)
+  * soft object/class paths are well formed (/Game/Dir/Asset.Asset, class paths end in _C, or a native
+    /Script/MushokuRPG.Class that exists as a UCLASS in the module headers)
   * every referenced ability / item / enemy / NPC / location / quest id exists
+  * AnimSets.json: one row per character, only known clip keys, A_<Char>_<Key> naming, sane reference speeds;
+    ability animation paths must be clips listed in an AnimSet (catches typos before the editor does)
   * every element has EXACTLY 3 abilities; character pool is ONLY Rudeus + Orsted
   * every race has passive + ActiveAbility + TransformationAbility; only Human/Migurd/Beast implemented
   * behaviour-specific sanity (zones have radius+duration, dashes distance, counters windows, ...)
@@ -37,8 +40,23 @@ FILE_STRUCTS = {
     "Items.json": "FMTItemData",
     "Locations.json": "FMTLocationData",
     "RollConfigs.json": "FMTRollConfig",
+    "AnimSets.json": "FMTAnimSetData",
 }
 REQUIRED_FILES = [f for f in FILE_STRUCTS if f != "Locations.json"]  # Locations.json is owned by the world team
+
+# AnimSet clip keys (A_<Character>_<Key>). Required = authored in Rudeus_Animated.glb; optional = not authored yet.
+REQUIRED_ANIM_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "Rise",
+                      "Fall", "JumpStart", "Land", "HardLand", "DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight",
+                      "HitFront", "HitBack", "HitLeft", "HitRight", "Stagger", "Knockdown", "Death", "CastBasic",
+                      "StoneCannon_Charge", "StoneCannon_Hold", "StoneCannon_Release", "Quagmire", "Barrage",
+                      "DemonEye", "Awakening", "CastTwoHand", "CastGround"]
+OPTIONAL_ANIM_KEYS = ["TurnLeft90", "TurnRight90"]
+# Characters whose AnimSet must list every required key (others fall back gracefully at runtime).
+FULL_ANIMSET_CHARACTERS = {"Rudeus"}
+# AnimSet speed field -> clip key whose authored ref_speed_cm_s it must match (exporter sidecar *.anim.json).
+ANIM_SPEED_FIELDS = {"WalkSpeedRef": "Walk", "WalkBackSpeedRef": "WalkBack", "StrafeSpeedRef": "StrafeLeft",
+                     "RunSpeedRef": "Run", "SprintSpeedRef": "Sprint"}
+ANIM_PATH_RE = re.compile(r"^/Game/Characters/([A-Za-z0-9_]+)/Animations/A_([A-Za-z0-9]+)_([A-Za-z0-9_]+)\.")
 
 ALLOWED_CHARACTERS = {"Rudeus", "Orsted"}
 IMPLEMENTED_RACES = {"Human", "Migurd", "Beast"}
@@ -65,6 +83,9 @@ BUILTIN_STRUCTS = {
     "FGameplayTag": {"TagName": "FName"},
 }
 SOFT_OBJECT_RE = re.compile(r"^/Game(/[A-Za-z0-9_]+)+\.[A-Za-z0-9_]+$")
+# Native classes: /Script/<Module>.<ClassNameWithoutPrefix>, e.g. /Script/MushokuRPG.MTNativeAnimInstance
+SCRIPT_CLASS_RE = re.compile(r"^/Script/([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)$")
+GAME_MODULE = "MushokuRPG"
 
 errors = []
 warnings = []
@@ -118,6 +139,19 @@ def parse_structs(src):
     return structs
 
 
+def parse_native_classes(source_dir):
+    """UCLASS names declared in the module's public headers, without the U/A prefix (as /Script paths spell them)."""
+    names = set()
+    for dirpath, _, files in os.walk(source_dir):
+        for fname in files:
+            if not fname.endswith(".h"):
+                continue
+            src = strip_comments(open(os.path.join(dirpath, fname), encoding="utf-8").read())
+            for m in re.finditer(r"UCLASS\s*\((?:[^()]|\([^()]*\))*\)\s*class\s+(?:\w+_API\s+)?([UA])(\w+)", src):
+                names.add(m.group(2))
+    return names
+
+
 def parse_tags(path):
     """MTTags::State_Casting -> "State.Casting" (UE_DEFINE uses the same dotted spelling)."""
     if not os.path.exists(path):
@@ -149,8 +183,9 @@ def is_number(v):
 
 
 class Schema:
-    def __init__(self, enums, structs, tags):
+    def __init__(self, enums, structs, tags, native_classes=None):
         self.enums, self.structs, self.tags = enums, structs, tags
+        self.native_classes = native_classes or set()
 
     def check_scalar_key(self, key, ctype, path):
         if ctype in self.enums:
@@ -229,6 +264,13 @@ class Schema:
             err(f"{path}: expected soft path string, got {value!r}")
             return
         if value == "":
+            return
+        script = SCRIPT_CLASS_RE.match(value)
+        if script:
+            if not is_class:
+                err(f"{path}: '{value}' is a native /Script path; soft object paths must point at /Game assets")
+            elif script.group(1) == GAME_MODULE and script.group(2) not in self.native_classes:
+                err(f"{path}: native class '{value}' is not a UCLASS in Source/{GAME_MODULE}/Public")
             return
         if not SOFT_OBJECT_RE.match(value):
             err(f"{path}: malformed soft path '{value}' (expected /Game/Dir/Asset.Asset)")
@@ -365,6 +407,94 @@ def check_abilities(abilities, schema, char_ids, quest_ids):
             err(f"{ctx}: malformed UnlockRequirement clause '{clause}'")
 
 
+def load_anim_sidecar(character):
+    """Exporter metadata next to the animated GLB (SourceArt/Characters/<C>/<C>_Animated.anim.json), if any."""
+    path = os.path.join(ROOT, "SourceArt", "Characters", character, character + "_Animated.anim.json")
+    if not os.path.exists(path):
+        return None
+    try:
+        return json.load(open(path, encoding="utf-8")).get("clips", {})
+    except (json.JSONDecodeError, AttributeError) as e:
+        warn(f"{os.path.relpath(path, ROOT)}: unreadable ({e}); clip cross-check skipped")
+        return None
+
+
+def check_anim_sets(anim_sets, characters, abilities):
+    known = set(REQUIRED_ANIM_KEYS) | set(OPTIONAL_ANIM_KEYS)
+    listed_paths = set()
+    sidecars = {}
+    for cid in sorted(set(characters) - set(anim_sets)):
+        err(f"AnimSets.json: character '{cid}' has no anim set (the native anim instance would show the bind pose)")
+    for cid, row in anim_sets.items():
+        ctx = f"AnimSets[{cid}]"
+        if cid not in characters:
+            err(f"{ctx}: CharacterID is not a character in Characters.json")
+        anims = row.get("Anims", {})
+        if not isinstance(anims, dict):
+            continue  # type error already reported by the schema check
+        # Non-string values were already reported by the schema check; ignore them here.
+        anims = {k: v for k, v in anims.items() if isinstance(v, str)}
+        for key in sorted(set(anims) - known):
+            err(f"{ctx}.Anims: unknown clip key '{key}' (known: {', '.join(REQUIRED_ANIM_KEYS + OPTIONAL_ANIM_KEYS)})")
+        missing = [k for k in REQUIRED_ANIM_KEYS if not anims.get(k)]
+        if missing:
+            (err if cid in FULL_ANIMSET_CHARACTERS else warn)(
+                f"{ctx}.Anims: missing {', '.join(missing)} (runtime falls back to other clips)")
+        for key, path in anims.items():
+            if not path:
+                continue
+            listed_paths.add(path)
+            m = ANIM_PATH_RE.match(path)
+            if not m:
+                warn(f"{ctx}.Anims.{key}: '{path}' does not follow /Game/Characters/<C>/Animations/A_<C>_<Key>")
+                continue
+            folder_char, name_char, name_key = m.groups()
+            if folder_char != name_char:
+                warn(f"{ctx}.Anims.{key}: folder '{folder_char}' and clip prefix 'A_{name_char}_' disagree")
+            if name_key != key:
+                warn(f"{ctx}.Anims.{key}: points at clip key '{name_key}' (deliberate reuse?)")
+            # Cross-check against the exporter's sidecar for the clip's owner (Orsted may reuse Rudeus clips).
+            if name_char not in sidecars:
+                sidecars[name_char] = load_anim_sidecar(name_char)
+            clips = sidecars[name_char]
+            if clips is not None and name_key not in clips:
+                warn(f"{ctx}.Anims.{key}: A_{name_char}_{name_key} is not in {name_char}_Animated.anim.json "
+                     f"(not exported yet?)")
+        refs = {f: row.get(f) for f in ANIM_SPEED_FIELDS}
+        for field, value in refs.items():
+            if value is not None and (not is_number(value) or value <= 0):
+                err(f"{ctx}: {field} must be > 0 (cm/s)")
+        walk, run, sprint = (row.get("WalkSpeedRef", 130), row.get("RunSpeedRef", 360), row.get("SprintSpeedRef", 580))
+        if all(is_number(v) for v in (walk, run, sprint)) and not walk < run < sprint:
+            err(f"{ctx}: expected WalkSpeedRef < RunSpeedRef < SprintSpeedRef ({walk}, {run}, {sprint})")
+        # Reference speeds must match what the clips were authored at, or feet slide.
+        for field, clip_key in ANIM_SPEED_FIELDS.items():
+            m = ANIM_PATH_RE.match(anims.get(clip_key, "") or "")
+            clips = sidecars.get(m.group(2)) if m else None
+            authored = (clips or {}).get(m.group(3) if m else "", {}).get("ref_speed_cm_s")
+            value = row.get(field)
+            if authored is not None and value is not None and abs(authored - value) > 0.5:
+                warn(f"{ctx}: {field} {value} != authored {authored} cm/s of {m.group(0)[:-1].rsplit('/', 1)[1]}")
+        bone = row.get("UpperBodyRootBone", "spine_C0_1_jnt_061")
+        if not isinstance(bone, str) or not bone.strip():
+            warn(f"{ctx}: UpperBodyRootBone is empty (UMTNativeAnimInstance default bone is used)")
+
+    # Ability animations: character clips must be ones an AnimSet lists (they are what the import step produces).
+    for aid, a in abilities.items():
+        ctx = f"Abilities[{aid}]"
+        for field in ("Montage", "ChargeLoopAnim", "ReleaseAnim"):
+            path = a.get(field, "")
+            if isinstance(path, str) and path and ANIM_PATH_RE.match(path) and path not in listed_paths:
+                err(f"{ctx}.{field}: '{path}' is not a clip of any AnimSet (typo, or add it to AnimSets.json)")
+        has_loop, has_release = bool(a.get("ChargeLoopAnim")), bool(a.get("ReleaseAnim"))
+        if (has_loop or has_release) and not a.get("bChargeable", False):
+            warn(f"{ctx}: ChargeLoopAnim/ReleaseAnim are only used by chargeable abilities (ignored)")
+        if has_loop and not has_release and not a.get("MontageReleaseSection"):
+            warn(f"{ctx}: charge loop without ReleaseAnim or MontageReleaseSection (the hold just blends out on release)")
+        if a.get("bChargeable", False) and a.get("Montage") and not has_loop and not a.get("MontageStartSection"):
+            warn(f"{ctx}: chargeable without ChargeLoopAnim: the pose drops back to locomotion while charging")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=os.path.join(ROOT, "Content", "Data"))
@@ -378,7 +508,8 @@ def main():
             print(f"FATAL: header not found: {p}")
             return 2
         src += strip_comments(open(p, encoding="utf-8").read()) + "\n"
-    schema = Schema(parse_enums(src), parse_structs(src), parse_tags(os.path.join(args.source, "Core/MTGameplayTags.h")))
+    schema = Schema(parse_enums(src), parse_structs(src), parse_tags(os.path.join(args.source, "Core/MTGameplayTags.h")),
+                    parse_native_classes(args.source))
     for needed in ("EMTRarity", "EMTElement", "EMTRace", "EMTAbilityBehavior", "EMTQuestType", "EMTObjectiveType"):
         if needed not in schema.enums:
             err(f"header parse: enum {needed} not found")
@@ -418,6 +549,7 @@ def main():
     items = ids(data["Items.json"], "ItemID")
     rolls = ids(data["RollConfigs.json"], "Category")
     locations = ids(data["Locations.json"], "LocationID") if data["Locations.json"] else {}
+    anim_sets = ids(data["AnimSets.json"], "CharacterID")
 
     def need_ability(aid, ctx):
         if aid not in abilities:
@@ -426,6 +558,7 @@ def main():
         return abilities[aid]
 
     check_abilities(abilities, schema, set(characters), set(quests))
+    check_anim_sets(anim_sets, characters, abilities)
 
     # ---- characters: pool is exactly Rudeus + Orsted
     if set(characters) != ALLOWED_CHARACTERS:

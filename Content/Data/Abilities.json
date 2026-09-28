@@ -19,7 +19,7 @@
     "ProjectileRadius": 10,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Basic.AM_Rudeus_Basic",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_StoneBullet_Formation.NS_StoneBullet_Formation",
       "Travel": "/Game/VFX/Earth/NS_StoneBullet_Travel.NS_StoneBullet_Travel",
@@ -67,9 +67,11 @@
     "ProjectileRadius": 18,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_StoneCannon.AM_Rudeus_StoneCannon",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
     "MontageStartSection": "Charge",
     "MontageReleaseSection": "Release",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
     "CastSocket": "hand_r",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_StoneCannon_Formation.NS_StoneCannon_Formation",
@@ -125,7 +127,7 @@
     "ActivationDelay": 0.25,
     "PulseCount": 1,
     "PulseInterval": 0.5,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Quagmire.AM_Rudeus_Quagmire",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire.A_Rudeus_Quagmire",
     "CastSocket": "hand_l",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_Quagmire_Formation.NS_Quagmire_Formation",
@@ -182,7 +184,7 @@
       }
     ],
     "MoveSpeedWhileActive": 0.35,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_ElementalBarrage.AM_Rudeus_ElementalBarrage",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Barrage.A_Rudeus_Barrage",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_ElementalBarrage_Formation.NS_ElementalBarrage_Formation",
       "CastSound": "/Game/Audio/Physical/SC_ElementalBarrage_Cast.SC_ElementalBarrage_Cast"
@@ -350,7 +352,7 @@
       "ForesightLeadBonus": 0.0
     },
     "bGrantsForesight": true,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_DemonEye.AM_Rudeus_DemonEye",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "CastSocket": "head",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_DemonEye_Formation.NS_DemonEye_Formation",
@@ -400,7 +402,7 @@
     "bIsAwakening": true,
     "bGrantsForesight": true,
     "AwakeningMeterCost": 100,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Awakening.AM_Rudeus_Awakening",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_Awakening_Rudeus_Formation.NS_Awakening_Rudeus_Formation",
@@ -446,9 +448,11 @@
     "ProjectileRadius": 22,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_StoneCannon.AM_Rudeus_StoneCannon",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
     "MontageStartSection": "Charge",
     "MontageReleaseSection": "Release",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
     "CastSocket": "hand_r",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_StoneCannon_Awakened_Formation.NS_StoneCannon_Awakened_Formation",
@@ -504,7 +508,7 @@
     "ActivationDelay": 0.2,
     "PulseCount": 1,
     "PulseInterval": 0.5,
-    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Quagmire.AM_Rudeus_Quagmire",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire.A_Rudeus_Quagmire",
     "CastSocket": "hand_l",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_Quagmire_Awakened_Formation.NS_Quagmire_Awakened_Formation",
@@ -542,7 +546,7 @@
     "Stagger": 26,
     "Knockback": 150,
     "bDisruptable": false,
-    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_Basic.AM_Orsted_Basic",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
     "FX": {
       "Impact": "/Game/VFX/Arcane/NS_PalmStrike_Impact.NS_PalmStrike_Impact",
       "CastSound": "/Game/Audio/Arcane/SC_PalmStrike_Cast.SC_PalmStrike_Cast",
@@ -568,7 +572,7 @@
     "bDisruptable": false,
     "CounterWindow": 0.35,
     "CounterRadius": 450,
-    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_DisturbMagic.AM_Orsted_DisturbMagic",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_DisturbMagic_Formation.NS_DisturbMagic_Formation",
       "Impact": "/Game/VFX/Arcane/NS_DisturbMagic_Impact.NS_DisturbMagic_Impact",
@@ -607,7 +611,7 @@
     "DashDuration": 0.18,
     "bDashTowardTarget": true,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_DragonStep.AM_Orsted_DragonStep",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
     "WarpTargetName": "DragonStepTarget",
     "CastSocket": "foot_r",
     "FX": {
@@ -642,7 +646,7 @@
     "DashDuration": 0.16,
     "bDashTowardTarget": true,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_DragonStep.AM_Orsted_DragonStep",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
     "WarpTargetName": "DragonStepTarget",
     "CastSocket": "foot_r",
     "FX": {
@@ -683,7 +687,7 @@
       "StaggerResistance": 0.5,
       "MagicResistance": 0.15
     },
-    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_SaintDragonAura.AM_Orsted_SaintDragonAura",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_SaintDragonAura_Formation.NS_SaintDragonAura_Formation",
@@ -731,7 +735,7 @@
     },
     "bIsAwakening": true,
     "AwakeningMeterCost": 100,
-    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_Awakening.AM_Orsted_Awakening",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_Awakening_Orsted_Formation.NS_Awakening_Orsted_Formation",
@@ -772,7 +776,7 @@
     "ProjectileRadius": 18,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Projectile.AM_Cast_Projectile",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
     "FX": {
       "Formation": "/Game/VFX/Fire/NS_FireBurst_Formation.NS_FireBurst_Formation",
       "Travel": "/Game/VFX/Fire/NS_FireBurst_Travel.NS_FireBurst_Travel",
@@ -814,7 +818,7 @@
     "ActivationDelay": 0.9,
     "PulseCount": 3,
     "PulseInterval": 0.45,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Zone.AM_Cast_Zone",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Formation": "/Game/VFX/Fire/NS_FlameField_Formation.NS_FlameField_Formation",
       "Impact": "/Game/VFX/Fire/NS_FlameField_Impact.NS_FlameField_Impact",
@@ -863,9 +867,11 @@
     "ProjectileRadius": 45,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Charge_Heavy.AM_Cast_Charge_Heavy",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
     "MontageStartSection": "Charge",
     "MontageReleaseSection": "Release",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
     "FX": {
       "Formation": "/Game/VFX/Fire/NS_InfernoCompression_Formation.NS_InfernoCompression_Formation",
       "Travel": "/Game/VFX/Fire/NS_InfernoCompression_Travel.NS_InfernoCompression_Travel",
@@ -912,7 +918,7 @@
     "ProjectileRadius": 24,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Projectile.AM_Cast_Projectile",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
     "FX": {
       "Formation": "/Game/VFX/Water/NS_WaterCannon_Formation.NS_WaterCannon_Formation",
       "Travel": "/Game/VFX/Water/NS_WaterCannon_Travel.NS_WaterCannon_Travel",
@@ -969,7 +975,7 @@
     "ActivationDelay": 0.6,
     "PulseCount": 1,
     "PulseInterval": 0.5,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Zone.AM_Cast_Zone",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Formation": "/Game/VFX/Water/NS_FrostPrison_Formation.NS_FrostPrison_Formation",
       "Impact": "/Game/VFX/Water/NS_FrostPrison_Impact.NS_FrostPrison_Impact",
@@ -1019,7 +1025,7 @@
     "BuffStats": {
       "ManaCostMultiplier": 0.7
     },
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Channel_Sky.AM_Cast_Channel_Sky",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Formation": "/Game/VFX/Water/NS_Cumulonimbus_Formation.NS_Cumulonimbus_Formation",
       "Impact": "/Game/VFX/Water/NS_Cumulonimbus_Impact.NS_Cumulonimbus_Impact",
@@ -1067,9 +1073,11 @@
     "ProjectileRadius": 16,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Charge.AM_Cast_Charge",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
     "MontageStartSection": "Charge",
     "MontageReleaseSection": "Release",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_StoneCannon_Formation.NS_StoneCannon_Formation",
       "Travel": "/Game/VFX/Earth/NS_StoneCannon_Travel.NS_StoneCannon_Travel",
@@ -1124,7 +1132,7 @@
     "ActivationDelay": 0.3,
     "PulseCount": 1,
     "PulseInterval": 0.5,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Zone.AM_Cast_Zone",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_Quagmire_Formation.NS_Quagmire_Formation",
       "Impact": "/Game/VFX/Earth/NS_Quagmire_Impact.NS_Quagmire_Impact",
@@ -1169,7 +1177,7 @@
       "Y": 160,
       "Z": 150
     },
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Ground.AM_Cast_Ground",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_EarthFortress_Formation.NS_EarthFortress_Formation",
       "Impact": "/Game/VFX/Earth/NS_EarthFortress_Impact.NS_EarthFortress_Impact",
@@ -1212,7 +1220,7 @@
     "ProjectileRadius": 40,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Slash.AM_Cast_Slash",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
     "FX": {
       "Formation": "/Game/VFX/Wind/NS_AirBlade_Formation.NS_AirBlade_Formation",
       "Travel": "/Game/VFX/Wind/NS_AirBlade_Travel.NS_AirBlade_Travel",
@@ -1253,7 +1261,7 @@
     "DashDuration": 0.2,
     "bDashTowardTarget": false,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Dash_Wind.AM_Dash_Wind",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
     "CastSocket": "foot_r",
     "FX": {
       "Formation": "/Game/VFX/Wind/NS_GaleStep_Formation.NS_GaleStep_Formation",
@@ -1295,7 +1303,7 @@
     "ActivationDelay": 0.3,
     "PulseCount": 8,
     "PulseInterval": 1.0,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Channel_Sky.AM_Cast_Channel_Sky",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Formation": "/Game/VFX/Wind/NS_TempestDomain_Formation.NS_TempestDomain_Formation",
       "Impact": "/Game/VFX/Wind/NS_TempestDomain_Impact.NS_TempestDomain_Impact",
@@ -1341,7 +1349,7 @@
     "BuffMovement": {
       "SpeedMultiplier": 1.05
     },
-    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Quick.AM_Buff_Quick",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Human_SecondWind_Formation.NS_Race_Human_SecondWind_Formation",
       "Dissipation": "/Game/VFX/Physical/NS_Race_Human_SecondWind_Dissipation.NS_Race_Human_SecondWind_Dissipation",
@@ -1374,7 +1382,7 @@
       "StaggerResistance": 0.3
     },
     "TransformationTime": 0.6,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Human_LimitBreak_Formation.NS_Race_Human_LimitBreak_Formation",
@@ -1405,7 +1413,7 @@
     "Duration": 3,
     "bDisruptable": false,
     "bGrantsForesight": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Quick.AM_Buff_Quick",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_Race_Migurd_ResonancePulse_Formation.NS_Race_Migurd_ResonancePulse_Formation",
       "Dissipation": "/Game/VFX/Arcane/NS_Race_Migurd_ResonancePulse_Dissipation.NS_Race_Migurd_ResonancePulse_Dissipation",
@@ -1443,7 +1451,7 @@
       "CastTimeMultiplier": 0.9
     },
     "TransformationTime": 0.8,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Migurd_ManaResonance_Formation.NS_Race_Migurd_ManaResonance_Formation",
@@ -1478,7 +1486,7 @@
     "DashDuration": 0.2,
     "bDashTowardTarget": true,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Dash_Lunge.AM_Dash_Lunge",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
     "CastSocket": "foot_r",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Beast_HuntersDash_Formation.NS_Race_Beast_HuntersDash_Formation",
@@ -1515,7 +1523,7 @@
       "SpeedMultiplier": 1.15
     },
     "TransformationTime": 0.7,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Beast_BeastInstinct_Formation.NS_Race_Beast_BeastInstinct_Formation",
@@ -1546,7 +1554,7 @@
     "Duration": 5,
     "bDisruptable": false,
     "bGrantsForesight": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Quick.AM_Buff_Quick",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_Race_Superd_ThirdEyeSense_Formation.NS_Race_Superd_ThirdEyeSense_Formation",
       "Dissipation": "/Game/VFX/Arcane/NS_Race_Superd_ThirdEyeSense_Dissipation.NS_Race_Superd_ThirdEyeSense_Dissipation",
@@ -1585,7 +1593,7 @@
       "CounterWindowBonus": 0.05
     },
     "TransformationTime": 0.8,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Superd_WarriorState_Formation.NS_Race_Superd_WarriorState_Formation",
@@ -1618,7 +1626,7 @@
     "ProjectileRadius": 12,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Bow.AM_Cast_Bow",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
     "FX": {
       "Formation": "/Game/VFX/Wind/NS_Race_Elf_SpiritArrow_Formation.NS_Race_Elf_SpiritArrow_Formation",
       "Travel": "/Game/VFX/Wind/NS_Race_Elf_SpiritArrow_Travel.NS_Race_Elf_SpiritArrow_Travel",
@@ -1660,7 +1668,7 @@
       "AreaMultiplier": 1.15
     },
     "TransformationTime": 0.8,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Elf_AncientMana_Formation.NS_Race_Elf_AncientMana_Formation",
@@ -1697,7 +1705,7 @@
     "BuffMovement": {
       "SpeedMultiplier": 0.85
     },
-    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Brace.AM_Buff_Brace",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "FX": {
       "Formation": "/Game/VFX/Earth/NS_Race_Dwarf_Stonehide_Formation.NS_Race_Dwarf_Stonehide_Formation",
       "Dissipation": "/Game/VFX/Earth/NS_Race_Dwarf_Stonehide_Dissipation.NS_Race_Dwarf_Stonehide_Dissipation",
@@ -1729,7 +1737,7 @@
       "StaggerResistance": 0.3
     },
     "TransformationTime": 0.8,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Dwarf_ForgeHeart_Formation.NS_Race_Dwarf_ForgeHeart_Formation",
@@ -1762,7 +1770,7 @@
       "DamageResistance": 0.25,
       "MagicResistance": 0.15
     },
-    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Brace.AM_Buff_Brace",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Dragon_ScaleGuard_Formation.NS_Race_Dragon_ScaleGuard_Formation",
       "Dissipation": "/Game/VFX/Physical/NS_Race_Dragon_ScaleGuard_Dissipation.NS_Race_Dragon_ScaleGuard_Dissipation",
@@ -1794,7 +1802,7 @@
       "StaggerResistance": 0.35
     },
     "TransformationTime": 1.0,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Dragon_Aura_Formation.NS_Race_Dragon_Aura_Formation",
@@ -1834,7 +1842,7 @@
       "DamageResistance": 0.3,
       "StaggerResistance": 0.5
     },
-    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Brace.AM_Buff_Brace",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DemonEye.A_Rudeus_DemonEye",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Immortal_Reassemble_Formation.NS_Race_Immortal_Reassemble_Formation",
       "Dissipation": "/Game/VFX/Physical/NS_Race_Immortal_Reassemble_Dissipation.NS_Race_Immortal_Reassemble_Dissipation",
@@ -1866,7 +1874,7 @@
       "StaggerResistance": 0.4
     },
     "TransformationTime": 1.0,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Immortal_State_Formation.NS_Race_Immortal_State_Formation",
@@ -1898,7 +1906,7 @@
     "Stagger": 60,
     "Knockback": 400,
     "bDisruptable": false,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Melee_Slam.AM_Melee_Slam",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
     "FX": {
       "Impact": "/Game/VFX/Physical/NS_Race_Ogre_GroundBreaker_Impact.NS_Race_Ogre_GroundBreaker_Impact",
       "CastSound": "/Game/Audio/Physical/SC_Race_Ogre_GroundBreaker_Cast.SC_Race_Ogre_GroundBreaker_Cast",
@@ -1932,7 +1940,7 @@
       "SpeedMultiplier": 0.95
     },
     "TransformationTime": 1.0,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Ogre_Champion_Formation.NS_Race_Ogre_Champion_Formation",
@@ -1965,7 +1973,7 @@
     "DashDuration": 0.22,
     "bDashTowardTarget": false,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Dash_Wind.AM_Dash_Wind",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
     "CastSocket": "foot_r",
     "FX": {
       "Formation": "/Game/VFX/Water/NS_Race_Sea_TideRush_Formation.NS_Race_Sea_TideRush_Formation",
@@ -2002,7 +2010,7 @@
       "SpeedMultiplier": 1.1
     },
     "TransformationTime": 0.8,
-    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Physical/NS_Race_Sea_OceanBlessing_Formation.NS_Race_Sea_OceanBlessing_Formation",
