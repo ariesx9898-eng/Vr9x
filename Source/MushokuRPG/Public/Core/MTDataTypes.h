@@ -131,6 +131,12 @@ struct FMTAbilityData : public FTableRowBase
 	// --- Buff / aura / awakening ---
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FMTStatModifier BuffStats;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FMTMovementModifier BuffMovement;
+	/** Health / mana regained per second while the buff lasts (Immortal State). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float BuffHealthPerSecond = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float BuffManaPerSecond = 0.f;
+	/** Instant stamina / poise restored on activation (Human Second Wind). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float BuffStaminaRestore = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float BuffPoiseRestore = 0.f;
 	/** Seconds of the uninterruptible transformation sequence before control returns. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float TransformationTime = 0.f;
 	/** Abilities that change while this buff is active (awakening upgrades). */
@@ -266,6 +272,8 @@ struct FMTRaceData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float MaxHealthMultiplier = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float MaxManaMultiplier = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float MaxStaminaMultiplier = 1.f;
+	/** Passive health regeneration in HP/s (Immortal Demon). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float PassiveHealthRegen = 0.f;
 
 	/** Active racial ability (key R). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName ActiveAbility;

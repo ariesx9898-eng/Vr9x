@@ -1320,7 +1320,7 @@
   {
     "AbilityID": "Race_Human_SecondWind",
     "DisplayName": "Second Wind",
-    "Description": "Catch your breath mid-fight: for 6 s you shrug off 20% of incoming stagger and move 5% faster while stamina and poise recover. Small, reliable, human.",
+    "Description": "Catch your breath mid-fight: instantly recover 40 stamina and 50 poise, then for 6 s shrug off 20% of incoming stagger and move 5% faster. Small, reliable, human.",
     "Behavior": "Buff",
     "Element": "None",
     "RaceRequirement": "Human",
@@ -1348,7 +1348,9 @@
       "CastSound": "/Game/Audio/Physical/SC_Race_Human_SecondWind_Cast.SC_Race_Human_SecondWind_Cast"
     },
     "Icon": "/Game/UI/Icons/T_Icon_Race_Human_SecondWind.T_Icon_Race_Human_SecondWind",
-    "MasteryXP": 5
+    "MasteryXP": 5,
+    "BuffStaminaRestore": 40.0,
+    "BuffPoiseRestore": 50.0
   },
   {
     "AbilityID": "Race_Human_LimitBreak",
@@ -1844,7 +1846,7 @@
   {
     "AbilityID": "Race_Immortal_State",
     "DisplayName": "Immortal State",
-    "Description": "Embraces immortal-demon resilience for 15 s: 20% damage and 40% stagger resistance, +10% damage.",
+    "Description": "Embraces immortal-demon resilience for 15 s: regenerate 15 HP/s, 20% damage and 40% stagger resistance, +10% damage.",
     "Behavior": "Buff",
     "Element": "None",
     "RaceRequirement": "ImmortalDemon",
@@ -1874,7 +1876,8 @@
     "Icon": "/Game/UI/Icons/T_Icon_Race_Immortal_State.T_Icon_Race_Immortal_State",
     "UnlockRequirement": "Mastery:Race:ImmortalDemon:3",
     "MasteryRequirement": 3,
-    "MasteryXP": 10
+    "MasteryXP": 10,
+    "BuffHealthPerSecond": 15.0
   },
   {
     "AbilityID": "Race_Ogre_GroundBreaker",

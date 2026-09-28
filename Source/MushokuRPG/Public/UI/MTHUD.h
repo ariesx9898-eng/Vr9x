@@ -34,22 +34,6 @@ enum class EMTMenuPage : uint8
 	Roll
 };
 
-/** Original anime-fantasy palette: deep navy panels, thin gold trim, parchment text. */
-namespace MTHUDStyle
-{
-	inline FLinearColor PanelColor(float Alpha = 0.88f) { return FLinearColor(0.04f, 0.05f, 0.09f, Alpha); }
-	inline FLinearColor Gold(float Alpha = 1.f) { return FLinearColor(0.85f, 0.7f, 0.4f, Alpha); }
-	inline FLinearColor Parchment(float Alpha = 1.f) { return FLinearColor(0.95f, 0.92f, 0.85f, Alpha); }
-	inline FLinearColor Dim(float Alpha = 1.f) { return FLinearColor(0.6f, 0.58f, 0.54f, Alpha); }
-	inline FLinearColor Good(float Alpha = 1.f) { return FLinearColor(0.45f, 0.85f, 0.5f, Alpha); }
-	inline FLinearColor Bad(float Alpha = 1.f) { return FLinearColor(0.95f, 0.38f, 0.35f, Alpha); }
-	inline FLinearColor Health(float Alpha = 1.f) { return FLinearColor(0.78f, 0.16f, 0.2f, Alpha); }
-	inline FLinearColor Mana(float Alpha = 1.f) { return FLinearColor(0.25f, 0.5f, 0.98f, Alpha); }
-	inline FLinearColor Stamina(float Alpha = 1.f) { return FLinearColor(0.85f, 0.78f, 0.3f, Alpha); }
-	inline FLinearColor Poise(float Alpha = 1.f) { return FLinearColor(0.7f, 0.72f, 0.78f, Alpha); }
-	inline FLinearColor Awakening(float Alpha = 1.f) { return FLinearColor(0.95f, 0.55f, 0.95f, Alpha); }
-}
-
 UCLASS()
 class MUSHOKURPG_API AMTHUD : public AHUD
 {
@@ -95,6 +79,25 @@ protected:
 	UFUNCTION() void HandleNotification(FText Message, FLinearColor Color);
 
 private:
+	// ---------------------------------------------------------------- Palette (original anime-fantasy style:
+	// deep navy panels, thin gold trim, parchment text).
+	static FLinearColor PanelColor(float Alpha = 0.88f) { return FLinearColor(0.04f, 0.05f, 0.09f, Alpha); }
+	static FLinearColor Gold(float Alpha = 1.f) { return FLinearColor(0.85f, 0.7f, 0.4f, Alpha); }
+	static FLinearColor Parchment(float Alpha = 1.f) { return FLinearColor(0.95f, 0.92f, 0.85f, Alpha); }
+	static FLinearColor Dim(float Alpha = 1.f) { return FLinearColor(0.6f, 0.58f, 0.54f, Alpha); }
+	static FLinearColor Good(float Alpha = 1.f) { return FLinearColor(0.45f, 0.85f, 0.5f, Alpha); }
+	static FLinearColor Bad(float Alpha = 1.f) { return FLinearColor(0.95f, 0.38f, 0.35f, Alpha); }
+	static FLinearColor Health(float Alpha = 1.f) { return FLinearColor(0.78f, 0.16f, 0.2f, Alpha); }
+	static FLinearColor Mana(float Alpha = 1.f) { return FLinearColor(0.25f, 0.5f, 0.98f, Alpha); }
+	static FLinearColor Stamina(float Alpha = 1.f) { return FLinearColor(0.85f, 0.78f, 0.3f, Alpha); }
+	static FLinearColor Poise(float Alpha = 1.f) { return FLinearColor(0.7f, 0.72f, 0.78f, Alpha); }
+	static FLinearColor Awakening(float Alpha = 1.f) { return FLinearColor(0.95f, 0.55f, 0.95f, Alpha); }
+	static FLinearColor WithAlpha(FLinearColor Color, float Alpha) { Color.A = Alpha; return Color; }
+	static float SafeFraction(float Value, float Max) { return Max > KINDA_SMALL_NUMBER ? FMath::Clamp(Value / Max, 0.f, 1.f) : 0.f; }
+	/** Trail bar: snaps up on heal, eases down after damage. */
+	static void UpdateTrail(float Current, float& Trail, float DeltaSeconds);
+	static FString FormatCooldown(float Seconds);
+
 	struct FHudButton
 	{
 		FName Id;

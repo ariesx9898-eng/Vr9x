@@ -34,6 +34,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") bool SpendMana(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") bool SpendStamina(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") void RestoreMana(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") void RestoreStamina(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") void RestorePoise(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") void AddAwakeningMeter(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") bool ConsumeAwakeningMeter(float Amount);
 

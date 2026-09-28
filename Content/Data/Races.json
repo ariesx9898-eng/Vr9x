@@ -168,7 +168,7 @@
     "RollWeight": 1.0,
     "bImplemented": false,
     "PassiveName": "Immortal Flesh",
-    "PassiveDescription": "Unnaturally durable body: 5% damage resistance. (Planned: slow health regeneration - needs a code hook.)",
+    "PassiveDescription": "Unnaturally durable body: 5% damage resistance and slow natural regeneration (4 HP/s).",
     "PassiveStats": {
       "DamageResistance": 0.05
     },
@@ -179,7 +179,8 @@
     "TransformationAbility": "Race_Immortal_State",
     "PassiveCanonStatus": "CANON",
     "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
-    "LoreNote": "Canon: regeneration/immortality (Badigadi), Demon Eyes, six-armed males. Reassemble and Immortal State are gameplay adaptations; passive regen needs code support. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+    "LoreNote": "Canon: regeneration/immortality (Badigadi), Demon Eyes, six-armed males. Reassemble and Immortal State are gameplay adaptations; passive regen needs code support. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked.",
+    "PassiveHealthRegen": 4.0
   },
   {
     "Race": "Ogre",

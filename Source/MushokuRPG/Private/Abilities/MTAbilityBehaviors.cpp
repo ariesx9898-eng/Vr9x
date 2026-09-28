@@ -403,6 +403,10 @@ void UMTAbility_Buff::ApplyBuff()
 	Effect.Duration = FMath::Max(0.1f, Data.Duration);
 	Effect.Stats = Data.BuffStats;
 	Effect.Movement = Data.BuffMovement;
+	Effect.HealthPerSecond = Data.BuffHealthPerSecond;
+	Effect.ManaPerSecond = Data.BuffManaPerSecond;
+	if (Data.BuffStaminaRestore > 0.f) { Owner->GetAttributes()->RestoreStamina(Data.BuffStaminaRestore); }
+	if (Data.BuffPoiseRestore > 0.f) { Owner->GetAttributes()->RestorePoise(Data.BuffPoiseRestore); }
 	if (Data.bIsAwakening) { Effect.GrantedTags.AddTag(MTTags::State_Awakened); }
 	if (Data.bGrantsForesight) { Effect.GrantedTags.AddTag(MTTags::State_Foresight); }
 	if (Data.ZoneKind == EMTZoneKind::Aura && Data.AOERadius > 0.f) { Effect.GrantedTags.AddTag(MTTags::State_Aura); }

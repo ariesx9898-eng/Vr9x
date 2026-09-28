@@ -115,7 +115,70 @@ complete data, including rows for their active and transformation abilities.
 Criterion: **CANON** means the technique or trait exists in the source material. All numbers, timings and hit shapes
 are still our adaptation. **GAMEPLAY ORIGINAL** means it was invented for this game, even when it is inspired by canon.
 
-<!-- ABILITY_TABLE -->
+| AbilityID | Name | Owner | Behavior | Status | Notes |
+|---|---|---|---|---|---|
+| `Rudeus_Basic` | Stone Bullet | Rudeus | Projectile | CANON | Light, fast variant of his canon Stone Cannon |
+| `Rudeus_StoneCannon` | Stone Cannon | Rudeus | Projectile | CANON | Signature spell; the charge mechanic is ours |
+| `Rudeus_Quagmire` | Quagmire | Rudeus | Zone | CANON | Earth + Water mud field; ours slows and never roots |
+| `Rudeus_ElementalBarrage` | Elemental Barrage | Rudeus | Sequence | GAMEPLAY ORIGINAL | Shows off his multi-element chantless casting |
+| `Barrage_Stone` | Barrage: Stone Slug | Rudeus | Projectile | GAMEPLAY ORIGINAL | Barrage step |
+| `Barrage_WindBlade` | Barrage: Wind Blade | Rudeus | Projectile | GAMEPLAY ORIGINAL | Barrage step |
+| `Barrage_WaterCannon` | Barrage: Water Cannon | Rudeus | Projectile | GAMEPLAY ORIGINAL | Barrage step |
+| `Barrage_FireBurst` | Barrage: Fire Burst | Rudeus | Projectile | GAMEPLAY ORIGINAL | Barrage step |
+| `Rudeus_DemonEye` | Demon Eye of Foresight | Rudeus | Buff | CANON | Demon Eye of Foresight, a gift from Kishirika |
+| `Rudeus_Awakening_QuagmireMagician` | Awakening: The Quagmire Magician | Rudeus | Buff | GAMEPLAY ORIGINAL | Named after his canon epithet 'Quagmire' |
+| `Rudeus_StoneCannon_Awakened` | Stone Cannon (Awakened) | Rudeus | Projectile | GAMEPLAY ORIGINAL | Empowered variant of a canon spell |
+| `Rudeus_Quagmire_Awakened` | Quagmire (Awakened) | Rudeus | Zone | GAMEPLAY ORIGINAL | Empowered variant of a canon spell |
+| `Orsted_Basic` | Dragon God Style: Palm Strike | Orsted | Melee | CANON | Dragon God Style unarmed fighting (the specific strike is ours) |
+| `Orsted_DisturbMagic` | Disturb Magic | Orsted | Counter | CANON | Devised by Urupen; scatters spells before they form |
+| `Orsted_DragonStep` | Dragon Step | Orsted | Dash | GAMEPLAY ORIGINAL | Represents his footwork; not a canon named move |
+| `Orsted_DragonStep_Awakened` | Dragon Step (Awakened) | Orsted | Dash | GAMEPLAY ORIGINAL | Awakening override |
+| `Orsted_SaintDragonAura` | Saint Dragon Battle Aura | Orsted | Buff | CANON | Saint Dragon Battle Aura, the ultimate Dragon God Style technique |
+| `Orsted_Awakening_DragonGod` | Awakening: Dragon God | Orsted | Buff | GAMEPLAY ORIGINAL | Fighting at full power as the Dragon God |
+| `Fire_FireBurst` | Fire Burst | Element: Fire | Projectile | GAMEPLAY ORIGINAL | Adapted from canon beginner fire projectiles |
+| `Fire_FlameField` | Flame Field | Element: Fire | Zone | GAMEPLAY ORIGINAL |  |
+| `Fire_InfernoCompression` | Inferno Compression | Element: Fire | Projectile | GAMEPLAY ORIGINAL |  |
+| `Water_WaterCannon` | Water Cannon | Element: Water | Projectile | GAMEPLAY ORIGINAL | Canon has water projectiles; this exact name is unverified |
+| `Water_FrostPrison` | Frost Prison | Element: Water | Zone | GAMEPLAY ORIGINAL |  |
+| `Water_Cumulonimbus` | Cumulonimbus | Element: Water | Zone | CANON | Saint-tier Water spell (Rudeus's Water Saint certification); gated at Advanced here |
+| `Earth_StoneCannon` | Stone Cannon | Element: Earth | Projectile | CANON | Element-school version, weaker than Rudeus's |
+| `Earth_Quagmire` | Quagmire | Element: Earth | Zone | CANON | Canon needs Earth + Water; our slot check requires only Earth |
+| `Earth_EarthFortress` | Earth Fortress | Element: Earth | Structure | GAMEPLAY ORIGINAL | Consistent with canon earth walls |
+| `Wind_AirBlade` | Air Blade | Element: Wind | Projectile | GAMEPLAY ORIGINAL |  |
+| `Wind_GaleStep` | Gale Step | Element: Wind | Dash | GAMEPLAY ORIGINAL |  |
+| `Wind_TempestDomain` | Tempest Domain | Element: Wind | Zone | GAMEPLAY ORIGINAL |  |
+| `Race_Human_SecondWind` | Second Wind | Race: Human | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Human_LimitBreak` | Limit Break | Race: Human | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Migurd_ResonancePulse` | Resonance Pulse | Race: Migurd | Buff | GAMEPLAY ORIGINAL | Inspired by canon Migurd telepathy |
+| `Race_Migurd_ManaResonance` | Mana Resonance | Race: Migurd | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Beast_HuntersDash` | Hunter's Dash | Race: Beast | Dash | GAMEPLAY ORIGINAL | Inspired by canon beastfolk agility |
+| `Race_Beast_BeastInstinct` | Beast Instinct | Race: Beast | Buff | GAMEPLAY ORIGINAL | Inspired by canon heightened senses |
+| `Race_Superd_ThirdEyeSense` | Third Eye Sense | Race: Superd | Buff | CANON | The forehead jewel perceives living beings and mana (active reveal is our adaptation) |
+| `Race_Superd_WarriorState` | Warrior State | Race: Superd | Buff | GAMEPLAY ORIGINAL | Inspired by the Superd warrior reputation |
+| `Race_Elf_SpiritArrow` | Spirit Arrow | Race: Elf | Projectile | GAMEPLAY ORIGINAL | Inspired by canon elven archery and magic |
+| `Race_Elf_AncientMana` | Ancient Mana | Race: Elf | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Dwarf_Stonehide` | Stonehide | Race: Dwarf | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Dwarf_ForgeHeart` | Forge Heart | Race: Dwarf | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Dragon_ScaleGuard` | Scale Guard | Race: DragonTribe | Buff | GAMEPLAY ORIGINAL | Inspired by canon scales |
+| `Race_Dragon_Aura` | Dragon Battle Aura | Race: DragonTribe | Buff | CANON | Dragon Battle Aura, taught by the First Dragon God |
+| `Race_Immortal_Reassemble` | Reassemble | Race: ImmortalDemon | Buff | GAMEPLAY ORIGINAL | Inspired by canon regeneration (Badigadi) |
+| `Race_Immortal_State` | Immortal State | Race: ImmortalDemon | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Ogre_GroundBreaker` | Ground Breaker | Race: Ogre | Melee | GAMEPLAY ORIGINAL |  |
+| `Race_Ogre_Champion` | Ogre Champion | Race: Ogre | Buff | GAMEPLAY ORIGINAL |  |
+| `Race_Sea_TideRush` | Tide Rush | Race: SeaRace | Dash | GAMEPLAY ORIGINAL |  |
+| `Race_Sea_OceanBlessing` | Ocean Blessing | Race: SeaRace | Buff | GAMEPLAY ORIGINAL |  |
+| `Wolf_Bite` | Bite | Enemy | Melee | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Wolf_Lunge` | Lunge | Enemy | Dash | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Goblin_Club` | Club Swing | Enemy | Melee | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Goblin_RockThrow` | Rock Throw | Enemy | Projectile | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Bandit_Slash` | Sword Slash | Enemy | Melee | GAMEPLAY ORIGINAL | Generic creature attack |
+| `BanditMage_FireBolt` | Fire Bolt | Enemy | Projectile | GAMEPLAY ORIGINAL | Generic creature attack |
+| `WolfAlpha_Howl` | Alpha Howl | Enemy | Buff | GAMEPLAY ORIGINAL | Generic creature attack |
+| `WolfAlpha_Pounce` | Pounce | Enemy | Dash | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Wyrm_Claw` | Claw Rake | Enemy | Melee | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Wyrm_TailSweep` | Tail Sweep | Enemy | Melee | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Wyrm_FireBreath` | Fire Breath | Enemy | Zone | GAMEPLAY ORIGINAL | Generic creature attack |
+| `Wyrm_Dive` | Wing Dive | Enemy | Dash | GAMEPLAY ORIGINAL | Generic creature attack |
 
 ## 6. Shindo Life - system inspiration only
 

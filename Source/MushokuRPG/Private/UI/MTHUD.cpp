@@ -20,47 +20,29 @@
 
 #define LOCTEXT_NAMESPACE "MTHUD"
 
-using namespace MTHUDStyle;
+// ============================================================================ Static helpers
 
-namespace MTHUDPrivate
+void AMTHUD::UpdateTrail(float Current, float& Trail, float DeltaSeconds)
 {
-	static float SafeFraction(float Value, float Max)
+	if (Current >= Trail)
 	{
-		return Max > KINDA_SMALL_NUMBER ? FMath::Clamp(Value / Max, 0.f, 1.f) : 0.f;
+		Trail = Current;
 	}
-
-	/** Trail bar: snaps up on heal, eases down after damage. */
-	static void UpdateTrail(float Current, float& Trail, float DeltaSeconds)
+	else
 	{
-		if (Current >= Trail)
-		{
-			Trail = Current;
-		}
-		else
-		{
-			Trail = FMath::Max(Current, FMath::FInterpTo(Trail, Current, DeltaSeconds, 2.2f) - DeltaSeconds * 0.05f);
-		}
-	}
-
-	static FString FormatCooldown(float Seconds)
-	{
-		return Seconds >= 10.f ? FString::Printf(TEXT("%d"), FMath::CeilToInt(Seconds)) : FString::Printf(TEXT("%.1f"), Seconds);
-	}
-
-	static FLinearColor WithAlpha(FLinearColor C, float A)
-	{
-		C.A = A;
-		return C;
+		Trail = FMath::Max(Current, FMath::FInterpTo(Trail, Current, DeltaSeconds, 2.2f) - DeltaSeconds * 0.05f);
 	}
 }
 
-using namespace MTHUDPrivate;
+FString AMTHUD::FormatCooldown(float Seconds)
+{
+	return Seconds >= 10.f ? FString::Printf(TEXT("%d"), FMath::CeilToInt(Seconds)) : FString::Printf(TEXT("%.1f"), Seconds);
+}
 
 // ============================================================================ Lifecycle
 
 AMTHUD::AMTHUD()
 {
-	PrimaryActorTick.bCanEverTick = false;
 }
 
 void AMTHUD::BeginPlay()

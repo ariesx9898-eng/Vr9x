@@ -146,7 +146,8 @@ FMTDamageResult UMTAttributeComponent::ApplyDamage(const FMTDamageSpec& Spec)
 	}
 
 	float Damage = Spec.Damage * (1.f - Resist) * Result.ComboScale;
-	float StaggerAmount = Spec.Stagger * (1.f - FMath::Clamp(Mods.StaggerResistance, 0.f, 0.95f)) * Result.ComboScale;
+	// Stacked auras/awakenings cap at 75% stagger resistance: never fully unstaggerable.
+	float StaggerAmount = Spec.Stagger * (1.f - FMath::Clamp(Mods.StaggerResistance, 0.f, 0.75f)) * Result.ComboScale;
 
 	// Guard: blocking works against attacks from the front and costs stamina.
 	if (bBlocking && GetOwner())
@@ -251,6 +252,17 @@ void UMTAttributeComponent::RestoreMana(float Amount)
 {
 	Mana = FMath::Clamp(Mana + Amount, 0.f, MaxMana);
 	OnManaChanged.Broadcast(Mana, MaxMana);
+}
+
+void UMTAttributeComponent::RestoreStamina(float Amount)
+{
+	Stamina = FMath::Clamp(Stamina + Amount, 0.f, MaxStamina);
+	OnStaminaChanged.Broadcast(Stamina, MaxStamina);
+}
+
+void UMTAttributeComponent::RestorePoise(float Amount)
+{
+	Poise = FMath::Clamp(Poise + Amount, 0.f, MaxPoise);
 }
 
 void UMTAttributeComponent::AddAwakeningMeter(float Amount)

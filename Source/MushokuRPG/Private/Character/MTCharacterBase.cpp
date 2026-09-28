@@ -141,6 +141,7 @@ void AMTCharacterBase::ApplyRace(EMTRace NewRace)
 	RaceStaminaMultiplier = Data ? Data->MaxStaminaMultiplier : 1.f;
 	RacePassiveStats = Data ? Data->PassiveStats : FMTStatModifier();
 	RacePassiveMovement = Data ? Data->PassiveMovement : FMTMovementModifier();
+	Attributes->HealthRegen = Data ? Data->PassiveHealthRegen : 0.f;
 	Abilities->SetSlot(EMTAbilitySlot::RaceActive, Data ? Data->ActiveAbility : NAME_None);
 	Abilities->SetSlot(EMTAbilitySlot::RaceTransformation, Data ? Data->TransformationAbility : NAME_None);
 
