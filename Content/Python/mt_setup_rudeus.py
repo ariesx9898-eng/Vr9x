@@ -1,25 +1,49 @@
-"""Phase 1 editor automation for Rudeus. Run inside Unreal (Tools > Execute Python Script,
-or `py mt_setup_rudeus.py` in the Output Log console). Idempotent: safe to re-run.
+"""Editor automation for Rudeus (UE 5.3-5.8 editor Python). Idempotent: safe to re-run.
 
-Steps
-  1. Import SourceArt/Characters/Rudeus/Rudeus_Greyrat_UE.glb (pre-normalised to 161.7 cm by
-     Tools/prepare_rudeus_glb.py) into /Game/Characters/Rudeus as SK_Rudeus.
-  2. Create the lit toon material instance from the imported atlas texture.
-  3. Add sockets used by gameplay (hand_r / hand_l cast sockets, foot sockets for IK).
-  4. Create IK_Rudeus (retarget chains + full-body IK goals) and IK_Mixamo.
-  5. Create RTG_Mixamo_To_Rudeus and batch-retarget every animation found in
-     /Game/Animation/Mixamo/Source into /Game/Characters/Rudeus/Animations.
-Each step logs PASS/FAIL so problems are visible in the Output Log.
+Run headless (Tools/mac/build_and_setup.sh does this):
+    UnrealEditor MushokuRPG.uproject -run=pythonscript -script=<abs path to this file> -unattended -nullrhi
+or inside the editor: Tools > Execute Python Script, or `py mt_setup_rudeus.py` in the Output Log.
+
+Steps (each logs PASS / FAIL, so problems are greppable in the log)
+  1. Import SourceArt/Characters/Rudeus/Rudeus_Animated.glb (skinned mesh + skeleton + every A_Rudeus_<Key> clip)
+     into /Game/Characters/Rudeus; the mesh ends up as SK_Rudeus. Falls back to the mesh-only Rudeus_Greyrat_UE.glb.
+  2. Move/rename every imported AnimSequence to /Game/Characters/Rudeus/Animations/A_Rudeus_<Key> (matched on the
+     "A_Rudeus_<Key>" part of its name) and PASS/FAIL every key Content/Data/AnimSets.json expects. Loop clips get
+     their Loop flag; lengths are checked against the exporter sidecar Rudeus_Animated.anim.json when present.
+  3. Toon material instance and gameplay sockets (hand_r / hand_l / foot_l / foot_r).
+  4. Optional: IK Rig + Retargeter + batch retarget of Mixamo clips. Not needed any more (the clips are authored on
+     Rudeus's own skeleton); only runs when a Mixamo Y Bot has been imported, and every call is guarded because the
+     IK Rig / Retargeter Python API changed in UE 5.6+.
 """
+import json
 import os
+import re
+
 import unreal
 
 PROJECT_DIR = unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_dir())
-GLB = os.path.join(PROJECT_DIR, "SourceArt", "Characters", "Rudeus", "Rudeus_Greyrat_UE.glb")
+CHARACTER = "Rudeus"
+ART_DIR = os.path.join(PROJECT_DIR, "SourceArt", "Characters", CHARACTER)
+GLB_ANIMATED = os.path.join(ART_DIR, "Rudeus_Animated.glb")
+GLB_MESH_ONLY = os.path.join(ART_DIR, "Rudeus_Greyrat_UE.glb")
+SIDECAR = os.path.join(ART_DIR, "Rudeus_Animated.anim.json")
+ANIMSETS_JSON = os.path.join(PROJECT_DIR, "Content", "Data", "AnimSets.json")
 DEST = "/Game/Characters/Rudeus"
+MESH_NAME = "SK_Rudeus"
+ANIM_DEST = DEST + "/Animations"
+CLIP_PREFIX = "A_%s_" % CHARACTER
 MIXAMO_SRC = "/Game/Animation/Mixamo/Source"
 MIXAMO_MESH = "/Game/Animation/Mixamo/SK_Mixamo_YBot"
-OUT_ANIMS = DEST + "/Animations"
+
+# Used when AnimSets.json cannot be read. TurnLeft90 / TurnRight90 are optional (not authored yet).
+REQUIRED_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "Rise",
+                 "Fall", "JumpStart", "Land", "HardLand", "DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight",
+                 "HitFront", "HitBack", "HitLeft", "HitRight", "Stagger", "Knockdown", "Death", "CastBasic",
+                 "StoneCannon_Charge", "StoneCannon_Hold", "StoneCannon_Release", "Quagmire", "Barrage", "DemonEye",
+                 "Awakening", "CastTwoHand", "CastGround"]
+OPTIONAL_KEYS = ["TurnLeft90", "TurnRight90"]
+LOOP_KEYS = {"Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "Rise", "Fall",
+             "StoneCannon_Hold"}
 
 asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
 eal = unreal.EditorAssetLibrary
@@ -51,6 +75,7 @@ RUDEUS_CHAINS = [
     ("RightPinky", "finger_R4_0_jnt_0129", "finger_R4_2_jnt_0131", None),
 ]
 RUDEUS_PELVIS = "spine_C0_0_jnt_05"
+UPPER_SPINE = "spine_C0_1_jnt_061"  # UMTNativeAnimInstance upper-body layer root (AnimSets.json UpperBodyRootBone)
 
 MIXAMO_CHAINS = [
     ("Root", "Hips", "Hips", None),
@@ -77,9 +102,75 @@ MIXAMO_CHAINS = [
     ("RightPinky", "RightHandPinky1", "RightHandPinky3", None),
 ]
 
+RESULTS = {"PASS": 0, "FAIL": 0}
+
 
 def log(ok, msg):
-    (unreal.log if ok else unreal.log_error)(("PASS " if ok else "FAIL ") + msg)
+    RESULTS["PASS" if ok else "FAIL"] += 1
+    (unreal.log if ok else unreal.log_error)(("PASS " if ok else "FAIL ") + "[mt_setup_rudeus] " + msg)
+
+
+def note(msg):
+    unreal.log("[mt_setup_rudeus] " + msg)
+
+
+def manual(msg):
+    """Something the script could not do on this engine version: needs a person in the editor."""
+    unreal.log_warning("MANUAL [mt_setup_rudeus] " + msg)
+
+
+# ---------------------------------------------------------------------------------------------------------- helpers
+def package_path(path):
+    """'/Game/A/B.B' -> '/Game/A/B' (EditorAssetLibrary accepts both; package paths compare cleanly)."""
+    path = str(path)
+    return path.split(".", 1)[0] if "." in path.rsplit("/", 1)[-1] else path
+
+
+def asset_name(path):
+    return package_path(path).rsplit("/", 1)[-1]
+
+
+def class_name(path):
+    data = eal.find_asset_data(path)
+    try:
+        return str(data.asset_class_path.asset_name)  # UE 5.1+
+    except Exception:
+        return str(getattr(data, "asset_class", ""))
+
+
+def assets_of_class(directory, cls, recursive=True):
+    if not eal.does_directory_exist(directory):
+        return []
+    return [package_path(p) for p in eal.list_assets(directory, recursive=recursive, include_folder=False)
+            if class_name(p) == cls]
+
+
+def delete_asset(path):
+    try:
+        return bool(eal.delete_asset(path))
+    except Exception as exc:
+        unreal.log_warning("[mt_setup_rudeus] could not delete %s: %s" % (path, exc))
+        return False
+
+
+def rename_asset(src, dst):
+    try:
+        if eal.rename_asset(src, dst):
+            return True
+    except Exception as exc:
+        unreal.log_warning("[mt_setup_rudeus] EditorAssetLibrary.rename_asset(%s): %s" % (src, exc))
+    try:  # UE 5.x subsystem equivalent
+        subsystem = unreal.get_editor_subsystem(unreal.EditorAssetSubsystem)
+        return bool(subsystem.rename_asset(src, dst))
+    except Exception as exc:
+        unreal.log_warning("[mt_setup_rudeus] EditorAssetSubsystem.rename_asset(%s): %s" % (src, exc))
+    return False
+
+
+def delete_redirectors(directory):
+    """Moves leave ObjectRedirectors behind; drop them so the next import can reuse the names."""
+    for path in assets_of_class(directory, "ObjectRedirector"):
+        delete_asset(path)
 
 
 def bone_names(skeletal_mesh):
@@ -91,151 +182,340 @@ def bone_names(skeletal_mesh):
         return None
 
 
-def import_rudeus():
-    if not os.path.exists(GLB):
-        log(False, "normalised GLB missing - run python3 Tools/prepare_rudeus_glb.py first: " + GLB)
-        return None
+def play_length(anim):
+    for getter in (lambda a: a.get_play_length(),
+                   lambda a: unreal.AnimationLibrary.get_sequence_length(a)):
+        try:
+            return float(getter(anim))
+        except Exception:
+            continue
+    return None
+
+
+def load_expected():
+    """Keys this character's clips must exist for: every AnimSets.json entry under /Game/Characters/Rudeus/Animations
+    (the Orsted row reuses them too). Falls back to the built-in list."""
+    keys = set()
+    try:
+        rows = json.load(open(ANIMSETS_JSON, encoding="utf-8"))
+        prefix = ANIM_DEST + "/" + CLIP_PREFIX
+        for row in rows:
+            for key, path in (row.get("Anims") or {}).items():
+                if isinstance(path, str) and path.startswith(prefix):
+                    keys.add(path[len(prefix):].split(".", 1)[0])
+    except Exception as exc:
+        unreal.log_warning("[mt_setup_rudeus] %s unreadable (%s): using the built-in key list" % (ANIMSETS_JSON, exc))
+    if not keys:
+        keys = set(REQUIRED_KEYS)
+    sidecar = {}
+    if os.path.exists(SIDECAR):
+        try:
+            sidecar = json.load(open(SIDECAR, encoding="utf-8")).get("clips", {})
+        except Exception as exc:
+            unreal.log_warning("[mt_setup_rudeus] %s unreadable: %s" % (SIDECAR, exc))
+    optional = set(OPTIONAL_KEYS) - keys
+    return sorted(keys), sorted(optional), sidecar
+
+
+# ----------------------------------------------------------------------------------------------------------- import
+def import_glb():
+    glb = GLB_ANIMATED if os.path.exists(GLB_ANIMATED) else GLB_MESH_ONLY
+    if not os.path.exists(glb):
+        log(False, "no GLB found: expected %s (or the mesh-only %s)" % (GLB_ANIMATED, GLB_MESH_ONLY))
+        return None, []
+    animated = glb == GLB_ANIMATED
+    note("importing %s (%s)" % (glb, "mesh + skeleton + clips" if animated else "mesh only, no clips"))
+    delete_redirectors(DEST)
+    before = set(p for p in eal.list_assets(DEST, recursive=True, include_folder=False)) \
+        if eal.does_directory_exist(DEST) else set()
+
     task = unreal.AssetImportTask()
-    task.filename = GLB
+    task.filename = glb
     task.destination_path = DEST
-    task.destination_name = "SK_Rudeus"
     task.automated = True
     task.replace_existing = True
     task.save = True
+    if not animated:
+        task.destination_name = MESH_NAME  # single asset: safe to name directly
     asset_tools.import_asset_tasks([task])
-    meshes = [p for p in eal.list_assets(DEST, recursive=False) if eal.find_asset_data(p).asset_class_path.asset_name == "SkeletalMesh"]
-    if not meshes:
-        log(False, "no SkeletalMesh produced by the glTF import (check Interchange glTF is enabled)")
-        return None
-    mesh = eal.load_asset(meshes[0])
+
+    try:
+        imported = [package_path(p) for p in (task.get_editor_property("imported_object_paths") or [])]
+    except Exception:
+        imported = []
+    if not imported:  # older/other import paths: diff the folder instead
+        after = set(eal.list_assets(DEST, recursive=True, include_folder=False))
+        imported = [package_path(p) for p in after - before]
+    note("import produced %d assets" % len(imported))
+
+    mesh_path = ensure_mesh_name(imported)
+    if not mesh_path:
+        log(False, "no SkeletalMesh produced by the glTF import (Interchange glTF importer enabled?)")
+        return None, imported
+    mesh = eal.load_asset(mesh_path)
     bounds = mesh.get_bounds()
     height = bounds.box_extent.z * 2.0
-    log(150.0 < height < 175.0, "Rudeus imported, height %.1f cm (expected ~161.7)" % height)
-    return mesh
+    log(150.0 < height < 175.0, "Rudeus imported as %s, height %.1f cm (expected ~161.7)" % (mesh_path, height))
+    return mesh, imported
 
 
+def ensure_mesh_name(imported):
+    """Characters.json expects /Game/Characters/Rudeus/SK_Rudeus: rename the freshly imported mesh to it."""
+    target = DEST + "/" + MESH_NAME
+    fresh = [p for p in imported if class_name(p) == "SkeletalMesh"]
+    if not fresh:
+        return target if eal.does_asset_exist(target) else next(iter(assets_of_class(DEST, "SkeletalMesh")), None)
+    src = fresh[0]
+    if src == target:
+        return target
+    if eal.does_asset_exist(target) and not delete_asset(target):
+        manual("could not replace %s with the new import %s: delete %s in the Content Browser and re-run"
+               % (target, src, target))
+        return src
+    if rename_asset(src, target):
+        return target
+    manual("could not rename %s to %s; rename it by hand (Characters.json points at SK_Rudeus)" % (src, target))
+    return src
+
+
+def organize_animations(imported, mesh):
+    """Every imported AnimSequence named ...A_Rudeus_<Key>... -> /Game/Characters/Rudeus/Animations/A_Rudeus_<Key>."""
+    expected, optional, sidecar = load_expected()
+    known = sorted(set(expected) | set(optional) | set(sidecar), key=len, reverse=True)  # longest match first
+    # Key must be followed by a non-alphanumeric character (or the end), so "Walk" never matches "WalkBack".
+    patterns = [(key, re.compile(re.escape(CLIP_PREFIX + key) + r"(?![A-Za-z0-9])")) for key in known]
+    eal.make_directory(ANIM_DEST)
+
+    fresh = [p for p in imported if class_name(p) == "AnimSequence"]
+    if not fresh:  # the import task did not report its clips: look for them next to the mesh instead
+        fresh = [p for p in assets_of_class(DEST, "AnimSequence")
+                 if not p.startswith(ANIM_DEST + "/") and CLIP_PREFIX in asset_name(p)]
+    moved = 0
+    claimed = {}
+    for src in fresh:
+        name = asset_name(src)
+        key = next((k for k, pattern in patterns if pattern.search(name)), None)
+        if key is None:
+            unreal.log_warning("[mt_setup_rudeus] imported animation %s has no %s<Key> in its name - left in place"
+                               % (src, CLIP_PREFIX))
+            continue
+        target = ANIM_DEST + "/" + CLIP_PREFIX + key
+        if key in claimed:
+            unreal.log_warning("[mt_setup_rudeus] %s and %s both look like %s; keeping the first" % (claimed[key], src, key))
+            continue
+        claimed[key] = src
+        if src == target:
+            continue
+        if eal.does_asset_exist(target) and not delete_asset(target):
+            manual("could not replace %s with the re-imported %s" % (target, src))
+            continue
+        if rename_asset(src, target):
+            moved += 1
+        else:
+            manual("could not move %s to %s" % (src, target))
+    delete_redirectors(DEST)
+    note("%d imported clips moved into %s" % (moved, ANIM_DEST))
+
+    skeleton = None
+    try:
+        skeleton = mesh.skeleton if mesh else None
+    except Exception:
+        pass
+    for key in expected + optional:
+        target = ANIM_DEST + "/" + CLIP_PREFIX + key
+        if not eal.does_asset_exist(target) or class_name(target) != "AnimSequence":
+            if key in optional:
+                note("SKIP optional clip %s%s (not authored yet)" % (CLIP_PREFIX, key))
+            else:
+                log(False, "clip %s%s missing (expected at %s)" % (CLIP_PREFIX, key, target))
+            continue
+        anim = eal.load_asset(target)
+        problems = []
+        try:
+            anim_skeleton = anim.get_editor_property("skeleton")
+            if skeleton and anim_skeleton and anim_skeleton.get_path_name() != skeleton.get_path_name():
+                problems.append("skeleton %s != SK_Rudeus's %s" % (anim_skeleton.get_name(), skeleton.get_name()))
+        except Exception:
+            pass
+        info = sidecar.get(key, {})
+        wants_loop = bool(info.get("loop", key in LOOP_KEYS))
+        if wants_loop:
+            try:
+                anim.set_editor_property("loop", True)  # previews / a future AnimBP; the native path loops by itself
+                eal.save_loaded_asset(anim)
+            except Exception:
+                pass
+        length = play_length(anim)
+        authored = info.get("duration")
+        if length is not None and authored is not None and abs(length - authored) > 0.034:  # > one 30 fps frame
+            problems.append("length %.3f s != authored %.3f s" % (length, authored))
+        length_text = "%.3f s" % length if length is not None else "length n/a"
+        log(not problems, "clip %s%s (%s%s)%s" % (CLIP_PREFIX, key, length_text, ", loop" if wants_loop else "",
+                                                ": " + "; ".join(problems) if problems else ""))
+
+
+# ----------------------------------------------------------------------------------------------- material / sockets
 def make_materials(mesh):
-    tex_paths = [p for p in eal.list_assets(DEST, recursive=True) if eal.find_asset_data(p).asset_class_path.asset_name == "Texture2D"]
-    master = eal.load_asset("/Game/Materials/M_MT_ToonCharacter")
+    tex_paths = assets_of_class(DEST, "Texture2D")
+    master = eal.load_asset("/Game/Materials/M_MT_ToonCharacter") if eal.does_asset_exist("/Game/Materials/M_MT_ToonCharacter") else None
     if not master or not tex_paths:
         unreal.log_warning("Toon master or atlas texture missing; run mt_create_materials.py first. Keeping imported material.")
         return
-    mi_path = DEST + "/MI_Rudeus_Toon"
-    mi = eal.load_asset(mi_path) or asset_tools.create_asset("MI_Rudeus_Toon", DEST, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
-    mi.set_editor_property("parent", master)
-    unreal.MaterialEditingLibrary.set_material_instance_texture_parameter_value(mi, "BaseTexture", eal.load_asset(tex_paths[0]))
-    unreal.MaterialEditingLibrary.update_material_instance(mi)
-    materials = mesh.get_editor_property("materials")
-    for slot in materials:
-        slot.set_editor_property("material_interface", mi)
-    mesh.set_editor_property("materials", materials)
-    eal.save_asset(mi_path)
-    log(True, "Rudeus uses MI_Rudeus_Toon (lit, original colours preserved from the atlas)")
+    try:
+        mi_path = DEST + "/MI_Rudeus_Toon"
+        mi = eal.load_asset(mi_path) if eal.does_asset_exist(mi_path) else asset_tools.create_asset(
+            "MI_Rudeus_Toon", DEST, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+        mi.set_editor_property("parent", master)
+        unreal.MaterialEditingLibrary.set_material_instance_texture_parameter_value(mi, "BaseTexture", eal.load_asset(tex_paths[0]))
+        unreal.MaterialEditingLibrary.update_material_instance(mi)
+        materials = mesh.get_editor_property("materials")
+        for slot in materials:
+            slot.set_editor_property("material_interface", mi)
+        mesh.set_editor_property("materials", materials)
+        eal.save_asset(mi_path)
+        eal.save_loaded_asset(mesh)
+        log(True, "Rudeus uses MI_Rudeus_Toon (lit, original colours preserved from the atlas)")
+    except Exception as exc:
+        manual("toon material setup failed (%s): assign MI_Rudeus_Toon to SK_Rudeus by hand" % exc)
 
 
 def add_sockets(mesh):
     names = bone_names(mesh)
+    if names is not None:
+        log(UPPER_SPINE in names, "upper-body layer bone %s present (native anim instance casts on the move)" % UPPER_SPINE)
     wanted = {"hand_r": "arm_R0_2_jnt_0117", "hand_l": "arm_L0_2_jnt_094", "foot_l": "leg_L0_2_jnt_010", "foot_r": "leg_R0_2_jnt_015"}
-    skeleton = mesh.skeleton
     for socket, bone in wanted.items():
         if names is not None and bone not in names:
             log(False, "bone %s missing for socket %s" % (bone, socket))
             continue
         try:
-            existing = [s.socket_name for s in mesh.get_editor_property("sockets") or []]
+            existing = [str(s.socket_name) for s in mesh.get_editor_property("sockets") or []]
         except Exception:
             existing = []
         if socket in existing:
             continue
-        s = unreal.SkeletalMeshSocket(mesh)
-        s.set_editor_property("socket_name", socket)
-        s.set_editor_property("bone_name", bone)
-        # Palm offset so spells form in front of the hand, not inside the wrist.
-        s.set_editor_property("relative_location", unreal.Vector(8.0, 0.0, 0.0))
         try:
+            s = unreal.SkeletalMeshSocket(mesh)
+            s.set_editor_property("socket_name", socket)
+            s.set_editor_property("bone_name", bone)
+            # Palm offset so spells form in front of the hand, not inside the wrist.
+            s.set_editor_property("relative_location", unreal.Vector(8.0, 0.0, 0.0))
             mesh.add_socket(s)
         except Exception as exc:
-            unreal.log_warning("add_socket unavailable (%s); add socket %s on %s manually" % (exc, socket, bone))
+            manual("add socket %s on bone %s by hand (%s)" % (socket, bone, exc))
     eal.save_loaded_asset(mesh)
-    log(True, "sockets hand_r/hand_l/foot_l/foot_r ensured")
+    note("sockets hand_r/hand_l/foot_l/foot_r ensured")
+
+
+# ----------------------------------------------------------------------- optional: Mixamo retargeting (UE 5.6+ safe)
+def guarded(what, fn, *args):
+    try:
+        return True, fn(*args)
+    except Exception as exc:
+        manual("%s failed on this engine version (%s)" % (what, exc))
+        return False, None
 
 
 def build_ik_rig(name, mesh, chains, pelvis):
     path = DEST + "/Rig/" + name
-    rig = eal.load_asset(path) or asset_tools.create_asset(name, DEST + "/Rig", unreal.IKRigDefinition, unreal.IKRigDefinitionFactory())
-    ctrl = unreal.IKRigController.get_controller(rig)
-    ctrl.set_skeletal_mesh(mesh)
+    ok, rig = guarded("create IK Rig " + name, lambda: eal.load_asset(path) if eal.does_asset_exist(path) else
+                      asset_tools.create_asset(name, DEST + "/Rig", unreal.IKRigDefinition, unreal.IKRigDefinitionFactory()))
+    if not ok or not rig:
+        return None
+    ok, ctrl = guarded("IKRigController.get_controller", unreal.IKRigController.get_controller, rig)
+    if not ok:
+        return None
+    guarded("IKRigController.set_skeletal_mesh", ctrl.set_skeletal_mesh, mesh)
+    guarded("IKRigController.set_retarget_root", ctrl.set_retarget_root, pelvis)
+    solver_index = 0
+    ok, index = guarded("add Full Body IK solver (UE 5.6+ uses solver structs: add it in the IK Rig editor)",
+                        ctrl.add_solver, unreal.IKRigFBIKSolver)
+    if ok and index is not None:
+        solver_index = index
     names = bone_names(mesh)
-    ctrl.set_retarget_root(pelvis)
-    try:
-        solver_index = ctrl.add_solver(unreal.IKRigFBIKSolver)
-    except Exception:
-        solver_index = 0  # UE 5.6+: solvers are structs; add Full Body IK in the editor if this fails
     for chain, start, end, goal in chains:
         if names is not None and (start not in names or end not in names):
             log(False, "%s: chain %s bones missing (%s..%s)" % (name, chain, start, end))
             continue
         goal_name = ""
         if goal:
-            try:
-                goal_name = ctrl.add_new_goal(goal, end)
-                ctrl.connect_goal_to_solver(goal_name, solver_index)
-            except Exception as exc:
-                unreal.log_warning("goal %s: %s" % (goal, exc))
-        ctrl.add_retarget_chain(chain, start, end, goal_name or "")
+            ok, created = guarded("goal %s on %s" % (goal, end), ctrl.add_new_goal, goal, end)
+            if ok and created:
+                goal_name = str(created)
+                guarded("connect goal %s" % goal, ctrl.connect_goal_to_solver, goal_name, solver_index)
+        guarded("retarget chain %s" % chain, ctrl.add_retarget_chain, chain, start, end, goal_name)
     eal.save_asset(path)
-    log(True, "%s built with %d chains" % (name, len(chains)))
+    note("%s built with %d chains" % (name, len(chains)))
     return rig
 
 
 def build_retargeter(source_rig, target_rig):
     path = DEST + "/Rig/RTG_Mixamo_To_Rudeus"
-    rtg = eal.load_asset(path) or asset_tools.create_asset("RTG_Mixamo_To_Rudeus", DEST + "/Rig", unreal.IKRetargeter, unreal.IKRetargetFactory())
-    ctrl = unreal.IKRetargeterController.get_controller(rtg)
-    ctrl.set_ik_rig(unreal.RetargetSourceOrTarget.SOURCE, source_rig)
-    ctrl.set_ik_rig(unreal.RetargetSourceOrTarget.TARGET, target_rig)
+    ok, rtg = guarded("create IK Retargeter", lambda: eal.load_asset(path) if eal.does_asset_exist(path) else
+                      asset_tools.create_asset("RTG_Mixamo_To_Rudeus", DEST + "/Rig", unreal.IKRetargeter, unreal.IKRetargetFactory()))
+    if not ok or not rtg:
+        return None
+    ok, ctrl = guarded("IKRetargeterController.get_controller", unreal.IKRetargeterController.get_controller, rtg)
+    if not ok:
+        return None
+    guarded("set source IK Rig", ctrl.set_ik_rig, unreal.RetargetSourceOrTarget.SOURCE, source_rig)
+    guarded("set target IK Rig", ctrl.set_ik_rig, unreal.RetargetSourceOrTarget.TARGET, target_rig)
     # Chains share names on purpose, so exact mapping is deterministic.
-    try:
-        ctrl.auto_map_chains(unreal.AutoMapChainType.EXACT, True)
-    except Exception:
+    ok, _ = guarded("auto-map chains (UE 5.6+: map chains in the retargeter's chain-mapping op)",
+                    ctrl.auto_map_chains, unreal.AutoMapChainType.EXACT, True)
+    if not ok:
         for chain, _, _, _ in RUDEUS_CHAINS:
-            try:
-                ctrl.set_source_chain(chain, chain)
-            except Exception as exc:
-                unreal.log_warning("map %s: %s" % (chain, exc))
+            guarded("map chain %s" % chain, ctrl.set_source_chain, chain, chain)
     eal.save_asset(path)
-    log(True, "RTG_Mixamo_To_Rudeus mapped. Both rigs are T-pose; verify arm/shoulder retarget pose in the editor.")
+    note("RTG_Mixamo_To_Rudeus mapped. Both rigs are T-pose; verify arm/shoulder retarget pose in the editor.")
     return rtg
 
 
 def batch_retarget(rtg, source_mesh, target_mesh):
     if not eal.does_directory_exist(MIXAMO_SRC):
-        unreal.log_warning("No Mixamo animations in %s yet (see Docs/Animation_Pipeline.md)" % MIXAMO_SRC)
+        note("no Mixamo animations in %s (optional)" % MIXAMO_SRC)
         return
-    anims = [eal.find_asset_data(p) for p in eal.list_assets(MIXAMO_SRC, recursive=True)
-             if eal.find_asset_data(p).asset_class_path.asset_name == "AnimSequence"]
+    anims = [eal.find_asset_data(p) for p in eal.list_assets(MIXAMO_SRC, recursive=True) if class_name(p) == "AnimSequence"]
     if not anims:
-        unreal.log_warning("No AnimSequences under " + MIXAMO_SRC)
+        note("no AnimSequences under " + MIXAMO_SRC)
         return
-    result = unreal.IKRetargetBatchOperation.duplicate_and_retarget(
-        anims, source_mesh, target_mesh, rtg, "", "", "", "_Rudeus", True)
-    log(len(result) > 0, "retargeted %d Mixamo animations onto Rudeus" % len(result))
+    ok, result = guarded("IKRetargetBatchOperation.duplicate_and_retarget",
+                         unreal.IKRetargetBatchOperation.duplicate_and_retarget,
+                         anims, source_mesh, target_mesh, rtg, "", "", "", "_Rudeus", True)
+    if ok:
+        log(bool(result), "retargeted %d Mixamo animations onto Rudeus" % len(result or []))
+
+
+def optional_retargeting(mesh):
+    mixamo_mesh = eal.load_asset(MIXAMO_MESH) if eal.does_asset_exist(MIXAMO_MESH) else None
+    if not mixamo_mesh:
+        note("SKIP retargeting: clips are authored on Rudeus's skeleton; import a Mixamo Y Bot as %s only if you "
+             "want to retarget extra Mixamo clips" % MIXAMO_MESH)
+        return
+    rudeus_rig = build_ik_rig("IK_Rudeus", mesh, RUDEUS_CHAINS, RUDEUS_PELVIS)
+    mixamo_rig = build_ik_rig("IK_Mixamo", mixamo_mesh, MIXAMO_CHAINS, "Hips")
+    if not rudeus_rig or not mixamo_rig:
+        manual("IK Rigs incomplete: finish IK_Rudeus / IK_Mixamo in the editor before retargeting")
+        return
+    rtg = build_retargeter(mixamo_rig, rudeus_rig)
+    if rtg:
+        batch_retarget(rtg, mixamo_mesh, mesh)
 
 
 def main():
-    mesh = import_rudeus()
+    mesh, imported = import_glb()
     if not mesh:
         return
+    organize_animations(imported, mesh)
     make_materials(mesh)
     add_sockets(mesh)
-    rudeus_rig = build_ik_rig("IK_Rudeus", mesh, RUDEUS_CHAINS, RUDEUS_PELVIS)
-    mixamo_mesh = eal.load_asset(MIXAMO_MESH)
-    if not mixamo_mesh:
-        unreal.log_warning("Import a Mixamo Y Bot (T-pose, with skin) as %s to enable retargeting." % MIXAMO_MESH)
-        return
-    mixamo_rig = build_ik_rig("IK_Mixamo", mixamo_mesh, MIXAMO_CHAINS, "Hips")
-    rtg = build_retargeter(mixamo_rig, rudeus_rig)
-    batch_retarget(rtg, mixamo_mesh, mesh)
+    optional_retargeting(mesh)
+    try:
+        eal.save_directory(DEST, only_if_is_dirty=True, recursive=True)
+    except Exception as exc:
+        unreal.log_warning("[mt_setup_rudeus] save_directory: %s" % exc)
+    summary = "mt_setup_rudeus finished: %d passed, %d failed" % (RESULTS["PASS"], RESULTS["FAIL"])
+    (unreal.log if RESULTS["FAIL"] == 0 else unreal.log_error)(("PASS " if RESULTS["FAIL"] == 0 else "FAIL ") + summary)
 
 
 main()
