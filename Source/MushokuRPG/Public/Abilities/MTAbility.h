@@ -10,6 +10,8 @@
 
 class AMTCharacterBase;
 class UMTAbilityComponent;
+class UAnimMontage;
+class UAnimSequenceBase;
 
 UENUM(BlueprintType)
 enum class EMTAbilityPhase : uint8
@@ -76,10 +78,19 @@ protected:
 	FRotator GetAimRotation() const;
 	AActor* GetLockedTarget() const;
 
-	/** Plays the montage (section optional). Returns play length or 0. */
+	/** Plays Data.Montage (authored montage or plain sequence; section only applies to montages). Returns play length or 0. */
 	float PlayMontage(FName Section = NAME_None, float PlayRate = 1.f);
+	/** Plays any animation for this ability through the owner and tracks it, so Release/Cancel can stop it. */
+	float PlayAbilityAnim(const TSoftObjectPtr<UAnimSequenceBase>& Anim, float PlayRate = 1.f, FName Section = NAME_None,
+		int32 LoopCount = 1, float BlendIn = 0.12f, float BlendOut = 0.18f);
+	/** Jumps the authored Data.Montage to a section (no-op for plain sequences / dynamic montages). */
 	void JumpMontageToSection(FName Section);
+	/** Stops the animation this ability started last (anticipation, hold loop or release). */
 	void StopMontage(float BlendOut = 0.2f);
+	/** Charging: once the anticipation clip is about to end, start the ChargeLoopAnim hold loop. */
+	void UpdateChargeAnimation();
+	/** Charge released: ReleaseAnim, or the authored montage's release section. */
+	void PlayReleaseAnimation();
 	void SpawnFX(const TSoftObjectPtr<class UNiagaraSystem>& System, const FVector& Location, const FRotator& Rotation, bool bAttachToOwner = false);
 	void PlaySound(const TSoftObjectPtr<class USoundBase>& Sound, const FVector& Location);
 	void PlaySubtleCameraShake(float Scale);
@@ -98,4 +109,8 @@ protected:
 	float CommittedManaCost = 0.f;
 	/** Charge alpha frozen at release. */
 	float ReleasedChargeAlpha = 0.f;
+
+	/** Montage instance of the animation this ability started last (authored or dynamic). */
+	TWeakObjectPtr<UAnimMontage> ActiveAnimMontage;
+	bool bChargeLoopStarted = false;
 };

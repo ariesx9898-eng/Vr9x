@@ -77,6 +77,7 @@ void UMTDataRegistry::Reload()
 	Items.Reset();
 	Locations.Reset();
 	RollConfigs.Reset();
+	AnimSets.Reset();
 
 	TArray<FMTAbilityData> AbilityRows;
 	if (LoadArray(TEXT("Abilities.json"), AbilityRows))
@@ -140,6 +141,12 @@ void UMTDataRegistry::Reload()
 		for (const FMTRollConfig& Row : RollRows) { RollConfigs.Add(Row.Category, Row); }
 	}
 
+	TArray<FMTAnimSetData> AnimSetRows;
+	if (LoadArray(TEXT("AnimSets.json"), AnimSetRows))
+	{
+		for (const FMTAnimSetData& Row : AnimSetRows) { AnimSets.Add(Row.CharacterID, Row); }
+	}
+
 	ValidateData();
 }
 
@@ -187,10 +194,26 @@ void UMTDataRegistry::ValidateData() const
 	{
 		for (const FMTEnemyAttack& Attack : Pair.Value.Attacks) { CheckAbility(Attack.AbilityId, *Pair.Key.ToString()); }
 	}
+	// Missing anim sets are not fatal (the native anim instance falls back to the reference pose), but say so.
+	for (const TPair<FName, FMTCharacterData>& Pair : Characters)
+	{
+		if (!AnimSets.Contains(Pair.Key))
+		{
+			UE_LOG(LogMushoku, Warning, TEXT("Data: character '%s' has no row in AnimSets.json"), *Pair.Key.ToString());
+		}
+	}
+	for (const TPair<FName, FMTAnimSetData>& Pair : AnimSets)
+	{
+		if (!Characters.Contains(Pair.Key))
+		{
+			UE_LOG(LogMushoku, Error, TEXT("Data: AnimSets.json row '%s' is not a character"), *Pair.Key.ToString());
+			++Problems;
+		}
+	}
 
 	if (Problems == 0)
 	{
-		UE_LOG(LogMushoku, Log, TEXT("Data: validation passed (%d abilities, %d characters, %d elements, %d races, %d quests, %d enemies)"),
-			Abilities.Num(), Characters.Num(), Elements.Num(), Races.Num(), Quests.Num(), Enemies.Num());
+		UE_LOG(LogMushoku, Log, TEXT("Data: validation passed (%d abilities, %d characters, %d elements, %d races, %d quests, %d enemies, %d anim sets)"),
+			Abilities.Num(), Characters.Num(), Elements.Num(), Races.Num(), Quests.Num(), Enemies.Num(), AnimSets.Num());
 	}
 }

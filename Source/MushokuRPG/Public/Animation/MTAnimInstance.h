@@ -1,5 +1,7 @@
-// Locomotion/combat animation state for the Rudeus and Orsted Animation Blueprints.
+// Locomotion/combat animation state shared by every character anim instance.
 // All values are computed in NativeThreadSafeUpdateAnimation (multithreaded anim update).
+// Consumers: UMTNativeAnimInstance (graph-free, the default) reads them through its proxy;
+// a future Animation Blueprint parented to this class reads the same variables in its graph.
 #pragma once
 
 #include "CoreMinimal.h"
@@ -14,6 +16,9 @@ UCLASS()
 class MUSHOKURPG_API UMTAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
+
+	/** The native (graph-free) proxy snapshots these variables on the game thread in PreUpdate. */
+	friend struct FMTNativeAnimInstanceProxy;
 
 public:
 	virtual void NativeInitializeAnimation() override;

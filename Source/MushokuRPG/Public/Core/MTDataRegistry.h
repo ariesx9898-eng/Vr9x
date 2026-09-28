@@ -29,6 +29,8 @@ public:
 	const FMTItemData* FindItem(FName Id) const { return Items.Find(Id); }
 	const FMTLocationData* FindLocation(FName Id) const { return Locations.Find(Id); }
 	const FMTRollConfig* FindRollConfig(EMTRollCategory Category) const { return RollConfigs.Find(Category); }
+	/** Animation set of a character lineage (Content/Data/AnimSets.json), keyed by CharacterID. */
+	const FMTAnimSetData* FindAnimSet(FName CharacterId) const { return AnimSets.Find(CharacterId); }
 
 	const TMap<FName, FMTAbilityData>& GetAbilities() const { return Abilities; }
 	const TMap<FName, FMTCharacterData>& GetCharacters() const { return Characters; }
@@ -38,6 +40,7 @@ public:
 	const TMap<FName, FMTEnemyData>& GetEnemies() const { return Enemies; }
 	const TMap<FName, FMTItemData>& GetItems() const { return Items; }
 	const TMap<FName, FMTLocationData>& GetLocations() const { return Locations; }
+	const TMap<FName, FMTAnimSetData>& GetAnimSets() const { return AnimSets; }
 
 	/** Directory the JSON files are read from. */
 	static FString GetDataDirectory();
@@ -57,4 +60,5 @@ private:
 	TMap<FName, FMTItemData> Items;
 	TMap<FName, FMTLocationData> Locations;
 	TMap<EMTRollCategory, FMTRollConfig> RollConfigs;
+	TMap<FName, FMTAnimSetData> AnimSets;
 };

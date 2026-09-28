@@ -9,6 +9,7 @@
 #include "MTDataTypes.generated.h"
 
 class UAnimMontage;
+class UAnimSequenceBase;
 class UNiagaraSystem;
 class USoundBase;
 class UTexture2D;
@@ -157,10 +158,17 @@ struct FMTAbilityData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float MoveSpeedWhileActive = 0.35f;
 
 	// --- Presentation ---
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UAnimMontage> Montage;
+	/** Played on activation. A plain AnimSequence plays as a dynamic montage in DefaultSlot; an authored
+	 *  UAnimMontage (also a UAnimSequenceBase) plays as-is, including its sections. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UAnimSequenceBase> Montage;
+	/** Section jumped to on activation (authored montages only). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName MontageStartSection;
-	/** Section jumped to when a held/charged ability is released. */
+	/** Section jumped to when a held/charged ability is released (authored montages only, used when ReleaseAnim is unset). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName MontageReleaseSection;
+	/** Chargeable abilities: seamless hold loop started when Montage (the anticipation) ends while still charging. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UAnimSequenceBase> ChargeLoopAnim;
+	/** Chargeable abilities: played on release (thrust + recovery); replaces the hold loop. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UAnimSequenceBase> ReleaseAnim;
 	/** Name of the motion-warp target used by the montage (Dragon Step). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName WarpTargetName;
 	/** Socket spells spawn from. */
@@ -234,6 +242,36 @@ struct FMTCharacterData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FMTStatModifier PassiveStats;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FLinearColor AuraColor = FLinearColor::White;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UTexture2D> Portrait;
+};
+
+/**
+ * Per-character animation set (Content/Data/AnimSets.json). Consumed by UMTNativeAnimInstance (graph-free
+ * locomotion) and by AMTCharacterBase (dodge / hit / stagger / knockdown / death defaults).
+ * Keys are the <Key> part of the clip names A_<Character>_<Key>: Idle, CombatIdle, Walk, WalkBack, StrafeLeft,
+ * StrafeRight, Run, Sprint, Rise, Fall, JumpStart, Land, HardLand, DodgeForward, DodgeBack, DodgeLeft, DodgeRight,
+ * HitFront, HitBack, HitLeft, HitRight, Stagger, Knockdown, Death, CastBasic, StoneCannon_Charge, StoneCannon_Hold,
+ * StoneCannon_Release, Quagmire, Barrage, DemonEye, Awakening, CastTwoHand, CastGround.
+ * Optional (not authored yet, nothing depends on them): TurnLeft90, TurnRight90. Missing keys fall back gracefully.
+ */
+USTRUCT(BlueprintType)
+struct FMTAnimSetData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName CharacterID;
+	/** Key -> clip. Locomotion keys must be plain AnimSequences; one-shots may also be authored montages. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TMap<FName, TSoftObjectPtr<UAnimSequenceBase>> Anims;
+
+	/** Ground speeds (cm/s) the in-place loops were authored for; playback rate = actual speed / reference.
+	 *  Defaults are the values the Rudeus clips (Rudeus_Animated.glb) were authored at. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float WalkSpeedRef = 130.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float WalkBackSpeedRef = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float StrafeSpeedRef = 110.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float RunSpeedRef = 360.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float SprintSpeedRef = 580.f;
+
+	/** Casting while moving: this bone and its descendants take the montage pose, the rest keeps locomotion. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName UpperBodyRootBone = TEXT("spine_C0_1_jnt_061");
 };
 
 /** Element definition: exactly three abilities per element. */

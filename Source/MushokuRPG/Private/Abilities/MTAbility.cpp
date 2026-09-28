@@ -133,6 +133,8 @@ bool UMTAbility::TryActivate()
 	}
 
 	EnterPhase(EMTAbilityPhase::Anticipation);
+	ActiveAnimMontage.Reset();
+	bChargeLoopStarted = false;
 	PlayMontage(Data.MontageStartSection);
 	SpawnFX(Data.FX.Formation, GetCastLocation(), GetAimRotation(), true);
 	PlaySound(Data.FX.CastSound, GetCastLocation());
@@ -188,6 +190,8 @@ void UMTAbility::Tick(float DeltaTime)
 		const float CastTime = GetEffectiveCastTime();
 		if (Data.bChargeable)
 		{
+			// Anticipation clip -> seamless hold loop for as long as the ability stays in its charge phase.
+			UpdateChargeAnimation();
 			// Hold to charge. Charging can never exceed MaxChargeTime: at full charge the
 			// spell is held (stable stance) until release or a 1.5 s overhold, then fires.
 			if (bInputHeld && !bReleasedDuringAnticipation)
@@ -215,7 +219,7 @@ void UMTAbility::Tick(float DeltaTime)
 				ReleasedChargeAlpha = FMath::Clamp(Affordable / Denominator, 0.f, ReleasedChargeAlpha);
 			}
 			Owner->GetStateTags().RemoveTag(MTTags::State_Charging);
-			JumpMontageToSection(Data.MontageReleaseSection);
+			PlayReleaseAnimation();
 		}
 		else if (PhaseTime < CastTime)
 		{

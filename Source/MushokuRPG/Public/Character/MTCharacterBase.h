@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "GenericTeamAgentInterface.h"
 #include "GameplayTagContainer.h"
+#include "UObject/SoftObjectPath.h"
 #include "Core/MTDataTypes.h"
 #include "MTCharacterBase.generated.h"
 
@@ -12,6 +13,7 @@ class UMTAttributeComponent;
 class UMTAbilityComponent;
 class UMotionWarpingComponent;
 class UAnimMontage;
+class UAnimSequenceBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMTOnLineageChanged, FName, CharacterId);
 
@@ -70,7 +72,19 @@ public:
 	bool IsDodging() const { return bDodging; }
 	bool IsStaggered() const;
 
-	/** Plays a montage from a soft pointer; returns duration (0 if unavailable). */
+	/**
+	 * Plays any animation asset without needing montage assets: an authored UAnimMontage via Montage_Play (+ optional
+	 * section), anything else (a plain AnimSequence) as a dynamic montage in DefaultSlot. Returns the play length
+	 * (0 if the asset is unset, missing or could not play). The montage instance is remembered, see GetLastPlayedMontage.
+	 */
+	float PlayAnimAsset(const TSoftObjectPtr<UAnimSequenceBase>& Asset, float PlayRate = 1.f, FName Section = NAME_None,
+		int32 LoopCount = 1, float BlendIn = 0.12f, float BlendOut = 0.18f);
+	/** Montage started by the most recent PlayAnimAsset call (the dynamic montage for plain sequences). */
+	UAnimMontage* GetLastPlayedMontage() const { return LastPlayedMontage.Get(); }
+	/** Stops a montage started through PlayAnimAsset (nullptr = the most recent one). */
+	void StopPlayedAnim(UAnimMontage* Montage = nullptr, float BlendOut = 0.2f);
+
+	/** Legacy entry point, forwards to PlayAnimAsset. Returns duration (0 if unavailable). */
 	float PlaySoftMontage(const TSoftObjectPtr<UAnimMontage>& Montage, float PlayRate = 1.f, FName Section = NAME_None);
 
 	/** Gameplay state tags (State.Casting, State.Awakened...). */
@@ -112,23 +126,33 @@ protected:
 	/** Recomputes CharacterMovement speeds from lineage + status modifiers. */
 	virtual void UpdateMovementFromModifiers();
 	virtual void PlayHitReaction(EMTHitReaction Reaction, const FVector& FromDirection);
+	/**
+	 * Fills the reaction animations below from the lineage's AnimSet. Only touches values that are unset or that were
+	 * auto-filled by a previous lineage; anything a designer set (Blueprint defaults or at runtime) is kept.
+	 */
+	void ApplyAnimSetDefaults(const FMTAnimSetData* AnimSet);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mushoku") TObjectPtr<UMTAttributeComponent> Attributes;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mushoku") TObjectPtr<UMTAbilityComponent> Abilities;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mushoku") TObjectPtr<UMotionWarpingComponent> MotionWarping;
 
-	/** Optional directional hit reaction montages (front/back/left/right) and stagger/knockdown. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> HitReactFront;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> HitReactBack;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> HitReactLeft;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> HitReactRight;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> StaggerMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> KnockdownMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> DodgeForwardMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> DodgeBackMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> DodgeLeftMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> DodgeRightMontage;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimMontage> DeathMontage;
+	/**
+	 * Directional hit reactions (front/back/left/right), stagger/knockdown, dodges and death. Any UAnimSequenceBase:
+	 * a plain AnimSequence (played as a dynamic montage) or an authored montage. Unset values are filled from the
+	 * lineage's AnimSet (keys HitFront, HitBack, HitLeft, HitRight, Stagger, Knockdown, DodgeForward, DodgeBack,
+	 * DodgeLeft, DodgeRight, Death) in ApplyCharacterLineage.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> HitReactFront;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> HitReactBack;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> HitReactLeft;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> HitReactRight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> StaggerMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> KnockdownMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> DodgeForwardMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> DodgeBackMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> DodgeLeftMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> DodgeRightMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Animation") TSoftObjectPtr<UAnimSequenceBase> DeathMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Movement") float DodgeStaminaCost = 20.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Movement") float DodgeDuration = 0.38f;
@@ -166,4 +190,10 @@ protected:
 	FMTStatModifier LineagePassiveStats;
 	FMTStatModifier RacePassiveStats;
 	FMTMovementModifier RacePassiveMovement;
+
+	/** AnimSet key -> path this character auto-filled (so a lineage switch replaces only those, never designer values). */
+	TMap<FName, FSoftObjectPath> AutoFilledAnims;
+	/** Paths that failed to load once; not retried (avoids a load attempt + warning on every hit). */
+	TSet<FSoftObjectPath> FailedAnimPaths;
+	TWeakObjectPtr<UAnimMontage> LastPlayedMontage;
 };

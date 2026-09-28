@@ -12,8 +12,16 @@
 #include "MotionWarpingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimMontage.h"
+#include "Animation/AnimSequenceBase.h"
+#include "Animation/MTNativeAnimInstance.h"
 #include "Engine/SkeletalMesh.h"
 #include "Engine/World.h"
+
+namespace
+{
+	/** Slot every code-driven animation plays in (the native anim instance evaluates it; an AnimBP needs a node for it). */
+	const FName MTAnimSlotName(TEXT("DefaultSlot"));
+}
 
 AMTCharacterBase::AMTCharacterBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -97,10 +105,29 @@ void AMTCharacterBase::ApplyCharacterLineage(FName NewCharacterId)
 	{
 		UE_LOG(LogMushoku, Warning, TEXT("%s: mesh for '%s' not imported yet (%s)"), *GetName(), *NewCharacterId.ToString(), *Data->Mesh.ToString());
 	}
-	if (UClass* AnimClass = Data->AnimClass.LoadSynchronous())
+	// Animation: the lineage's AnimClass (e.g. an Animation Blueprint parented to UMTAnimInstance) when it loads,
+	// otherwise the graph-free native instance that plays the AnimSet directly.
+	UClass* AnimClass = nullptr;
+	if (!Data->AnimClass.IsNull())
 	{
+		AnimClass = Data->AnimClass.LoadSynchronous();
+		if (!AnimClass)
+		{
+			UE_LOG(LogMushoku, Warning, TEXT("%s: AnimClass for '%s' failed to load (%s) - using UMTNativeAnimInstance"),
+				*GetName(), *NewCharacterId.ToString(), *Data->AnimClass.ToString());
+		}
+	}
+	if (!AnimClass)
+	{
+		AnimClass = UMTNativeAnimInstance::StaticClass();
+	}
+	const UAnimInstance* CurrentAnimInstance = GetMesh()->GetAnimInstance();
+	if (!CurrentAnimInstance || CurrentAnimInstance->GetClass() != AnimClass)
+	{
+		// Only on change: re-applying the lineage (ApplyRace) must not reset a running anim instance.
 		GetMesh()->SetAnimInstanceClass(AnimClass);
 	}
+	ApplyAnimSetDefaults(Registry->FindAnimSet(NewCharacterId));
 
 	BaseWalkSpeed = Data->WalkSpeed;
 	BaseRunSpeed = Data->RunSpeed;
@@ -336,13 +363,13 @@ bool AMTCharacterBase::Dodge(FVector WorldDirection)
 	StateTags.AddTag(MTTags::State_Dodging);
 	Attributes->SetInvulnerableFor(DodgeInvulnerability);
 
-	// Directional montage relative to facing (the character does not turn to dodge).
+	// Directional animation relative to facing (the character does not turn to dodge).
 	const float Forward = FVector::DotProduct(Dir, GetActorForwardVector());
 	const float Right = FVector::DotProduct(Dir, GetActorRightVector());
-	const TSoftObjectPtr<UAnimMontage>& Montage = FMath::Abs(Forward) >= FMath::Abs(Right)
+	const TSoftObjectPtr<UAnimSequenceBase>& DodgeAnim = FMath::Abs(Forward) >= FMath::Abs(Right)
 		? (Forward >= 0.f ? DodgeForwardMontage : DodgeBackMontage)
 		: (Right >= 0.f ? DodgeRightMontage : DodgeLeftMontage);
-	PlaySoftMontage(Montage, 1.f);
+	PlayAnimAsset(DodgeAnim, 1.f, NAME_None, 1, 0.08f, 0.2f);
 	return true;
 }
 
@@ -410,19 +437,19 @@ void AMTCharacterBase::PlayHitReaction(EMTHitReaction Reaction, const FVector& F
 		StaggerUntil = Now + (Reaction == EMTHitReaction::Knockdown ? 1.4f : 0.8f);
 		StateTags.AddTag(MTTags::State_Staggered);
 		Abilities->CancelAll();
-		PlaySoftMontage(Reaction == EMTHitReaction::Knockdown ? KnockdownMontage : StaggerMontage);
+		PlayAnimAsset(Reaction == EMTHitReaction::Knockdown ? KnockdownMontage : StaggerMontage, 1.f, NAME_None, 1, 0.08f, 0.25f);
 		return;
 	}
 	if (Reaction == EMTHitReaction::Knockback)
 	{
 		StaggerUntil = Now + 0.45f;
 	}
-	// Flinch: additive-friendly directional montage, does not interrupt casting.
+	// Flinch: directional reaction; the ability keeps running (only its animation is interrupted).
 	const FVector Local = GetActorTransform().InverseTransformVectorNoScale(-FromDirection.GetSafeNormal2D());
-	const TSoftObjectPtr<UAnimMontage>& Montage = FMath::Abs(Local.X) >= FMath::Abs(Local.Y)
+	const TSoftObjectPtr<UAnimSequenceBase>& HitAnim = FMath::Abs(Local.X) >= FMath::Abs(Local.Y)
 		? (Local.X >= 0.f ? HitReactFront : HitReactBack)
 		: (Local.Y >= 0.f ? HitReactRight : HitReactLeft);
-	PlaySoftMontage(Montage);
+	PlayAnimAsset(HitAnim, 1.f, NAME_None, 1, 0.06f, 0.2f);
 }
 
 void AMTCharacterBase::HandleDeath(AActor* Killer)
@@ -431,7 +458,8 @@ void AMTCharacterBase::HandleDeath(AActor* Killer)
 	Abilities->CancelAll();
 	GetCharacterMovement()->DisableMovement();
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
-	if (PlaySoftMontage(DeathMontage) <= 0.f)
+	// The native anim instance holds the Death clip's last frame after this blends out (no pop back to idle).
+	if (PlayAnimAsset(DeathMontage, 1.f, NAME_None, 1, 0.1f, 0.25f) <= 0.f)
 	{
 		// No death animation yet: ragdoll so the body never T-poses or freezes upright.
 		GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
@@ -449,20 +477,113 @@ void AMTCharacterBase::HandleDeath(AActor* Killer)
 
 float AMTCharacterBase::PlaySoftMontage(const TSoftObjectPtr<UAnimMontage>& Montage, float PlayRate, FName Section)
 {
-	if (Montage.IsNull())
+	return PlayAnimAsset(TSoftObjectPtr<UAnimSequenceBase>(Montage.ToSoftObjectPath()), PlayRate, Section);
+}
+
+float AMTCharacterBase::PlayAnimAsset(const TSoftObjectPtr<UAnimSequenceBase>& Asset, float PlayRate, FName Section,
+	int32 LoopCount, float BlendIn, float BlendOut)
+{
+	if (Asset.IsNull())
 	{
 		return 0.f;
 	}
-	UAnimMontage* Loaded = Montage.LoadSynchronous();
 	UAnimInstance* Anim = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
-	if (!Loaded || !Anim)
+	if (!Anim)
 	{
 		return 0.f;
 	}
-	const float Length = Anim->Montage_Play(Loaded, PlayRate);
-	if (Length > 0.f && !Section.IsNone())
+	const FSoftObjectPath Path = Asset.ToSoftObjectPath();
+	if (FailedAnimPaths.Contains(Path))
 	{
-		Anim->Montage_JumpToSection(Section, Loaded);
+		return 0.f;
 	}
-	return Length;
+	UAnimSequenceBase* Loaded = Asset.LoadSynchronous();
+	if (!Loaded)
+	{
+		FailedAnimPaths.Add(Path);
+		UE_LOG(LogMushoku, Warning, TEXT("%s: animation %s is not imported yet (not retried)"), *GetName(), *Path.ToString());
+		return 0.f;
+	}
+
+	// Authored montage: play it as-is (sections, notifies, its own blend settings).
+	if (UAnimMontage* Montage = Cast<UAnimMontage>(Loaded))
+	{
+		const float Length = Anim->Montage_Play(Montage, PlayRate);
+		if (Length > 0.f)
+		{
+			if (!Section.IsNone() && Montage->GetSectionIndex(Section) != INDEX_NONE)
+			{
+				Anim->Montage_JumpToSection(Section, Montage);
+			}
+			LastPlayedMontage = Montage;
+		}
+		return Length;
+	}
+
+	// Plain sequence: wrap it in a dynamic montage in DefaultSlot (no montage asset needed). Sections do not apply.
+	UAnimMontage* Dynamic = Anim->PlaySlotAnimationAsDynamicMontage(Loaded, MTAnimSlotName, BlendIn, BlendOut, PlayRate, FMath::Max(1, LoopCount));
+	if (!Dynamic)
+	{
+		return 0.f;
+	}
+	LastPlayedMontage = Dynamic;
+	return Dynamic->GetPlayLength();
+}
+
+void AMTCharacterBase::StopPlayedAnim(UAnimMontage* Montage, float BlendOut)
+{
+	UAnimInstance* Anim = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
+	UAnimMontage* ToStop = Montage ? Montage : LastPlayedMontage.Get();
+	if (Anim && ToStop)
+	{
+		Anim->Montage_Stop(BlendOut, ToStop);
+	}
+}
+
+void AMTCharacterBase::ApplyAnimSetDefaults(const FMTAnimSetData* AnimSet)
+{
+	struct FAnimBinding
+	{
+		const TCHAR* Key;
+		TSoftObjectPtr<UAnimSequenceBase> AMTCharacterBase::* Member;
+	};
+	static const FAnimBinding Bindings[] =
+	{
+		{ TEXT("DodgeForward"), &AMTCharacterBase::DodgeForwardMontage },
+		{ TEXT("DodgeBack"), &AMTCharacterBase::DodgeBackMontage },
+		{ TEXT("DodgeLeft"), &AMTCharacterBase::DodgeLeftMontage },
+		{ TEXT("DodgeRight"), &AMTCharacterBase::DodgeRightMontage },
+		{ TEXT("HitFront"), &AMTCharacterBase::HitReactFront },
+		{ TEXT("HitBack"), &AMTCharacterBase::HitReactBack },
+		{ TEXT("HitLeft"), &AMTCharacterBase::HitReactLeft },
+		{ TEXT("HitRight"), &AMTCharacterBase::HitReactRight },
+		{ TEXT("Stagger"), &AMTCharacterBase::StaggerMontage },
+		{ TEXT("Knockdown"), &AMTCharacterBase::KnockdownMontage },
+		{ TEXT("Death"), &AMTCharacterBase::DeathMontage },
+	};
+
+	for (const FAnimBinding& Binding : Bindings)
+	{
+		const FName Key(Binding.Key);
+		TSoftObjectPtr<UAnimSequenceBase>& Value = this->*Binding.Member;
+		// Ours to replace only if unset, or still exactly what a previous lineage's AnimSet put there.
+		const FSoftObjectPath* AutoFilled = AutoFilledAnims.Find(Key);
+		const bool bOwnedByAnimSet = AutoFilled && *AutoFilled == Value.ToSoftObjectPath();
+		if (!Value.IsNull() && !bOwnedByAnimSet)
+		{
+			AutoFilledAnims.Remove(Key); // a designer value: never touched again
+			continue;
+		}
+		const TSoftObjectPtr<UAnimSequenceBase>* FromSet = AnimSet ? AnimSet->Anims.Find(Key) : nullptr;
+		if (FromSet && !FromSet->IsNull())
+		{
+			Value = *FromSet;
+			AutoFilledAnims.Add(Key, Value.ToSoftObjectPath());
+		}
+		else if (bOwnedByAnimSet)
+		{
+			Value.Reset(); // the new lineage has no such clip: do not keep the previous lineage's
+			AutoFilledAnims.Remove(Key);
+		}
+	}
 }
