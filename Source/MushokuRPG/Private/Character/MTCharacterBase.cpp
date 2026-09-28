@@ -243,6 +243,13 @@ FVector AMTCharacterBase::GetAimPoint() const
 	return GetActorLocation() + GetActorForwardVector() * 2000.f;
 }
 
+bool AMTCharacterBase::IsStrafingLocked() const
+{
+	// Moving at least a brisk walk: pressing sprint while standing still or turning on the spot keeps the facing.
+	constexpr float SprintBreaksFacingSpeed = 150.f;
+	return LockTarget.IsValid() && !(bSprinting && GetVelocity().SizeSquared2D() > FMath::Square(SprintBreaksFacingSpeed));
+}
+
 void AMTCharacterBase::SetSprinting(bool bInSprint)
 {
 	bSprinting = bInSprint;
@@ -394,7 +401,7 @@ void AMTCharacterBase::NotifyPerfectDefense(FName Kind)
 	UE_LOG(LogMushoku, Verbose, TEXT("%s: Dragon God Knowledge triggered by %s"), *GetName(), *Kind.ToString());
 }
 
-FMTDamageResult AMTCharacterBase::ReceiveHit(const FMTDamageSpec& Spec)
+FMTDamageResult AMTCharacterBase::ReceiveCombatHit(const FMTDamageSpec& Spec)
 {
 	if (!IsAlive())
 	{

@@ -94,6 +94,12 @@ protected:
 	void SpawnFX(const TSoftObjectPtr<class UNiagaraSystem>& System, const FVector& Location, const FRotator& Rotation, bool bAttachToOwner = false);
 	void PlaySound(const TSoftObjectPtr<class USoundBase>& Sound, const FVector& Location);
 	void PlaySubtleCameraShake(float Scale);
+	/**
+	 * Hits every hostile within Radius of Center with this row's damage, stagger and knockback (melee strikes and the
+	 * arrival strike of an attack dash). A target caught mid-cast is interrupted, which triggers the owner's Dragon God
+	 * Knowledge. Returns the number of targets hit.
+	 */
+	int32 StrikeHostilesInRadius(const FVector& Center, float Radius);
 
 	/** Returns data after applying active awakening overrides / charge scaling. */
 	float GetChargedValue(float Base, float FullChargeScale) const;

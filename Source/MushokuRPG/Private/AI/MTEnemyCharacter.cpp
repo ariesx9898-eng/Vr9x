@@ -48,6 +48,19 @@ void AMTEnemyCharacter::BeginPlay()
 	InitializeFromData();
 }
 
+void AMTEnemyCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	// A sprint (a retreat) breaks the target facing like the player's (IsStrafingLocked): run where the path goes, then
+	// turn back to the focus, instead of backpedalling faster than any authored clip.
+	if (UCharacterMovementComponent* Movement = GetCharacterMovement())
+	{
+		const bool bRunFree = GetLockTarget() && !IsStrafingLocked();
+		Movement->bOrientRotationToMovement = bRunFree;
+		Movement->bUseControllerDesiredRotation = !bRunFree;
+	}
+}
+
 void AMTEnemyCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorldTimerManager().ClearAllTimersForObject(this);

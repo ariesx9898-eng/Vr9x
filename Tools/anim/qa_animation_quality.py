@@ -28,7 +28,6 @@ import preview  # noqa: E402
 import rudeus_anim_lib as L  # noqa: E402
 from build_rudeus_anims import ground_corrected  # noqa: E402
 
-from pose_compose import BALL_H  # noqa: E402
 
 MAJOR = [L.PELVIS] + L.SPINE + [L.NECK, L.HEAD] + [b for s in "LR" for b in (L.CLAV[s], L.UPPER[s], L.FORE[s], L.HAND[s], L.THIGH[s], L.SHIN[s], L.FOOT[s])]
 
@@ -135,7 +134,7 @@ def main():
                 for s in "LR":
                     ank = head[L.FOOT[s]]
                     ball = arm.matrix_world @ arm.pose.bones[L.TOE[s]].head
-                    planted = ank.z < rig.ankle_h + 0.012 and ball.z < BALL_H + 0.012
+                    planted = ank.z < rig.ankle_h + 0.012 and ball.z < rig.ball_h + 0.012
                     if planted and prev_ankle[s] is not None:
                         run_len[s] += math.hypot(ank.x - prev_ankle[s].x, ank.y - prev_ankle[s].y)
                         slide = max(slide, run_len[s])

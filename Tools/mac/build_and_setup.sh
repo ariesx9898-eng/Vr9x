@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # One command on macOS (Apple Silicon): build the editor target, then run every editor setup script headless.
 #
-#   Tools/mac/build_and_setup.sh                 # build + data check + materials + Rudeus (+ Orsted) + world + validation
+#   Tools/mac/build_and_setup.sh                 # build + data check + materials + Rudeus (+ Orsted) + world + validation + tests
 #   Tools/mac/build_and_setup.sh --skip-build    # only the setup scripts (editor already built)
 #   Tools/mac/build_and_setup.sh --build-only    # only compile (fast compile-error loop)
 #
@@ -92,7 +92,7 @@ if [[ $DO_SETUP -eq 1 ]]; then
     else
       echo "== orsted: skipped (no SourceArt/Characters/Orsted/Orsted_Animated.glb yet; see Tools/anim/make_orsted.sh)"
     fi
-    STEPS="$STEPS world:mt_world_setup.py validation:mt_validate_world.py"
+    STEPS="$STEPS world:mt_world_setup.py"
     for step in $STEPS; do
       name="${step%%:*}"
       script="$REPO_ROOT/Content/Python/${step#*:}"
@@ -105,8 +105,18 @@ if [[ $DO_SETUP -eq 1 ]]; then
         continue
       fi
       run_logged "$log" "$UE_EDITOR" "$UPROJECT" -run=pythonscript -script="$script" \
-        -unattended -nosplash -nullrhi -stdout -FullStdOutLogOutput || fail_step "$name"
+        -unattended -nosplash -nullrhi -nocrashreports -stdout -FullStdOutLogOutput || fail_step "$name"
     done
+
+    # World validation on the saved map with every World Partition actor loaded (overlaps, duplicates, coplanar
+    # geometry, broken references). The in-editor mt_validate_world.py only sees whatever level is open.
+    echo "== validation: MTValidateWorld commandlet on /Game/Maps/L_Fittoa (log: Saved/Logs/mt_validation.log)"
+    run_logged "$LOG_DIR/mt_validation.log" "$UE_EDITOR" "$UPROJECT" -run=MTValidateWorld -map=/Game/Maps/L_Fittoa \
+      -unattended -nosplash -nullrhi -nocrashreports -stdout -FullStdOutLogOutput || fail_step "validation"
+
+    # Runtime integration tests (Rudeus + Orsted: data, body and pose, lock-on facing, signature abilities).
+    add_log "$LOG_DIR/mt_tests.log"
+    "$SCRIPT_DIR/run_automation_tests.sh" || fail_step "tests"
   fi
 fi
 
@@ -114,7 +124,7 @@ fi
 echo
 echo "================================================================ summary"
 # Compiler / UBT errors, UE "Error:" lines, validator ERROR lines and the PASS / FAIL / MANUAL lines of the scripts.
-PATTERN=': (fatal )?error:|error [A-Z]+[0-9]+:|[Ee]rror: |ERROR: |(^|[^A-Za-z])(PASS|FAIL|MANUAL) |ALL CHECKS PASSED|ERROR\(S\) FOUND'
+PATTERN=': (fatal )?error:|error [A-Z]+[0-9]+:|[Ee]rror: |ERROR: |(^|[^A-Za-z])(PASS|FAIL|MANUAL) |ALL CHECKS PASSED|ERROR\(S\) FOUND|MTValidateWorld: [0-9]+ errors|Result=\{(Success|Fail)\}'
 PROBLEMS=0
 while IFS= read -r log; do
   [[ -n "$log" && -f "$log" ]] || continue
@@ -126,7 +136,7 @@ while IFS= read -r log; do
     echo "(no error / PASS / FAIL lines)"
   fi
   # Failures that do not change a process exit code: script FAIL lines and Python errors/tracebacks.
-  count="$(grep -cE '(^|[^A-Za-z])FAIL |LogPython: Error:' "$log" || true)"
+  count="$(grep -cE '(^|[^A-Za-z])FAIL |LogPython: Error:|Result=\{Fail\}' "$log" || true)"
   PROBLEMS=$((PROBLEMS + ${count:-0}))
 done <<EOF
 $LOG_FILES

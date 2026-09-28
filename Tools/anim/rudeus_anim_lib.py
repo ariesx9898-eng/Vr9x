@@ -52,6 +52,18 @@ HAIR = ["hair_C0_0_jnt_075", "hair_C1_0_jnt_077", "hair_C2_0_jnt_079", "hair_L0_
         "hair_L1_0_jnt_083", "hair_R0_0_jnt_085", "hair_R1_0_jnt_087"]
 
 
+# Rudeus's foot: ball (toe joint) 8 cm in front of the ankle and 1.9 cm above the ground, heel contact 4.5 cm behind
+# the ankle, toe tip 5 cm past the ball. Other rigs get their own values (Rig.ball_fwd ...), scaled from these.
+BALL_FWD = 0.080
+BALL_H = 0.019
+HEEL_BACK = 0.045
+TOE_TIP = 0.05
+
+
+def _snap(value, reference, tol=0.002):
+    return reference if abs(value - reference) < tol else value
+
+
 def rot(axis, deg):
     return Matrix.Rotation(math.radians(deg), 3, Vector(axis).normalized())
 
@@ -97,6 +109,14 @@ class Rig:
         self.l_shin = (self.head[FOOT["L"]] - self.head[SHIN["L"]]).length
         self.ankle_h = self.head[FOOT["L"]].z
         self.pelvis_h = self.head[PELVIS].z
+        # Foot roll pivots come from this rig's own foot (toe joint = ball of the foot), so a longer-footed lineage
+        # rolls over its real ball instead of dipping its toes through the floor. Rudeus's values are the
+        # constants the composer was tuned with; they are kept exactly when the rig matches them.
+        ball = self.head[TOE["L"]] - self.head[FOOT["L"]]
+        self.ball_fwd = _snap(-ball.y, BALL_FWD)
+        self.ball_h = _snap(self.head[TOE["L"]].z, BALL_H)
+        self.heel_back = _snap(HEEL_BACK * self.ball_fwd / BALL_FWD, HEEL_BACK)
+        self.toe_tip = _snap(TOE_TIP * self.ball_fwd / BALL_FWD, TOE_TIP)
 
     def descendants(self, name):
         out, stack = [], [name]

@@ -2,6 +2,12 @@
 
 Scale: 0.0–10.0, where 8.5 means nearly AAA quality for this scope. Pass rule: overall ≥ 8.5 **and** no critical category below 8.0.
 
+> **Update 2026-09-27 (run on a Mac with UE 5.8.3):** steps 1, 2 and 5 of "What remains" below are done. The module
+> compiles (3 errors fixed, 0 warnings), `Tools/mac/build_and_setup.sh` ends in `RESULT: OK` (Rudeus 46/0 and Orsted 49/0
+> import checks, world validation 0/0), and 7 runtime automation tests pass, including `MushokuRPG.Rudeus.BodyAndPose`
+> (Rudeus stands on the floor, feet planted, animated). Details and the Orsted grade: `Docs/QA_Orsted.md`. The Phase 1
+> grade below is the historical one; stability is no longer "never compiled". Play-In-Editor checks (step 3, 4) remain.
+
 ## Ground rule for this grade
 
 This environment has **no Unreal Engine**. So:

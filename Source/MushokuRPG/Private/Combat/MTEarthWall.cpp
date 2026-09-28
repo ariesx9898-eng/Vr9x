@@ -30,12 +30,14 @@ void AMTEarthWall::InitWall(const FMTAbilityData& InData, AActor* InOwner, float
 	Extent = InData.StructureExtent;
 	Box->SetBoxExtent(Extent);
 
-	if (!Data.FX.BodyMesh.IsNull())
+	// The authored wall when it exists; until then (or if the named asset is missing) the blockout, never an invisible
+	// wall that still blocks.
+	if (UStaticMesh* WallMesh = MTCombat::LoadOptional(Data.FX.BodyMesh))
 	{
-		Mesh->SetStaticMesh(Data.FX.BodyMesh.LoadSynchronous());
-		if (!Data.FX.BodyMaterial.IsNull())
+		Mesh->SetStaticMesh(WallMesh);
+		if (UMaterialInterface* WallMaterial = MTCombat::LoadOptional(Data.FX.BodyMaterial))
 		{
-			Mesh->SetMaterial(0, Data.FX.BodyMaterial.LoadSynchronous());
+			Mesh->SetMaterial(0, WallMaterial);
 		}
 	}
 	else if (UStaticMesh* Cube = MTCombat::LoadEngineShape(TEXT("Cube")))

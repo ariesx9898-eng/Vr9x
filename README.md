@@ -4,7 +4,7 @@ An open-world action RPG set in the Mushoku Tensei world, built in **Unreal Engi
 
 **Current scope:** two character lineages only (**Rudeus Greyrat**, **Orsted**), four elements (Fire / Water / Earth / Wind, three abilities each), a race framework, and the **Fittoa region with Buena Village**.
 
-> **Status: not yet compiled or played.** This repository was created in a cloud container that has no Unreal Engine. The code targets UE 5.8, but nothing has run in-engine yet. See `Docs/Phase1_QA.md` for the honest grade and `Docs/Implementation_Plan.md` for the next steps.
+> **Status: compiles and passes its headless checks on UE 5.8.3, not yet played by a person.** On 2026-09-27 the module compiled on a Mac (0 warnings), `Tools/mac/build_and_setup.sh` imported both characters and validated the world (`RESULT: OK`), and 7 runtime automation tests passed in a real game world. Nothing has been played in the editor yet, and there are no VFX assets. Grades and details: `Docs/QA_Orsted.md` (latest), `Docs/Phase1_QA.md`; next steps: `Docs/Implementation_Plan.md`.
 
 ## Quick start (UE 5.8 on macOS, Apple Silicon)
 
@@ -17,14 +17,15 @@ An open-world action RPG set in the Mushoku Tensei world, built in **Unreal Engi
    - builds `MushokuRPGEditor`
    - checks the JSON data
    - creates the master materials
-   - imports **Rudeus with his 37 authored animations** (`SourceArt/Characters/Rudeus/Rudeus_Animated.glb`), plus Orsted once his model has been processed (see below)
-   - sets up the `L_Fittoa` world and validates it
+   - imports **Rudeus with his 37 authored animations** (`SourceArt/Characters/Rudeus/Rudeus_Animated.glb`) and **Orsted with his 40** (`SourceArt/Characters/Orsted/Orsted_Animated.glb`), with materials and cast sockets
+   - sets up the `L_Fittoa` world and validates it with the `MTValidateWorld` commandlet
+   - runs the runtime automation tests (`Tools/mac/run_automation_tests.sh`: lineage data, body and pose, lock-on facing, Dragon Step, Disturb Magic, presentation fallbacks)
 
    It ends with a PASS/FAIL summary; the logs are in `Saved/Logs/mt_*.log`. `Tools/mac/README.md` has the options (`--build-only`, `--skip-build`, `UE_ROOT=...`) and how a Claude session running on the Mac (the Claude Desktop app, or `claude remote-control` in the repo) can run the script and iterate on compile errors.
 3. Open `MushokuRPG.uproject` and import the heightmap from `SourceArt/Terrain/Fittoa/`. The world setup log prints the settings.
 4. Press Play.
 
-**Orsted:** once his generated mesh (GLB) is in the repo, run `Tools/anim/make_orsted.sh <path/to/orsted.glb>` (it needs Python 3.11 with `pip install bpy==5.0.1 numpy pillow`, the versions the clips were authored with). It re-rigs him, authors his 40 clips, verifies them and points his data at them. Then run `Tools/mac/build_and_setup.sh`, which imports him too.
+**Orsted** is in the repo: `SourceArt/Characters/Orsted/Orsted_Source.glb` (an original model generated from the design in `Docs/Orsted_Model_Spec.md`) and everything derived from it. To rebuild him after changing the model or his clips, run `Tools/anim/make_orsted.sh SourceArt/Characters/Orsted/Orsted_Source.glb` with a Python 3.11 that has `bpy==5.0.1 numpy pillow` (the versions the clips were authored with). The Python that ships with UE works as a base: `"/Users/Shared/Epic Games/UE_5.8/Engine/Binaries/ThirdParty/Python3/Mac/bin/python3.11" -m venv ~/.venvs/mushoku-bpy311`, `pip install` into it, then `PYTHON=~/.venvs/mushoku-bpy311/bin/python Tools/anim/make_orsted.sh ...`. It straightens the A-posed arms, refits the skeleton, re-weights (coat chains included), authors and verifies his 40 clips, measures them every frame and points his data at them. Then run `Tools/mac/build_and_setup.sh`.
 
 Characters animate with **no Animation Blueprint and no montage assets**: `UMTNativeAnimInstance` plays the clips listed in `Content/Data/AnimSets.json`. Swapping in an Animation Blueprint later is a one-line data change. See `Docs/Animation_Pipeline.md` §0.
 
@@ -57,9 +58,9 @@ Dev console commands: `MTGiveSpins 10`, `MTSetCharacter Orsted`, `MTSaveNow`.
 - `Content/Python/`: editor automation scripts
 - `SourceArt/`: the original and normalized Rudeus GLB, terrain source data
 - `Tools/`: offline tools that were actually run in this session (GLB inspection and normalization, terrain generation, data validation, roll simulation, placement tests)
-- `Tools/mac/`: the one-command macOS build and headless editor setup. It has not been run against a real engine yet; only a dry run with a stub engine was done.
+- `Tools/mac/`: the one-command macOS build, headless editor setup, world validation and runtime tests (`build_and_setup.sh`, `run_automation_tests.sh`). Run against UE 5.8.3 on 2026-09-27: `RESULT: OK`.
 - `Docs/`: audit, plan, QA grades, lore research, animation pipeline, Orsted model spec, world notes
 
 ## Credits
 
-See `CREDITS.md`. The Rudeus model is by **pamogss**, licensed CC-BY-4.0.
+See `CREDITS.md`. The Rudeus model is by **pamogss**, licensed CC-BY-4.0. The Orsted model is an original design generated for this project with Higgsfield (see `CREDITS.md`).

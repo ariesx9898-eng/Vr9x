@@ -45,7 +45,7 @@ public:
 
 	/** Central entry point for all damage. */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Combat")
-	virtual FMTDamageResult ReceiveHit(const FMTDamageSpec& Spec);
+	virtual FMTDamageResult ReceiveCombatHit(const FMTDamageSpec& Spec);
 
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Combat")
 	bool IsHostileTo(const AActor* Other) const;
@@ -63,6 +63,13 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Combat") AActor* GetLockTarget() const { return LockTarget.Get(); }
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Combat") void SetLockTarget(AActor* NewTarget) { LockTarget = NewTarget; }
+	/**
+	 * Locked on and not sprinting away: the body keeps facing the target and moves in strafes and backpedals (the anim
+	 * instance plays its directional clips exactly while this is true). A locked-on sprint breaks the facing and runs
+	 * where it is steered while the camera stays on the target, because sprint-speed strafes and backpedals would
+	 * outrun every authored clip (sliding feet).
+	 */
+	UFUNCTION(BlueprintPure, Category = "Mushoku|Combat") bool IsStrafingLocked() const;
 
 	/** Point this character aims spells at (lock-on target or look direction). */
 	virtual FVector GetAimPoint() const;

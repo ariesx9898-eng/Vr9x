@@ -2,7 +2,9 @@
 
 ## 0. Runtime path: native playback, no Animation Blueprint (current)
 
-> **Status: not compiled or run yet.** This was written in a container without Unreal Engine. Details are in `Tools/mac/README.md`.
+> **Status (2026-09-27): compiled and run headless on UE 5.8.3.** Both characters import with all their clips, and the
+> runtime tests confirm the native instance animates them (no T-pose, feet on the floor, strafing while locked on). Not
+> yet watched in Play-In-Editor. Details: `Docs/QA_Orsted.md` §3.
 
 The game animates with **no editor-authored animation assets** (no Animation Blueprint, no montage assets):
 
@@ -12,21 +14,26 @@ The game animates with **no editor-authored animation assets** (no Animation Blu
   - Authored reference speeds (cm/s): `WalkSpeedRef` 130, `WalkBackSpeedRef` 100, `StrafeSpeedRef` 100, `RunSpeedRef` 360, `SprintSpeedRef` 580, `RunStrafeSpeedRef` 330, `RunBackSpeedRef` 300.
   - `UpperBodyRootBone`: default `spine_C0_1_jnt_061`.
 
-  **Orsted** shares Rudeus's skeleton hierarchy.
-  - **Until his model exists**, his row points at the Rudeus clips. His mesh must then use Rudeus's `USkeleton`, or be marked compatible with it, for them to play.
-  - **Once his generated mesh exists**, `Tools/anim/make_orsted.sh <glb>` does the rest in one command:
-    1. re-rigs the mesh onto the skeleton at 195 cm;
-    2. authors his 40 clips on his own proportions, including his signature DisturbMagic, DragonStep and Aura;
-    3. verifies the export;
+  **Orsted** shares Rudeus's skeleton hierarchy (same bone names), with his own skeleton asset and his own clips. His
+  row points at `/Game/Characters/Orsted/Animations/A_Orsted_*` (40 keys; reference speeds 145 / 110 / 115 / 420 / 660 /
+  380 / 330 cm/s). `Tools/anim/make_orsted.sh SourceArt/Characters/Orsted/Orsted_Source.glb` rebuilds everything:
+    1. re-rigs the generated mesh onto the skeleton at 195 cm (A-pose straightened, knees refitted, symmetric fit,
+       seam-welded weights, coat chains spread to the hem);
+    2. authors his 40 clips on his own proportions, including his signature DisturbMagic, DragonStep, Aura and Awakening
+       and his own guard-based reactions and one-knee knockdown;
+    3. verifies the export (`verify_glb.py`) and measures every frame (`qa_animation_quality.py`);
     4. runs `Tools/anim/use_character_clips.py Orsted`, which points his AnimSet row, reference speeds and signature abilities at his own `A_Orsted_*` clips.
 
-    `Tools/mac/build_and_setup.sh` then imports `Orsted_Animated.glb` through `Content/Python/mt_setup_orsted.py`. From then on he needs nothing of Rudeus's.
+    `Tools/mac/build_and_setup.sh` then imports `Orsted_Animated.glb` through `Content/Python/mt_setup_orsted.py`. He needs nothing of Rudeus's. Results: `Docs/QA_Orsted.md`.
+
+  **Footing rule (Orsted):** every standing clip starts and ends on his guard's footing, and his relaxed idle uses that same
+  footing, so the idle ↔ combat crossfade and every montage blend-in / blend-out never move a planted foot.
 - **Anim instance.** `Characters.json` sets `AnimClass` = `/Script/MushokuRPG.MTNativeAnimInstance`. `AMTCharacterBase::ApplyCharacterLineage` also falls back to that class when `AnimClass` is unset or fails to load. `UMTNativeAnimInstance` (`Source/.../Animation/MTNativeAnimInstance.h`) replaces the anim graph with a custom `FAnimInstanceProxy`, the same pattern Epic uses for `UAnimSingleNodeInstance`:
   - **Ground:**
     - A single normalised phase is shared by every moving clip, so the feet never desync.
     - Play rate is ground speed divided by the blended reference speed, clamped to 0.6–1.5.
     - Weights follow `GaitValue`.
-    - When locked on, a 4-way blend follows `Direction` on both gait bands. Walking pace uses Walk, StrafeRight, WalkBack and StrafeLeft. Running pace uses Run (or Sprint), RunStrafeRight, RunBack and RunStrafeLeft; in the strafe runs the hips turn toward the travel direction while the chest keeps facing the target.
+    - When locked on (`AMTCharacterBase::IsStrafingLocked()`: a lock target and not sprinting away), a 4-way blend follows `Direction` on both gait bands. A locked-on sprint breaks the body's facing and runs where it is steered (the camera stays locked), because sprint-speed strafes would outrun every clip; dodges and dashes keep their launch direction. Walking pace uses Walk, StrafeRight, WalkBack and StrafeLeft. Running pace uses Run (or Sprint), RunStrafeRight, RunBack and RunStrafeLeft; in the strafe runs the hips turn toward the travel direction while the chest keeps facing the target.
     - Idle and CombatIdle crossfade over 0.3 s.
   - **Air:** JumpStart → Rise/Fall loops → Land or HardLand. Every state change crossfades over 0.12–0.25 s. The Death clip is held after the death montage ends.
   - **Montages:** everything code-driven plays in `DefaultSlot`, which the proxy evaluates like a slot node. That covers ability casts, dodges, hit reactions, stagger, knockdown and death. While casting and moving (or airborne), only `UpperBodyRootBone` and its children take the montage; the pelvis and legs keep locomotion.

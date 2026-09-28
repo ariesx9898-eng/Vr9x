@@ -25,6 +25,9 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
+	/** Locked on and facing the target: directional (strafe / backpedal) locomotion. */
+	bool IsStrafing() const { return bIsStrafing; }
+
 protected:
 	// --- Locomotion (drive blend spaces / state machine) ---
 	UPROPERTY(BlueprintReadOnly, Category = "Locomotion") float GroundSpeed = 0.f;
@@ -100,6 +103,8 @@ private:
 	bool bSnapDead = false;
 	bool bSnapSprinting = false;
 	bool bSnapLocked = false;
+	/** Locked on and facing the target (AMTCharacterBase::IsStrafingLocked): directional locomotion. */
+	bool bSnapStrafing = false;
 	bool bSnapRootMotion = false;
 	float SnapChargeAlpha = 0.f;
 	float LastYaw = 0.f;

@@ -13,16 +13,43 @@
 #include "Engine/OverlapResult.h"
 #include "CollisionQueryParams.h"
 #include "Components/CapsuleComponent.h"
+#include "Core/MTTypes.h"
+#include "Misc/PackageName.h"
 
 namespace MTCombat
 {
+	UObject* LoadOptionalAsset(const FSoftObjectPath& Path)
+	{
+		if (Path.IsNull())
+		{
+			return nullptr;
+		}
+		if (UObject* Resolved = Path.ResolveObject())
+		{
+			return Resolved;
+		}
+		static TSet<FSoftObjectPath> Missing;
+		if (Missing.Contains(Path))
+		{
+			return nullptr;
+		}
+		// Check the package first: loading a missing one warns and searches for it every time.
+		UObject* Loaded = FPackageName::DoesPackageExist(Path.GetLongPackageName()) ? Path.TryLoad() : nullptr;
+		if (!Loaded)
+		{
+			Missing.Add(Path);
+			UE_LOG(LogMushoku, Log, TEXT("Presentation asset %s is not authored yet: skipped (logged once)."), *Path.ToString());
+		}
+		return Loaded;
+	}
+
 	UNiagaraComponent* SpawnFX(const UObject* WorldContext, const TSoftObjectPtr<UNiagaraSystem>& System, const FVector& Location, const FRotator& Rotation, float Scale)
 	{
 		if (System.IsNull() || !WorldContext)
 		{
 			return nullptr;
 		}
-		UNiagaraSystem* Loaded = System.LoadSynchronous();
+		UNiagaraSystem* Loaded = LoadOptional(System);
 		UWorld* World = WorldContext->GetWorld();
 		if (!Loaded || !World)
 		{
@@ -38,7 +65,7 @@ namespace MTCombat
 		{
 			return;
 		}
-		if (USoundBase* Loaded = Sound.LoadSynchronous())
+		if (USoundBase* Loaded = LoadOptional(Sound))
 		{
 			UGameplayStatics::PlaySoundAtLocation(WorldContext, Loaded, Location, Volume);
 		}

@@ -64,11 +64,11 @@ def open_or_create_map():
     log("creating %s from template %s (World Partition)" % (MAP_PATH, TEMPLATE))
     ok = False
     try:
-        ok = unreal.EditorLevelLibrary.new_level_from_template(MAP_PATH, TEMPLATE)
-    except Exception as exc:  # EditorLevelLibrary is deprecated in 5.x; fall back to the subsystem
-        warn("EditorLevelLibrary.new_level_from_template failed (%s), trying LevelEditorSubsystem" % exc)
-    if not ok:
         ok = level_subsystem().new_level_from_template(MAP_PATH, TEMPLATE)
+    except Exception as exc:  # older 5.x: only the (now deprecated) EditorLevelLibrary has it
+        warn("LevelEditorSubsystem.new_level_from_template failed (%s), trying EditorLevelLibrary" % exc)
+    if not ok:
+        ok = unreal.EditorLevelLibrary.new_level_from_template(MAP_PATH, TEMPLATE)
     if not ok:
         unreal.log_error("[mt_world_setup] could not create " + MAP_PATH)
     return ok
@@ -185,17 +185,23 @@ def try_create_hlod_layer():
     try:
         tools = unreal.AssetToolsHelpers.get_asset_tools()
         path = "/Game/Maps/HLOD"
-        if unreal.EditorAssetLibrary.does_asset_exist(path + "/HLOD_Fittoa_Instanced"):
+        full = path + "/HLOD_Fittoa_Instanced"
+        if unreal.EditorAssetLibrary.does_asset_exist(full):
+            asset = unreal.EditorAssetLibrary.load_asset(full)
             log("HLOD layer already exists")
-            return
-        factory = unreal.HLODLayerFactory()
-        asset = tools.create_asset("HLOD_Fittoa_Instanced", path, unreal.HLODLayer, factory)
+        else:
+            asset = tools.create_asset("HLOD_Fittoa_Instanced", path, unreal.HLODLayer, unreal.HLODLayerFactory())
+            if asset:
+                log("created HLOD layer " + asset.get_path_name())
         if asset:
+            # EHLODLayerType is exposed as unreal.HLODLayerType (UE 5.8); older builds used WorldPartitionHLODLayerType.
+            layer_type = getattr(unreal, "HLODLayerType", None) or getattr(unreal, "WorldPartitionHLODLayerType", None)
             try:
-                asset.set_editor_property("layer_type", unreal.WorldPartitionHLODLayerType.INSTANCING)
+                asset.set_editor_property("layer_type", layer_type.INSTANCING)
+                unreal.EditorAssetLibrary.save_loaded_asset(asset)
+                log("HLOD layer type: Instancing")
             except Exception as exc:  # property name/enum differs between 5.x versions
-                warn("created HLOD layer but could not set its type (%s) - set 'Layer Type = Instancing' by hand" % exc)
-            log("created HLOD layer " + asset.get_path_name())
+                warn("HLOD layer exists but its type could not be set (%s) - set 'Layer Type = Instancing' by hand" % exc)
     except Exception as exc:
         warn("HLOD layer asset creation not available from Python here (%s) - create it by hand (see below)" % exc)
 

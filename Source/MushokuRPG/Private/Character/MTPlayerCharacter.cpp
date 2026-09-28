@@ -517,11 +517,14 @@ void AMTPlayerCharacter::UpdateLockOn(float DeltaSeconds)
 		CMC->bOrientRotationToMovement = true;
 		return;
 	}
-	// Strafe around the target; face it smoothly.
-	CMC->bOrientRotationToMovement = false;
+	// Strafe around the target, facing it smoothly. A sprint runs where it is steered instead (IsStrafingLocked); dodges
+	// and dashes (Dragon Step, Gale Step) keep the direction they launched in, so their clip never skids sideways.
+	const bool bDashing = IsDodging() || GetStateTags().HasTag(MTTags::State_Dodging);
+	const bool bFaceTarget = IsStrafingLocked();
+	CMC->bOrientRotationToMovement = !bFaceTarget && !bDashing;
 	const FVector ToTarget = Target->GetActorLocation() - GetActorLocation();
 	const FRotator Face(0.f, ToTarget.Rotation().Yaw, 0.f);
-	if (!IsDodging())
+	if (bFaceTarget && !bDashing)
 	{
 		SetActorRotation(FMath::RInterpTo(GetActorRotation(), Face, DeltaSeconds, 10.f));
 	}

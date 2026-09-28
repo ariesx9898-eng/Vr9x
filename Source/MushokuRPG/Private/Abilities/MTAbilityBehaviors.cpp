@@ -265,7 +265,14 @@ void UMTAbility_Dash::TickAction(float DeltaTime)
 		if (AMTCharacterBase* Owner = GetOwnerCharacter())
 		{
 			Owner->GetStateTags().RemoveTag(MTTags::State_Dodging);
-			SpawnFX(Data.FX.Impact, Owner->GetActorLocation(), Owner->GetActorRotation());
+			// Attack dashes (Dragon Step's arrival palm, lunges, pounces, dives) strike what they arrive at; movement
+			// dashes (Gale Step, Tide Rush) have no damage or stagger and only mark the landing.
+			const float Radius = Data.AOERadius > 0.f ? Data.AOERadius : 120.f;
+			if ((Data.Damage <= 0.f && Data.Stagger <= 0.f)
+				|| StrikeHostilesInRadius(Owner->GetActorLocation() + Owner->GetActorForwardVector() * Radius * 0.6f, Radius) == 0)
+			{
+				SpawnFX(Data.FX.Impact, Owner->GetActorLocation(), Owner->GetActorRotation());
+			}
 		}
 		FinishAction();
 	}
@@ -546,33 +553,7 @@ void UMTAbility_Melee::ExecuteAction()
 
 	const float Radius = Data.AOERadius > 0.f ? Data.AOERadius : 110.f;
 	const FVector Center = Owner->GetActorLocation() + Owner->GetActorForwardVector() * FMath::Min(Data.Range * 0.6f, 180.f);
-	for (AMTCharacterBase* Target : MTCombat::GetHostilesInRadius(Owner, Center, Radius))
-	{
-		// Interrupt: striking an enemy mid-cast breaks the spell (Dragon God Knowledge trigger).
-		const bool bInterrupt = Target->GetStateTags().HasTag(MTTags::State_Casting);
-		FMTDamageSpec Spec;
-		Spec.Damage = Data.Damage * (Owner->GetAttributes() ? Owner->GetAttributes()->GetStatModifier().DamageMultiplier : 1.f);
-		Spec.Stagger = Data.Stagger * (bInterrupt ? 1.5f : 1.f);
-		Spec.Knockback = Data.Knockback;
-		Spec.Element = Data.Element;
-		Spec.bIsMagic = false;
-		Spec.SourceAbility = Data.AbilityID;
-		Spec.Instigator = Owner;
-		Spec.HitLocation = Target->GetActorLocation();
-		Spec.HitDirection = (Target->GetActorLocation() - Owner->GetActorLocation()).GetSafeNormal2D();
-		const FMTDamageResult Result = Target->ReceiveHit(Spec);
-		if (bInterrupt && Target->GetAbilities())
-		{
-			Target->GetAbilities()->CancelAll();
-			Owner->NotifyPerfectDefense(TEXT("Interrupt"));
-		}
-		if (Owner->GetAbilities())
-		{
-			Owner->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
-		}
-		SpawnFX(Data.FX.Impact, Spec.HitLocation, Spec.HitDirection.Rotation());
-		PlaySound(Data.FX.ImpactSound, Spec.HitLocation);
-	}
+	StrikeHostilesInRadius(Center, Radius);
 }
 
 // ---------------------------------------------------------------- Factory

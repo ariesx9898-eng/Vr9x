@@ -107,20 +107,19 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 	Lifetime = FMath::Clamp(Data.Range / FMath::Max(100.f, Movement->InitialSpeed) + 0.25f, 0.3f, 8.f);
 
 	// Presentation: formation happens at the hand in the ability; here the travel phase.
-	if (!Data.FX.Travel.IsNull())
+	if (UNiagaraSystem* TravelSystem = MTCombat::LoadOptional(Data.FX.Travel))
 	{
-		if (UNiagaraSystem* TravelSystem = Data.FX.Travel.LoadSynchronous())
-		{
-			TravelFX->SetAsset(TravelSystem);
-			TravelFX->Activate(true);
-		}
+		TravelFX->SetAsset(TravelSystem);
+		TravelFX->Activate(true);
 	}
-	if (!Data.FX.BodyMesh.IsNull())
+	// The authored body when it exists; until then (or if the named asset is missing) the blockout look, never an
+	// invisible spell.
+	if (UStaticMesh* BodyMesh = MTCombat::LoadOptional(Data.FX.BodyMesh))
 	{
-		Body->SetStaticMesh(Data.FX.BodyMesh.LoadSynchronous());
-		if (!Data.FX.BodyMaterial.IsNull())
+		Body->SetStaticMesh(BodyMesh);
+		if (UMaterialInterface* BodyMaterial = MTCombat::LoadOptional(Data.FX.BodyMaterial))
 		{
-			Body->SetMaterial(0, Data.FX.BodyMaterial.LoadSynchronous());
+			Body->SetMaterial(0, BodyMaterial);
 		}
 	}
 	else
@@ -299,7 +298,7 @@ void AMTProjectile::HitCharacter(AMTCharacterBase* Target, const FVector& Locati
 	FMTDamageSpec Spec = GetDamageSpec();
 	Spec.HitLocation = Location;
 	MTCombat::ApplyElementInteractions(Spec, Target);
-	const FMTDamageResult Result = Target->ReceiveHit(Spec);
+	const FMTDamageResult Result = Target->ReceiveCombatHit(Spec);
 	if (OwnerCharacter.IsValid() && OwnerCharacter->GetAbilities() && Result.DamageDealt > 0.f)
 	{
 		OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
@@ -334,7 +333,7 @@ void AMTProjectile::Explode(const FVector& Location, const FVector& Normal)
 			Spec.HitLocation = Location;
 			Spec.HitDirection = (Target->GetActorLocation() - Location).GetSafeNormal2D();
 			MTCombat::ApplyElementInteractions(Spec, Target);
-			const FMTDamageResult Result = Target->ReceiveHit(Spec);
+			const FMTDamageResult Result = Target->ReceiveCombatHit(Spec);
 			if (OwnerCharacter->GetAbilities() && Result.DamageDealt > 0.f)
 			{
 				OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);

@@ -48,6 +48,7 @@ void UMTAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	bSnapDead = !Owner->IsAlive();
 	bSnapSprinting = Owner->IsSprinting();
 	bSnapLocked = Owner->GetLockTarget() != nullptr;
+	bSnapStrafing = Owner->IsStrafingLocked();
 	SnapStance = Owner->GetStance();
 	WorldTime = Owner->GetWorld() ? Owner->GetWorld()->GetTimeSeconds() : 0.f;
 
@@ -92,7 +93,7 @@ void UMTAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	Acceleration = CurrentAccel.Size2D();
 	bShouldMove = GroundSpeed > 5.f && Acceleration > 0.f;
 	bIsSprinting = bSnapSprinting && GroundSpeed > RunSpeedRef * 0.9f;
-	bIsStrafing = bSnapLocked;
+	bIsStrafing = bSnapStrafing;
 	Direction = UKismetAnimationLibrary::CalculateDirection(Velocity, ActorRotation);
 
 	// Lean from yaw rate (additive), smoothed so it never twitches.

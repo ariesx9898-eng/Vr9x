@@ -95,3 +95,22 @@ Core idea: **nothing wasted.** He is the calmest thing in any fight.
 - Chaos Cloth on the four coat panels and the collar edge. Hem colliders on the thighs and calves; keep the coat from clipping during Dragon Step.
 - Textures: 4K body/coat, 2K head/hair. Use a Substrate-compatible master material.
 - Facial blendshapes for neutral, speaking and slight frown. There is no big-emotion set; he doesn't need one.
+
+## 8. Implemented model (2026-09-27) vs this spec
+
+The shipped model is generated from this sheet (`CREDITS.md`, `Docs/QA_Orsted.md` §1). Turnaround in his idle:
+`Docs/Images/Orsted_Model_Idle.png`.
+
+| Spec | Implemented | Status |
+|---|---|---|
+| ~195 cm, 8 heads, long legs | 195.0 cm; hip joints at 1.056 m | Met |
+| Silver swept-back hair, golden eyes, neutral face | Present in the texture; hair is part of the mesh (no hair cards) | Partly met |
+| Off-white greatcoat to mid-calf, split panels, fur collar | Coat hem at 0.58 m, panels, fur collar | Met (hem slightly above mid-calf) |
+| Charcoal undercoat V, belt with brass buckle, slate trousers, knee boots, no weapon | All present | Met |
+| Mannequin-compatible skeleton, sockets `hand_r` / `hand_l` / `foot_r` / `head` / `spine_03` | Shared 136-joint skeleton (same names as Rudeus); all sockets created by `mt_setup_orsted.py` | Met |
+| Posture and animation personality (§6) | 40 clips, including his own idle, guard, palm strike, Disturb Magic, Dragon Step, Aura, Dragon God, minimal flinches, one-knee knockdown | Met offline; to be watched in-engine |
+| LOD0 ~60k triangles, 4 LODs | 40.7k triangles, 1 LOD | Below budget |
+| 4K body / 2K head textures, Substrate master | One 2048² atlas on the lit toon master (`MI_Orsted_Toon`) | Below budget |
+| Chaos Cloth on the coat panels and collar | 8 procedurally driven coat chains, no simulation | To do |
+| Facial blendshapes | None | To do |
+| Optional black helm (late-game cosmetic) | Not made | To do |

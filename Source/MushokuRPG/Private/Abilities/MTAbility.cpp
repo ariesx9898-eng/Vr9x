@@ -465,6 +465,45 @@ void UMTAbility::PlaySound(const TSoftObjectPtr<USoundBase>& Sound, const FVecto
 	MTCombat::PlaySound(GetOwnerCharacter(), Sound, Location);
 }
 
+int32 UMTAbility::StrikeHostilesInRadius(const FVector& Center, float Radius)
+{
+	AMTCharacterBase* Owner = GetOwnerCharacter();
+	if (!Owner)
+	{
+		return 0;
+	}
+	int32 Hits = 0;
+	for (AMTCharacterBase* Target : MTCombat::GetHostilesInRadius(Owner, Center, Radius))
+	{
+		// Interrupt: striking an enemy mid-cast breaks the spell (Dragon God Knowledge trigger).
+		const bool bInterrupt = Target->GetStateTags().HasTag(MTTags::State_Casting);
+		FMTDamageSpec Spec;
+		Spec.Damage = Data.Damage * (Owner->GetAttributes() ? Owner->GetAttributes()->GetStatModifier().DamageMultiplier : 1.f);
+		Spec.Stagger = Data.Stagger * (bInterrupt ? 1.5f : 1.f);
+		Spec.Knockback = Data.Knockback;
+		Spec.Element = Data.Element;
+		Spec.bIsMagic = false;
+		Spec.SourceAbility = Data.AbilityID;
+		Spec.Instigator = Owner;
+		Spec.HitLocation = Target->GetActorLocation();
+		Spec.HitDirection = (Target->GetActorLocation() - Owner->GetActorLocation()).GetSafeNormal2D();
+		const FMTDamageResult Result = Target->ReceiveCombatHit(Spec);
+		if (bInterrupt && Target->GetAbilities())
+		{
+			Target->GetAbilities()->CancelAll();
+			Owner->NotifyPerfectDefense(TEXT("Interrupt"));
+		}
+		if (Owner->GetAbilities())
+		{
+			Owner->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
+		}
+		SpawnFX(Data.FX.Impact, Spec.HitLocation, Spec.HitDirection.Rotation());
+		PlaySound(Data.FX.ImpactSound, Spec.HitLocation);
+		++Hits;
+	}
+	return Hits;
+}
+
 void UMTAbility::PlaySubtleCameraShake(float Scale)
 {
 	// Deliberately tiny: FOV/camera nudge via the player's camera manager only.

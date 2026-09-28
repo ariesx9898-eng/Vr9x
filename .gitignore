@@ -24,3 +24,13 @@ __pycache__/
 
 # Regenerable from Tools/generate_fittoa_terrain.py (the 16-bit PNG is committed)
 SourceArt/Terrain/**/*.r16
+
+# Editor-generated content, rebuilt from SourceArt/ and Content/Python by Tools/mac/build_and_setup.sh.
+# To version hand-authored maps or assets, enable Git LFS (see .gitattributes) and delete the matching line.
+Content/Characters/
+Content/Materials/
+Content/Maps/
+Content/Collections/
+Content/Developers/
+Content/__ExternalActors__/
+Content/__ExternalObjects__/

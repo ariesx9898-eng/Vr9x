@@ -31,9 +31,9 @@ DEFAULTS = {
     "coat_trail": 0.0, "coat_flare": 0.0, "hair_lag": 0.0, "hair_side": 0.0,
 }
 
-BALL_FWD = 0.080   # ball (toe joint) is 8 cm in front of the ankle, 1.9 cm above ground
-BALL_H = 0.019
-HEEL_BACK = 0.045  # heel contact point behind the ankle
+# Rudeus's foot (ball 8 cm in front of the ankle and 1.9 cm up, heel contact 4.5 cm behind it). The composer uses
+# each rig's own values (Rig.ball_fwd / ball_h / heel_back / toe_tip), which equal these for Rudeus.
+BALL_FWD, BALL_H, HEEL_BACK = L.BALL_FWD, L.BALL_H, L.HEEL_BACK
 
 
 def rel(pitch=0.0, yaw=0.0, roll=0.0):
@@ -56,11 +56,11 @@ def ankle_from_contact(rig, side, P):
     R = foot_orientation(yaw, pitch)
     h = rig.ankle_h
     if pitch < 0.0:
-        ball = base + fwd * BALL_FWD + Vector((0.0, 0.0, BALL_H))
-        return ball + R @ Vector((0.0, BALL_FWD, h - BALL_H)), R
+        ball = base + fwd * rig.ball_fwd + Vector((0.0, 0.0, rig.ball_h))
+        return ball + R @ Vector((0.0, rig.ball_fwd, h - rig.ball_h)), R
     if pitch > 0.0:
-        heel = base - fwd * HEEL_BACK
-        return heel + R @ Vector((0.0, -HEEL_BACK, h)), R
+        heel = base - fwd * rig.heel_back
+        return heel + R @ Vector((0.0, -rig.heel_back, h)), R
     return base + Vector((0.0, 0.0, h)), R
 
 
@@ -192,7 +192,8 @@ def compose(rig, params):
 def _foot_lowest(D_foot, ankle, rig):
     """Lowest z of the foot sole (heel, ball, toe tip) for an ankle position and a foot rotation delta."""
     h = rig.ankle_h
-    pts = (Vector((0.0, HEEL_BACK, -h)), Vector((0.0, -BALL_FWD, BALL_H - h)), Vector((0.0, -BALL_FWD - 0.05, 0.004 - h)))
+    pts = (Vector((0.0, rig.heel_back, -h)), Vector((0.0, -rig.ball_fwd, rig.ball_h - h)),
+           Vector((0.0, -rig.ball_fwd - rig.toe_tip, 0.004 - h)))
     return min((ankle + D_foot @ p).z for p in pts)
 
 

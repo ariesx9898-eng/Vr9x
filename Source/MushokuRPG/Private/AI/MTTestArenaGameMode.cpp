@@ -90,7 +90,7 @@ FTransform AMTTestArenaGameMode::GetArenaStartTransform() const
 			return Spot->GetActorTransform();
 		}
 	}
-	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
+	if (TActorIterator<APlayerStart> It(GetWorld()); It)
 	{
 		return It->GetActorTransform();
 	}

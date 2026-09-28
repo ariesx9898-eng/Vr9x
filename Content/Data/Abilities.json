@@ -546,7 +546,7 @@
     "Stagger": 26,
     "Knockback": 150,
     "bDisruptable": false,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_CastBasic.A_Orsted_CastBasic",
     "FX": {
       "Impact": "/Game/VFX/Arcane/NS_PalmStrike_Impact.NS_PalmStrike_Impact",
       "CastSound": "/Game/Audio/Arcane/SC_PalmStrike_Cast.SC_PalmStrike_Cast",
@@ -572,7 +572,7 @@
     "bDisruptable": false,
     "CounterWindow": 0.35,
     "CounterRadius": 450,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DisturbMagic.A_Orsted_DisturbMagic",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_DisturbMagic_Formation.NS_DisturbMagic_Formation",
       "Impact": "/Game/VFX/Arcane/NS_DisturbMagic_Impact.NS_DisturbMagic_Impact",
@@ -611,7 +611,7 @@
     "DashDuration": 0.18,
     "bDashTowardTarget": true,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonStep.A_Orsted_DragonStep",
     "WarpTargetName": "DragonStepTarget",
     "CastSocket": "foot_r",
     "FX": {
@@ -646,7 +646,7 @@
     "DashDuration": 0.16,
     "bDashTowardTarget": true,
     "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_DodgeForward.A_Rudeus_DodgeForward",
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonStep.A_Orsted_DragonStep",
     "WarpTargetName": "DragonStepTarget",
     "CastSocket": "foot_r",
     "FX": {
@@ -687,7 +687,7 @@
       "StaggerResistance": 0.5,
       "MagicResistance": 0.15
     },
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_Aura.A_Orsted_Aura",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_SaintDragonAura_Formation.NS_SaintDragonAura_Formation",
@@ -735,7 +735,7 @@
     },
     "bIsAwakening": true,
     "AwakeningMeterCost": 100,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Awakening.A_Rudeus_Awakening",
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_Awakening.A_Orsted_Awakening",
     "CastSocket": "spine_03",
     "FX": {
       "Formation": "/Game/VFX/Arcane/NS_Awakening_Orsted_Formation.NS_Awakening_Orsted_Formation",

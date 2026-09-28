@@ -179,15 +179,18 @@ Projectiles spawn at the ability's `CastTime`, so each strike now reaches full e
 
 Rise is an air loop and reaches −2.7 cm in place; it only ever plays while airborne. The contact sheet is in `Docs/Images/Animation/Verify_ExportedGLB.png`, and per-clip sheets are in `Docs/Images/Animation/`.
 
-## Orsted's clip set (stand-in test)
+## Orsted's clip set (his generated model)
 
-Orsted's own model isn't in the repo yet. His full 40-clip set was built and verified on a **1.9 m stand-in**: Rudeus's mesh re-rigged by `rig_to_rudeus_skeleton.py`, which is also the first step of `make_orsted.sh`.
+Orsted's real model is in the repo (`SourceArt/Characters/Orsted/`), re-rigged onto the shared skeleton, with all 40
+clips authored on his own proportions and imported into UE 5.8. Everything about it (the model's problems, the re-rig
+fixes, the full per-clip table, the before/after of every clip fix and the engine tests) is in **`Docs/QA_Orsted.md`**.
+In short: IK error ≤ 0.01 cm, planted slip 0.00 cm/s, seams 0.000°, fastest limb 31.9°/frame, planted-foot slide
+≤ 2.5 cm except the side-dodge landing (4.4 cm), `verify_glb.py` PASS. The `A_Orsted_*` sheets now show him.
 
-- **Builder:** 0 clips with IK error, planted slip or seam problems.
-- **`verify_glb.py`: PASS.** The only dips below the floor are about 1 cm of sole on the run loops, plus the airborne Rise.
-- **The test caught one real issue.** On the longer body, Dragon Step (−5.3 cm) and Quagmire (−3.8 cm) reached into the floor. That is why the ground clamp now covers every non-gait clip.
-
-The `A_Orsted_*` contact sheets in `Docs/Images/Animation/` are renders on that stand-in: they show Orsted's motion, not his look.
+Two changes to the shared tools came out of that work, and neither changes Rudeus's output (re-authoring his 37 clips
+reproduces the committed GLB to within 0.078° / 0.0001 mm):
+- `Rig` derives the foot-roll pivots (ball, heel, toe tip) from each skeleton; Rudeus's equal the old constants.
+- `qa_animation_quality.py` uses the rig's own ball height for its planted-foot test.
 
 ## Honest limits
 
@@ -195,4 +198,6 @@ The `A_Orsted_*` contact sheets in `Docs/Images/Animation/` are renders on that 
 - **Coat is procedural.** It is driven procedurally, not cloth-simulated. In UE, enable a Physics Asset or AnimDynamics on the `skirt_*`, `hair_*` and `hood_*` chains for extra life.
 - **Dodge landings slide slightly.** The feet land 3–3.5 cm from their planted spot relative to the root, because the dash's root motion is still carrying the body. In-engine foot IK (not implemented yet) would pin them.
 - **No turn-in-place.** `TurnLeft90` / `TurnRight90` aren't authored yet; the native anim instance falls back gracefully.
-- **Not yet seen in Unreal.** Nothing has run in the engine; this needs the in-engine pass on your Mac.
+- **Imported into Unreal, not yet watched there.** On 2026-09-27 the project compiled on UE 5.8.3, `mt_setup_rudeus.py`
+  imported all 37 clips (PASS), and the runtime tests confirmed the native anim instance plays them (no T-pose, feet on
+  the floor; `Docs/QA_Orsted.md` §3). Watching the blends in Play-In-Editor is still to do.

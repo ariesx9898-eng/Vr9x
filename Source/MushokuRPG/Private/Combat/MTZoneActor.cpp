@@ -51,7 +51,12 @@ void AMTZoneActor::InitZone(const FMTAbilityData& InData, AMTCharacterBase* InOw
 
 	// Decal box: X = projection depth, Y/Z = radius.
 	Decal->DecalSize = FVector(250.f, Radius, Radius);
-	UMaterialInterface* DecalMaterial = Data.FX.DecalMaterial.IsNull() ? MTCombat::LoadMaterial(MTCombat::ZoneDecalMaterialPath) : Data.FX.DecalMaterial.LoadSynchronous();
+	// The zone's own decal material when it exists, else the shared zone decal (mt_create_materials.py).
+	UMaterialInterface* DecalMaterial = MTCombat::LoadOptional(Data.FX.DecalMaterial);
+	if (!DecalMaterial)
+	{
+		DecalMaterial = MTCombat::LoadMaterial(MTCombat::ZoneDecalMaterialPath);
+	}
 	if (DecalMaterial)
 	{
 		DecalMID = UMaterialInstanceDynamic::Create(DecalMaterial, this);
@@ -75,14 +80,11 @@ void AMTZoneActor::InitZone(const FMTAbilityData& InData, AMTCharacterBase* InOw
 		UE_LOG(LogMushoku, Warning, TEXT("Zone %s: no decal material (run Content/Python/mt_create_materials.py)"), *Data.AbilityID.ToString());
 	}
 
-	if (!Data.FX.Travel.IsNull())
+	if (UNiagaraSystem* Loop = MTCombat::LoadOptional(Data.FX.Travel))
 	{
-		if (UNiagaraSystem* Loop = Data.FX.Travel.LoadSynchronous())
-		{
-			LoopFX->SetAsset(Loop);
-			LoopFX->SetFloatParameter(TEXT("Radius"), Radius);
-			LoopFX->Activate(true);
-		}
+		LoopFX->SetAsset(Loop);
+		LoopFX->SetFloatParameter(TEXT("Radius"), Radius);
+		LoopFX->Activate(true);
 	}
 	MTCombat::SpawnFX(this, Data.FX.Formation, GetActorLocation(), FRotator::ZeroRotator, Radius / 400.f);
 	MTCombat::PlaySound(this, Data.FX.CastSound, GetActorLocation());
@@ -219,7 +221,7 @@ void AMTZoneActor::ApplyFreeze(const TArray<AMTCharacterBase*>& Targets)
 				S.HitDirection = (Target->GetActorLocation() - GetActorLocation()).GetSafeNormal2D();
 				return S;
 			}();
-			const FMTDamageResult Result = Target->ReceiveHit(Chill);
+			const FMTDamageResult Result = Target->ReceiveCombatHit(Chill);
 			if (OwnerCharacter.IsValid() && OwnerCharacter->GetAbilities())
 			{
 				OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
@@ -356,7 +358,7 @@ void AMTZoneActor::Erupt()
 			Spec.HitLocation = Point;
 			Spec.HitDirection = (Target->GetActorLocation() - Point).GetSafeNormal2D();
 			MTCombat::ApplyElementInteractions(Spec, Target);
-			const FMTDamageResult Result = Target->ReceiveHit(Spec);
+			const FMTDamageResult Result = Target->ReceiveCombatHit(Spec);
 			if (Data.Element == EMTElement::Fire)
 			{
 				FMTStatusEffect Burn;

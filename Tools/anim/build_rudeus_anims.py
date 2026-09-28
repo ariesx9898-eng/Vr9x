@@ -204,13 +204,18 @@ def main():
     report = []
     if args.sheets:
         os.makedirs(QA_DIR, exist_ok=True)
-        tex = args.texture or (TEX if args.character == "Rudeus" else "")
-        if not tex:
+        # The character's colour atlas (make_orsted.sh saves <C>_Atlas.png from the source mesh, byte for byte);
+        # without one, the rig's own image is written to a temporary file for the sheets.
+        tex = args.texture or (TEX if args.character == "Rudeus" else os.path.join(
+            scene.ROOT, "SourceArt", "Characters", args.character, args.character + "_Atlas.png"))
+        if not os.path.exists(tex):
             imgs = [im for im in bpy.data.images if im.size[0] > 0]
+            tex = ""
             if imgs:
-                tex = os.path.join(QA_DIR, "_tex_%s.png" % args.character)
+                import tempfile
+                tex = os.path.join(tempfile.mkdtemp(), "%s_atlas.png" % args.character)
                 imgs[0].save_render(tex)
-        if tex and os.path.exists(tex):
+        if tex:
             preview.load_texture(tex)
     for name in names:
         duration, loop, fn = C.CLIPS[name]

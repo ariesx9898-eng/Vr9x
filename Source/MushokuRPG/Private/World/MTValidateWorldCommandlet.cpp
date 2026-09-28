@@ -101,7 +101,16 @@ int32 UMTValidateWorldCommandlet::Main(const FString& Params)
 	UE_LOG(LogMushoku, Display, TEXT("MTValidateWorld: %d errors, %d warnings -> %s"), Errors, Warnings, *OutPath);
 
 	delete Loader; // unloads the actors it loaded
-	World->RemoveFromRoot();
+	// Tear the world down before exit: the World Partition initialised above must be uninitialised and the world's
+	// subsystems deinitialised, or UWorldPartition::BeginDestroy asserts during the exit garbage collection.
+	if (UWorldPartition* WorldPartition = World->GetWorldPartition())
+	{
+		if (WorldPartition->IsInitialized())
+		{
+			WorldPartition->Uninitialize();
+		}
+	}
+	World->DestroyWorld(false); // CleanupWorld (subsystems) and RemoveFromRoot
 	return Errors > 0 ? 1 : 0;
 #endif // WITH_EDITOR
 }

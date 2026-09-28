@@ -38,12 +38,12 @@ Adding a character later means adding one row to `Characters.json` plus its abil
 | Phase | Status | Remaining to reach the QA bar |
 |---|---|---|
 | 0 Audit | Done | — |
-| 1 Rudeus import / rig / camera / input | Code and scripts done, **not run in UE** | Compile; run `mt_create_materials.py` and `mt_setup_rudeus.py`; build the AnimBP; deformation test |
-| 2 Animation | Pipeline scripted, **no clips yet** | Download Mixamo clips, retarget, fix the retarget pose, author custom Control Rig animations |
+| 1 Rudeus import / rig / camera / input | Compiled on UE 5.8.3 and imported headless (`SK_Rudeus` 161.7 cm, 37 clips, sockets); runtime body/pose test passes | Play-In-Editor pass; deformation test on extreme poses |
+| 2 Animation | 37 Rudeus + 40 Orsted clips authored on each skeleton, measured (`QA_Animation.md`, `QA_Orsted.md`) and imported; graph-free native playback | Watch blends in PIE; optional Mixamo clips; AnimDynamics / cloth on the coat chains |
 | 3 Movement | Code done (walk/run/sprint/jump/dodge, root-motion dodges, stamina) | In-engine tuning |
 | 4 Combat foundation | Code done (health/mana/stamina/poise, damage, cooldowns, buffer, lock-on, combo scaling, block, hit reactions) | In-engine tuning, hit-stop, montage content |
 | 5 Rudeus abilities | Code and data done (Stone Cannon charge, Quagmire, Elemental Barrage, Demon Eye, Quagmire Magician) | Niagara assets, custom animations, SFX |
-| 6 Orsted | Gameplay done (Disturb Magic, Dragon Step, Saint Dragon Aura, Dragon God, passive); **no model** | Original model per `Orsted_Model_Spec.md`, rig, animations |
+| 6 Orsted | Generated original model re-rigged onto the shared skeleton, 40 clips, imported (`SK_Orsted` 195 cm); Disturb Magic, Dragon Step (arrival strike now lands) and lock-on verified by runtime tests (`QA_Orsted.md`) | PIE feel pass, VFX, coat simulation, higher-budget mesh / texture |
 | 7 Elements | 4 elements × 3 abilities in data, with behaviours implemented | VFX/SFX content |
 | 8 Character roll | Done (pool = Rudeus + Orsted only, pity, duplicate protection, history, skippable) | UI polish |
 | 9 Race framework | All 10 races in data, 3 rollable (Human, Migurd, Beast) | Race-specific VFX |
@@ -56,8 +56,8 @@ Adding a character later means adding one row to `Characters.json` plus its abil
 
 ## Next actions, in order
 
-1. Open in UE 5.5 and compile. Fix any compile errors (none could be caught without the engine).
-2. `py mt_create_materials.py`, then `py mt_setup_rudeus.py`. Check height 161.7 cm and the sockets.
-3. Build `ABP_Rudeus` on `UMTAnimInstance` (see `Animation_Pipeline.md` §4). Download the Mixamo clips and re-run the setup script to batch-retarget.
-4. `py mt_world_setup.py` to create L_Fittoa. Import the heightmap. Generate Buena. Run `mt_validate_world.py`.
-5. Play. Walk the Phase 1 QA checklist. Regrade honestly.
+1. ~~Compile~~ and ~~run the editor setup~~: done on UE 5.8.3 (`Tools/mac/build_and_setup.sh` → `RESULT: OK`, 7/7 runtime tests).
+2. Play-In-Editor with `MTSetCharacter Orsted` and with Rudeus: walk the animation checklist in `Docs/QA_Orsted.md` §C.
+3. Import the Fittoa heightmap, press Generate on the Buena generator, re-run `MTValidateWorld`.
+4. Niagara / audio assets for the spells (every `/Game/VFX` and `/Game/Audio` path in the data is a placeholder).
+5. Regrade honestly with the same tables.

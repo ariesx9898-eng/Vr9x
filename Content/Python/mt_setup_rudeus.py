@@ -137,6 +137,8 @@ def asset_name(path):
 
 
 def class_name(path):
+    if not eal.does_asset_exist(path):
+        return ""  # e.g. an import path the mesh was already renamed away from
     data = eal.find_asset_data(path)
     try:
         return str(data.asset_class_path.asset_name)  # UE 5.1+
@@ -224,6 +226,26 @@ def load_expected():
 
 
 # ----------------------------------------------------------------------------------------------------------- import
+def remove_previous_import(glb):
+    """Re-runs start clean. The Interchange importer does not re-import onto the renamed SK_<C>, and an asset deleted
+    in this session still blocks its name, so what an earlier run generated for this character (the import folder,
+    SK_<C> and the A_<C>_* clips) is deleted and garbage-collected before the import. Anything else in the character
+    folder (an Animation Blueprint, a tuned physics asset, MI_<C>_Toon) is kept."""
+    owned = [DEST + "/" + MESH_NAME] if eal.does_asset_exist(DEST + "/" + MESH_NAME) else []
+    owned += [p for p in assets_of_class(ANIM_DEST, "AnimSequence") if asset_name(p).startswith(CLIP_PREFIX)]
+    removed = sum(1 for p in owned if delete_asset(p))
+    folder = DEST + "/" + os.path.splitext(os.path.basename(glb))[0]
+    if eal.does_directory_exist(folder):
+        try:
+            eal.delete_directory(folder)
+        except Exception as exc:
+            unreal.log_warning(TAG + " could not delete %s: %s" % (folder, exc))
+    delete_redirectors(DEST)
+    unreal.SystemLibrary.collect_garbage()
+    if removed or owned:
+        note("re-import: removed %d generated assets and %s from the previous run" % (removed, folder))
+
+
 def import_glb():
     glb = GLB_ANIMATED if os.path.exists(GLB_ANIMATED) else GLB_MESH_ONLY
     if not os.path.exists(glb):
@@ -231,7 +253,7 @@ def import_glb():
         return None, []
     animated = glb == GLB_ANIMATED
     note("importing %s (%s)" % (glb, "mesh + skeleton + clips" if animated else "mesh only, no clips"))
-    delete_redirectors(DEST)
+    remove_previous_import(glb)
     before = set(p for p in eal.list_assets(DEST, recursive=True, include_folder=False)) \
         if eal.does_directory_exist(DEST) else set()
 
@@ -391,14 +413,20 @@ def add_sockets(mesh):
     names = bone_names(mesh)
     if names is not None:
         log(UPPER_SPINE in names, "upper-body layer bone %s present (native anim instance casts on the move)" % UPPER_SPINE)
-    # Every CastSocket Abilities.json uses. hand_*: palm offset so spells form in front of the hand, not inside
-    # the wrist; head: Demon Eye; spine_03: the chest (awakenings / auras).
-    wanted = {"hand_r": ("arm_R0_2_jnt_0117", 8.0), "hand_l": ("arm_L0_2_jnt_094", 8.0),
-              "foot_l": ("leg_L0_2_jnt_010", 0.0), "foot_r": ("leg_R0_2_jnt_015", 0.0),
-              "head": ("head_C0_0_jnt_067", 0.0), "spine_03": ("spine_C0_3_jnt_063", 0.0)}
-    for socket, (bone, offset) in wanted.items():
+    # Every CastSocket Abilities.json uses. hand_*: 8 cm toward the middle finger so spells form in front of the palm,
+    # not inside the wrist; head: Demon Eye; spine_03: the chest (awakenings / auras).
+    wanted = {"hand_r": ("arm_R0_2_jnt_0117", 8.0, "finger_R2_0_jnt_0123"), "hand_l": ("arm_L0_2_jnt_094", 8.0, "finger_L2_0_jnt_0102"),
+              "foot_l": ("leg_L0_2_jnt_010", 0.0, ""), "foot_r": ("leg_R0_2_jnt_015", 0.0, ""),
+              "head": ("head_C0_0_jnt_067", 0.0, ""), "spine_03": ("spine_C0_3_jnt_063", 0.0, "")}
+    # UE's Python cannot name a socket or pick its bone (read-only properties): the game module's editor helper can.
+    helper = getattr(unreal, "MTEditorScriptingLibrary", None)
+    for socket, (bone, offset, toward) in wanted.items():
         if names is not None and bone not in names:
             log(False, "bone %s missing for socket %s" % (bone, socket))
+            continue
+        if helper is not None:
+            log(helper.add_or_update_skeletal_mesh_socket(mesh, socket, bone, offset, toward),
+                "socket %s on %s%s" % (socket, bone, (" (%.0f cm toward %s)" % (offset, toward)) if toward else ""))
             continue
         try:
             existing = [str(s.socket_name) for s in mesh.get_editor_property("sockets") or []]

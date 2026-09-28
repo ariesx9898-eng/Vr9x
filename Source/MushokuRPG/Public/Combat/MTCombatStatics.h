@@ -18,6 +18,18 @@ namespace MTCombat
 	static const TCHAR* SpellBodyMaterialPath = TEXT("/Game/Materials/M_MT_SpellBody.M_MT_SpellBody");
 	static const TCHAR* ForesightMaterialPath = TEXT("/Game/Materials/M_MT_ForesightGhost.M_MT_ForesightGhost");
 
+	/**
+	 * Loads an optional presentation asset (VFX, sound, mesh, material) named in data. Data may name assets that are not
+	 * authored yet: those are skipped quietly, with one log line per path, instead of a load warning and a package
+	 * search on every cast. Game thread.
+	 */
+	MUSHOKURPG_API UObject* LoadOptionalAsset(const FSoftObjectPath& Path);
+	template <typename T>
+	T* LoadOptional(const TSoftObjectPtr<T>& Soft)
+	{
+		return Cast<T>(LoadOptionalAsset(Soft.ToSoftObjectPath()));
+	}
+
 	MUSHOKURPG_API UNiagaraComponent* SpawnFX(const UObject* WorldContext, const TSoftObjectPtr<UNiagaraSystem>& System, const FVector& Location, const FRotator& Rotation, float Scale = 1.f);
 	MUSHOKURPG_API void PlaySound(const UObject* WorldContext, const TSoftObjectPtr<USoundBase>& Sound, const FVector& Location, float Volume = 1.f);
 

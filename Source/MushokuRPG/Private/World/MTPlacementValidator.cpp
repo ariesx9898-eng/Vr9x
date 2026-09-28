@@ -382,12 +382,7 @@ bool UMTPlacementValidator::TraceGroundZ(const UWorld* World, const FVector2D& X
 		Params.AddIgnoredActor(HitActor);
 	}
 	// No landscape under this point (e.g. a test map built from static meshes): use the first blocking hit.
-	bool bWorldHasLandscape = false;
-	for (TActorIterator<ALandscapeProxy> It(const_cast<UWorld*>(World)); It; ++It)
-	{
-		bWorldHasLandscape = true;
-		break;
-	}
+	const bool bWorldHasLandscape = static_cast<bool>(TActorIterator<ALandscapeProxy>(const_cast<UWorld*>(World)));
 	if (!bWorldHasLandscape && bHaveFallback)
 	{
 		OutZ = FallbackZ;
