@@ -56,8 +56,17 @@ def frames_for(duration):
     return max(2, int(round(duration * C.FPS)))
 
 
+_LAST_Q = {}
+
+
 def key_pose(rig, frame):
     for pb in rig.pose:
+        q = pb.rotation_quaternion.copy()
+        prev = _LAST_Q.get(pb.name)
+        if prev is not None and frame > 0 and prev.dot(q) < 0.0:
+            q.negate()  # same rotation, continuous sign: no flips for any interpolator
+            pb.rotation_quaternion = q
+        _LAST_Q[pb.name] = q.copy()
         pb.keyframe_insert("rotation_quaternion", frame=frame, group=pb.name)
     rig.pose[L.PELVIS].keyframe_insert("location", frame=frame, group=L.PELVIS)
 
@@ -74,7 +83,10 @@ def qa_clip(rig, name, duration, loop, fn):
         P.update(fn(min(t, duration) if not loop else t % duration if i < n else duration * 0.999999))
         D, pel = compose(rig, P)
         full = rig.apply(D, pel)
-        if P.get("legs", "ik") == "ik":
+        w = P.get("ik_w")
+        if w is None:
+            w = 0.0 if P.get("legs", "ik") == "fk" else 1.0
+        if w >= 0.999:  # fully planted legs only: mid-blend the ankle is between its FK and IK positions by design
             for s in "LR":
                 hip = rig.world_head(L.THIGH[s], full, pel)
                 tgt, _ = ankle_from_contact(rig, s, P)
@@ -108,6 +120,7 @@ def author_clip(rig, mesh, name, duration, loop, fn):
     arm = rig.obj
     act = bpy.data.actions.new(PREFIX + name)
     act.use_fake_user = True
+    _LAST_Q.clear()
     arm.animation_data_create()
     arm.animation_data.action = act
     n = frames_for(duration)

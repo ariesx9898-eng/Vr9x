@@ -1,4 +1,5 @@
-"""Editor automation for Rudeus (UE 5.3-5.8 editor Python). Idempotent: safe to re-run.
+"""Editor automation for a lineage's animated character (UE 5.3-5.8 editor Python). Idempotent: safe to re-run.
+Rudeus by default; mt_setup_orsted.py runs the same steps for Orsted (environment variable MT_CHARACTER).
 
 Run headless (Tools/mac/build_and_setup.sh does this):
     UnrealEditor MushokuRPG.uproject -run=pythonscript -script=<abs path to this file> -unattended -nullrhi
@@ -22,28 +23,33 @@ import re
 import unreal
 
 PROJECT_DIR = unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_dir())
-CHARACTER = "Rudeus"
+# Same steps for every lineage: mt_setup_orsted.py sets MT_CHARACTER=Orsted and runs this file.
+CHARACTER = os.environ.get("MT_CHARACTER", "Rudeus")
 ART_DIR = os.path.join(PROJECT_DIR, "SourceArt", "Characters", CHARACTER)
-GLB_ANIMATED = os.path.join(ART_DIR, "Rudeus_Animated.glb")
-GLB_MESH_ONLY = os.path.join(ART_DIR, "Rudeus_Greyrat_UE.glb")
-SIDECAR = os.path.join(ART_DIR, "Rudeus_Animated.anim.json")
+GLB_ANIMATED = os.path.join(ART_DIR, CHARACTER + "_Animated.glb")
+GLB_MESH_ONLY = os.path.join(ART_DIR, "Rudeus_Greyrat_UE.glb" if CHARACTER == "Rudeus" else CHARACTER + "_Rigged.glb")
+SIDECAR = os.path.join(ART_DIR, CHARACTER + "_Animated.anim.json")
 ANIMSETS_JSON = os.path.join(PROJECT_DIR, "Content", "Data", "AnimSets.json")
-DEST = "/Game/Characters/Rudeus"
-MESH_NAME = "SK_Rudeus"
+DEST = "/Game/Characters/" + CHARACTER
+MESH_NAME = "SK_" + CHARACTER
+TAG = "[mt_setup_%s]" % CHARACTER.lower()
+# Expected imported height (cm): Rudeus 161.7 (normalised source), Orsted ~195 (Tools/anim/make_orsted.sh --height 1.95).
+HEIGHT_RANGE = {"Rudeus": (150.0, 175.0), "Orsted": (185.0, 205.0)}.get(CHARACTER, (120.0, 230.0))
 ANIM_DEST = DEST + "/Animations"
 CLIP_PREFIX = "A_%s_" % CHARACTER
 MIXAMO_SRC = "/Game/Animation/Mixamo/Source"
 MIXAMO_MESH = "/Game/Animation/Mixamo/SK_Mixamo_YBot"
 
 # Used when AnimSets.json cannot be read. TurnLeft90 / TurnRight90 are optional (not authored yet).
-REQUIRED_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "Rise",
+REQUIRED_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint",
+                 "RunStrafeLeft", "RunStrafeRight", "RunBack", "Rise",
                  "Fall", "JumpStart", "Land", "HardLand", "DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight",
                  "HitFront", "HitBack", "HitLeft", "HitRight", "Stagger", "Knockdown", "Death", "CastBasic",
                  "StoneCannon_Charge", "StoneCannon_Hold", "StoneCannon_Release", "Quagmire", "Barrage", "DemonEye",
                  "Awakening", "CastTwoHand", "CastGround"]
 OPTIONAL_KEYS = ["TurnLeft90", "TurnRight90"]
-LOOP_KEYS = {"Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "Rise", "Fall",
-             "StoneCannon_Hold"}
+LOOP_KEYS = {"Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "RunStrafeLeft",
+             "RunStrafeRight", "RunBack", "Rise", "Fall", "StoneCannon_Hold"}
 
 asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
 eal = unreal.EditorAssetLibrary
@@ -107,16 +113,16 @@ RESULTS = {"PASS": 0, "FAIL": 0}
 
 def log(ok, msg):
     RESULTS["PASS" if ok else "FAIL"] += 1
-    (unreal.log if ok else unreal.log_error)(("PASS " if ok else "FAIL ") + "[mt_setup_rudeus] " + msg)
+    (unreal.log if ok else unreal.log_error)(("PASS " if ok else "FAIL ") + TAG + " " + msg)
 
 
 def note(msg):
-    unreal.log("[mt_setup_rudeus] " + msg)
+    unreal.log(TAG + " " + msg)
 
 
 def manual(msg):
     """Something the script could not do on this engine version: needs a person in the editor."""
-    unreal.log_warning("MANUAL [mt_setup_rudeus] " + msg)
+    unreal.log_warning("MANUAL " + TAG + " " + msg)
 
 
 # ---------------------------------------------------------------------------------------------------------- helpers
@@ -149,7 +155,7 @@ def delete_asset(path):
     try:
         return bool(eal.delete_asset(path))
     except Exception as exc:
-        unreal.log_warning("[mt_setup_rudeus] could not delete %s: %s" % (path, exc))
+        unreal.log_warning(TAG + " could not delete %s: %s" % (path, exc))
         return False
 
 
@@ -158,12 +164,12 @@ def rename_asset(src, dst):
         if eal.rename_asset(src, dst):
             return True
     except Exception as exc:
-        unreal.log_warning("[mt_setup_rudeus] EditorAssetLibrary.rename_asset(%s): %s" % (src, exc))
+        unreal.log_warning(TAG + " EditorAssetLibrary.rename_asset(%s): %s" % (src, exc))
     try:  # UE 5.x subsystem equivalent
         subsystem = unreal.get_editor_subsystem(unreal.EditorAssetSubsystem)
         return bool(subsystem.rename_asset(src, dst))
     except Exception as exc:
-        unreal.log_warning("[mt_setup_rudeus] EditorAssetSubsystem.rename_asset(%s): %s" % (src, exc))
+        unreal.log_warning(TAG + " EditorAssetSubsystem.rename_asset(%s): %s" % (src, exc))
     return False
 
 
@@ -204,7 +210,7 @@ def load_expected():
                 if isinstance(path, str) and path.startswith(prefix):
                     keys.add(path[len(prefix):].split(".", 1)[0])
     except Exception as exc:
-        unreal.log_warning("[mt_setup_rudeus] %s unreadable (%s): using the built-in key list" % (ANIMSETS_JSON, exc))
+        unreal.log_warning(TAG + " %s unreadable (%s): using the built-in key list" % (ANIMSETS_JSON, exc))
     if not keys:
         keys = set(REQUIRED_KEYS)
     sidecar = {}
@@ -212,7 +218,7 @@ def load_expected():
         try:
             sidecar = json.load(open(SIDECAR, encoding="utf-8")).get("clips", {})
         except Exception as exc:
-            unreal.log_warning("[mt_setup_rudeus] %s unreadable: %s" % (SIDECAR, exc))
+            unreal.log_warning(TAG + " %s unreadable: %s" % (SIDECAR, exc))
     optional = set(OPTIONAL_KEYS) - keys
     return sorted(keys), sorted(optional), sidecar
 
@@ -255,12 +261,13 @@ def import_glb():
     mesh = eal.load_asset(mesh_path)
     bounds = mesh.get_bounds()
     height = bounds.box_extent.z * 2.0
-    log(150.0 < height < 175.0, "Rudeus imported as %s, height %.1f cm (expected ~161.7)" % (mesh_path, height))
+    lo, hi = HEIGHT_RANGE
+    log(lo < height < hi, "%s imported as %s, height %.1f cm (expected %.0f-%.0f)" % (CHARACTER, mesh_path, height, lo, hi))
     return mesh, imported
 
 
 def ensure_mesh_name(imported):
-    """Characters.json expects /Game/Characters/Rudeus/SK_Rudeus: rename the freshly imported mesh to it."""
+    """Characters.json expects /Game/Characters/<C>/SK_<C>: rename the freshly imported mesh to it."""
     target = DEST + "/" + MESH_NAME
     fresh = [p for p in imported if class_name(p) == "SkeletalMesh"]
     if not fresh:
@@ -274,12 +281,12 @@ def ensure_mesh_name(imported):
         return src
     if rename_asset(src, target):
         return target
-    manual("could not rename %s to %s; rename it by hand (Characters.json points at SK_Rudeus)" % (src, target))
+    manual("could not rename %s to %s; rename it by hand (Characters.json points at %s)" % (src, target, MESH_NAME))
     return src
 
 
 def organize_animations(imported, mesh):
-    """Every imported AnimSequence named ...A_Rudeus_<Key>... -> /Game/Characters/Rudeus/Animations/A_Rudeus_<Key>."""
+    """Every imported AnimSequence named ...A_<C>_<Key>... -> /Game/Characters/<C>/Animations/A_<C>_<Key>."""
     expected, optional, sidecar = load_expected()
     known = sorted(set(expected) | set(optional) | set(sidecar), key=len, reverse=True)  # longest match first
     # Key must be followed by a non-alphanumeric character (or the end), so "Walk" never matches "WalkBack".
@@ -296,12 +303,12 @@ def organize_animations(imported, mesh):
         name = asset_name(src)
         key = next((k for k, pattern in patterns if pattern.search(name)), None)
         if key is None:
-            unreal.log_warning("[mt_setup_rudeus] imported animation %s has no %s<Key> in its name - left in place"
+            unreal.log_warning(TAG + " imported animation %s has no %s<Key> in its name - left in place"
                                % (src, CLIP_PREFIX))
             continue
         target = ANIM_DEST + "/" + CLIP_PREFIX + key
         if key in claimed:
-            unreal.log_warning("[mt_setup_rudeus] %s and %s both look like %s; keeping the first" % (claimed[key], src, key))
+            unreal.log_warning(TAG + " %s and %s both look like %s; keeping the first" % (claimed[key], src, key))
             continue
         claimed[key] = src
         if src == target:
@@ -334,7 +341,7 @@ def organize_animations(imported, mesh):
         try:
             anim_skeleton = anim.get_editor_property("skeleton")
             if skeleton and anim_skeleton and anim_skeleton.get_path_name() != skeleton.get_path_name():
-                problems.append("skeleton %s != SK_Rudeus's %s" % (anim_skeleton.get_name(), skeleton.get_name()))
+                problems.append("skeleton %s != %s's %s" % (anim_skeleton.get_name(), MESH_NAME, skeleton.get_name()))
         except Exception:
             pass
         info = sidecar.get(key, {})
@@ -362,9 +369,10 @@ def make_materials(mesh):
         unreal.log_warning("Toon master or atlas texture missing; run mt_create_materials.py first. Keeping imported material.")
         return
     try:
-        mi_path = DEST + "/MI_Rudeus_Toon"
+        mi_name = "MI_%s_Toon" % CHARACTER
+        mi_path = DEST + "/" + mi_name
         mi = eal.load_asset(mi_path) if eal.does_asset_exist(mi_path) else asset_tools.create_asset(
-            "MI_Rudeus_Toon", DEST, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+            mi_name, DEST, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
         mi.set_editor_property("parent", master)
         unreal.MaterialEditingLibrary.set_material_instance_texture_parameter_value(mi, "BaseTexture", eal.load_asset(tex_paths[0]))
         unreal.MaterialEditingLibrary.update_material_instance(mi)
@@ -374,17 +382,21 @@ def make_materials(mesh):
         mesh.set_editor_property("materials", materials)
         eal.save_asset(mi_path)
         eal.save_loaded_asset(mesh)
-        log(True, "Rudeus uses MI_Rudeus_Toon (lit, original colours preserved from the atlas)")
+        log(True, "%s uses %s (lit, original colours preserved from the atlas)" % (CHARACTER, mi_name))
     except Exception as exc:
-        manual("toon material setup failed (%s): assign MI_Rudeus_Toon to SK_Rudeus by hand" % exc)
+        manual("toon material setup failed (%s): assign MI_%s_Toon to %s by hand" % (exc, CHARACTER, MESH_NAME))
 
 
 def add_sockets(mesh):
     names = bone_names(mesh)
     if names is not None:
         log(UPPER_SPINE in names, "upper-body layer bone %s present (native anim instance casts on the move)" % UPPER_SPINE)
-    wanted = {"hand_r": "arm_R0_2_jnt_0117", "hand_l": "arm_L0_2_jnt_094", "foot_l": "leg_L0_2_jnt_010", "foot_r": "leg_R0_2_jnt_015"}
-    for socket, bone in wanted.items():
+    # Every CastSocket Abilities.json uses. hand_*: palm offset so spells form in front of the hand, not inside
+    # the wrist; head: Demon Eye; spine_03: the chest (awakenings / auras).
+    wanted = {"hand_r": ("arm_R0_2_jnt_0117", 8.0), "hand_l": ("arm_L0_2_jnt_094", 8.0),
+              "foot_l": ("leg_L0_2_jnt_010", 0.0), "foot_r": ("leg_R0_2_jnt_015", 0.0),
+              "head": ("head_C0_0_jnt_067", 0.0), "spine_03": ("spine_C0_3_jnt_063", 0.0)}
+    for socket, (bone, offset) in wanted.items():
         if names is not None and bone not in names:
             log(False, "bone %s missing for socket %s" % (bone, socket))
             continue
@@ -398,19 +410,19 @@ def add_sockets(mesh):
             s = unreal.SkeletalMeshSocket(mesh)
             s.set_editor_property("socket_name", socket)
             s.set_editor_property("bone_name", bone)
-            # Palm offset so spells form in front of the hand, not inside the wrist.
-            s.set_editor_property("relative_location", unreal.Vector(8.0, 0.0, 0.0))
+            s.set_editor_property("relative_location", unreal.Vector(offset, 0.0, 0.0))
             mesh.add_socket(s)
         except Exception as exc:
             manual("add socket %s on bone %s by hand (%s)" % (socket, bone, exc))
     eal.save_loaded_asset(mesh)
-    note("sockets hand_r/hand_l/foot_l/foot_r ensured")
+    note("sockets %s ensured" % "/".join(wanted))
 
 
 # ----------------------------------------------------------------------- optional: Mixamo retargeting (UE 5.6+ safe)
-def guarded(what, fn, *args):
+def guarded(what, fn):
+    """Runs fn() (a lambda, so even looking up an unreal.* name that no longer exists is caught)."""
     try:
-        return True, fn(*args)
+        return True, fn()
     except Exception as exc:
         manual("%s failed on this engine version (%s)" % (what, exc))
         return False, None
@@ -422,15 +434,15 @@ def build_ik_rig(name, mesh, chains, pelvis):
                       asset_tools.create_asset(name, DEST + "/Rig", unreal.IKRigDefinition, unreal.IKRigDefinitionFactory()))
     if not ok or not rig:
         return None
-    ok, ctrl = guarded("IKRigController.get_controller", unreal.IKRigController.get_controller, rig)
-    if not ok:
+    ok, ctrl = guarded("IKRigController.get_controller", lambda: unreal.IKRigController.get_controller(rig))
+    if not ok or not ctrl:
         return None
-    guarded("IKRigController.set_skeletal_mesh", ctrl.set_skeletal_mesh, mesh)
-    guarded("IKRigController.set_retarget_root", ctrl.set_retarget_root, pelvis)
+    guarded("IKRigController.set_skeletal_mesh", lambda: ctrl.set_skeletal_mesh(mesh))
+    guarded("IKRigController.set_retarget_root", lambda: ctrl.set_retarget_root(pelvis))
     solver_index = 0
     ok, index = guarded("add Full Body IK solver (UE 5.6+ uses solver structs: add it in the IK Rig editor)",
-                        ctrl.add_solver, unreal.IKRigFBIKSolver)
-    if ok and index is not None:
+                        lambda: ctrl.add_solver(unreal.IKRigFBIKSolver))
+    if ok and isinstance(index, int) and index >= 0:
         solver_index = index
     names = bone_names(mesh)
     for chain, start, end, goal in chains:
@@ -439,12 +451,12 @@ def build_ik_rig(name, mesh, chains, pelvis):
             continue
         goal_name = ""
         if goal:
-            ok, created = guarded("goal %s on %s" % (goal, end), ctrl.add_new_goal, goal, end)
+            ok, created = guarded("goal %s on %s" % (goal, end), lambda: ctrl.add_new_goal(goal, end))
             if ok and created:
                 goal_name = str(created)
-                guarded("connect goal %s" % goal, ctrl.connect_goal_to_solver, goal_name, solver_index)
-        guarded("retarget chain %s" % chain, ctrl.add_retarget_chain, chain, start, end, goal_name)
-    eal.save_asset(path)
+                guarded("connect goal %s" % goal, lambda: ctrl.connect_goal_to_solver(goal_name, solver_index))
+        guarded("retarget chain %s" % chain, lambda: ctrl.add_retarget_chain(chain, start, end, goal_name))
+    guarded("save " + path, lambda: eal.save_asset(path))
     note("%s built with %d chains" % (name, len(chains)))
     return rig
 
@@ -455,18 +467,18 @@ def build_retargeter(source_rig, target_rig):
                       asset_tools.create_asset("RTG_Mixamo_To_Rudeus", DEST + "/Rig", unreal.IKRetargeter, unreal.IKRetargetFactory()))
     if not ok or not rtg:
         return None
-    ok, ctrl = guarded("IKRetargeterController.get_controller", unreal.IKRetargeterController.get_controller, rtg)
-    if not ok:
+    ok, ctrl = guarded("IKRetargeterController.get_controller", lambda: unreal.IKRetargeterController.get_controller(rtg))
+    if not ok or not ctrl:
         return None
-    guarded("set source IK Rig", ctrl.set_ik_rig, unreal.RetargetSourceOrTarget.SOURCE, source_rig)
-    guarded("set target IK Rig", ctrl.set_ik_rig, unreal.RetargetSourceOrTarget.TARGET, target_rig)
+    guarded("set source IK Rig", lambda: ctrl.set_ik_rig(unreal.RetargetSourceOrTarget.SOURCE, source_rig))
+    guarded("set target IK Rig", lambda: ctrl.set_ik_rig(unreal.RetargetSourceOrTarget.TARGET, target_rig))
     # Chains share names on purpose, so exact mapping is deterministic.
     ok, _ = guarded("auto-map chains (UE 5.6+: map chains in the retargeter's chain-mapping op)",
-                    ctrl.auto_map_chains, unreal.AutoMapChainType.EXACT, True)
+                    lambda: ctrl.auto_map_chains(unreal.AutoMapChainType.EXACT, True))
     if not ok:
         for chain, _, _, _ in RUDEUS_CHAINS:
-            guarded("map chain %s" % chain, ctrl.set_source_chain, chain, chain)
-    eal.save_asset(path)
+            guarded("map chain %s" % chain, lambda: ctrl.set_source_chain(chain, chain))
+    guarded("save " + path, lambda: eal.save_asset(path))
     note("RTG_Mixamo_To_Rudeus mapped. Both rigs are T-pose; verify arm/shoulder retarget pose in the editor.")
     return rtg
 
@@ -480,13 +492,16 @@ def batch_retarget(rtg, source_mesh, target_mesh):
         note("no AnimSequences under " + MIXAMO_SRC)
         return
     ok, result = guarded("IKRetargetBatchOperation.duplicate_and_retarget",
-                         unreal.IKRetargetBatchOperation.duplicate_and_retarget,
-                         anims, source_mesh, target_mesh, rtg, "", "", "", "_Rudeus", True)
+                         lambda: unreal.IKRetargetBatchOperation.duplicate_and_retarget(
+                             anims, source_mesh, target_mesh, rtg, "", "", "", "_Rudeus", True))
     if ok:
         log(bool(result), "retargeted %d Mixamo animations onto Rudeus" % len(result or []))
 
 
 def optional_retargeting(mesh):
+    if CHARACTER != "Rudeus":
+        note("SKIP retargeting for %s: every clip is authored on his own skeleton" % CHARACTER)
+        return
     mixamo_mesh = eal.load_asset(MIXAMO_MESH) if eal.does_asset_exist(MIXAMO_MESH) else None
     if not mixamo_mesh:
         note("SKIP retargeting: clips are authored on Rudeus's skeleton; import a Mixamo Y Bot as %s only if you "
@@ -513,8 +528,8 @@ def main():
     try:
         eal.save_directory(DEST, only_if_is_dirty=True, recursive=True)
     except Exception as exc:
-        unreal.log_warning("[mt_setup_rudeus] save_directory: %s" % exc)
-    summary = "mt_setup_rudeus finished: %d passed, %d failed" % (RESULTS["PASS"], RESULTS["FAIL"])
+        unreal.log_warning(TAG + " save_directory: %s" % exc)
+    summary = "mt_setup_%s finished: %d passed, %d failed" % (CHARACTER.lower(), RESULTS["PASS"], RESULTS["FAIL"])
     (unreal.log if RESULTS["FAIL"] == 0 else unreal.log_error)(("PASS " if RESULTS["FAIL"] == 0 else "FAIL ") + summary)
 
 

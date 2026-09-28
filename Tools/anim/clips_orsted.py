@@ -13,11 +13,11 @@ GAITS = {
                      heel=5.0, toe=10.0, pel_z=-0.035, bob=0.005, mode="walk", sway=0.008, yaw=2.0, roll=1.0,
                      lean=-1.0, twist=1.0, arm_lower=80.0, arm_swing=4.0, elbow=12.0, elbow_swing=2.0,
                      coat_trail=-3.0, hair=1.0),
-    "StrafeLeft": dict(speed=1.25, cycle=0.66, duty=0.52, dir=(1.0, 0.0), width=0.0, bias=0.0, lift=0.05,
+    "StrafeLeft": dict(speed=1.15, cycle=0.60, duty=0.50, dir=(1.0, 0.0), width=0.0, bias=0.0, lift=0.05, centre=0.25,
                        heel=3.0, toe=8.0, pel_z=-0.05, bob=0.006, mode="walk", sway=0.0, yaw=0.0, roll=1.0,
                        lean=2.0, twist=0.0, arm_lower=78.0, arm_swing=3.0, elbow=16.0, elbow_swing=3.0,
                        coat_trail=0.0, hair=1.0, strafe=True),
-    "StrafeRight": dict(speed=1.25, cycle=0.66, duty=0.52, dir=(-1.0, 0.0), width=0.0, bias=0.0, lift=0.05,
+    "StrafeRight": dict(speed=1.15, cycle=0.60, duty=0.50, dir=(-1.0, 0.0), width=0.0, bias=0.0, lift=0.05, centre=0.25,
                         heel=3.0, toe=8.0, pel_z=-0.05, bob=0.006, mode="walk", sway=0.0, yaw=0.0, roll=1.0,
                         lean=2.0, twist=0.0, arm_lower=78.0, arm_swing=3.0, elbow=16.0, elbow_swing=3.0,
                         coat_trail=0.0, hair=1.0, strafe=True),
@@ -25,6 +25,19 @@ GAITS = {
                 heel=8.0, toe=26.0, pel_z=-0.07, bob=0.018, mode="run", sway=0.008, yaw=6.0, roll=2.0,
                 lean=7.0, twist=1.2, arm_lower=72.0, arm_swing=22.0, elbow=70.0, elbow_swing=8.0,
                 coat_trail=18.0, hair=6.0),
+    # locked-on running: hips toward the travel direction, chest and gaze stay on the target (as Rudeus, calmer)
+    "RunStrafeLeft": dict(speed=3.80, cycle=0.70, duty=0.32, dir=(1.0, 0.0), width=0.075, bias=0.04, lift=0.15,
+                          heel=7.0, toe=22.0, pel_z=-0.07, bob=0.014, mode="run", sway=0.006, yaw=4.0, roll=1.5,
+                          lean=5.0, twist=1.1, arm_lower=72.0, arm_swing=14.0, elbow=68.0, elbow_swing=6.0,
+                          coat_trail=14.0, hair=5.0, body_yaw=60.0, body_counter=0.7),
+    "RunStrafeRight": dict(speed=3.80, cycle=0.70, duty=0.32, dir=(-1.0, 0.0), width=0.075, bias=0.04, lift=0.15,
+                           heel=7.0, toe=22.0, pel_z=-0.07, bob=0.014, mode="run", sway=0.006, yaw=4.0, roll=1.5,
+                           lean=5.0, twist=1.1, arm_lower=72.0, arm_swing=14.0, elbow=68.0, elbow_swing=6.0,
+                           coat_trail=14.0, hair=5.0, body_yaw=-60.0, body_counter=0.7),
+    "RunBack": dict(speed=3.30, cycle=0.70, duty=0.36, dir=(0.0, 1.0), width=0.08, bias=-0.04, lift=0.11,
+                    heel=3.0, toe=10.0, pel_z=-0.065, bob=0.012, mode="run", sway=0.008, yaw=4.0, roll=1.5,
+                    lean=0.0, twist=1.1, arm_lower=72.0, arm_swing=10.0, elbow=66.0, elbow_swing=5.0,
+                    coat_trail=-12.0, hair=-3.0),
     "Sprint": dict(speed=6.60, cycle=0.62, duty=0.24, dir=(0.0, -1.0), width=0.07, bias=0.07, lift=0.26,
                    heel=5.0, toe=32.0, pel_z=-0.085, bob=0.022, mode="run", sway=0.006, yaw=8.0, roll=2.5,
                    lean=14.0, twist=1.3, arm_lower=68.0, arm_swing=34.0, elbow=84.0, elbow_swing=8.0,
@@ -89,6 +102,9 @@ CLIPS = {
     "StrafeRight": loop_gait("StrafeRight"),
     "Run": loop_gait("Run"),
     "Sprint": loop_gait("Sprint"),
+    "RunStrafeLeft": loop_gait("RunStrafeLeft"),
+    "RunStrafeRight": loop_gait("RunStrafeRight"),
+    "RunBack": loop_gait("RunBack"),
     # palm strike: short step-in, strike, immediate recovery
     "CastBasic": oneshot(0.45, [
         (0.00, GUARD),
@@ -138,8 +154,9 @@ CLIPS = {
     ], GUARD),
 }
 
-# Everything not overridden (air, dodges, hits, stagger, knockdown, death) reuses Rudeus's clips on
-# the shared skeleton; the ground clamp re-fits them to Orsted's proportions at author time.
-for _name in ("Rise", "Fall", "JumpStart", "Land", "HardLand", "DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight",
-              "HitFront", "HitBack", "HitLeft", "HitRight", "Stagger", "Knockdown", "Death"):
+# Everything not overridden (air, dodges, hits, stagger, knockdown, death, and the element / race casts any
+# lineage can use: CastTwoHand, CastGround, the Stone Cannon charge set, Demon Eye ...) re-authors Rudeus's
+# definitions on Orsted's own proportions (IK targets and the ground clamp re-fit them). Every AnimSet key
+# therefore exists as A_Orsted_<Key>, so his mesh never needs Rudeus's skeleton.
+for _name in R.CLIPS:
     CLIPS.setdefault(_name, R.CLIPS[_name])

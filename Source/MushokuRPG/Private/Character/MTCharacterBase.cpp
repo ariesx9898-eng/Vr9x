@@ -480,13 +480,29 @@ float AMTCharacterBase::PlaySoftMontage(const TSoftObjectPtr<UAnimMontage>& Mont
 	return PlayAnimAsset(TSoftObjectPtr<UAnimSequenceBase>(Montage.ToSoftObjectPath()), PlayRate, Section);
 }
 
-float AMTCharacterBase::PlayAnimAsset(const TSoftObjectPtr<UAnimSequenceBase>& Asset, float PlayRate, FName Section,
+TSoftObjectPtr<UAnimSequenceBase> AMTCharacterBase::ResolveLineageAnim(const TSoftObjectPtr<UAnimSequenceBase>& Asset) const
+{
+	const FString Name = Asset.ToSoftObjectPath().GetAssetName(); // e.g. A_Rudeus_StoneCannon_Charge
+	int32 Separator = INDEX_NONE;
+	if (!Name.StartsWith(TEXT("A_")) || !Name.RightChop(2).FindChar(TEXT('_'), Separator))
+	{
+		return Asset;
+	}
+	const FName Key(*Name.RightChop(2 + Separator + 1)); // character names contain no '_': the rest is the key
+	const UMTDataRegistry* Registry = UMTDataRegistry::Get(this);
+	const FMTAnimSetData* AnimSet = Registry ? Registry->FindAnimSet(CharacterId) : nullptr;
+	const TSoftObjectPtr<UAnimSequenceBase>* Own = AnimSet ? AnimSet->Anims.Find(Key) : nullptr;
+	return (Own && !Own->IsNull()) ? *Own : Asset;
+}
+
+float AMTCharacterBase::PlayAnimAsset(const TSoftObjectPtr<UAnimSequenceBase>& RequestedAsset, float PlayRate, FName Section,
 	int32 LoopCount, float BlendIn, float BlendOut)
 {
-	if (Asset.IsNull())
+	if (RequestedAsset.IsNull())
 	{
 		return 0.f;
 	}
+	const TSoftObjectPtr<UAnimSequenceBase> Asset = ResolveLineageAnim(RequestedAsset);
 	UAnimInstance* Anim = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
 	if (!Anim)
 	{
@@ -528,6 +544,11 @@ float AMTCharacterBase::PlayAnimAsset(const TSoftObjectPtr<UAnimSequenceBase>& A
 	}
 	LastPlayedMontage = Dynamic;
 	return Dynamic->GetPlayLength();
+}
+
+UAnimMontage* AMTCharacterBase::GetLastPlayedMontage() const
+{
+	return LastPlayedMontage.Get();
 }
 
 void AMTCharacterBase::StopPlayedAnim(UAnimMontage* Montage, float BlendOut)

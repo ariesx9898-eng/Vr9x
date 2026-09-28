@@ -45,7 +45,8 @@ FILE_STRUCTS = {
 REQUIRED_FILES = [f for f in FILE_STRUCTS if f != "Locations.json"]  # Locations.json is owned by the world team
 
 # AnimSet clip keys (A_<Character>_<Key>). Required = authored in Rudeus_Animated.glb; optional = not authored yet.
-REQUIRED_ANIM_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "Rise",
+REQUIRED_ANIM_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint",
+                      "RunStrafeLeft", "RunStrafeRight", "RunBack", "Rise",
                       "Fall", "JumpStart", "Land", "HardLand", "DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight",
                       "HitFront", "HitBack", "HitLeft", "HitRight", "Stagger", "Knockdown", "Death", "CastBasic",
                       "StoneCannon_Charge", "StoneCannon_Hold", "StoneCannon_Release", "Quagmire", "Barrage",
@@ -55,7 +56,8 @@ OPTIONAL_ANIM_KEYS = ["TurnLeft90", "TurnRight90"]
 FULL_ANIMSET_CHARACTERS = {"Rudeus"}
 # AnimSet speed field -> clip key whose authored ref_speed_cm_s it must match (exporter sidecar *.anim.json).
 ANIM_SPEED_FIELDS = {"WalkSpeedRef": "Walk", "WalkBackSpeedRef": "WalkBack", "StrafeSpeedRef": "StrafeLeft",
-                     "RunSpeedRef": "Run", "SprintSpeedRef": "Sprint"}
+                     "RunSpeedRef": "Run", "SprintSpeedRef": "Sprint", "RunStrafeSpeedRef": "RunStrafeLeft",
+                     "RunBackSpeedRef": "RunBack"}
 ANIM_PATH_RE = re.compile(r"^/Game/Characters/([A-Za-z0-9_]+)/Animations/A_([A-Za-z0-9]+)_([A-Za-z0-9_]+)\.")
 
 ALLOWED_CHARACTERS = {"Rudeus", "Orsted"}
@@ -434,7 +436,11 @@ def check_anim_sets(anim_sets, characters, abilities):
             continue  # type error already reported by the schema check
         # Non-string values were already reported by the schema check; ignore them here.
         anims = {k: v for k, v in anims.items() if isinstance(v, str)}
-        for key in sorted(set(anims) - known):
+        if cid not in sidecars:
+            sidecars[cid] = load_anim_sidecar(cid)
+        # A lineage's own authored clips are valid keys too (signature moves: Orsted's DisturbMagic, DragonStep ...).
+        row_known = known | set(sidecars[cid] or {})
+        for key in sorted(set(anims) - row_known):
             err(f"{ctx}.Anims: unknown clip key '{key}' (known: {', '.join(REQUIRED_ANIM_KEYS + OPTIONAL_ANIM_KEYS)})")
         missing = [k for k in REQUIRED_ANIM_KEYS if not anims.get(k)]
         if missing:

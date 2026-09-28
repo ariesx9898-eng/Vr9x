@@ -21,12 +21,12 @@
   "StrafeLeft": {
    "duration": 0.6,
    "loop": true,
-   "ref_speed_cm_s": 110.0
+   "ref_speed_cm_s": 100.0
   },
   "StrafeRight": {
    "duration": 0.6,
    "loop": true,
-   "ref_speed_cm_s": 110.0
+   "ref_speed_cm_s": 100.0
   },
   "Run": {
    "duration": 0.6333333333333333,
@@ -37,6 +37,21 @@
    "duration": 0.5666666666666667,
    "loop": true,
    "ref_speed_cm_s": 580.0
+  },
+  "RunStrafeLeft": {
+   "duration": 0.6333333333333333,
+   "loop": true,
+   "ref_speed_cm_s": 330.0
+  },
+  "RunStrafeRight": {
+   "duration": 0.6333333333333333,
+   "loop": true,
+   "ref_speed_cm_s": 330.0
+  },
+  "RunBack": {
+   "duration": 0.6666666666666666,
+   "loop": true,
+   "ref_speed_cm_s": 300.0
   },
   "Rise": {
    "duration": 0.6,
@@ -123,7 +138,7 @@
    "loop": false
   },
   "Barrage": {
-   "duration": 1.2,
+   "duration": 1.45,
    "loop": false
   },
   "DemonEye": {
@@ -135,7 +150,7 @@
    "loop": false
   },
   "CastTwoHand": {
-   "duration": 0.6,
+   "duration": 0.65,
    "loop": false
   },
   "CastGround": {
@@ -179,7 +194,7 @@
   {
    "clip": "StrafeLeft",
    "frames": 19,
-   "max_leg_reach": 0.979,
+   "max_leg_reach": 0.984,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
    "loop_seam_deg": 0.0
@@ -187,7 +202,7 @@
   {
    "clip": "StrafeRight",
    "frames": 19,
-   "max_leg_reach": 0.979,
+   "max_leg_reach": 0.984,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
    "loop_seam_deg": 0.0
@@ -203,6 +218,30 @@
   {
    "clip": "Sprint",
    "frames": 18,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "RunStrafeLeft",
+   "frames": 20,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "RunStrafeRight",
+   "frames": 20,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "RunBack",
+   "frames": 21,
    "max_leg_reach": 0.985,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
@@ -227,7 +266,7 @@
   {
    "clip": "StoneCannon_Hold",
    "frames": 31,
-   "max_leg_reach": 0.876,
+   "max_leg_reach": 0.874,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
    "loop_seam_deg": 0.0
@@ -378,7 +417,7 @@
   },
   {
    "clip": "Barrage",
-   "frames": 37,
+   "frames": 45,
    "max_leg_reach": 0.904,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
@@ -395,14 +434,14 @@
   {
    "clip": "Awakening",
    "frames": 55,
-   "max_leg_reach": 0.931,
+   "max_leg_reach": 0.951,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
    "loop_seam_deg": 0.0
   },
   {
    "clip": "CastTwoHand",
-   "frames": 19,
+   "frames": 21,
    "max_leg_reach": 0.904,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,

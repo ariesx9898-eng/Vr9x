@@ -28,6 +28,9 @@ enum class EMTNativeClip : uint8
 	StrafeRight,
 	Run,
 	Sprint,
+	RunStrafeLeft,
+	RunStrafeRight,
+	RunBack,
 	JumpStart,
 	Rise,
 	Fall,
@@ -40,7 +43,7 @@ enum class EMTNativeClip : uint8
 /** Base-pose layers (under the montage slot); state changes crossfade between them. */
 enum class EMTNativeLayer : uint8
 {
-	Ground,		// idle / combat idle / walk / run / sprint / 4-way strafe
+	Ground,		// idle / combat idle / walk / run / sprint / 4-way directional (walk and run) when locked on
 	JumpStart,	// one-shot when leaving the ground upward
 	Rise,		// loop while going up
 	Fall,		// loop while going down

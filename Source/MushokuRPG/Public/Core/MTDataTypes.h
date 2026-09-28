@@ -248,7 +248,8 @@ struct FMTCharacterData : public FTableRowBase
  * Per-character animation set (Content/Data/AnimSets.json). Consumed by UMTNativeAnimInstance (graph-free
  * locomotion) and by AMTCharacterBase (dodge / hit / stagger / knockdown / death defaults).
  * Keys are the <Key> part of the clip names A_<Character>_<Key>: Idle, CombatIdle, Walk, WalkBack, StrafeLeft,
- * StrafeRight, Run, Sprint, Rise, Fall, JumpStart, Land, HardLand, DodgeForward, DodgeBack, DodgeLeft, DodgeRight,
+ * StrafeRight, Run, Sprint, RunStrafeLeft, RunStrafeRight, RunBack, Rise, Fall, JumpStart, Land, HardLand, DodgeForward,
+ * DodgeBack, DodgeLeft, DodgeRight,
  * HitFront, HitBack, HitLeft, HitRight, Stagger, Knockdown, Death, CastBasic, StoneCannon_Charge, StoneCannon_Hold,
  * StoneCannon_Release, Quagmire, Barrage, DemonEye, Awakening, CastTwoHand, CastGround.
  * Optional (not authored yet, nothing depends on them): TurnLeft90, TurnRight90. Missing keys fall back gracefully.
@@ -266,9 +267,12 @@ struct FMTAnimSetData : public FTableRowBase
 	 *  Defaults are the values the Rudeus clips (Rudeus_Animated.glb) were authored at. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float WalkSpeedRef = 130.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float WalkBackSpeedRef = 100.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) float StrafeSpeedRef = 110.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float StrafeSpeedRef = 100.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float RunSpeedRef = 360.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float SprintSpeedRef = 580.f;
+	/** Locked-on running: RunStrafeLeft/Right (hips turned toward travel, chest on the target) and RunBack (backpedal). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float RunStrafeSpeedRef = 330.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float RunBackSpeedRef = 300.f;
 
 	/** Casting while moving: this bone and its descendants take the montage pose, the rest keeps locomotion. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName UpperBodyRootBone = TEXT("spine_C0_1_jnt_061");

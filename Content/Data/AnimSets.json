@@ -10,6 +10,9 @@
       "StrafeRight": "/Game/Characters/Rudeus/Animations/A_Rudeus_StrafeRight.A_Rudeus_StrafeRight",
       "Run": "/Game/Characters/Rudeus/Animations/A_Rudeus_Run.A_Rudeus_Run",
       "Sprint": "/Game/Characters/Rudeus/Animations/A_Rudeus_Sprint.A_Rudeus_Sprint",
+      "RunStrafeLeft": "/Game/Characters/Rudeus/Animations/A_Rudeus_RunStrafeLeft.A_Rudeus_RunStrafeLeft",
+      "RunStrafeRight": "/Game/Characters/Rudeus/Animations/A_Rudeus_RunStrafeRight.A_Rudeus_RunStrafeRight",
+      "RunBack": "/Game/Characters/Rudeus/Animations/A_Rudeus_RunBack.A_Rudeus_RunBack",
       "Rise": "/Game/Characters/Rudeus/Animations/A_Rudeus_Rise.A_Rudeus_Rise",
       "Fall": "/Game/Characters/Rudeus/Animations/A_Rudeus_Fall.A_Rudeus_Fall",
       "JumpStart": "/Game/Characters/Rudeus/Animations/A_Rudeus_JumpStart.A_Rudeus_JumpStart",
@@ -39,9 +42,11 @@
     },
     "WalkSpeedRef": 130,
     "WalkBackSpeedRef": 100,
-    "StrafeSpeedRef": 110,
+    "StrafeSpeedRef": 100,
     "RunSpeedRef": 360,
     "SprintSpeedRef": 580,
+    "RunStrafeSpeedRef": 330,
+    "RunBackSpeedRef": 300,
     "UpperBodyRootBone": "spine_C0_1_jnt_061"
   },
   {
@@ -55,6 +60,9 @@
       "StrafeRight": "/Game/Characters/Rudeus/Animations/A_Rudeus_StrafeRight.A_Rudeus_StrafeRight",
       "Run": "/Game/Characters/Rudeus/Animations/A_Rudeus_Run.A_Rudeus_Run",
       "Sprint": "/Game/Characters/Rudeus/Animations/A_Rudeus_Sprint.A_Rudeus_Sprint",
+      "RunStrafeLeft": "/Game/Characters/Rudeus/Animations/A_Rudeus_RunStrafeLeft.A_Rudeus_RunStrafeLeft",
+      "RunStrafeRight": "/Game/Characters/Rudeus/Animations/A_Rudeus_RunStrafeRight.A_Rudeus_RunStrafeRight",
+      "RunBack": "/Game/Characters/Rudeus/Animations/A_Rudeus_RunBack.A_Rudeus_RunBack",
       "Rise": "/Game/Characters/Rudeus/Animations/A_Rudeus_Rise.A_Rudeus_Rise",
       "Fall": "/Game/Characters/Rudeus/Animations/A_Rudeus_Fall.A_Rudeus_Fall",
       "JumpStart": "/Game/Characters/Rudeus/Animations/A_Rudeus_JumpStart.A_Rudeus_JumpStart",
@@ -84,9 +92,11 @@
     },
     "WalkSpeedRef": 130,
     "WalkBackSpeedRef": 100,
-    "StrafeSpeedRef": 110,
+    "StrafeSpeedRef": 100,
     "RunSpeedRef": 360,
     "SprintSpeedRef": 580,
+    "RunStrafeSpeedRef": 330,
+    "RunBackSpeedRef": 300,
     "UpperBodyRootBone": "spine_C0_1_jnt_061"
   }
 ]

@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.5",
+	"EngineAssociation": "5.8",
 	"Category": "",
 	"Description": "Mushoku Tensei open-world action RPG (Rudeus + Orsted vertical slice).",
 	"Modules": [
@@ -17,14 +17,7 @@
 		{ "Name": "MotionWarping", "Enabled": true },
 		{ "Name": "IKRig", "Enabled": true },
 		{ "Name": "ControlRig", "Enabled": true },
-		{ "Name": "AnimationWarping", "Enabled": true },
-		{ "Name": "AnimationLocomotionLibrary", "Enabled": true },
 		{ "Name": "PythonScriptPlugin", "Enabled": true },
-		{ "Name": "EditorScriptingUtilities", "Enabled": true },
-		{ "Name": "Interchange", "Enabled": true },
-		{ "Name": "GLTFImporter", "Enabled": true },
-		{ "Name": "StateTree", "Enabled": true },
-		{ "Name": "GameplayStateTree", "Enabled": true },
-		{ "Name": "ModelingToolsEditorMode", "Enabled": true, "TargetAllowList": [ "Editor" ] }
+		{ "Name": "EditorScriptingUtilities", "Enabled": true }
 	]
 }

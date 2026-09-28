@@ -102,8 +102,8 @@ FName UMTNativeAnimInstance::GetClipKey(EMTNativeClip Clip)
 	static const FName Keys[] =
 	{
 		TEXT("Idle"), TEXT("CombatIdle"), TEXT("Walk"), TEXT("WalkBack"), TEXT("StrafeLeft"), TEXT("StrafeRight"),
-		TEXT("Run"), TEXT("Sprint"), TEXT("JumpStart"), TEXT("Rise"), TEXT("Fall"), TEXT("Land"), TEXT("HardLand"),
-		TEXT("Death")
+		TEXT("Run"), TEXT("Sprint"), TEXT("RunStrafeLeft"), TEXT("RunStrafeRight"), TEXT("RunBack"), TEXT("JumpStart"),
+		TEXT("Rise"), TEXT("Fall"), TEXT("Land"), TEXT("HardLand"), TEXT("Death")
 	};
 	static_assert(UE_ARRAY_COUNT(Keys) == (int32)EMTNativeClip::Num, "Keep the key table in sync with EMTNativeClip");
 	const int32 Index = (int32)Clip;
@@ -184,6 +184,9 @@ void UMTNativeAnimInstance::ResolveClips(FName CharacterId, FMTNativeClipSlot* O
 		case E::StrafeRight: return AnimSet->StrafeSpeedRef;
 		case E::Run: return AnimSet->RunSpeedRef;
 		case E::Sprint: return AnimSet->SprintSpeedRef;
+		case E::RunStrafeLeft:
+		case E::RunStrafeRight: return AnimSet->RunStrafeSpeedRef;
+		case E::RunBack: return AnimSet->RunBackSpeedRef;
 		default: return 0.f;
 		}
 	};
@@ -229,6 +232,9 @@ void UMTNativeAnimInstance::ResolveClips(FName CharacterId, FMTNativeClipSlot* O
 	Resolve(E::WalkBack, { { E::WalkBack, false, false }, { E::Walk, true, false }, { E::Run, true, false } });
 	Resolve(E::StrafeLeft, { { E::StrafeLeft, false, false }, { E::Walk, false, false }, { E::Run, false, false } });
 	Resolve(E::StrafeRight, { { E::StrafeRight, false, false }, { E::Walk, false, false }, { E::Run, false, false } });
+	Resolve(E::RunStrafeLeft, { { E::RunStrafeLeft, false, false }, { E::StrafeLeft, false, false }, { E::Run, false, false } });
+	Resolve(E::RunStrafeRight, { { E::RunStrafeRight, false, false }, { E::StrafeRight, false, false }, { E::Run, false, false } });
+	Resolve(E::RunBack, { { E::RunBack, false, false }, { E::WalkBack, false, false }, { E::Run, true, false } });
 	Resolve(E::JumpStart, { { E::JumpStart, false, false } });
 	Resolve(E::Rise, { { E::Rise, false, false }, { E::Fall, false, false } });
 	Resolve(E::Fall, { { E::Fall, false, false }, { E::Rise, false, false } });
@@ -595,10 +601,11 @@ void FMTNativeAnimInstanceProxy::UpdateLocomotion(float Dt)
 	const float WWalk = Gait <= 1.f ? Gait : FMath::Clamp(2.f - Gait, 0.f, 1.f);
 	const float WRun = Gait <= 1.f ? 0.f : (Gait <= 2.f ? Gait - 1.f : FMath::Clamp(3.f - Gait, 0.f, 1.f));
 	const float WSprint = FMath::Clamp(Gait - 2.f, 0.f, 1.f);
-	const float WMove = 1.f - WIdle;
 
-	// Locked on at walking pace: 4-way directional blend of Walk / StrafeRight / WalkBack / StrafeLeft.
-	const bool bDirectional = V.bIsStrafing && Gait <= 1.5f;
+	// Locked on: 4-way directional blends on both gait bands. Walking pace uses Walk / StrafeRight / WalkBack /
+	// StrafeLeft; running pace uses Run (Sprint) / RunStrafeRight / RunBack / RunStrafeLeft, whose hips turn toward
+	// the travel direction while the chest keeps facing the target.
+	const bool bDirectional = V.bIsStrafing;
 	StrafeBlend = MoveTowards(StrafeBlend, bDirectional ? 1.f : 0.f, Dt / 0.2f);
 	float TargetDir[4];
 	DirectionalWeights(V.Direction, TargetDir);
@@ -617,12 +624,18 @@ void FMTNativeAnimInstanceProxy::UpdateLocomotion(float Dt)
 	}
 	const float Strafe = Ease(StrafeBlend);
 
-	LocoWeights[(int32)E::Walk] = WWalk * (1.f - Strafe) + WMove * Strafe * DirWeights[0];
-	LocoWeights[(int32)E::StrafeRight] = WMove * Strafe * DirWeights[1];
-	LocoWeights[(int32)E::WalkBack] = WMove * Strafe * DirWeights[2];
-	LocoWeights[(int32)E::StrafeLeft] = WMove * Strafe * DirWeights[3];
-	LocoWeights[(int32)E::Run] = WRun * (1.f - Strafe);
-	LocoWeights[(int32)E::Sprint] = WSprint * (1.f - Strafe);
+	// The forward share keeps the normal gait clips; each band's total stays WWalk / WRun + WSprint.
+	const float Forward = (1.f - Strafe) + Strafe * DirWeights[0];
+	const float WFast = WRun + WSprint;
+	LocoWeights[(int32)E::Walk] = WWalk * Forward;
+	LocoWeights[(int32)E::StrafeRight] = WWalk * Strafe * DirWeights[1];
+	LocoWeights[(int32)E::WalkBack] = WWalk * Strafe * DirWeights[2];
+	LocoWeights[(int32)E::StrafeLeft] = WWalk * Strafe * DirWeights[3];
+	LocoWeights[(int32)E::Run] = WRun * Forward;
+	LocoWeights[(int32)E::Sprint] = WSprint * Forward;
+	LocoWeights[(int32)E::RunStrafeRight] = WFast * Strafe * DirWeights[1];
+	LocoWeights[(int32)E::RunBack] = WFast * Strafe * DirWeights[2];
+	LocoWeights[(int32)E::RunStrafeLeft] = WFast * Strafe * DirWeights[3];
 
 	// Relaxed vs combat idle (0.3 s eased), each on its own looping clock.
 	CombatBlend = MoveTowards(CombatBlend, V.bInCombatStance ? 1.f : 0.f, Dt / 0.3f);
@@ -638,7 +651,8 @@ void FMTNativeAnimInstanceProxy::UpdateLocomotion(float Dt)
 	float RefSpeedSum = 0.f;
 	float LengthSum = 0.f;
 	bool bBorrowed = false;
-	for (const E Clip : { E::Walk, E::WalkBack, E::StrafeLeft, E::StrafeRight, E::Run, E::Sprint })
+	for (const E Clip : { E::Walk, E::WalkBack, E::StrafeLeft, E::StrafeRight, E::Run, E::Sprint, E::RunStrafeLeft,
+		E::RunStrafeRight, E::RunBack })
 	{
 		const float Weight = LocoWeights[(int32)Clip];
 		const FMTNativeClipSlot& Slot = ClipSlots[(int32)Clip];
@@ -674,19 +688,22 @@ void FMTNativeAnimInstanceProxy::UpdateUpperBodyLayer(float Dt)
 	const FMTNativeAnimVars& V = AnimVars;
 
 	// Casting keeps the layer on (weighted by UpperBodyCastWeight). After the cast the montage usually still plays its
-	// recovery, so the layer stays latched until the slot empties; full-body reactions (dodge, stagger, death) take
-	// the legs back immediately.
+	// recovery, so the layer stays latched until the slot empties. Full-body actions (dodges and dash abilities, which
+	// also count as casting, stagger, death) always get the whole body, and they release the latch.
 	const bool bSlotActive = SlotNodeWeight > SlotWeightThreshold;
-	if (V.bIsCasting)
-	{
-		bCastLayerLatched = true;
-	}
-	else if (!bSlotActive || V.bIsDodging || V.bIsStaggered || V.bIsDead)
+	const bool bFullBodyAction = V.bIsDodging || V.bIsStaggered || V.bIsDead;
+	if (bFullBodyAction || (!V.bIsCasting && !bSlotActive))
 	{
 		bCastLayerLatched = false;
 	}
-	const float CastTarget = V.bIsCasting ? V.UpperBodyCastWeight : (bCastLayerLatched ? 1.f : 0.f);
-	CastLayerAlpha = FMath::FInterpTo(CastLayerAlpha, CastTarget, Dt, 12.f);
+	else if (V.bIsCasting)
+	{
+		bCastLayerLatched = true;
+	}
+	const float CastTarget = bFullBodyAction ? 0.f : (V.bIsCasting ? V.UpperBodyCastWeight : (bCastLayerLatched ? 1.f : 0.f));
+	// Engage quickly (UpperBodyCastWeight is already eased) so a fast cast on the move never borrows the clip's
+	// standing legs; release more gently.
+	CastLayerAlpha = FMath::FInterpTo(CastLayerAlpha, CastTarget, Dt, CastTarget > CastLayerAlpha ? 30.f : 12.f);
 
 	// Only when the legs are busy (moving or airborne); standing casts use the full-body montage pose.
 	const bool bLegsBusy = V.bIsInAir || V.GroundSpeed > MovingSpeed;
@@ -740,7 +757,8 @@ void FMTNativeAnimInstanceProxy::BuildSamples()
 	{
 		AddSample(E::Idle, IdleTime, true, Ground * LocoWeights[(int32)E::Idle]);
 		AddSample(E::CombatIdle, CombatIdleTime, true, Ground * LocoWeights[(int32)E::CombatIdle]);
-		for (const E Clip : { E::Walk, E::WalkBack, E::StrafeLeft, E::StrafeRight, E::Run, E::Sprint })
+		for (const E Clip : { E::Walk, E::WalkBack, E::StrafeLeft, E::StrafeRight, E::Run, E::Sprint, E::RunStrafeLeft,
+			E::RunStrafeRight, E::RunBack })
 		{
 			AddSample(Clip, LocoPhase * ClipSlots[(int32)Clip].Length, true, Ground * LocoWeights[(int32)Clip]);
 		}

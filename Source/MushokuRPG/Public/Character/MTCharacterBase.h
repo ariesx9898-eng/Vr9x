@@ -80,7 +80,13 @@ public:
 	float PlayAnimAsset(const TSoftObjectPtr<UAnimSequenceBase>& Asset, float PlayRate = 1.f, FName Section = NAME_None,
 		int32 LoopCount = 1, float BlendIn = 0.12f, float BlendOut = 0.18f);
 	/** Montage started by the most recent PlayAnimAsset call (the dynamic montage for plain sequences). */
-	UAnimMontage* GetLastPlayedMontage() const { return LastPlayedMontage.Get(); }
+	UAnimMontage* GetLastPlayedMontage() const;
+	/**
+	 * Data names clips by key: /Game/Characters/<C>/Animations/A_<C>_<Key>. When this character's AnimSet has the same
+	 * <Key>, its own clip is returned instead (Orsted casting an element spell plays A_Orsted_CastTwoHand, not Rudeus's).
+	 * Anything else (enemy montages, keys the lineage does not have) is returned unchanged.
+	 */
+	TSoftObjectPtr<UAnimSequenceBase> ResolveLineageAnim(const TSoftObjectPtr<UAnimSequenceBase>& Asset) const;
 	/** Stops a montage started through PlayAnimAsset (nullptr = the most recent one). */
 	void StopPlayedAnim(UAnimMontage* Montage = nullptr, float BlendOut = 0.2f);
 

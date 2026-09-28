@@ -75,6 +75,10 @@ def chain_of(rig, root):
         chain.append(n)
 
 
+CLAV_FOLLOW = 0.12  # clavicle drop per degree of arm lowering
+CLAV_LIFT = 0.10  # clavicle lift per degree of forward raise above 60 deg
+
+
 def compose(rig, params):
     P = dict(DEFAULTS)
     P.update(params)
@@ -98,7 +102,11 @@ def compose(rig, params):
     # arms relative to the chest
     for s in "LR":
         sign = L.SIDES[s]
-        D[L.CLAV[s]] = chest @ rot((0, 1, 0), -sign * P[s + "_clav"])
+        # shoulder girdle: the clavicle follows the arm a little, dropping as the arm lowers and
+        # lifting once it rises past ~60 deg forward (like a real shoulder). This spreads the
+        # rotation over two joints and reduces armpit stretching. "*_clav" adds a shrug (+ = up).
+        drop = CLAV_FOLLOW * P[s + "_lower"] - CLAV_LIFT * max(0.0, P[s + "_fwd"] - 60.0) - P[s + "_clav"]
+        D[L.CLAV[s]] = chest @ rot((0, 1, 0), sign * drop)
         a = L.arm_D(s, lower=P[s + "_lower"], swing=P[s + "_swing"], twist=P[s + "_twist"], elbow=P[s + "_elbow"],
                     wrist_pitch=P[s + "_wpitch"], wrist_yaw=P[s + "_wyaw"], raise_fwd=P[s + "_fwd"], spread=P[s + "_spread"])
         for bone, m in a.items():
@@ -145,6 +153,9 @@ def compose(rig, params):
             legD, _ = rig.leg_ik(s, hip, ankle, pole=pole.normalized())
             toe = rot((0, 0, 1), P[s + "_fyaw"]) if P[s + "_fpitch"] < 0 else foot_R
             ik = {L.THIGH[s]: legD[L.THIGH[s]], L.SHIN[s]: legD[L.SHIN[s]], L.FOOT[s]: foot_R, L.TOE[s]: toe}
+        if fk is not None and ik is not None:
+            ik = blend_leg_positional(rig, s, full, pel_off, fk, ik, ankle, P, ik_w)
+            fk = None  # the positional blend already spans FK (w -> 0) to IK (w -> 1)
         for b in leg_bones:
             if fk is None:
                 D[b] = ik[b]
@@ -176,6 +187,42 @@ def compose(rig, params):
             acc = acc @ rel(-swing * 0.06 * k, 0.0, 0.0)
             D[b] = acc
     return D, pel_off
+
+
+def _foot_lowest(D_foot, ankle, rig):
+    """Lowest z of the foot sole (heel, ball, toe tip) for an ankle position and a foot rotation delta."""
+    h = rig.ankle_h
+    pts = (Vector((0.0, HEEL_BACK, -h)), Vector((0.0, -BALL_FWD, BALL_H - h)), Vector((0.0, -BALL_FWD - 0.05, 0.004 - h)))
+    return min((ankle + D_foot @ p).z for p in pts)
+
+
+def blend_leg_positional(rig, s, full, pel_off, fk, ik, ik_target, P, w):
+    """FK <-> IK transition for one leg, done in position space.
+
+    Slerping thigh/shin rotations between two unrelated leg poses lets the foot swing through the
+    floor mid-blend (and the ground clamp then pops the whole body up). Instead the ankle travels
+    in a straight line from where the FK pose puts it to the IK target, the knee stays on the side
+    the FK pose bends it towards, and the leg is solved analytically for that blended target. The
+    returned rotations start exactly at the FK pose (w -> 0) and end exactly at the IK pose (w -> 1)."""
+    full_fk = dict(full)
+    full_fk.update(fk)
+    hip = rig.world_head(L.THIGH[s], full, pel_off)
+    fk_ankle = rig.world_head(L.FOOT[s], full_fk, pel_off)
+    pole_fk = fk[L.THIGH[s]] @ L.FWD                     # the FK thigh's knee-forward axis
+    sign = L.SIDES[s]
+    yaw_mid = 0.5 * (P["pel_yaw"] + P[s + "_fyaw"])
+    pole_ik = rot((0, 0, 1), yaw_mid) @ Vector((sign * P[s + "_knee_out"], -1.0, 0.0))
+    pole = pole_fk.normalized() * (1.0 - w) + pole_ik.normalized() * w
+    if pole.length < 1e-6:
+        pole = pole_ik
+    foot = fk[L.FOOT[s]].to_quaternion().slerp(ik[L.FOOT[s]].to_quaternion(), w).to_matrix()
+    toe = fk[L.TOE[s]].to_quaternion().slerp(ik[L.TOE[s]].to_quaternion(), w).to_matrix()
+    target = fk_ankle.lerp(ik_target, w)
+    below = -_foot_lowest(foot, target, rig)
+    if below > 0.0:
+        target = target + Vector((0.0, 0.0, below * min(1.0, 4.0 * w)))  # never through the floor
+    legD, _ = rig.leg_ik(s, hip, target, pole=pole.normalized())
+    return {L.THIGH[s]: legD[L.THIGH[s]], L.SHIN[s]: legD[L.SHIN[s]], L.FOOT[s]: foot, L.TOE[s]: toe}
 
 
 def apply_pose(rig, params):

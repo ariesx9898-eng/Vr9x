@@ -8,6 +8,8 @@ public class MushokuRPG : ModuleRules
 
 		PublicIncludePaths.Add(ModuleDirectory + "/Public");
 
+		// Animation needs only "Engine" (UAnimInstance, FAnimInstanceProxy, UAnimSequence, montages) plus
+		// "AnimGraphRuntime" for UKismetAnimationLibrary::CalculateDirection. No anim-graph editor modules.
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
