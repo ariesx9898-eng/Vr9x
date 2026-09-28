@@ -92,7 +92,12 @@ def main():
     ap.add_argument("--skip-maps", action="store_true")
     ap.add_argument("--skip-layers", action="store_true")
     ap.add_argument("--erosion-iters", type=int, default=80)
+    ap.add_argument("--maps-only", action="store_true",
+                    help="recompute in memory and redraw WorldMap.png + the review preview only (no world data written)")
+    ap.add_argument("--preview-only", action="store_true",
+                    help="recompute in memory and redraw only Docs/Images/LaPlace_World_Preview.png")
     args = ap.parse_args()
+    redraw = args.maps_only or args.preview_only
     clk = Clock()
     os.makedirs(C.OUT_WORLD, exist_ok=True)
     os.makedirs(C.OUT_DOC_IMG, exist_ok=True)
@@ -131,6 +136,18 @@ def main():
     print("full resolution terrain", flush=True)
     h0, road_w, lake_level0 = wg_fullres.build(D, h1, Hy, sites, roads, bridges, log=print)
     enc = wg_fullres.encode(h0)
+    if redraw:
+        # redraw mode never writes world data; it only checks that the data on disk is what this code produces
+        hp = os.path.join(C.OUT_WORLD, "Height.r16")
+        same = os.path.exists(hp) and np.array_equal(np.fromfile(hp, dtype="<u2").reshape(enc.shape), enc)
+        print("Height.r16 on disk %s the recomputed terrain" % ("matches" if same else "DOES NOT MATCH"), flush=True)
+        P = wg_paint.prepare(D, h1, Hy, sites, roads, log=print)
+        P.region_hard = D.region
+        if args.maps_only:
+            wg_maps.world_map(D, h0, Hy, sites, roads, P, os.path.join(C.OUT_WORLD, "WorldMap.png"), log=print)
+        wg_maps.preview(D, h0, Hy, sites, roads, P, os.path.join(C.OUT_DOC_IMG, "LaPlace_World_Preview.png"), log=print)
+        clk.stage("redraw")
+        return
     enc.tofile(os.path.join(C.OUT_WORLD, "Height.r16"))
     clk.stage("full-res height")
 

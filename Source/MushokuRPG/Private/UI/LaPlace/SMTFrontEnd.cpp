@@ -1,4 +1,5 @@
 #include "UI/LaPlace/SMTFrontEnd.h"
+#include "UI/LaPlace/MTFrontEndSubsystem.h"
 #include "UI/LaPlace/MTUIStyle.h"
 #include "Core/MTDataRegistry.h"
 #include "Core/MTDataTypes.h"
@@ -208,6 +209,11 @@ void SMTFrontEnd::Tick(const FGeometry& AllottedGeometry, const double InCurrent
 		PageSince = InCurrentTime;
 	}
 	Now = InCurrentTime;
+	// The map page's location card shows a live view of the selected place.
+	if (UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(PlayerController.Get()))
+	{
+		FrontEnd->SetPreviewLocation(Page == EMTFrontPage::Map && !bSpawning ? SelectedLocation : NAME_None);
+	}
 	// Hover easing toward the hit under the mouse.
 	FName Under;
 	for (int32 i = Hits.Num() - 1; i >= 0; --i)
@@ -742,6 +748,13 @@ int32 SMTFrontEnd::PaintMap(const FGeometry& G, FSlateWindowElementList& Out, in
 	else
 	{
 		MTUI::Box(Out, Layer, G, ArtPos, ArtSize, FLinearColor(0.1f, 0.08f, 0.06f, 1.f));
+	}
+	// Live view of the place (scene capture along its preview camera), cross-faded over the painting.
+	const UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(PlayerController.Get());
+	if (const FSlateBrush* Live = FrontEnd ? FrontEnd->GetPreviewBrush() : nullptr)
+	{
+		const float Fade = FMath::Clamp((FrontEnd->GetPreviewAge() - 0.35f) / 1.2f, 0.f, 1.f);
+		MTUI::Box(Out, Layer, G, ArtPos, ArtSize, FLinearColor(1.f, 1.f, 1.f, Fade), Live);
 	}
 	MTUI::GoldFrame(Out, Layer + 1, G, ArtPos, ArtSize, 1.f, false);
 	float Y = ArtPos.Y + ArtSize.Y + 22.f * S;

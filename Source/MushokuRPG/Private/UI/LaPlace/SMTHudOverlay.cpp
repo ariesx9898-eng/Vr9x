@@ -8,6 +8,7 @@
 #include "Progression/MTProgressionSubsystem.h"
 #include "GameFramework/PlayerController.h"
 #include "Rendering/DrawElements.h"
+#include "World/MTRegionSubsystem.h"
 
 const EMTAbilitySlot SMTHudOverlay::HotbarSlots[7] = {
 	EMTAbilitySlot::Basic, EMTAbilitySlot::Loadout1, EMTAbilitySlot::Loadout2, EMTAbilitySlot::Loadout3, EMTAbilitySlot::Loadout4,
@@ -29,6 +30,24 @@ AMTCharacterBase* SMTHudOverlay::GetCharacter() const
 void SMTHudOverlay::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
 {
 	Now = InCurrentTime;
+	// Announce each newly entered region (the overlay only ticks while the gameplay HUD is shown, so the region the
+	// player spawns into is announced as the menu fades away).
+	if (const UMTRegionSubsystem* Regions = UMTRegionSubsystem::Get(PlayerController.Get()))
+	{
+		const int32 Region = Regions->IsActive() ? Regions->GetCurrentRegion() : INDEX_NONE;
+		if (Region != INDEX_NONE && Region != AnnouncedRegion)
+		{
+			AnnouncedRegion = Region;
+			const FMTRegionInfo* Info = Regions->GetRegionInfo(Region);
+			if (Info && Info->bBanner && !Info->Name.IsEmpty())
+			{
+				BannerTitle = Info->Name.ToString().ToUpper();
+				BannerSubtitle = Info->Continent.ToString();
+				BannerStart = InCurrentTime + 0.4;
+				MTUI::Sound(TEXT("map_select"), 0.45f);
+			}
+		}
+	}
 	AMTCharacterBase* Char = GetCharacter();
 	if (!Char || !Char->GetAbilities() || !Char->GetAttributes())
 	{
@@ -64,7 +83,33 @@ int32 SMTHudOverlay::OnPaint(const FPaintArgs& Args, const FGeometry& G, const F
 	}
 	int32 Layer = PaintVitals(G, Out, LayerId, Char);
 	Layer = PaintHotbar(G, Out, Layer + 1, Char);
+	Layer = PaintRegionBanner(G, Out, Layer + 1);
 	return Layer;
+}
+
+int32 SMTHudOverlay::PaintRegionBanner(const FGeometry& G, FSlateWindowElementList& Out, int32 Layer) const
+{
+	const float T = (float)(Now - BannerStart);
+	if (T < 0.f || T > 5.6f || BannerTitle.IsEmpty())
+	{
+		return Layer;
+	}
+	const float In = FMath::SmoothStep(0.f, 1.1f, T);
+	const float A = In * (1.f - FMath::SmoothStep(4.2f, 5.6f, T));
+	const float S = MTUI::Scale(G);
+	const FVector2D Screen = G.GetLocalSize();
+	const float Y = 118.f * S - (1.f - In) * 14.f * S;
+	const FVector2D Center(Screen.X * 0.5f, Y + 34.f * S);
+	MTUI::Glow(Out, Layer, G, Center, 380.f * S, FLinearColor(0.f, 0.f, 0.f, 0.42f * A));
+	MTUI::TextAligned(Out, Layer + 2, G, BannerTitle, MTUI::Title(40.f * S), FVector2D(0.f, Y), FVector2D(Screen.X, 50.f * S), FVector2D(0.5f, 0.5f),
+		MTUI::GoldBright.CopyWithNewOpacity(A));
+	MTUI::Divider(Out, Layer + 2, G, FVector2D(Screen.X * 0.5f, Y + 62.f * S), 460.f * S, A);
+	if (!BannerSubtitle.IsEmpty())
+	{
+		MTUI::TextAligned(Out, Layer + 2, G, BannerSubtitle, MTUI::BodyItalic(24.f * S), FVector2D(0.f, Y + 72.f * S), FVector2D(Screen.X, 30.f * S),
+			FVector2D(0.5f, 0.5f), MTUI::TextLight.CopyWithNewOpacity(0.92f * A));
+	}
+	return Layer + 4;
 }
 
 int32 SMTHudOverlay::PaintHotbar(const FGeometry& G, FSlateWindowElementList& Out, int32 Layer, AMTCharacterBase* Char) const

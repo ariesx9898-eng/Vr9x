@@ -1,0 +1,22 @@
+{
+ "_comment": "Per-region atmosphere and weather for LA PLACE (UMTRegionSubsystem). Region ids: Docs/LaPlace/Spec.md section 3. FogDensity and FogTint scale the day-night fog; Saturation / Contrast / Gain are colour grading; Weather weights are 0..1 (Snow, Ash, Embers, Dust, Pollen, Fireflies, Mist). SnowAboveM adds snowfall on any high ground. Banner=false skips the region-name banner.",
+ "SnowAboveM": 600,
+ "Regions": [
+  {"Id": 0, "Banner": false, "FogDensity": 0.8, "FogTint": [0.95, 1.0, 1.05], "Saturation": 1.0, "Contrast": 1.0, "Gain": [1.0, 1.0, 1.0], "Wind": 1.2, "Weather": {}},
+  {"Id": 1, "FogDensity": 1.0, "FogTint": [1.02, 1.0, 0.96], "Saturation": 1.08, "Contrast": 1.02, "Gain": [1.03, 1.01, 0.96], "Wind": 0.8, "Weather": {"Pollen": 0.55}},
+  {"Id": 2, "FogDensity": 0.9, "FogTint": [1.0, 1.02, 0.97], "Saturation": 1.1, "Contrast": 1.02, "Gain": [1.02, 1.02, 0.97], "Wind": 0.7, "Weather": {"Pollen": 0.7, "Fireflies": 0.35}},
+  {"Id": 3, "FogDensity": 1.35, "FogTint": [0.98, 1.0, 1.04], "Saturation": 0.95, "Contrast": 1.04, "Gain": [0.99, 1.0, 1.02], "Wind": 1.6, "Weather": {"Snow": 0.2}},
+  {"Id": 4, "FogDensity": 1.7, "FogTint": [0.9, 0.98, 1.12], "Saturation": 0.84, "Contrast": 1.0, "Gain": [0.94, 0.98, 1.06], "Wind": 1.4, "Weather": {"Snow": 1.0}},
+  {"Id": 5, "FogDensity": 1.25, "FogTint": [1.12, 1.02, 0.84], "Saturation": 0.9, "Contrast": 1.04, "Gain": [1.05, 1.0, 0.9], "Wind": 1.2, "Weather": {"Dust": 0.45}},
+  {"Id": 6, "FogDensity": 1.6, "FogTint": [0.94, 1.06, 0.98], "Saturation": 1.1, "Contrast": 1.0, "Gain": [0.97, 1.03, 0.96], "Wind": 0.5, "Weather": {"Mist": 0.65, "Fireflies": 0.8, "Pollen": 0.3}},
+  {"Id": 7, "FogDensity": 0.7, "FogTint": [0.95, 0.98, 1.08], "Saturation": 0.9, "Contrast": 1.05, "Gain": [0.97, 0.99, 1.05], "Wind": 2.2, "Weather": {"Snow": 0.6}},
+  {"Id": 8, "FogDensity": 1.45, "FogTint": [1.22, 0.86, 0.78], "Saturation": 0.95, "Contrast": 1.08, "Gain": [1.08, 0.94, 0.92], "Wind": 1.1, "Weather": {"Ash": 0.75, "Dust": 0.25}},
+  {"Id": 9, "FogDensity": 1.3, "FogTint": [1.2, 0.88, 0.8], "Saturation": 0.98, "Contrast": 1.08, "Gain": [1.08, 0.95, 0.92], "Wind": 0.8, "Weather": {"Ash": 0.45, "Embers": 0.5}},
+  {"Id": 10, "FogDensity": 1.9, "FogTint": [0.9, 1.06, 0.96], "Saturation": 1.12, "Contrast": 1.0, "Gain": [0.96, 1.04, 0.96], "Wind": 0.4, "Weather": {"Mist": 0.85, "Fireflies": 1.0, "Pollen": 0.45}},
+  {"Id": 11, "FogDensity": 1.0, "FogTint": [0.98, 1.02, 1.0], "Saturation": 1.1, "Contrast": 1.02, "Gain": [1.0, 1.02, 1.0], "Wind": 0.8, "Weather": {"Pollen": 0.45, "Fireflies": 0.3}},
+  {"Id": 12, "FogDensity": 1.25, "FogTint": [0.96, 1.0, 1.06], "Saturation": 0.95, "Contrast": 1.03, "Gain": [0.98, 1.0, 1.03], "Wind": 1.5, "Weather": {"Snow": 0.25}},
+  {"Id": 13, "FogDensity": 1.15, "FogTint": [1.2, 1.04, 0.82], "Saturation": 1.05, "Contrast": 1.06, "Gain": [1.08, 1.0, 0.88], "Wind": 1.6, "Weather": {"Dust": 1.0}},
+  {"Id": 14, "FogDensity": 1.2, "FogTint": [1.16, 1.0, 0.84], "Saturation": 1.0, "Contrast": 1.06, "Gain": [1.06, 0.99, 0.9], "Wind": 1.4, "Weather": {"Dust": 0.7}},
+  {"Id": 15, "FogDensity": 0.8, "FogTint": [0.98, 1.02, 1.02], "Saturation": 1.1, "Contrast": 1.02, "Gain": [1.0, 1.02, 1.0], "Wind": 1.1, "Weather": {"Pollen": 0.25}}
+ ]
+}

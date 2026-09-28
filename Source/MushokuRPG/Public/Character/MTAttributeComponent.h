@@ -78,6 +78,12 @@ public:
 	void SetBlocking(bool bInBlocking) { bBlocking = bInBlocking; }
 	bool IsBlocking() const { return bBlocking; }
 
+	/** Admin panel (UMTAdminSubsystem): take no damage / mana and stamina never run out. */
+	UPROPERTY(Transient, BlueprintReadWrite, Category = "Mushoku|Attributes") bool bGodMode = false;
+	UPROPERTY(Transient, BlueprintReadWrite, Category = "Mushoku|Attributes") bool bInfiniteMana = false;
+	/** Refills health, mana, stamina and poise. */
+	UFUNCTION(BlueprintCallable, Category = "Mushoku|Attributes") void RefillAll();
+
 	/** Bosses: immune to hard CC and resistant to stagger. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Attributes") bool bCrowdControlImmune = false;
 	/** Weak enemies are pushed by pressure auras. */

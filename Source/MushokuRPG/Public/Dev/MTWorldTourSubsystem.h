@@ -44,5 +44,9 @@ private:
 	float Clock = 0.f;
 	float ReadyClock = 0.f;
 	bool bCaptured = false;
+	// Frame times while a ready shot is held (performance numbers in the log).
+	float FrameTimeSum = 0.f;
+	float FrameTimeMax = 0.f;
+	int32 FrameCount = 0;
 	FTSTicker::FDelegateHandle Handle;
 };

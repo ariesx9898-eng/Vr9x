@@ -51,7 +51,7 @@ def _metal(name, kind, rng, low_lin, high_lin, cells, rough, tilt, pits, streak)
         pit = np.clip(1.0 - p1 / 0.18, 0.0, 1.0) * keep[pid]
     h = 0.8 * ham + 0.08 * brush + 0.04 * grain - 0.35 * pit - 0.15 * scr
     h01 = T.normalize01(h, 0.5, 99.5)
-    t = np.clip(0.5 + 0.9 * (h01 - 0.5) + streak * brush + 0.02 * grain, 0.0, 1.0)
+    t = np.clip(0.5 + 0.35 * (h01 - 0.5) + streak * brush + 0.02 * grain, 0.0, 1.0)
     lo, hi = np.asarray(low_lin, np.float32), np.asarray(high_lin, np.float32)
     lin = lo * (1 - t[..., None]) + hi * t[..., None]
     lin = lin * (1.0 - 0.45 * pit[..., None]) * (1.0 + 0.15 * scr[..., None])
@@ -71,14 +71,14 @@ def _metal(name, kind, rng, low_lin, high_lin, cells, rough, tilt, pits, streak)
 def iron(kind):
     """Blackened wrought iron for straps, hinges, grilles and lanterns."""
     rng = rng_for("Palette_Iron")
-    return _metal("Iron", kind, rng, (0.10, 0.10, 0.105), (0.22, 0.22, 0.23), cells=22, tilt=9, pits=0.35,
+    return _metal("Iron", kind, rng, (0.12, 0.12, 0.125), (0.2, 0.2, 0.21), cells=22, tilt=9, pits=0.35,
                   streak=0.05, rough=dict(base=0.52, h=-0.25, lo=0.34, hi=0.78))
 
 
 def gold(kind):
     """Polished, lightly beaten gold leaf / gilding."""
     rng = rng_for("Palette_Gold")
-    return _metal("Gold", kind, rng, (0.80, 0.56, 0.20), (1.0, 0.78, 0.36), cells=12, tilt=5, pits=0.0,
+    return _metal("Gold", kind, rng, (0.86, 0.62, 0.24), (0.98, 0.76, 0.34), cells=12, tilt=5, pits=0.0,
                   streak=0.04, rough=dict(base=0.24, h=-0.15, lo=0.14, hi=0.42))
 
 

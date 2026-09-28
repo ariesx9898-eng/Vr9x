@@ -80,6 +80,7 @@ FALLBACK_TAGS = {"State.Casting", "State.Charging", "State.Dodging", "State.Stag
 BUILTIN_STRUCTS = {
     "FVector": {"X": "double", "Y": "double", "Z": "double"},
     "FRotator": {"Pitch": "double", "Yaw": "double", "Roll": "double"},
+    "FVector2D": {"X": "double", "Y": "double"},
     "FLinearColor": {"R": "float", "G": "float", "B": "float", "A": "float"},
     "FGameplayTagContainer": {"GameplayTags": "TArray<FGameplayTag>"},
     "FGameplayTag": {"TagName": "FName"},

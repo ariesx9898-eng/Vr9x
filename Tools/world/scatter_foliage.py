@@ -115,6 +115,44 @@ class SpacingGrid:
         self.cells.setdefault(self._key(x, y), []).append((x, y, r))
 
 
+def block_cities(grid, terrain):
+    """Reserve every city instance (buildings, walls, props, landmarks) in the spacing grid, and return a street mask
+    sampler, so nothing grows inside a house or on a street (Tools/world/generate_cities.py outputs)."""
+    base = os.path.join(WORLD_DIR, "Scatter")
+    js, bn = os.path.join(base, "Cities.json"), os.path.join(base, "Cities.bin")
+    if not (os.path.exists(js) and os.path.exists(bn)):
+        return None
+    with open(js, "r", encoding="utf-8") as f:
+        cities = json.load(f)
+    with open(os.path.join(ROOT, "SourceArt", "Kit", "manifest.json"), "r", encoding="utf-8") as f:
+        kit = json.load(f)
+    rows = {a["name"]: a for a in (kit["assets"] if isinstance(kit, dict) else kit)}
+    radius_of = []
+    for path in cities["Meshes"]:
+        a = rows.get(path.rsplit("/", 1)[-1], {})
+        fp = a.get("footprint", [4.0, 4.0])
+        radius_of.append(0.5 * math.hypot(fp[0], fp[1]) * 100.0 + 250.0)
+    recs = np.fromfile(bn, dtype="<f4").reshape(-1, 8)
+    for r in recs:
+        grid.add(float(r[1]), float(r[2]), radius_of[int(r[0])] * float(r[7]))
+    masks = []
+    for name in ("StreetCobble.png", "StreetDirt.png"):
+        path = os.path.join(WORLD_DIR, "Cities", name)
+        if os.path.exists(path):
+            masks.append(np.asarray(Image.open(path).convert("L"), dtype=np.uint8))
+    street = np.maximum.reduce(masks) if masks else None
+    print("cities: %d instances reserved, street mask %s" % (len(recs), "yes" if street is not None else "no"))
+    return street
+
+
+def on_street(street, terrain, x, y):
+    if street is None:
+        return np.zeros(x.shape, bool)
+    i = np.clip(np.round((x - terrain.x0) / terrain.quad).astype(np.int64), 0, terrain.nx - 1)
+    j = np.clip(np.round((y - terrain.y0) / terrain.quad).astype(np.int64), 0, terrain.ny - 1)
+    return street[j, i] > 40
+
+
 def species_table(assets):
     table = {}
     for a in assets:
@@ -134,7 +172,7 @@ def asset_scale(asset, rng):
     return target / max(base, 0.01)
 
 
-def scatter_kind(kind, cfg, species, terrain, density, regions, rng, grid, records, mesh_index):
+def scatter_kind(kind, cfg, species, terrain, density, regions, rng, grid, records, mesh_index, street=None):
     h, w = density.shape
     cell_x = terrain.width / w
     cell_y = terrain.height / h
@@ -149,7 +187,7 @@ def scatter_kind(kind, cfg, species, terrain, density, regions, rng, grid, recor
     z = terrain.z(x, y)
     slope, gx, gy = terrain.slope(x, y)
     reg = sample_map(regions, terrain, x, y)
-    keep = (z > 150.0) & (slope < cfg["max_slope"]) & (reg > 0)
+    keep = (z > 150.0) & (slope < cfg["max_slope"]) & (reg > 0) & ~on_street(street, terrain, x, y)
     x, y, z, slope, gx, gy, reg = x[keep], y[keep], z[keep], slope[keep], gx[keep], gy[keep], reg[keep]
     order = rng.permutation(x.size)
     by_region = {}
@@ -240,11 +278,12 @@ def main():
     groups_out = []
     all_records = []
     grid = SpacingGrid()
+    street = block_cities(grid, terrain)
     kind_records = {}
     for kind in ("Trees", "Rocks", "Bushes"):
         density = load_map(os.path.join("Density", kind + ".png"), terrain)
         recs = []
-        placed = scatter_kind(kind, KINDS[kind], table.get(kind, []), terrain, density, regions, rng, grid, recs, mesh_index)
+        placed = scatter_kind(kind, KINDS[kind], table.get(kind, []), terrain, density, regions, rng, grid, recs, mesh_index, street)
         kind_records[kind] = recs
         print("%-7s %8d instances (%.1f s)" % (kind, placed, time.time() - t0))
     recs = []

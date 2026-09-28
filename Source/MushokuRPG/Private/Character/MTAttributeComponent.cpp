@@ -117,7 +117,7 @@ FMTDamageResult UMTAttributeComponent::ApplyDamage(const FMTDamageSpec& Spec)
 	}
 
 	const float Now = GetWorld()->GetTimeSeconds();
-	if (IsInvulnerable())
+	if (IsInvulnerable() || bGodMode)
 	{
 		Result.bDodged = true;
 		return Result;
@@ -218,7 +218,7 @@ void UMTAttributeComponent::Heal(float Amount)
 
 bool UMTAttributeComponent::SpendMana(float Amount)
 {
-	if (Amount <= 0.f)
+	if (Amount <= 0.f || bInfiniteMana)
 	{
 		return true;
 	}
@@ -233,7 +233,7 @@ bool UMTAttributeComponent::SpendMana(float Amount)
 
 bool UMTAttributeComponent::SpendStamina(float Amount)
 {
-	if (Amount <= 0.f)
+	if (Amount <= 0.f || bInfiniteMana)
 	{
 		return true;
 	}
@@ -373,4 +373,12 @@ bool UMTAttributeComponent::IsInvulnerable() const
 {
 	const UWorld* World = GetWorld();
 	return World && World->GetTimeSeconds() < InvulnerableUntil;
+}
+
+void UMTAttributeComponent::RefillAll()
+{
+	Heal(MaxHealth);
+	RestoreMana(MaxMana);
+	RestoreStamina(MaxStamina);
+	RestorePoise(MaxPoise);
 }

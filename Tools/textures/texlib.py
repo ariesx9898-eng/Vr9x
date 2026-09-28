@@ -221,6 +221,42 @@ def delight(a, sigma, strength=1.0, periodic=True, lum_only=False):
     return lin_to_srgb(out)
 
 
+def flatten_lowfreq(a, kc=2.5, width=1.5):
+    """Remove tile-scale blotches and gradients from a periodic image without touching finer variation: in log
+    linear light, every channel's Fourier modes with 0 < |k| <= kc cycles per tile are removed (cosine taper up to
+    kc + width); the mean colour (DC) is kept. Block-to-block or clump-to-clump variation above that survives."""
+    lin = srgb_to_lin(a)
+    h, w = lin.shape[:2]
+    ky = np.fft.fftfreq(h)[:, None] * h
+    kx = np.fft.rfftfreq(w)[None, :] * w
+    k = np.sqrt(kx * kx + ky * ky)
+    keep = np.clip((k - kc) / max(width, 1e-6), 0.0, 1.0)
+    keep = 0.5 - 0.5 * np.cos(np.pi * keep)
+    keep[0, 0] = 1.0
+    out = np.empty_like(lin)
+    for c in range(lin.shape[2]):
+        L = np.log(np.maximum(lin[..., c], 1e-4))
+        out[..., c] = np.exp(np.fft.irfft2(np.fft.rfft2(L) * keep, s=(h, w)))
+    # restore the exact linear mean per channel (the log filter keeps the geometric mean)
+    out *= lin.reshape(-1, lin.shape[2]).mean(0) / np.maximum(out.reshape(-1, lin.shape[2]).mean(0), 1e-6)
+    return lin_to_srgb(np.clip(out, 0.0, 1.0))
+
+
+def replace_hue(a, hue_lo, hue_hi, target_srgb, strength=1.0, min_sat=0.06):
+    """Recolour pixels whose hue lies in [hue_lo, hue_hi] (0..1 wheel) toward a target colour, keeping their
+    relative brightness (e.g. unwanted purple flowers in a moss source -> pale lichen)."""
+    hsv = rgb_to_hsv(a)
+    hh, ss = hsv[..., 0], hsv[..., 1]
+    inside = ((hh >= hue_lo) & (hh <= hue_hi)).astype(np.float32) * np.clip((ss - min_sat) / 0.1, 0.0, 1.0)
+    inside = blur(inside, 1.0) * strength
+    lin = srgb_to_lin(a)
+    y = luma(lin)
+    tgt = srgb_to_lin(np.asarray(target_srgb, np.float32) / 255.0)
+    rec = tgt[None, None, :] * (y / max(float(luma(tgt[None, None, :])[0, 0]), 1e-4))[..., None]
+    out = lin * (1 - inside[..., None]) + rec * inside[..., None]
+    return lin_to_srgb(np.clip(out, 0.0, 1.0))
+
+
 def highpass(a, sigma, periodic=True):
     bl = blur_periodic if periodic else blur
     return a - bl(a, sigma)
@@ -249,21 +285,31 @@ def lowfreq_std(a, cells=8):
 
 
 def estimate_period(img, axis, lo, hi):
-    """Dominant repeat length (px, sub-pixel) of a periodic image along an axis (0 = rows / y, 1 = columns / x),
-    from the autocorrelation of its high-passed luma. Returns (period, peak_strength 0..1)."""
+    """Dominant repeat length (px, sub-pixel) of an image along an axis (0 = rows / y, 1 = columns / x), from the
+    autocorrelation of its high-passed luma. Candidates are interior local maxima in [lo, hi); the one standing
+    out most from the autocorrelation around it (half a period either side) wins, so a slow trend (banding,
+    lighting) cannot pull the answer onto the search boundary. Returns (period, prominence); prominence 0 means
+    no period was found."""
     y = luma(img) if img.ndim == 3 else img
     y = y - blur_periodic(y, max(hi, 8))
     n = y.shape[axis]
     F = np.fft.fft(y, axis=axis)
     ac = np.real(np.fft.ifft(F * np.conj(F), axis=axis)).mean(axis=1 - axis)
     ac = ac / max(ac[0], 1e-12)
-    lags = np.arange(lo, min(hi, n // 2))
-    k = int(lags[np.argmax(ac[lags])])
-    # parabolic refinement
-    a, b, c = ac[k - 1], ac[k], ac[(k + 1) % n]
-    den = a - 2 * b + c
-    off = 0.5 * (a - c) / den if abs(den) > 1e-12 else 0.0
-    return float(k + np.clip(off, -0.5, 0.5)), float(b)
+    best = (float(lo), 0.0)
+    for k in range(max(lo, 2), min(hi, n // 2 - 1)):
+        if not (ac[k] > ac[k - 1] and ac[k] >= ac[k + 1]):
+            continue
+        d = max(3, k // 2)
+        if k + d >= n:
+            continue
+        prom = ac[k] - 0.5 * (ac[k - d] + ac[k + d])
+        if prom > best[1]:
+            a, b, c = ac[k - 1], ac[k], ac[k + 1]
+            den = a - 2 * b + c
+            off = 0.5 * (a - c) / den if abs(den) > 1e-12 else 0.0
+            best = (float(k + np.clip(off, -0.5, 0.5)), float(prom))
+    return best
 
 
 # ----------------------------------------------------------------------------------------------- noise
@@ -322,21 +368,33 @@ def worley_periodic(size, cells, rng, jitter=1.0):
 # ----------------------------------------------------------------------------------------------- quilting
 
 
-def _min_cut_vertical(err):
-    """err: (H, O) overlap error. Returns x index of the minimal vertical path per row."""
+def _min_cut_vertical(err, periodic=False):
+    """err: (H, O) overlap error. Returns the x index per row of the minimal-error vertical path.
+    periodic=True forces the path to end where it starts (so a cut across a wrap-around image stays continuous)."""
     h, o = err.shape
-    E = err.astype(np.float64).copy()
-    back = np.zeros((h, o), np.int8)
-    for y in range(1, h):
-        prev = E[y - 1]
-        left = np.concatenate([[np.inf], prev[:-1]])
-        right = np.concatenate([prev[1:], [np.inf]])
-        stack = np.stack([left, prev, right])
-        k = np.argmin(stack, 0)
-        E[y] += stack[k, np.arange(o)]
-        back[y] = k - 1
+
+    def run(first):
+        E = err.astype(np.float64).copy()
+        E[0] = first
+        back = np.zeros((h, o), np.int8)
+        for y in range(1, h):
+            prev = E[y - 1]
+            left = np.concatenate([[np.inf], prev[:-1]])
+            right = np.concatenate([prev[1:], [np.inf]])
+            stack = np.stack([left, prev, right])
+            k = np.argmin(stack, 0)
+            E[y] += stack[k, np.arange(o)]
+            back[y] = k - 1
+        return E, back
+
+    E, back = run(err[0].astype(np.float64))
+    end = int(np.argmin(E[-1]))
+    if periodic:
+        first = np.full(o, np.inf)
+        first[end] = float(err[0, end])
+        E, back = run(first)
     path = np.zeros(h, np.int32)
-    path[-1] = int(np.argmin(E[-1]))
+    path[-1] = end
     for y in range(h - 1, 0, -1):
         path[y - 1] = path[y] + back[y, path[y]]
     return np.clip(path, 0, o - 1)
@@ -479,9 +537,11 @@ def quilt(sources, out_size, patch, overlap, rng, tol=0.08, match_scale=2, phase
     return out, picks
 
 
-def _self_quilt_x(img, o, feather=1.5, margin=4):
+def _self_quilt_x(img, o, feather=1.5, margin=7):
     """Make the left/right wrap seamless by overlapping the image's two ends by o columns and joining them along the
-    min-error vertical cut; the result is o columns narrower. The cut stays `margin` px inside the strip."""
+    min-error vertical cut; the result is o columns narrower. The new wrap is a pair of natural neighbour columns,
+    the cut stays `margin` px inside the strip, and it ends where it starts, so the top / bottom wrap (made
+    seamless before) stays seamless too."""
     h, w = img.shape[:2]
     A = img[:, :o]
     B = img[:, w - o:]
@@ -489,10 +549,12 @@ def _self_quilt_x(img, o, feather=1.5, margin=4):
     err = err.astype(np.float64)
     pen = np.zeros(o)
     pen[:margin] = pen[-margin:] = 1e3 * (err.mean() + 1e-6)
-    path = _min_cut_vertical(err + pen[None, :])
+    path = _min_cut_vertical(err + pen[None, :], periodic=True)
     m = (np.arange(o)[None, :] >= path[:, None]).astype(np.float32)   # 1 -> A (continues into the image body)
     if feather > 0:
-        m = blur(m, feather)
+        k = int(np.ceil(3 * feather))
+        mp = np.pad(np.pad(m, ((k, k), (0, 0)), mode="wrap"), ((0, 0), (k, k)), mode="edge")
+        m = blur_periodic(mp, feather)[k:k + h, k:k + o]
     if img.ndim == 3:
         m = m[..., None]
     joined = m * A + (1.0 - m) * B
@@ -513,26 +575,119 @@ def _fit_axis(img, axis, period, min_ov):
     return img, int(n - round(k * period))
 
 
-def make_tileable(img, period_x=None, period_y=None, overlap=96, feather=1.5, min_ov=48):
-    """Seamless version of an almost-tileable image: min-cut self-overlap on both axes (lattice-aware for rows of
-    tiles / courses / planks: the two overlapping strips are a whole number of periods apart), then the Moisan
-    periodic component removes any remaining low-frequency jump. The result is a little smaller than the input;
-    resize it afterwards. Returns (image, (repeats_x, repeats_y)) where repeats are None for non-lattice axes."""
+def joint_profile(img, r, dark=True):
+    """Row profile of thin horizontal lines: row mean of a black (dark lines) or white (bright lines) top-hat."""
+    y = luma(img) if img.ndim == 3 else img
+    a = y
+    for op in (("max", "min") if dark else ("min", "max")):      # closing (dark lines) / opening (bright lines)
+        for ax in (0, 1):
+            pad = [(0, 0), (0, 0)]
+            pad[ax] = (r, r)
+            w = np.lib.stride_tricks.sliding_window_view(np.pad(a, pad, mode="reflect"), 2 * r + 1, axis=ax)
+            a = (w.max(-1) if op == "max" else w.min(-1)).astype(np.float32)
+    out = np.maximum(a - y, 0.0) if dark else np.maximum(y - a, 0.0)
+    prof = out.mean(1)
+    k = np.exp(-0.5 * (np.arange(-4, 5) / 1.5) ** 2)
+    return np.convolve(np.pad(prof, 4, mode="edge"), k / k.sum(), mode="valid").astype(np.float32)
+
+
+def joint_period(img, lo, hi, dark=True):
+    """Course height from the autocorrelation of the joint-line profile (robust to sediment banding, stains and
+    lighting, which fool a plain luma autocorrelation). Returns (period, prominence)."""
+    prof = joint_profile(img, int(max(3, round(lo / 12))), dark)
+    prof = prof - prof.mean()
+    n = prof.size
+    F = np.fft.fft(prof)
+    ac = np.real(np.fft.ifft(F * np.conj(F)))
+    ac = ac / max(ac[0], 1e-12)
+    best = (float(lo), 0.0)
+    for k in range(max(lo, 2), min(hi, n // 2 - 1)):
+        if not (ac[k] > ac[k - 1] and ac[k] >= ac[k + 1]):
+            continue
+        d = max(3, k // 3)
+        prom = ac[k] - 0.5 * (ac[k - d] + ac[min(k + d, n - 1)])
+        if prom > best[1]:
+            a, b, c = ac[k - 1], ac[k], ac[k + 1]
+            den = a - 2 * b + c
+            off = 0.5 * (a - c) / den if abs(den) > 1e-12 else 0.0
+            best = (float(k + np.clip(off, -0.5, 0.5)), float(prom))
+    return best
+
+
+def find_joints(img, period, dark=True):
+    """Rows of horizontal joints (mortar lines, course shadow lines) in a coursed texture: peaks of the joint-line
+    profile picked greedily with non-maximum suppression (0.6 period). Returns sorted rows."""
+    prof = joint_profile(img, int(max(3, round(period / 12))), dark)
+    thr = float(np.median(prof) + 0.5 * prof.std())
+    order = np.argsort(prof)[::-1]
+    taken = []
+    for i in order:
+        if prof[i] < thr:
+            break
+        if all(abs(int(i) - t) > 0.6 * period for t in taken):
+            taken.append(int(i))
+    return sorted(taken)
+
+
+def crop_to_joints(img, period, dark=True, even=False, min_frac=0.75):
+    """Crop rows so the image spans a whole number of courses from one joint to another: the vertical wrap then
+    falls exactly on a joint and courses stack naturally (no half blocks, no mismatched vertical joints).
+    Joints extrapolated one period beyond the first / last detected joint count too when they fall within a
+    joint's half-width of the image border. even=True keeps an even course count so staggered rows alternate
+    across the wrap. The crop must keep at least min_frac of the height (limits the vertical rescale).
+    Returns (cropped image, courses) or (None, 0) if no clean joint pair is found."""
+    h = img.shape[0]
+    joints = find_joints(img, period, dark)
+    if not joints:
+        return None, 0
+    tol = 0.06 * period
+    cand = list(joints)
+    top = joints[0] - period
+    bot = joints[-1] + period
+    if -tol <= top <= tol:
+        cand.insert(0, 0)
+    if h - tol <= bot <= h + tol:
+        cand.append(h)
+    best = None
+    for i, j0 in enumerate(cand):
+        for j1 in cand[i + 1:]:
+            n = int(round((j1 - j0) / period))
+            if n < 2 or (even and n % 2) or (j1 - j0) < min_frac * h:
+                continue
+            if abs((j1 - j0) - n * period) > 0.2 * period:
+                continue
+            if best is None or (j1 - j0) > best[1] - best[0]:
+                best = (j0, j1, n)
+    if best is None:
+        return None, 0
+    j0, j1, n = best
+    return img[j0:j1], n
+
+
+def make_tileable(img, period_x=None, period_y=None, overlap=96, feather=1.5, min_ov=48, presmoothed=False,
+                  y_done=False):
+    """Seamless version of an almost-tileable image. The Moisan periodic component first removes the low-frequency
+    mismatch between opposite borders (unless `presmoothed`); then each axis is closed by a min-cut self-overlap
+    (lattice-aware for rows of tiles / courses / planks: the two overlapping strips are a whole number of periods
+    apart). The final wrap pairs are natural neighbour pixels, so there is no seam and no smoothed line either.
+    The result is a little smaller than the input; resize it afterwards.
+    Returns (image, (repeats_x, repeats_y)) where repeats are None for non-lattice axes."""
     reps = [None, None]
-    a = img
-    if period_y:
-        a, oy = _fit_axis(a, 0, period_y, min_ov)
-        reps[1] = int(round((a.shape[0] - oy) / period_y))
-    else:
-        oy = overlap
-    a = np.swapaxes(_self_quilt_x(np.swapaxes(a, 0, 1), oy, feather), 0, 1)
+    a = img if presmoothed else periodic_component(img)
+    if not y_done:
+        if period_y:
+            a, oy = _fit_axis(a, 0, period_y, min_ov)
+            reps[1] = int(round((a.shape[0] - oy) / period_y))
+        else:
+            oy = overlap
+        a = np.swapaxes(_self_quilt_x(np.swapaxes(a, 0, 1), oy, feather), 0, 1)
     if period_x:
         a, ox = _fit_axis(a, 1, period_x, min_ov)
         reps[0] = int(round((a.shape[1] - ox) / period_x))
     else:
         ox = overlap
     a = _self_quilt_x(a, ox, feather)
-    return periodic_component(a), tuple(reps)
+    return a.astype(np.float32), tuple(reps)
 
 
 # ----------------------------------------------------------------------------------------------- surface maps

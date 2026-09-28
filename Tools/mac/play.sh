@@ -2,7 +2,7 @@
 # Starts the game in its own window, without the editor. The "LA PLACE" desktop icon runs this.
 #   Tools/mac/play.sh                 arena: you play Rudeus against an AI Orsted
 #   Tools/mac/play.sh --as Orsted     arena: you play Orsted against an AI Rudeus
-#   Tools/mac/play.sh --explore       the open world with no arena opponent
+#   Tools/mac/play.sh --explore       the LA PLACE title menu and open world (no arena opponent)
 #   Tools/mac/play.sh --editor        opens the project in the Unreal editor instead
 #   Tools/mac/play.sh --make-icon     (re)creates the "LA PLACE" launcher on the Desktop
 # UE_ROOT=/path/to/UE_5.8 overrides the engine location.
@@ -10,7 +10,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 UE_ROOT="${UE_ROOT:-/Users/Shared/Epic Games/UE_5.8}"
 EDITOR_APP="$UE_ROOT/Engine/Binaries/Mac/UnrealEditor.app"
+# The LA PLACE world once it is built (Tools/mac/build_and_setup.sh), else the original Fittoa test map.
 MAP="/Game/Maps/L_Fittoa"
+if [ -f "$ROOT/Content/Maps/L_LaPlace.umap" ]; then
+	MAP="/Game/Maps/L_LaPlace"
+fi
 AS="Rudeus"
 MODE="arena"
 

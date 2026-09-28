@@ -67,14 +67,14 @@ GRASS_DIR = ROOT + "/World/Grass"
 # Landscape grass (spawned by the GPU around the camera from the landscape material's grass outputs):
 # name -> (varieties [(kit mesh, instances per 10 m2)], (cull start, cull end) cm, scale range)
 GRASS_TYPES = {
-    "Lush": ([("Plants/SM_Grass_A", 40), ("Plants/SM_Grass_B", 30), ("Plants/SM_Grass_C", 22)], (4500, 8000), (0.8, 1.25)),
-    "Dry": ([("Plants/SM_Grass_Dry_A", 34), ("Plants/SM_Grass_Dry_B", 26)], (4500, 8000), (0.8, 1.2)),
-    "Snow": ([("Plants/SM_Grass_Snow_A", 22)], (4500, 8000), (0.8, 1.2)),
-    "Flowers": ([("Plants/SM_Flowers_A", 5), ("Plants/SM_Flowers_B", 5), ("Plants/SM_Flowers_C", 5)], (4000, 7000), (0.8, 1.2)),
-    "Wheat": ([("Plants/SM_Wheat_A", 90), ("Plants/SM_Wheat_B", 70)], (9000, 14000), (0.9, 1.15)),
-    "Forest": ([("Plants/SM_Fern_A", 10), ("Plants/SM_Fern_B", 8)], (5000, 9000), (0.8, 1.3)),
-    "Reeds": ([("Plants/SM_Reeds_A", 12), ("Plants/SM_Reeds_B", 10)], (5000, 9000), (0.8, 1.2)),
-    "Pebbles": ([("Rocks/SM_Rock_Small_A", 1.2), ("Rocks/SM_Rock_Small_B", 1.2), ("Rocks/SM_Rock_Small_C", 1.2)], (3000, 6000), (0.3, 0.8)),
+    "Lush": ([("Plants/SM_Grass_A", 20), ("Plants/SM_Grass_B", 15), ("Plants/SM_Grass_C", 10)], (3500, 6500), (0.8, 1.25)),
+    "Dry": ([("Plants/SM_Grass_Dry_A", 18), ("Plants/SM_Grass_Dry_B", 14)], (3500, 6500), (0.8, 1.2)),
+    "Snow": ([("Plants/SM_Grass_Snow_A", 12)], (3500, 6500), (0.8, 1.2)),
+    "Flowers": ([("Plants/SM_Flowers_A", 3), ("Plants/SM_Flowers_B", 3), ("Plants/SM_Flowers_C", 3)], (3500, 6000), (0.8, 1.2)),
+    "Wheat": ([("Plants/SM_Wheat_A", 18), ("Plants/SM_Wheat_B", 12)], (7000, 11000), (0.9, 1.15)),
+    "Forest": ([("Plants/SM_Fern_A", 6), ("Plants/SM_Fern_B", 5)], (4000, 7000), (0.8, 1.3)),
+    "Reeds": ([("Plants/SM_Reeds_A", 8), ("Plants/SM_Reeds_B", 6)], (4000, 7000), (0.8, 1.2)),
+    "Pebbles": ([("Rocks/SM_Rock_Small_A", 0.8), ("Rocks/SM_Rock_Small_B", 0.8), ("Rocks/SM_Rock_Small_C", 0.8)], (2500, 5000), (0.3, 0.8)),
 }
 
 
@@ -547,8 +547,44 @@ def open_map():
     return True
 
 
+def ensure_hlod_layer(name):
+    """Instancing HLOD layer, always loaded: distant cells show their buildings / trees as instanced Nanite meshes."""
+    folder = ROOT + "/World/HLOD"
+    path = "%s/%s" % (folder, name)
+    layer = unreal.load_asset(path) if EAL.does_asset_exist(path) else TOOLS.create_asset(name, folder, unreal.HLODLayer, unreal.HLODLayerFactory())
+    if layer is None:
+        warn("could not create HLOD layer " + path)
+        return None
+    layer.set_editor_property("layer_type", unreal.HLODLayerType.INSTANCING)
+    layer.set_editor_property("is_spatially_loaded", False)
+    EAL.save_loaded_asset(layer)
+    return layer
+
+
+def place_player_start():
+    try:
+        with open(os.path.join(PROJECT, "Content", "Data", "Locations.json"), "r", encoding="utf-8") as f:
+            rows = json.load(f)
+    except Exception:  # noqa: BLE001
+        return
+    spawn_rows = [r for r in rows if r.get("bSpawnPoint")]
+    if not spawn_rows:
+        return
+    first = next((r for r in spawn_rows if r["LocationID"] == "Buena"), spawn_rows[0])
+    loc = first["WorldLocation"]
+    spawn(unreal.PlayerStart, "LaPlace_PlayerStart", unreal.Vector(loc["X"], loc["Y"], loc["Z"] + 120.0),
+          unreal.Rotator(0, 0, float(first.get("SpawnYaw", 0.0))))
+
+
 def stage_map(world):
     open_map()
+    layers = [layer for layer in (ensure_hlod_layer(n) for n in ("HLOD_City", "HLOD_Nature")) if layer]
+    # 2 km HLOD cells, loaded across the whole 18 km world (the layers are not spatially loaded anyway).
+    if hasattr(WB, "register_hlod_layers"):
+        WB.register_hlod_layers(layers, 204800, 2000000)
+    else:
+        warn("this build has no RegisterHLODLayers yet: rebuild the C++ module and run the 'hlodsetup' stage")
+    place_player_start()
     # Streamed content (foliage chunks, city districts) loads within ~1.6 km; terrain, water and sky are always loaded.
     WB.configure_world_partition_grid(51200, 160000)
 
@@ -753,7 +789,28 @@ def stage_water(world):
         if mesh:
             place_mesh_actor("LaPlace_River_" + river["Id"], mesh, unreal.Vector(cx, cy, cz), ["MTWater"])
             rivers += 1
+    # Swimmable water: the character swims instead of walking on the sea / lake floor. Default volume brushes are
+    # 200 units wide, so the actor scale is half the extent / 100.
+    add_water_volume("LaPlace_OceanVolume", unreal.Vector(0, 0, -15000.0), unreal.Vector(half / 100.0, half / 100.0, 150.0))
+    for lake in world.get("Lakes", []):
+        poly = [(p["X"], p["Y"]) for p in lake.get("Polygon", [])]
+        if len(poly) < 3 or lake.get("Frozen"):
+            continue
+        xs, ys = [p[0] for p in poly], [p[1] for p in poly]
+        z = float(lake.get("WaterZ", 0.0))
+        depth = 3000.0
+        add_water_volume("LaPlace_LakeVolume_" + lake["Id"], unreal.Vector((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2, z - depth / 2),
+                         unreal.Vector((max(xs) - min(xs)) / 200.0, (max(ys) - min(ys)) / 200.0, depth / 200.0))
     log("water: ocean, %d lakes, %d rivers" % (lakes, rivers))
+
+
+def add_water_volume(label, center, scale):
+    vol = spawn(unreal.PhysicsVolume, label, center)
+    vol.set_actor_scale3d(scale)
+    vol.set_editor_property("water_volume", True)
+    vol.set_editor_property("fluid_friction", 0.35)
+    vol.set_editor_property("tags", ["MTWater"])
+    return vol
 
 
 # --------------------------------------------------------------------------------------------- instances
@@ -776,6 +833,96 @@ def stage_instances(world):
         log("instance set %s: %d instances (replaced %d actors)" % (name, count, removed))
 
 
+# --------------------------------------------------------------------------------------------- PCG road dressing
+
+PCG_DIR = ROOT + "/World/PCG"
+# Roadside dressing (weight): waymarks, rocks, bushes and the odd cart or fence along every road between settlements.
+ROADSIDE_MESHES = [("Props/SM_Prop_Signpost_A", 1), ("Rural/SM_Rural_Fence_4m", 3), ("Rural/SM_Rural_Haystack", 1),
+                   ("Rocks/SM_Rock_Small_A", 5), ("Rocks/SM_Rock_Small_B", 5), ("Rocks/SM_Rock_Medium_A", 2),
+                   ("Plants/SM_Bush_A", 5), ("Plants/SM_Bush_C", 5), ("Plants/SM_Bush_D", 4)]
+
+
+def pcg_node(graph, cls, **props):
+    node, settings = graph.add_node_of_type(cls)
+    for k, v in props.items():
+        settings.set_editor_property(k, v)
+    return node, settings
+
+
+def build_roadside_graph():
+    """PCG graph: sample the road spline every ~16 m, push the points out to both verges, project them onto the
+    landscape, prune overlaps and spawn a weighted mix of waymarks, fences, rocks and bushes."""
+    path = PCG_DIR + "/PCG_Roadside"
+    if EAL.does_asset_exist(path):
+        EAL.delete_asset(path)
+    graph = TOOLS.create_asset("PCG_Roadside", PCG_DIR, unreal.PCGGraph, unreal.PCGGraphFactory())
+    spline, _ = pcg_node(graph, unreal.PCGGetSplineSettings)
+    sampler, sampler_settings = pcg_node(graph, unreal.PCGSplineSamplerSettings)
+    params = sampler_settings.get_editor_property("sampler_params")
+    params.set_editor_property("mode", unreal.PCGSplineSamplingMode.DISTANCE)
+    params.set_editor_property("distance_increment", 1600.0)
+    sampler_settings.set_editor_property("sampler_params", params)
+    left, _ = pcg_node(graph, unreal.PCGTransformPointsSettings, offset_min=unreal.Vector(-400, 650, 0), offset_max=unreal.Vector(400, 1100, 0),
+                       rotation_min=unreal.Rotator(0, 0, -180), rotation_max=unreal.Rotator(0, 0, 180), scale_min=unreal.Vector(0.8, 0.8, 0.8),
+                       scale_max=unreal.Vector(1.25, 1.25, 1.25))
+    right, _ = pcg_node(graph, unreal.PCGTransformPointsSettings, offset_min=unreal.Vector(-400, -1100, 0), offset_max=unreal.Vector(400, -650, 0),
+                        rotation_min=unreal.Rotator(0, 0, -180), rotation_max=unreal.Rotator(0, 0, 180), scale_min=unreal.Vector(0.8, 0.8, 0.8),
+                        scale_max=unreal.Vector(1.25, 1.25, 1.25))
+    landscape, landscape_settings = pcg_node(graph, unreal.PCGGetLandscapeSettings)
+    selector = landscape_settings.get_editor_property("actor_selector")
+    selector.set_editor_property("actor_filter", unreal.PCGActorFilter.ALL_WORLD_ACTORS)
+    landscape_settings.set_editor_property("actor_selector", selector)
+    projection, _ = pcg_node(graph, unreal.PCGProjectionSettings)
+    pruning, _ = pcg_node(graph, unreal.PCGSelfPruningSettings)
+    spawner, spawner_settings = pcg_node(graph, unreal.PCGStaticMeshSpawnerSettings)
+    spawner_settings.set_editor_property("mesh_selector_type", unreal.PCGMeshSelectorWeighted)
+    selector_params = spawner_settings.get_editor_property("mesh_selector_parameters")
+    entries = []
+    for rel, weight in ROADSIDE_MESHES:
+        mesh = unreal.load_asset("%s/Kit/%s" % (ROOT, rel))
+        if mesh is None:
+            continue
+        entry = unreal.PCGMeshSelectorWeightedEntry()
+        descriptor = entry.get_editor_property("descriptor")
+        descriptor.set_editor_property("static_mesh", mesh)
+        entry.set_editor_property("descriptor", descriptor)
+        entry.set_editor_property("weight", weight)
+        entries.append(entry)
+    selector_params.set_editor_property("mesh_entries", entries)
+    graph.add_edge(spline, "Out", sampler, "In")
+    graph.add_edge(sampler, "Out", left, "In")
+    graph.add_edge(sampler, "Out", right, "In")
+    graph.add_edge(left, "Out", projection, "In")
+    graph.add_edge(right, "Out", projection, "In")
+    graph.add_edge(landscape, "Out", projection, "Projection Target")
+    graph.add_edge(projection, "Out", pruning, "In")
+    graph.add_edge(pruning, "Out", spawner, "In")
+    graph.add_edge(spawner, "Out", graph.get_output_node(), "In")
+    EAL.save_loaded_asset(graph)
+    log("PCG graph %s: %d roadside meshes" % (path, len(entries)))
+    return graph
+
+
+def stage_pcg(world):
+    """One AMTRoadActor per road (spline + PCG component with PCG_Roadside); Tools/mac/build_pcg.sh generates them."""
+    graph = build_roadside_graph()
+    cls = unreal.load_class(None, "/Script/MushokuRPG.MTRoadActor")
+    removed = WB.destroy_actors_with_tag("MTRoad")
+    count = 0
+    for road in world.get("Roads", []):
+        pts = [unreal.Vector(p["X"], p["Y"], p["Z"]) for p in road.get("Points", [])]
+        if len(pts) < 2:
+            continue
+        actor = actor_subsystem().spawn_actor_from_class(cls, pts[0], unreal.Rotator(0, 0, 0))
+        actor.set_actor_label("LaPlace_Road_" + road["Id"])
+        actor.set_road_points(pts, float(road.get("WidthCm", 600.0)))
+        actor.set_editor_property("tags", ["MTRoad"])
+        pcg = actor.get_editor_property("pcg")
+        pcg.set_graph(graph)
+        count += 1
+    log("roads: %d road actors with PCG dressing (replaced %d)" % (count, removed))
+
+
 def stage_save():
     unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True, True)
     log("saved")
@@ -788,7 +935,7 @@ def main():
         stage_textures()
     if "materials" in STAGES:
         stage_materials(world)
-    if any(s in STAGES for s in ("map", "landscape", "water", "instances")):
+    if any(s in STAGES for s in ("map", "landscape", "water", "instances", "pcg", "hlodsetup")):
         if "map" in STAGES:
             stage_map(world)
         else:
@@ -799,6 +946,10 @@ def main():
         stage_water(world)
     if "instances" in STAGES:
         stage_instances(world)
+    if "hlodsetup" in STAGES:
+        WB.register_hlod_layers([unreal.load_asset(ROOT + "/World/HLOD/" + n) for n in ("HLOD_City", "HLOD_Nature")], 204800, 2000000)
+    if "pcg" in STAGES:
+        stage_pcg(world)
     if "save" in STAGES:
         stage_save()
     log("done")

@@ -102,6 +102,11 @@ public:
 
 	AMTCharacterBase* GetOwnerCharacter() const;
 
+	/** Admin panel (UMTAdminSubsystem): abilities never go on cooldown. */
+	UPROPERTY(Transient, BlueprintReadWrite, Category = "Mushoku|Abilities") bool bNoCooldowns = false;
+	/** Clears every running cooldown. */
+	void ResetAllCooldowns() { CooldownEnd.Reset(); }
+
 	/** Seconds an input is remembered while another ability is busy. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Abilities") float InputBufferTime = 0.25f;
 

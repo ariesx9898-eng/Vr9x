@@ -57,6 +57,13 @@ def selftest():
 def _job(args):
     group, name = args
     t0 = time.time()
+    try:
+        return _build_one(group, name, t0)
+    except FileNotFoundError as e:           # an AI source is missing: skip this material, keep the rest
+        return group, name, {"job": f"{group}/{name}", "missing": str(e), "build_s": round(time.time() - t0, 1)}
+
+
+def _build_one(group, name, t0):
     if group == "Terrain":
         entry, _ = terrain.build(name, terrain.TERRAIN[name])
     elif group == "Palette":
@@ -112,6 +119,10 @@ def main():
     else:
         for j in jobs:
             results.append(_job(j))
+    missing = [r for r in results if "missing" in r[2]]
+    for r in missing:
+        print(f"  SKIPPED {r[0]}/{r[1]}: {r[2]['missing']}")
+    results = [r for r in results if "missing" not in r[2]]
     manifest = {"entries": []}
     if os.path.exists(MANIFEST):
         manifest = json.load(open(MANIFEST))

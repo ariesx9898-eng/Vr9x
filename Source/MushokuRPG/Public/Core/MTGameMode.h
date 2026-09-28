@@ -39,4 +39,6 @@ public:
 
 private:
 	bool bMenuMode = false;
+	/** 1 and 0 held together open the admin popup (UMTAdminSubsystem); edge-triggered. */
+	bool bAdminComboHeld = false;
 };

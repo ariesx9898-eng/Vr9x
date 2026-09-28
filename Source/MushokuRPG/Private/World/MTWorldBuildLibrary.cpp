@@ -25,6 +25,8 @@
 #include "WorldPartition/HLOD/HLODLayer.h"
 #include "WorldPartition/WorldPartition.h"
 #include "WorldPartition/WorldPartitionRuntimeHash.h"
+#include "WorldPartition/RuntimeHashSet/WorldPartitionRuntimeHashSet.h"
+#include "WorldPartition/RuntimeHashSet/RuntimePartition.h"
 #if WITH_EDITOR
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "Editor.h"
@@ -364,6 +366,61 @@ int32 UMTWorldBuildLibrary::ConfigureWorldPartitionGrid(int32 CellSizeCm, int32 
 #endif
 }
 
+int32 UMTWorldBuildLibrary::RegisterHLODLayers(const TArray<UHLODLayer*>& Layers, int32 CellSizeCm, int32 LoadingRangeCm)
+{
+#if WITH_EDITOR
+	UWorld* World = MTWorldBuild::EditorWorld();
+	UWorldPartition* WorldPartition = World ? World->GetWorldPartition() : nullptr;
+	UWorldPartitionRuntimeHash* Hash = WorldPartition ? WorldPartition->RuntimeHash.Get() : nullptr;
+	FArrayProperty* ArrayProp = Hash ? CastField<FArrayProperty>(Hash->GetClass()->FindPropertyByName(TEXT("RuntimePartitions"))) : nullptr;
+	UClass* GridClass = FindObject<UClass>(nullptr, TEXT("/Script/Engine.RuntimePartitionLHGrid"));
+	if (!ArrayProp || !GridClass)
+	{
+		UE_LOG(LogMTWorldBuild, Warning, TEXT("RegisterHLODLayers: the world does not use a runtime hash set"));
+		return 0;
+	}
+	FScriptArrayHelper Array(ArrayProp, ArrayProp->ContainerPtrToValuePtr<void>(Hash));
+	if (Array.Num() == 0)
+	{
+		return 0;
+	}
+	Hash->Modify();
+	FRuntimePartitionDesc& Desc = *reinterpret_cast<FRuntimePartitionDesc*>(Array.GetRawPtr(0));
+	int32 Added = 0;
+	for (UHLODLayer* Layer : Layers)
+	{
+		if (!Layer || Desc.HLODSetups.ContainsByPredicate([Layer](const FRuntimePartitionHLODSetup& Setup) { return Setup.HLODLayers.Contains(Layer); }))
+		{
+			continue;
+		}
+		FRuntimePartitionHLODSetup& Setup = Desc.HLODSetups.AddDefaulted_GetRef();
+		Setup.Name = Layer->GetFName();
+		Setup.HLODLayers = { Layer };
+		Setup.bIsSpatiallyLoaded = Layer->IsSpatiallyLoaded();
+		UObject* Grid = NewObject<UObject>(Hash, GridClass, NAME_None, RF_Transactional);
+		MTWorldBuild::SetNumber(GridClass, Grid, TEXT("CellSize"), CellSizeCm);
+		MTWorldBuild::SetNumber(GridClass, Grid, TEXT("LoadingRange"), LoadingRangeCm);
+		MTWorldBuild::SetNumber(GridClass, Grid, TEXT("HLODIndex"), 0);
+		MTWorldBuild::SetNumber(GridClass, Grid, TEXT("Priority"), 0);
+		if (FNameProperty* NameProp = CastField<FNameProperty>(GridClass->FindPropertyByName(TEXT("Name"))))
+		{
+			NameProp->SetPropertyValue_InContainer(Grid, Setup.Name);
+		}
+		if (FBoolProperty* ClientOnly = CastField<FBoolProperty>(GridClass->FindPropertyByName(TEXT("bClientOnlyVisible"))))
+		{
+			ClientOnly->SetPropertyValue_InContainer(Grid, true);
+		}
+		Setup.PartitionLayer = static_cast<URuntimePartition*>(Grid);
+		++Added;
+	}
+	Hash->MarkPackageDirty();
+	UE_LOG(LogMTWorldBuild, Display, TEXT("RegisterHLODLayers: %d added (%d setups on %s)"), Added, Desc.HLODSetups.Num(), *Desc.Name.ToString());
+	return Added;
+#else
+	return 0;
+#endif
+}
+
 bool UMTWorldBuildLibrary::LoadHeightmapForQueries(const FString& HeightmapFile, int32 VerticesX, int32 VerticesY, FVector Location, FVector Scale)
 {
 	if (!MTWorldBuild::LoadRawHeights(HeightmapFile, VerticesX, VerticesY, MTWorldBuild::QueryHeights))
@@ -623,6 +680,36 @@ bool UMTWorldBuildLibrary::SetTrunkCollision(UStaticMesh* Mesh, float Radius, fl
 	Body->InvalidatePhysicsData();
 	Body->CreatePhysicsMeshes();
 	Mesh->bCustomizedCollision = true;
+	Mesh->MarkPackageDirty();
+	return true;
+#else
+	return false;
+#endif
+}
+
+bool UMTWorldBuildLibrary::ConfigureKitMesh(UStaticMesh* Mesh, const TMap<FName, UMaterialInterface*>& SlotMaterials, bool bNanite, bool bPreserveArea)
+{
+#if WITH_EDITOR
+	if (!Mesh)
+	{
+		return false;
+	}
+	Mesh->Modify();
+	for (FStaticMaterial& Slot : Mesh->GetStaticMaterials())
+	{
+		if (UMaterialInterface* const* Found = SlotMaterials.Find(Slot.MaterialSlotName))
+		{
+			if (*Found)
+			{
+				Slot.MaterialInterface = *Found;
+			}
+		}
+	}
+	FMeshNaniteSettings Nanite = Mesh->GetNaniteSettings();
+	Nanite.bEnabled = bNanite;
+	Nanite.ShapePreservation = bPreserveArea ? ENaniteShapePreservation::PreserveArea : ENaniteShapePreservation::None;
+	Mesh->SetNaniteSettings(Nanite);
+	Mesh->PostEditChange(); // one rebuild for everything above
 	Mesh->MarkPackageDirty();
 	return true;
 #else
