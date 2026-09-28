@@ -19,6 +19,7 @@ import scene  # noqa: E402
 import preview  # noqa: E402
 import rudeus_anim_lib as L  # noqa: E402
 from pose_compose import compose, ankle_from_contact, DEFAULTS  # noqa: E402
+import importlib  # noqa: E402
 import clips as C  # noqa: E402
 
 OUT_GLB = os.path.join(scene.ROOT, "SourceArt", "Characters", "Rudeus", "Rudeus_Animated.glb")
@@ -100,9 +101,12 @@ def qa_clip(rig, name, duration, loop, fn):
             "planted_slip_cm_s": round(slip, 2), "loop_seam_deg": round(seam, 3)}
 
 
+PREFIX = "A_Rudeus_"
+
+
 def author_clip(rig, mesh, name, duration, loop, fn):
     arm = rig.obj
-    act = bpy.data.actions.new("A_Rudeus_" + name)
+    act = bpy.data.actions.new(PREFIX + name)
     act.use_fake_user = True
     arm.animation_data_create()
     arm.animation_data.action = act
@@ -160,8 +164,20 @@ def main():
     ap.add_argument("--clips", nargs="*")
     ap.add_argument("--no-export", action="store_true")
     ap.add_argument("--sheets", action="store_true", help="render QA contact sheets")
+    ap.add_argument("--character", default="Rudeus", help="Rudeus | Orsted")
+    ap.add_argument("--rig", default="", help="skinned GLB on Rudeus's skeleton (default: the character's source)")
+    ap.add_argument("--texture", default="")
+    ap.add_argument("--out", default="")
     args = ap.parse_args(sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else sys.argv[1:])
-    arm, mesh = scene.load_rudeus()
+    global C, PREFIX, OUT_GLB
+    if args.character != "Rudeus":
+        C = importlib.import_module("clips_" + args.character.lower())
+        C.FPS = 30
+    PREFIX = "A_%s_" % args.character
+    rig_path = args.rig or (scene.GLB if args.character == "Rudeus" else os.path.join(
+        scene.ROOT, "SourceArt", "Characters", args.character, args.character + "_Rigged.glb"))
+    OUT_GLB = args.out or os.path.join(scene.ROOT, "SourceArt", "Characters", args.character, args.character + "_Animated.glb")
+    arm, mesh = scene.load_rudeus(rig_path)
     scn = bpy.context.scene
     scn.render.fps, scn.render.fps_base = C.FPS, 1.0   # keys are authored at 30 fps; exporter converts frames->seconds with this
     rig = L.Rig(arm)
@@ -169,24 +185,32 @@ def main():
     report = []
     if args.sheets:
         os.makedirs(QA_DIR, exist_ok=True)
-        tex = TEX if os.path.exists(TEX) else "/tmp/claude-0/-home-user-Vr9x/8f8f58f4-a454-521c-8e8c-db8593c883ac/scratchpad/rudeus_atlas.png"
-        preview.load_texture(tex)
+        tex = args.texture or (TEX if args.character == "Rudeus" else "")
+        if not tex:
+            imgs = [im for im in bpy.data.images if im.size[0] > 0]
+            if imgs:
+                tex = os.path.join(QA_DIR, "_tex_%s.png" % args.character)
+                imgs[0].save_render(tex)
+        if tex and os.path.exists(tex):
+            preview.load_texture(tex)
     for name in names:
         duration, loop, fn = C.CLIPS[name]
         q = qa_clip(rig, name, duration, loop, fn)
         report.append(q)
         print(json.dumps(q))
         if args.sheets:
-            contact_sheet(rig, mesh, name, duration, loop, fn).save(os.path.join(QA_DIR, "A_Rudeus_%s.png" % name))
+            contact_sheet(rig, mesh, name, duration, loop, fn).save(os.path.join(QA_DIR, "%s%s.png" % (PREFIX, name)))
     if not args.no_export:
         for name in names:
             duration, loop, fn = C.CLIPS[name]
             author_clip(rig, mesh, name, duration, loop, fn)
+        os.makedirs(os.path.dirname(OUT_GLB), exist_ok=True)
         export(arm, mesh, OUT_GLB)
         meta = {name: {"duration": C.CLIPS[name][0], "loop": C.CLIPS[name][1]} for name in names}
         for name, G in C.GAITS.items():
             if name in meta:
                 meta[name]["ref_speed_cm_s"] = round(G["speed"] * 100, 1)
+        os.makedirs(os.path.dirname(OUT_GLB), exist_ok=True)
         with open(OUT_GLB.replace(".glb", ".anim.json"), "w") as f:
             json.dump({"clips": meta, "qa": report}, f, indent=1)
         print("exported", OUT_GLB)
