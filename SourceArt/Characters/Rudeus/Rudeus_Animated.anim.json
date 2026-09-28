@@ -1,0 +1,420 @@
+{
+ "clips": {
+  "Idle": {
+   "duration": 4.0,
+   "loop": true
+  },
+  "CombatIdle": {
+   "duration": 2.0,
+   "loop": true
+  },
+  "Walk": {
+   "duration": 0.9333333333333333,
+   "loop": true,
+   "ref_speed_cm_s": 130.0
+  },
+  "WalkBack": {
+   "duration": 0.9333333333333333,
+   "loop": true,
+   "ref_speed_cm_s": 100.0
+  },
+  "StrafeLeft": {
+   "duration": 0.6,
+   "loop": true,
+   "ref_speed_cm_s": 110.0
+  },
+  "StrafeRight": {
+   "duration": 0.6,
+   "loop": true,
+   "ref_speed_cm_s": 110.0
+  },
+  "Run": {
+   "duration": 0.6333333333333333,
+   "loop": true,
+   "ref_speed_cm_s": 360.0
+  },
+  "Sprint": {
+   "duration": 0.5666666666666667,
+   "loop": true,
+   "ref_speed_cm_s": 580.0
+  },
+  "Rise": {
+   "duration": 0.6,
+   "loop": true
+  },
+  "Fall": {
+   "duration": 0.6,
+   "loop": true
+  },
+  "StoneCannon_Hold": {
+   "duration": 1.0,
+   "loop": true
+  },
+  "JumpStart": {
+   "duration": 0.26,
+   "loop": false
+  },
+  "Land": {
+   "duration": 0.4,
+   "loop": false
+  },
+  "HardLand": {
+   "duration": 0.8,
+   "loop": false
+  },
+  "DodgeForward": {
+   "duration": 0.4,
+   "loop": false
+  },
+  "DodgeBack": {
+   "duration": 0.4,
+   "loop": false
+  },
+  "DodgeLeft": {
+   "duration": 0.4,
+   "loop": false
+  },
+  "DodgeRight": {
+   "duration": 0.4,
+   "loop": false
+  },
+  "HitFront": {
+   "duration": 0.35,
+   "loop": false
+  },
+  "HitBack": {
+   "duration": 0.35,
+   "loop": false
+  },
+  "HitLeft": {
+   "duration": 0.35,
+   "loop": false
+  },
+  "HitRight": {
+   "duration": 0.35,
+   "loop": false
+  },
+  "Stagger": {
+   "duration": 0.8,
+   "loop": false
+  },
+  "Knockdown": {
+   "duration": 1.4,
+   "loop": false
+  },
+  "Death": {
+   "duration": 1.6,
+   "loop": false
+  },
+  "CastBasic": {
+   "duration": 0.45,
+   "loop": false
+  },
+  "StoneCannon_Charge": {
+   "duration": 0.35,
+   "loop": false
+  },
+  "StoneCannon_Release": {
+   "duration": 0.6,
+   "loop": false
+  },
+  "Quagmire": {
+   "duration": 0.9,
+   "loop": false
+  },
+  "Barrage": {
+   "duration": 1.2,
+   "loop": false
+  },
+  "DemonEye": {
+   "duration": 0.8,
+   "loop": false
+  },
+  "Awakening": {
+   "duration": 1.8,
+   "loop": false
+  },
+  "CastTwoHand": {
+   "duration": 0.6,
+   "loop": false
+  },
+  "CastGround": {
+   "duration": 0.8,
+   "loop": false
+  }
+ },
+ "qa": [
+  {
+   "clip": "Idle",
+   "frames": 121,
+   "max_leg_reach": 0.97,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "CombatIdle",
+   "frames": 61,
+   "max_leg_reach": 0.912,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Walk",
+   "frames": 29,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "WalkBack",
+   "frames": 29,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "StrafeLeft",
+   "frames": 19,
+   "max_leg_reach": 0.979,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "StrafeRight",
+   "frames": 19,
+   "max_leg_reach": 0.979,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Run",
+   "frames": 20,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Sprint",
+   "frames": 18,
+   "max_leg_reach": 0.985,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Rise",
+   "frames": 19,
+   "max_leg_reach": 0.0,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Fall",
+   "frames": 19,
+   "max_leg_reach": 0.0,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "StoneCannon_Hold",
+   "frames": 31,
+   "max_leg_reach": 0.876,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "JumpStart",
+   "frames": 9,
+   "max_leg_reach": 0.966,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Land",
+   "frames": 13,
+   "max_leg_reach": 1.0,
+   "max_target_err_cm": 0.06,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "HardLand",
+   "frames": 25,
+   "max_leg_reach": 1.0,
+   "max_target_err_cm": 0.06,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DodgeForward",
+   "frames": 13,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DodgeBack",
+   "frames": 13,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DodgeLeft",
+   "frames": 13,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DodgeRight",
+   "frames": 13,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "HitFront",
+   "frames": 11,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "HitBack",
+   "frames": 11,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "HitLeft",
+   "frames": 11,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "HitRight",
+   "frames": 11,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Stagger",
+   "frames": 25,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Knockdown",
+   "frames": 43,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Death",
+   "frames": 49,
+   "max_leg_reach": 0.962,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "CastBasic",
+   "frames": 15,
+   "max_leg_reach": 0.905,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "StoneCannon_Charge",
+   "frames": 11,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "StoneCannon_Release",
+   "frames": 19,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Quagmire",
+   "frames": 28,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Barrage",
+   "frames": 37,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DemonEye",
+   "frames": 25,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Awakening",
+   "frames": 55,
+   "max_leg_reach": 0.931,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "CastTwoHand",
+   "frames": 19,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "CastGround",
+   "frames": 25,
+   "max_leg_reach": 0.904,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  }
+ ]
+}
