@@ -1,0 +1,232 @@
+[
+  {
+    "Race": "Human",
+    "RaceID": "Human",
+    "DisplayName": "Human",
+    "Description": "The most numerous race of the world, dominant across the Central Continent and home to kingdoms such as Asura. No innate racial power - their strength is training: swordsmanship, battle aura and magic.",
+    "Rarity": "Common",
+    "RollWeight": 1.0,
+    "bImplemented": true,
+    "PassiveName": "Adaptable",
+    "PassiveDescription": "Humans have no racial gift, only practice: cooldowns 5% shorter and 5% more stamina.",
+    "PassiveStats": {
+      "CooldownMultiplier": 0.95
+    },
+    "MaxHealthMultiplier": 1.0,
+    "MaxManaMultiplier": 1.0,
+    "MaxStaminaMultiplier": 1.05,
+    "ActiveAbility": "Race_Human_SecondWind",
+    "TransformationAbility": "Race_Human_LimitBreak",
+    "PassiveCanonStatus": "GAMEPLAY ORIGINAL",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: humans have no innate racial ability. Second Wind and Limit Break are gameplay originals. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "Migurd",
+    "RaceID": "Migurd",
+    "DisplayName": "Migurd",
+    "Description": "A demon race of the Demon Continent that closely resembles humans: blue hair, youthful teenage looks that last until roughly 150 of their ~200 years, and telepathy that lets kin speak mind-to-mind at close range.",
+    "Rarity": "Uncommon",
+    "RollWeight": 1.0,
+    "bImplemented": true,
+    "PassiveName": "Telepathic Kin",
+    "PassiveDescription": "Migurd telepathy sharpens awareness of hostile intent: +0.1 s foresight lead and 3% cheaper spells.",
+    "PassiveStats": {
+      "ForesightLeadBonus": 0.1,
+      "ManaCostMultiplier": 0.97
+    },
+    "MaxHealthMultiplier": 0.9,
+    "MaxManaMultiplier": 1.15,
+    "MaxStaminaMultiplier": 1.0,
+    "ActiveAbility": "Race_Migurd_ResonancePulse",
+    "TransformationAbility": "Race_Migurd_ManaResonance",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: Migurd telepathy, blue hair, youthful appearance and ~200-year lifespan. The numeric effects, Resonance Pulse reveal and Mana Resonance are gameplay adaptations. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "Superd",
+    "RaceID": "Superd",
+    "DisplayName": "Superd",
+    "Description": "A demon race of pale-skinned, green-haired warriors with a red jewel - a third eye - on the forehead that perceives living beings and the flow of mana. Once Laplace's feared vanguard, they carry a curse of fear that made the world hate them.",
+    "Rarity": "Legendary",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Third Eye",
+    "PassiveDescription": "The forehead jewel perceives life and mana: +0.1 s foresight lead and 5% stagger resistance.",
+    "PassiveStats": {
+      "ForesightLeadBonus": 0.1,
+      "StaggerResistance": 0.05
+    },
+    "MaxHealthMultiplier": 1.1,
+    "MaxManaMultiplier": 1.0,
+    "MaxStaminaMultiplier": 1.15,
+    "ActiveAbility": "Race_Superd_ThirdEyeSense",
+    "TransformationAbility": "Race_Superd_WarriorState",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: the red forehead jewel (third eye) detecting living beings and mana, fearsome warrior reputation, and the Curse of Fear tied to Laplace. Warrior State is a gameplay original. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "Beast",
+    "RaceID": "Beast",
+    "DisplayName": "Beast Race",
+    "Description": "The beastfolk of the Great Forest, led by the Doldia tribe descended from the Beast God Giger (feline Dedoldia and canine Adoldia branches). Keen hearing, sight and smell, great physical ability, and 'Howling' voice magic.",
+    "Rarity": "Uncommon",
+    "RollWeight": 1.0,
+    "bImplemented": true,
+    "PassiveName": "Keen Senses",
+    "PassiveDescription": "Heightened senses and agility: 5% faster movement and 5% longer dodges.",
+    "PassiveStats": {},
+    "PassiveMovement": {
+      "SpeedMultiplier": 1.05,
+      "DodgeDistanceMultiplier": 1.05
+    },
+    "MaxHealthMultiplier": 1.05,
+    "MaxManaMultiplier": 0.9,
+    "MaxStaminaMultiplier": 1.1,
+    "ActiveAbility": "Race_Beast_HuntersDash",
+    "TransformationAbility": "Race_Beast_BeastInstinct",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: enhanced senses, physical prowess, Doldia tribe lineage and Howling voice magic. Hunter's Dash and Beast Instinct are gameplay originals (a Howling stun is a candidate future canon active). Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "Elf",
+    "RaceID": "Elf",
+    "DisplayName": "Elf (Long-Eared Tribe)",
+    "Description": "The long-eared tribe of the southern Great Forest on the Millis Continent: long-lived, skilled archers and magicians with a particular talent for water, earth and wind magic; said to be the first users of magic.",
+    "Rarity": "Rare",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Elder Magic",
+    "PassiveDescription": "Innate talent for magic: spells cost 5% less.",
+    "PassiveStats": {
+      "ManaCostMultiplier": 0.95
+    },
+    "MaxHealthMultiplier": 0.95,
+    "MaxManaMultiplier": 1.1,
+    "MaxStaminaMultiplier": 1.0,
+    "ActiveAbility": "Race_Elf_SpiritArrow",
+    "TransformationAbility": "Race_Elf_AncientMana",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: long lifespans, archery and magic aptitude (water/earth/wind). Spirit Arrow and Ancient Mana are gameplay originals. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "Dwarf",
+    "RaceID": "Dwarf",
+    "DisplayName": "Dwarf",
+    "Description": "Craftsmen and smiths settled at the foot of the Blue Dragon Mountains on the Millis Continent, with dexterous hands and an affinity for earth and fire magic. Sometimes classed as a demon race because they arose in the Age of Chaos.",
+    "Rarity": "Uncommon",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Mountain-Forged",
+    "PassiveDescription": "Sturdy build: 10% stagger resistance and 5% damage resistance.",
+    "PassiveStats": {
+      "StaggerResistance": 0.1,
+      "DamageResistance": 0.05
+    },
+    "MaxHealthMultiplier": 1.1,
+    "MaxManaMultiplier": 0.95,
+    "MaxStaminaMultiplier": 1.1,
+    "ActiveAbility": "Race_Dwarf_Stonehide",
+    "TransformationAbility": "Race_Dwarf_ForgeHeart",
+    "PassiveCanonStatus": "GAMEPLAY ORIGINAL",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: smithing, dexterity, earth/fire affinity, Blue Dragon Mountains homeland. The resistance passive, Stonehide and Forge Heart are gameplay originals. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "DragonTribe",
+    "RaceID": "DragonTribe",
+    "DisplayName": "Dragon Tribe",
+    "Description": "Scaled humanoids of the Dragon World, once ruled by the First Dragon God, who taught them Dragon Battle Aura; the strongest of them served as the Five Dragon Generals. Counted among the mightiest races.",
+    "Rarity": "Mythic",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Dragon Scales",
+    "PassiveDescription": "Scaled hide: 5% damage and 5% magic resistance.",
+    "PassiveStats": {
+      "DamageResistance": 0.05,
+      "MagicResistance": 0.05
+    },
+    "MaxHealthMultiplier": 1.15,
+    "MaxManaMultiplier": 1.05,
+    "MaxStaminaMultiplier": 1.1,
+    "ActiveAbility": "Race_Dragon_ScaleGuard",
+    "TransformationAbility": "Race_Dragon_Aura",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "CANON",
+    "LoreNote": "Canon: scaled humanoids, Dragon Battle Aura taught by the First Dragon God, Five Dragon Generals. The timed aura buff is our adaptation of canon Dragon Battle Aura; Scale Guard is a gameplay original. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "ImmortalDemon",
+    "RaceID": "ImmortalDemon",
+    "DisplayName": "Immortal Demon",
+    "Description": "Descendants of the First Demon God (males have jet-black skin and six arms). Famed for Demon Eyes and immortality: destroyed bodies regenerate, shrinking temporarily as the flesh reassembles - as Badigadi the Immortal demonstrates.",
+    "Rarity": "Legendary",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Immortal Flesh",
+    "PassiveDescription": "Unnaturally durable body: 5% damage resistance. (Planned: slow health regeneration - needs a code hook.)",
+    "PassiveStats": {
+      "DamageResistance": 0.05
+    },
+    "MaxHealthMultiplier": 1.2,
+    "MaxManaMultiplier": 1.0,
+    "MaxStaminaMultiplier": 1.0,
+    "ActiveAbility": "Race_Immortal_Reassemble",
+    "TransformationAbility": "Race_Immortal_State",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: regeneration/immortality (Badigadi), Demon Eyes, six-armed males. Reassemble and Immortal State are gameplay adaptations; passive regen needs code support. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "Ogre",
+    "RaceID": "Ogre",
+    "DisplayName": "Ogre",
+    "Description": "Large, immensely powerful humanoids of Ogre Island off the Biheiril Kingdom. Feared as monsters in some regions, but a civilised people with their own culture and old ties to Biheiril.",
+    "Rarity": "Rare",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Ogre Might",
+    "PassiveDescription": "Raw strength: +5% damage and 10% stagger resistance.",
+    "PassiveStats": {
+      "DamageMultiplier": 1.05,
+      "StaggerResistance": 0.1
+    },
+    "MaxHealthMultiplier": 1.25,
+    "MaxManaMultiplier": 0.85,
+    "MaxStaminaMultiplier": 1.1,
+    "ActiveAbility": "Race_Ogre_GroundBreaker",
+    "TransformationAbility": "Race_Ogre_Champion",
+    "PassiveCanonStatus": "CANON",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: great size and strength, Ogre Island, history with Biheiril and the sea folk. Ground Breaker and Ogre Champion are gameplay originals. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  },
+  {
+    "Race": "SeaRace",
+    "RaceID": "SeaRace",
+    "DisplayName": "Sea Race",
+    "Description": "The ocean race, original inhabitants of the Ocean World, who rule the seas and speak the Sea God tongue; sea folk are seen near the port towns of the Demon Continent.",
+    "Rarity": "Rare",
+    "RollWeight": 1.0,
+    "bImplemented": false,
+    "PassiveName": "Tideborn",
+    "PassiveDescription": "At home in motion: 8% longer dodges and 3% cheaper spells.",
+    "PassiveStats": {
+      "ManaCostMultiplier": 0.97
+    },
+    "PassiveMovement": {
+      "DodgeDistanceMultiplier": 1.08
+    },
+    "MaxHealthMultiplier": 1.0,
+    "MaxManaMultiplier": 1.0,
+    "MaxStaminaMultiplier": 1.1,
+    "ActiveAbility": "Race_Sea_TideRush",
+    "TransformationAbility": "Race_Sea_OceanBlessing",
+    "PassiveCanonStatus": "GAMEPLAY ORIGINAL",
+    "TransformationCanonStatus": "GAMEPLAY ORIGINAL",
+    "LoreNote": "Canon: ocean rulers, Sea God tongue, conflict with the ogres. All mechanics (Tideborn, Tide Rush, Ocean Blessing) are gameplay originals. Source: Mushoku Tensei Wiki (fandom) via web search summaries; direct page fetch was blocked."
+  }
+]

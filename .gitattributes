@@ -1,0 +1,9 @@
+# Binary art. Enable Git LFS for these before committing large .uasset/.umap content:
+#   git lfs install && git lfs track "*.uasset" "*.umap"
+*.uasset binary
+*.umap binary
+*.glb binary
+*.fbx binary
+*.png binary
+*.r16 binary
+*.raw binary

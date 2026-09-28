@@ -1,0 +1,171 @@
+[
+	{
+		"LocationID": "Buena_Village",
+		"DisplayName": "Buena Village",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -36800.0,
+			"Y": 30200.0,
+			"Z": 2945.0
+		},
+		"DiscoveryRadius": 30000.0,
+		"bFastTravel": true,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Buena_Square",
+		"DisplayName": "Buena Village Square",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -36800.0,
+			"Y": 29200.0,
+			"Z": 2945.4
+		},
+		"DiscoveryRadius": 2500.0,
+		"bFastTravel": true,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Buena_Greyrat_House",
+		"DisplayName": "Greyrat House",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -44800.0,
+			"Y": 20700.0,
+			"Z": 3043.8
+		},
+		"DiscoveryRadius": 1500.0,
+		"bFastTravel": false,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Buena_Farms",
+		"DisplayName": "Buena Wheat Fields",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -24800.0,
+			"Y": 46200.0,
+			"Z": 2943.5
+		},
+		"DiscoveryRadius": 9000.0,
+		"bFastTravel": false,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Buena_Hill_Tree",
+		"DisplayName": "Hill of the Lone Tree",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -55300.0,
+			"Y": 9700.0,
+			"Z": 4451.0
+		},
+		"DiscoveryRadius": 3000.0,
+		"bFastTravel": true,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Buena_Forest_Edge",
+		"DisplayName": "Buena Forest Edge",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -75800.0,
+			"Y": 24200.0,
+			"Z": 2900.2
+		},
+		"DiscoveryRadius": 6000.0,
+		"bFastTravel": false,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Fittoa_River_Ford",
+		"DisplayName": "Fittoa Stream Ford",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -10493.2,
+			"Y": 21096.2,
+			"Z": 2718.2
+		},
+		"DiscoveryRadius": 3000.0,
+		"bFastTravel": true,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Fittoa_Deep_Forest",
+		"DisplayName": "Deep Fittoa Forest",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": -70800.0,
+			"Y": -44800.0,
+			"Z": 4097.1
+		},
+		"DiscoveryRadius": 12000.0,
+		"bFastTravel": false,
+		"RequiredRank": "E"
+	},
+	{
+		"LocationID": "Fittoa_Watchtower_Ruins",
+		"DisplayName": "Old Watchtower Ruins",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": 49200.0,
+			"Y": -31800.0,
+			"Z": 5174.5
+		},
+		"DiscoveryRadius": 4000.0,
+		"bFastTravel": true,
+		"RequiredRank": "D"
+	},
+	{
+		"LocationID": "Fittoa_Road_To_Roa",
+		"DisplayName": "Road to Roa",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": 46769.9,
+			"Y": -20504.0,
+			"Z": 3312.8
+		},
+		"DiscoveryRadius": 5000.0,
+		"bFastTravel": false,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Roa_Gate",
+		"DisplayName": "Roa Road Waystone (to the Citadel of Roa)",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": 96300.0,
+			"Y": -44800.0,
+			"Z": 3834.4
+		},
+		"DiscoveryRadius": 3000.0,
+		"bFastTravel": true,
+		"RequiredRank": "F"
+	},
+	{
+		"LocationID": "Fittoa_Wyrm_Foothills",
+		"DisplayName": "Red Wyrm Foothills",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": 5200.0,
+			"Y": -75800.0,
+			"Z": 8472.9
+		},
+		"DiscoveryRadius": 15000.0,
+		"bFastTravel": false,
+		"RequiredRank": "C"
+	},
+	{
+		"LocationID": "Arena_Test",
+		"DisplayName": "Test Arena (dev)",
+		"Region": "Fittoa",
+		"WorldLocation": {
+			"X": 71200.0,
+			"Y": 71200.0,
+			"Z": 2874.7
+		},
+		"DiscoveryRadius": 5000.0,
+		"bFastTravel": false,
+		"RequiredRank": "F"
+	}
+]

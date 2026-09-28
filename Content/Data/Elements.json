@@ -1,0 +1,50 @@
+[
+  {
+    "Element": "Fire",
+    "DisplayName": "Fire",
+    "Description": "Offensive fire magic: fast bursts, delayed eruption fields and one enormous compressed blast. Highest raw damage; weakest control.",
+    "Rarity": "Common",
+    "RollWeight": 1.0,
+    "Abilities": [
+      "Fire_FireBurst",
+      "Fire_FlameField",
+      "Fire_InfernoCompression"
+    ]
+  },
+  {
+    "Element": "Water",
+    "DisplayName": "Water",
+    "Description": "Water and ice magic: knockback jets, freezing prisons and the storm-calling Cumulonimbus that makes water casting cheaper. The control element.",
+    "Rarity": "Common",
+    "RollWeight": 1.0,
+    "Abilities": [
+      "Water_WaterCannon",
+      "Water_FrostPrison",
+      "Water_Cumulonimbus"
+    ]
+  },
+  {
+    "Element": "Earth",
+    "DisplayName": "Earth",
+    "Description": "Earth magic: stone projectiles, mud fields and raised walls. Rewards positioning and patience; the school of Stone Cannon and Quagmire.",
+    "Rarity": "Uncommon",
+    "RollWeight": 1.0,
+    "Abilities": [
+      "Earth_StoneCannon",
+      "Earth_Quagmire",
+      "Earth_EarthFortress"
+    ]
+  },
+  {
+    "Element": "Wind",
+    "DisplayName": "Wind",
+    "Description": "Wind magic: very fast blades, a directional gale dash and a whirlwind that shoves weak foes and deflects projectiles. The mobility element.",
+    "Rarity": "Uncommon",
+    "RollWeight": 1.0,
+    "Abilities": [
+      "Wind_AirBlade",
+      "Wind_GaleStep",
+      "Wind_TempestDomain"
+    ]
+  }
+]

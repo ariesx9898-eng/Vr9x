@@ -1,0 +1,152 @@
+[
+  {
+    "ItemID": "Item_HealingHerb",
+    "DisplayName": "Healing Herb",
+    "Description": "A common medicinal leaf from the forest edge near Buena. Herbalists brew it into potions.",
+    "Rarity": "Common",
+    "MaxStack": 99,
+    "Value": 3,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_HealingHerb.T_Item_HealingHerb"
+  },
+  {
+    "ItemID": "Item_Bread",
+    "DisplayName": "Fresh Bread",
+    "Description": "A round loaf from Anna's oven in Buena Square, still warm.",
+    "Rarity": "Common",
+    "MaxStack": 20,
+    "Value": 2,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_Bread.T_Item_Bread"
+  },
+  {
+    "ItemID": "Item_TravelRations",
+    "DisplayName": "Travel Rations",
+    "Description": "Hard bread, dried meat and cheese wrapped for the road.",
+    "Rarity": "Common",
+    "MaxStack": 20,
+    "Value": 6,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_TravelRations.T_Item_TravelRations"
+  },
+  {
+    "ItemID": "Item_WolfPelt",
+    "DisplayName": "Wolf Pelt",
+    "Description": "A thick grey pelt. Tanners in Roa pay fairly for good ones.",
+    "Rarity": "Common",
+    "MaxStack": 99,
+    "Value": 12,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_WolfPelt.T_Item_WolfPelt"
+  },
+  {
+    "ItemID": "Item_AlphaWolfPelt",
+    "DisplayName": "Alpha Wolf Pelt",
+    "Description": "A heavy, scarred pelt from a pack leader. A hunter's trophy.",
+    "Rarity": "Uncommon",
+    "MaxStack": 10,
+    "Value": 60,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_AlphaWolfPelt.T_Item_AlphaWolfPelt"
+  },
+  {
+    "ItemID": "Item_GoblinTrinket",
+    "DisplayName": "Goblin Trinket",
+    "Description": "A crude necklace of bone beads and a stolen button - goblins love shiny junk.",
+    "Rarity": "Common",
+    "MaxStack": 99,
+    "Value": 4,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_GoblinTrinket.T_Item_GoblinTrinket"
+  },
+  {
+    "ItemID": "Item_IronOre",
+    "DisplayName": "Iron Ore",
+    "Description": "Rust-streaked ore from the hills. Useful to smiths.",
+    "Rarity": "Common",
+    "MaxStack": 99,
+    "Value": 8,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_IronOre.T_Item_IronOre"
+  },
+  {
+    "ItemID": "Item_MagicStone",
+    "DisplayName": "Magic Stone",
+    "Description": "A small stone of condensed mana taken from a monster. Used to power magic items.",
+    "Rarity": "Uncommon",
+    "MaxStack": 50,
+    "Value": 40,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_MagicStone.T_Item_MagicStone"
+  },
+  {
+    "ItemID": "Item_ManaCrystal",
+    "DisplayName": "Mana Crystal",
+    "Description": "A clear crystal humming with stored mana. Prized by mages and enchanters.",
+    "Rarity": "Rare",
+    "MaxStack": 20,
+    "Value": 120,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_ManaCrystal.T_Item_ManaCrystal"
+  },
+  {
+    "ItemID": "Item_WyrmScale",
+    "DisplayName": "Red Wyrm Scale",
+    "Description": "A heat-scarred crimson scale from a young red wyrm. Harder than steel.",
+    "Rarity": "Rare",
+    "MaxStack": 20,
+    "Value": 250,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_WyrmScale.T_Item_WyrmScale"
+  },
+  {
+    "ItemID": "Item_FencePlanks",
+    "DisplayName": "Fence Planks",
+    "Description": "Rough-cut planks and a pouch of nails for mending farm fences.",
+    "Rarity": "Common",
+    "MaxStack": 20,
+    "Value": 3,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_FencePlanks.T_Item_FencePlanks"
+  },
+  {
+    "ItemID": "Item_HealingPotion",
+    "DisplayName": "Healing Potion",
+    "Description": "A herbal draught that closes minor wounds. Restores a portion of health.",
+    "Rarity": "Uncommon",
+    "MaxStack": 10,
+    "Value": 25,
+    "bQuestItem": false,
+    "Icon": "/Game/UI/Icons/T_Item_HealingPotion.T_Item_HealingPotion"
+  },
+  {
+    "ItemID": "Item_PaulsLetter",
+    "DisplayName": "Paul's Letter",
+    "Description": "A folded letter in Paul Greyrat's hurried handwriting, sealed for the guard at Roa's gate.",
+    "Rarity": "Uncommon",
+    "MaxStack": 1,
+    "Value": 0,
+    "bQuestItem": true,
+    "Icon": "/Game/UI/Icons/T_Item_PaulsLetter.T_Item_PaulsLetter"
+  },
+  {
+    "ItemID": "Item_LostChildCharm",
+    "DisplayName": "Lost Child's Charm",
+    "Description": "A little carved-wood bird on a string, dropped by the riverbank.",
+    "Rarity": "Common",
+    "MaxStack": 1,
+    "Value": 0,
+    "bQuestItem": true,
+    "Icon": "/Game/UI/Icons/T_Item_LostChildCharm.T_Item_LostChildCharm"
+  },
+  {
+    "ItemID": "Item_OldSurveyMap",
+    "DisplayName": "Old Survey Map",
+    "Description": "A water-stained patrol map of Fittoa found in the ruined watchtower.",
+    "Rarity": "Uncommon",
+    "MaxStack": 1,
+    "Value": 0,
+    "bQuestItem": true,
+    "Icon": "/Game/UI/Icons/T_Item_OldSurveyMap.T_Item_OldSurveyMap"
+  }
+]

@@ -1,0 +1,2359 @@
+[
+  {
+    "AbilityID": "Rudeus_Basic",
+    "DisplayName": "Stone Bullet",
+    "Description": "A fist-sized stone slug formed in the palm and fired instantly - no incantation. Cheap, fast and light: the chantless mage's jab.",
+    "Behavior": "Projectile",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 6,
+    "Cooldown": 0.35,
+    "CastTime": 0.12,
+    "RecoveryTime": 0.18,
+    "Range": 2500,
+    "Damage": 22,
+    "Stagger": 8,
+    "Knockback": 0,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3800,
+    "ProjectileRadius": 10,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Basic.AM_Rudeus_Basic",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_StoneBullet_Formation.NS_StoneBullet_Formation",
+      "Travel": "/Game/VFX/Earth/NS_StoneBullet_Travel.NS_StoneBullet_Travel",
+      "Impact": "/Game/VFX/Earth/NS_StoneBullet_Impact.NS_StoneBullet_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_StoneBullet_Dissipation.NS_StoneBullet_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_StoneBullet_Cast.SC_StoneBullet_Cast",
+      "TravelSound": "/Game/Audio/Earth/SC_StoneBullet_Travel.SC_StoneBullet_Travel",
+      "ImpactSound": "/Game/Audio/Earth/SC_StoneBullet_Impact.SC_StoneBullet_Impact",
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneBullet.SM_StoneBullet",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneBullet.MI_StoneBullet"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_Basic.T_Icon_Rudeus_Basic",
+    "MasteryXP": 1,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Rudeus_StoneCannon",
+    "DisplayName": "Stone Cannon",
+    "Description": "Rudeus's signature spell: a dense, bullet-shaped stone driven at extreme velocity. Hold to compress and accelerate it (up to 1.6 s): a fully charged shot flies 1.8x faster and hits 2.2x harder with 2.5x stagger, at double the mana. The charge pose is deliberately readable even with chantless casting.",
+    "Behavior": "Projectile",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 45,
+    "Cooldown": 1.6,
+    "CastTime": 0.35,
+    "RecoveryTime": 0.35,
+    "Range": 4000,
+    "Damage": 85,
+    "Stagger": 45,
+    "Knockback": 350,
+    "bChargeable": true,
+    "MaxChargeTime": 1.6,
+    "ChargeSpeedScale": 1.8,
+    "ChargeDamageScale": 2.2,
+    "ChargeStaggerScale": 2.5,
+    "ChargeManaScale": 2.0,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3200,
+    "ProjectileRadius": 18,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_StoneCannon.AM_Rudeus_StoneCannon",
+    "MontageStartSection": "Charge",
+    "MontageReleaseSection": "Release",
+    "CastSocket": "hand_r",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_StoneCannon_Formation.NS_StoneCannon_Formation",
+      "Travel": "/Game/VFX/Earth/NS_StoneCannon_Travel.NS_StoneCannon_Travel",
+      "Impact": "/Game/VFX/Earth/NS_StoneCannon_Impact.NS_StoneCannon_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_StoneCannon_Dissipation.NS_StoneCannon_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_StoneCannon_Cast.SC_StoneCannon_Cast",
+      "TravelSound": "/Game/Audio/Earth/SC_StoneCannon_Travel.SC_StoneCannon_Travel",
+      "ImpactSound": "/Game/Audio/Earth/SC_StoneCannon_Impact.SC_StoneCannon_Impact",
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
+      "CameraShakeScale": 0.15
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_StoneCannon.T_Icon_Rudeus_StoneCannon",
+    "MasteryXP": 6,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Rudeus_Quagmire",
+    "DisplayName": "Quagmire",
+    "Description": "A Water + Earth combination spell that turns the ground into deep mud. Enemies inside move at 55% speed, accelerate and jump poorly and dodge half as far - but are never rooted. Earth projectiles hitting a mired target land more reliably. The spell behind Rudeus's epithet, 'Quagmire'.",
+    "Behavior": "Zone",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ElementRequirement": "None",
+    "ManaCost": 90,
+    "Cooldown": 14,
+    "CastTime": 0.45,
+    "RecoveryTime": 0.4,
+    "Range": 1800,
+    "AOERadius": 650,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 8,
+    "bDisruptable": true,
+    "ZoneKind": "Mire",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.55,
+      "AccelerationMultiplier": 0.4,
+      "JumpMultiplier": 0.5,
+      "DodgeDistanceMultiplier": 0.5,
+      "bRooted": false
+    },
+    "ActivationDelay": 0.25,
+    "PulseCount": 1,
+    "PulseInterval": 0.5,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Quagmire.AM_Rudeus_Quagmire",
+    "CastSocket": "hand_l",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_Quagmire_Formation.NS_Quagmire_Formation",
+      "Impact": "/Game/VFX/Earth/NS_Quagmire_Impact.NS_Quagmire_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_Quagmire_Dissipation.NS_Quagmire_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_Quagmire_Cast.SC_Quagmire_Cast",
+      "ImpactSound": "/Game/Audio/Earth/SC_Quagmire_Impact.SC_Quagmire_Impact",
+      "DecalMaterial": "/Game/VFX/Earth/Materials/MI_Decal_Quagmire.MI_Decal_Quagmire"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_Quagmire.T_Icon_Rudeus_Quagmire",
+    "MasteryXP": 6,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Rudeus_ElementalBarrage",
+    "DisplayName": "Elemental Barrage",
+    "Description": "Four chantless spells in under a second - stone, wind blade, water cannon, fire burst - each with a different flight and hit profile. Rudeus can drift at 35% speed while casting. Gameplay-original showcase of his multi-element versatility.",
+    "Behavior": "Sequence",
+    "Element": "None",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 110,
+    "Cooldown": 12,
+    "CastTime": 0.3,
+    "RecoveryTime": 0.6,
+    "Range": 3000,
+    "Damage": 0,
+    "Stagger": 0,
+    "Sequence": [
+      {
+        "AbilityId": "Barrage_Stone",
+        "Delay": 0.0,
+        "MontageSection": "Stone"
+      },
+      {
+        "AbilityId": "Barrage_WindBlade",
+        "Delay": 0.22,
+        "MontageSection": "Wind"
+      },
+      {
+        "AbilityId": "Barrage_WaterCannon",
+        "Delay": 0.24,
+        "MontageSection": "Water"
+      },
+      {
+        "AbilityId": "Barrage_FireBurst",
+        "Delay": 0.26,
+        "MontageSection": "Fire"
+      }
+    ],
+    "MoveSpeedWhileActive": 0.35,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_ElementalBarrage.AM_Rudeus_ElementalBarrage",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_ElementalBarrage_Formation.NS_ElementalBarrage_Formation",
+      "CastSound": "/Game/Audio/Physical/SC_ElementalBarrage_Cast.SC_ElementalBarrage_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_ElementalBarrage.T_Icon_Rudeus_ElementalBarrage",
+    "UnlockRequirement": "Mastery:Character:Rudeus:2",
+    "MasteryRequirement": 2,
+    "MasteryXP": 8,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Barrage_Stone",
+    "DisplayName": "Barrage: Stone Slug",
+    "Description": "Barrage step 1. Heavy, slower stone slug on a straight line; high stagger to open the target up.",
+    "Behavior": "Projectile",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 0,
+    "Cooldown": 0,
+    "CastTime": 0,
+    "RecoveryTime": 0,
+    "Range": 3000,
+    "Damage": 34,
+    "Stagger": 40,
+    "Knockback": 200,
+    "Motion": "Straight",
+    "ProjectileSpeed": 2600,
+    "ProjectileRadius": 16,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_StoneBullet_Formation.NS_StoneBullet_Formation",
+      "Travel": "/Game/VFX/Earth/NS_StoneBullet_Travel.NS_StoneBullet_Travel",
+      "Impact": "/Game/VFX/Earth/NS_StoneBullet_Impact.NS_StoneBullet_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_StoneBullet_Dissipation.NS_StoneBullet_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_StoneBullet_Cast.SC_StoneBullet_Cast",
+      "TravelSound": "/Game/Audio/Earth/SC_StoneBullet_Travel.SC_StoneBullet_Travel",
+      "ImpactSound": "/Game/Audio/Earth/SC_StoneBullet_Impact.SC_StoneBullet_Impact",
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneBullet.SM_StoneBullet",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneBullet.MI_StoneBullet"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Barrage_Stone.T_Icon_Barrage_Stone",
+    "MasteryXP": 1
+  },
+  {
+    "AbilityID": "Barrage_WindBlade",
+    "DisplayName": "Barrage: Wind Blade",
+    "Description": "Barrage step 2. A very fast, wide and thin crescent of wind with a slight sine drift - low damage, hard to sidestep, clips several enemies standing in a line.",
+    "Behavior": "Projectile",
+    "Element": "Wind",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 0,
+    "Cooldown": 0,
+    "CastTime": 0,
+    "RecoveryTime": 0,
+    "Range": 2600,
+    "Damage": 14,
+    "Stagger": 8,
+    "Knockback": 0,
+    "Motion": "Wave",
+    "ProjectileSpeed": 4200,
+    "ProjectileRadius": 40,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "FX": {
+      "Formation": "/Game/VFX/Wind/NS_WindBlade_Formation.NS_WindBlade_Formation",
+      "Travel": "/Game/VFX/Wind/NS_WindBlade_Travel.NS_WindBlade_Travel",
+      "Impact": "/Game/VFX/Wind/NS_WindBlade_Impact.NS_WindBlade_Impact",
+      "Dissipation": "/Game/VFX/Wind/NS_WindBlade_Dissipation.NS_WindBlade_Dissipation",
+      "CastSound": "/Game/Audio/Wind/SC_WindBlade_Cast.SC_WindBlade_Cast",
+      "TravelSound": "/Game/Audio/Wind/SC_WindBlade_Travel.SC_WindBlade_Travel",
+      "ImpactSound": "/Game/Audio/Wind/SC_WindBlade_Impact.SC_WindBlade_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Barrage_WindBlade.T_Icon_Barrage_WindBlade",
+    "MasteryXP": 1
+  },
+  {
+    "AbilityID": "Barrage_WaterCannon",
+    "DisplayName": "Barrage: Water Cannon",
+    "Description": "Barrage step 3. Fast, pressurised water jet with strong knockback (900) and moderate damage - resets spacing.",
+    "Behavior": "Projectile",
+    "Element": "Water",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 0,
+    "Cooldown": 0,
+    "CastTime": 0,
+    "RecoveryTime": 0,
+    "Range": 2800,
+    "Damage": 30,
+    "Stagger": 22,
+    "Knockback": 900,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3600,
+    "ProjectileRadius": 26,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "FX": {
+      "Formation": "/Game/VFX/Water/NS_WaterCannon_Formation.NS_WaterCannon_Formation",
+      "Travel": "/Game/VFX/Water/NS_WaterCannon_Travel.NS_WaterCannon_Travel",
+      "Impact": "/Game/VFX/Water/NS_WaterCannon_Impact.NS_WaterCannon_Impact",
+      "Dissipation": "/Game/VFX/Water/NS_WaterCannon_Dissipation.NS_WaterCannon_Dissipation",
+      "CastSound": "/Game/Audio/Water/SC_WaterCannon_Cast.SC_WaterCannon_Cast",
+      "TravelSound": "/Game/Audio/Water/SC_WaterCannon_Travel.SC_WaterCannon_Travel",
+      "ImpactSound": "/Game/Audio/Water/SC_WaterCannon_Impact.SC_WaterCannon_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Barrage_WaterCannon.T_Icon_Barrage_WaterCannon",
+    "MasteryXP": 1
+  },
+  {
+    "AbilityID": "Barrage_FireBurst",
+    "DisplayName": "Barrage: Fire Burst",
+    "Description": "Barrage step 4. Fast fire bolt that bursts in a small 220 cm explosion on impact.",
+    "Behavior": "Projectile",
+    "Element": "Fire",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 0,
+    "Cooldown": 0,
+    "CastTime": 0,
+    "RecoveryTime": 0,
+    "Range": 2800,
+    "AOERadius": 220,
+    "Damage": 32,
+    "Stagger": 18,
+    "Knockback": 150,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3400,
+    "ProjectileRadius": 20,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "FX": {
+      "Formation": "/Game/VFX/Fire/NS_FireBurst_Formation.NS_FireBurst_Formation",
+      "Travel": "/Game/VFX/Fire/NS_FireBurst_Travel.NS_FireBurst_Travel",
+      "Impact": "/Game/VFX/Fire/NS_FireBurst_Impact.NS_FireBurst_Impact",
+      "Dissipation": "/Game/VFX/Fire/NS_FireBurst_Dissipation.NS_FireBurst_Dissipation",
+      "CastSound": "/Game/Audio/Fire/SC_FireBurst_Cast.SC_FireBurst_Cast",
+      "TravelSound": "/Game/Audio/Fire/SC_FireBurst_Travel.SC_FireBurst_Travel",
+      "ImpactSound": "/Game/Audio/Fire/SC_FireBurst_Impact.SC_FireBurst_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Barrage_FireBurst.T_Icon_Barrage_FireBurst",
+    "MasteryXP": 1
+  },
+  {
+    "AbilityID": "Rudeus_DemonEye",
+    "DisplayName": "Demon Eye of Foresight",
+    "Description": "The Demon Eye of Foresight, a gift from the Demon Empress Kishirika Kishirisu. Pouring mana into it lets Rudeus glimpse a moment ahead: for 10 s incoming attacks appear as predictive silhouettes before they land. It shows the future - it does not make him faster or tougher.",
+    "Behavior": "Buff",
+    "Element": "Arcane",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 60,
+    "Cooldown": 25,
+    "CastTime": 0.1,
+    "RecoveryTime": 0.1,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 10,
+    "bDisruptable": false,
+    "BuffStats": {
+      "ForesightLeadBonus": 0.0
+    },
+    "bGrantsForesight": true,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_DemonEye.AM_Rudeus_DemonEye",
+    "CastSocket": "head",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_DemonEye_Formation.NS_DemonEye_Formation",
+      "Dissipation": "/Game/VFX/Arcane/NS_DemonEye_Dissipation.NS_DemonEye_Dissipation",
+      "CastSound": "/Game/Audio/Arcane/SC_DemonEye_Cast.SC_DemonEye_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_DemonEye.T_Icon_Rudeus_DemonEye",
+    "UnlockRequirement": "Mastery:Character:Rudeus:4",
+    "MasteryRequirement": 4,
+    "MasteryXP": 4,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Foresight"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Rudeus_Awakening_QuagmireMagician",
+    "DisplayName": "Awakening: The Quagmire Magician",
+    "Description": "Rudeus stops holding back. After a 1.8 s transformation (interruptible by nothing, but he takes damage normally) he casts 30% faster for 30% less mana, his zones grow 35%, projectiles fly 15% faster and the Demon Eye sees 0.25 s further ahead. Stone Cannon and Quagmire are replaced by empowered versions. NOT invincible.",
+    "Behavior": "Buff",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 0,
+    "Cooldown": 120,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 30,
+    "bDisruptable": false,
+    "BuffStats": {
+      "CastTimeMultiplier": 0.7,
+      "ManaCostMultiplier": 0.7,
+      "AreaMultiplier": 1.35,
+      "ForesightLeadBonus": 0.25,
+      "ProjectileSpeedMultiplier": 1.15
+    },
+    "TransformationTime": 1.8,
+    "AbilityOverrides": {
+      "Rudeus_StoneCannon": "Rudeus_StoneCannon_Awakened",
+      "Rudeus_Quagmire": "Rudeus_Quagmire_Awakened"
+    },
+    "bIsAwakening": true,
+    "bGrantsForesight": true,
+    "AwakeningMeterCost": 100,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Awakening.AM_Rudeus_Awakening",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_Awakening_Rudeus_Formation.NS_Awakening_Rudeus_Formation",
+      "Dissipation": "/Game/VFX/Earth/NS_Awakening_Rudeus_Dissipation.NS_Awakening_Rudeus_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_Awakening_Rudeus_Cast.SC_Awakening_Rudeus_Cast",
+      "CameraShakeScale": 0.25
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_Awakening_QuagmireMagician.T_Icon_Rudeus_Awakening_QuagmireMagician",
+    "UnlockRequirement": "Mastery:Character:Rudeus:6",
+    "MasteryRequirement": 6,
+    "MasteryXP": 25,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Awakened"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Rudeus_StoneCannon_Awakened",
+    "DisplayName": "Stone Cannon (Awakened)",
+    "Description": "Awakened Stone Cannon: heavier, faster slug that charges in 1.4 s. Full charge hits 2.3x harder with 2.6x stagger. Still shows a clear charge pose.",
+    "Behavior": "Projectile",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 50,
+    "Cooldown": 1.4,
+    "CastTime": 0.3,
+    "RecoveryTime": 0.3,
+    "Range": 4500,
+    "Damage": 105,
+    "Stagger": 60,
+    "Knockback": 450,
+    "bChargeable": true,
+    "MaxChargeTime": 1.4,
+    "ChargeSpeedScale": 1.8,
+    "ChargeDamageScale": 2.3,
+    "ChargeStaggerScale": 2.6,
+    "ChargeManaScale": 2.0,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3600,
+    "ProjectileRadius": 22,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_StoneCannon.AM_Rudeus_StoneCannon",
+    "MontageStartSection": "Charge",
+    "MontageReleaseSection": "Release",
+    "CastSocket": "hand_r",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_StoneCannon_Awakened_Formation.NS_StoneCannon_Awakened_Formation",
+      "Travel": "/Game/VFX/Earth/NS_StoneCannon_Awakened_Travel.NS_StoneCannon_Awakened_Travel",
+      "Impact": "/Game/VFX/Earth/NS_StoneCannon_Awakened_Impact.NS_StoneCannon_Awakened_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_StoneCannon_Awakened_Dissipation.NS_StoneCannon_Awakened_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_StoneCannon_Awakened_Cast.SC_StoneCannon_Awakened_Cast",
+      "TravelSound": "/Game/Audio/Earth/SC_StoneCannon_Awakened_Travel.SC_StoneCannon_Awakened_Travel",
+      "ImpactSound": "/Game/Audio/Earth/SC_StoneCannon_Awakened_Impact.SC_StoneCannon_Awakened_Impact",
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
+      "CameraShakeScale": 0.2
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_StoneCannon_Awakened.T_Icon_Rudeus_StoneCannon_Awakened",
+    "MasteryXP": 6,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Rudeus_Quagmire_Awakened",
+    "DisplayName": "Quagmire (Awakened)",
+    "Description": "Awakened Quagmire: deeper, longer-lasting mud (10 s). 45% move speed, very poor acceleration/jump/dodge - still never a root. Awakening's area bonus makes it 35% wider.",
+    "Behavior": "Zone",
+    "Element": "Earth",
+    "CharacterRequirement": "Rudeus",
+    "ElementRequirement": "None",
+    "ManaCost": 100,
+    "Cooldown": 12,
+    "CastTime": 0.4,
+    "RecoveryTime": 0.35,
+    "Range": 2000,
+    "AOERadius": 650,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 10,
+    "bDisruptable": true,
+    "ZoneKind": "Mire",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.45,
+      "AccelerationMultiplier": 0.3,
+      "JumpMultiplier": 0.35,
+      "DodgeDistanceMultiplier": 0.4,
+      "bRooted": false
+    },
+    "ActivationDelay": 0.2,
+    "PulseCount": 1,
+    "PulseInterval": 0.5,
+    "Montage": "/Game/Characters/Rudeus/Montages/AM_Rudeus_Quagmire.AM_Rudeus_Quagmire",
+    "CastSocket": "hand_l",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_Quagmire_Awakened_Formation.NS_Quagmire_Awakened_Formation",
+      "Impact": "/Game/VFX/Earth/NS_Quagmire_Awakened_Impact.NS_Quagmire_Awakened_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_Quagmire_Awakened_Dissipation.NS_Quagmire_Awakened_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_Quagmire_Awakened_Cast.SC_Quagmire_Awakened_Cast",
+      "ImpactSound": "/Game/Audio/Earth/SC_Quagmire_Awakened_Impact.SC_Quagmire_Awakened_Impact",
+      "DecalMaterial": "/Game/VFX/Earth/Materials/MI_Decal_Quagmire.MI_Decal_Quagmire"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Rudeus_Quagmire_Awakened.T_Icon_Rudeus_Quagmire_Awakened",
+    "MasteryXP": 6,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Orsted_Basic",
+    "DisplayName": "Dragon God Style: Palm Strike",
+    "Description": "A short, economical open-palm strike from the Dragon God Style - almost no wasted motion and no mana. Hits everything in a small 120 cm cone in front of him.",
+    "Behavior": "Melee",
+    "Element": "Arcane",
+    "CharacterRequirement": "Orsted",
+    "ManaCost": 0,
+    "StaminaCost": 0,
+    "Cooldown": 0.45,
+    "CastTime": 0.12,
+    "RecoveryTime": 0.28,
+    "Range": 220,
+    "AOERadius": 120,
+    "Damage": 34,
+    "Stagger": 26,
+    "Knockback": 150,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_Basic.AM_Orsted_Basic",
+    "FX": {
+      "Impact": "/Game/VFX/Arcane/NS_PalmStrike_Impact.NS_PalmStrike_Impact",
+      "CastSound": "/Game/Audio/Arcane/SC_PalmStrike_Cast.SC_PalmStrike_Cast",
+      "ImpactSound": "/Game/Audio/Arcane/SC_PalmStrike_Impact.SC_PalmStrike_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Orsted_Basic.T_Icon_Orsted_Basic",
+    "MasteryXP": 1
+  },
+  {
+    "AbilityID": "Orsted_DisturbMagic",
+    "DisplayName": "Disturb Magic",
+    "Description": "A counter-spell of the Dragon God Style (devised by the former Dragon God Urupen): Orsted sends out mana tuned to interfere with an enemy spell so it scatters before it can form. Timing-based - a 0.35 s window within 450 cm. If nothing arrives he is left open for 0.45 s. Not permanent immunity.",
+    "Behavior": "Counter",
+    "Element": "Arcane",
+    "CharacterRequirement": "Orsted",
+    "ManaCost": 45,
+    "Cooldown": 6,
+    "CastTime": 0.05,
+    "RecoveryTime": 0.45,
+    "Range": 450,
+    "Damage": 0,
+    "Stagger": 0,
+    "bDisruptable": false,
+    "CounterWindow": 0.35,
+    "CounterRadius": 450,
+    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_DisturbMagic.AM_Orsted_DisturbMagic",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_DisturbMagic_Formation.NS_DisturbMagic_Formation",
+      "Impact": "/Game/VFX/Arcane/NS_DisturbMagic_Impact.NS_DisturbMagic_Impact",
+      "CastSound": "/Game/Audio/Arcane/SC_DisturbMagic_Cast.SC_DisturbMagic_Cast",
+      "ImpactSound": "/Game/Audio/Arcane/SC_DisturbMagic_Impact.SC_DisturbMagic_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Orsted_DisturbMagic.T_Icon_Orsted_DisturbMagic",
+    "MasteryXP": 5,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Countering"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Orsted_DragonStep",
+    "DisplayName": "Dragon Step",
+    "Description": "A single gliding step that closes up to 900 cm toward the target in 0.18 s and lands a short palm. The launch frame comes 0.08 s after input and he is NOT invulnerable during the step; 0.3 s recovery on arrival.",
+    "Behavior": "Dash",
+    "Element": "Arcane",
+    "CharacterRequirement": "Orsted",
+    "ManaCost": 0,
+    "StaminaCost": 15,
+    "Cooldown": 3.5,
+    "CastTime": 0.08,
+    "RecoveryTime": 0.3,
+    "Range": 900,
+    "AOERadius": 140,
+    "Damage": 18,
+    "Stagger": 25,
+    "Knockback": 100,
+    "bDisruptable": false,
+    "DashDistance": 900,
+    "DashDuration": 0.18,
+    "bDashTowardTarget": true,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_DragonStep.AM_Orsted_DragonStep",
+    "WarpTargetName": "DragonStepTarget",
+    "CastSocket": "foot_r",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_DragonStep_Formation.NS_DragonStep_Formation",
+      "Travel": "/Game/VFX/Arcane/NS_DragonStep_Travel.NS_DragonStep_Travel",
+      "Impact": "/Game/VFX/Arcane/NS_DragonStep_Impact.NS_DragonStep_Impact",
+      "CastSound": "/Game/Audio/Arcane/SC_DragonStep_Cast.SC_DragonStep_Cast",
+      "ImpactSound": "/Game/Audio/Arcane/SC_DragonStep_Impact.SC_DragonStep_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Orsted_DragonStep.T_Icon_Orsted_DragonStep",
+    "MasteryXP": 4
+  },
+  {
+    "AbilityID": "Orsted_DragonStep_Awakened",
+    "DisplayName": "Dragon Step (Awakened)",
+    "Description": "Awakened Dragon Step: 1100 cm in 0.16 s, 2.2 s cooldown, slightly heavier arrival strike. Still not invulnerable.",
+    "Behavior": "Dash",
+    "Element": "Arcane",
+    "CharacterRequirement": "Orsted",
+    "ManaCost": 0,
+    "StaminaCost": 12,
+    "Cooldown": 2.2,
+    "CastTime": 0.06,
+    "RecoveryTime": 0.25,
+    "Range": 1100,
+    "AOERadius": 160,
+    "Damage": 26,
+    "Stagger": 35,
+    "Knockback": 150,
+    "bDisruptable": false,
+    "DashDistance": 1100,
+    "DashDuration": 0.16,
+    "bDashTowardTarget": true,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_DragonStep.AM_Orsted_DragonStep",
+    "WarpTargetName": "DragonStepTarget",
+    "CastSocket": "foot_r",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_DragonStep_Awakened_Formation.NS_DragonStep_Awakened_Formation",
+      "Travel": "/Game/VFX/Arcane/NS_DragonStep_Awakened_Travel.NS_DragonStep_Awakened_Travel",
+      "Impact": "/Game/VFX/Arcane/NS_DragonStep_Awakened_Impact.NS_DragonStep_Awakened_Impact",
+      "CastSound": "/Game/Audio/Arcane/SC_DragonStep_Awakened_Cast.SC_DragonStep_Awakened_Cast",
+      "ImpactSound": "/Game/Audio/Arcane/SC_DragonStep_Awakened_Impact.SC_DragonStep_Awakened_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Orsted_DragonStep_Awakened.T_Icon_Orsted_DragonStep_Awakened",
+    "MasteryXP": 4
+  },
+  {
+    "AbilityID": "Orsted_SaintDragonAura",
+    "DisplayName": "Saint Dragon Battle Aura",
+    "Description": "The ultimate technique of the Dragon God Style: a dense battle aura that turns aside most spells and blades. For 12 s Orsted takes 20% less damage, 15% less magic damage and 50% less stagger, and weak foes within 500 cm falter and are pushed back by the pressure. Costs precious mana.",
+    "Behavior": "Buff",
+    "Element": "Arcane",
+    "CharacterRequirement": "Orsted",
+    "ManaCost": 60,
+    "Cooldown": 30,
+    "CastTime": 0.35,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "AOERadius": 500,
+    "Damage": 0,
+    "Stagger": 0,
+    "Knockback": 250,
+    "Duration": 12,
+    "bDisruptable": false,
+    "ZoneKind": "Aura",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.85,
+      "AccelerationMultiplier": 0.85
+    },
+    "BuffStats": {
+      "DamageResistance": 0.2,
+      "StaggerResistance": 0.5,
+      "MagicResistance": 0.15
+    },
+    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_SaintDragonAura.AM_Orsted_SaintDragonAura",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_SaintDragonAura_Formation.NS_SaintDragonAura_Formation",
+      "Dissipation": "/Game/VFX/Arcane/NS_SaintDragonAura_Dissipation.NS_SaintDragonAura_Dissipation",
+      "CastSound": "/Game/Audio/Arcane/SC_SaintDragonAura_Cast.SC_SaintDragonAura_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Orsted_SaintDragonAura.T_Icon_Orsted_SaintDragonAura",
+    "UnlockRequirement": "Mastery:Character:Orsted:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 6,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Aura"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Orsted_Awakening_DragonGod",
+    "DisplayName": "Awakening: Dragon God",
+    "Description": "Orsted fights as the Dragon God for 25 s after a 1.5 s transformation: 25% faster startup, +0.12 s on counter windows, 15% damage and 40% stagger resistance, 20% longer dashes, and an upgraded Dragon Step. Not invincible - his mana still barely recovers.",
+    "Behavior": "Buff",
+    "Element": "Arcane",
+    "CharacterRequirement": "Orsted",
+    "ManaCost": 0,
+    "Cooldown": 150,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 25,
+    "bDisruptable": false,
+    "BuffStats": {
+      "CastTimeMultiplier": 0.75,
+      "CounterWindowBonus": 0.12,
+      "DamageResistance": 0.15,
+      "StaggerResistance": 0.4,
+      "DashMultiplier": 1.2
+    },
+    "TransformationTime": 1.5,
+    "AbilityOverrides": {
+      "Orsted_DragonStep": "Orsted_DragonStep_Awakened"
+    },
+    "bIsAwakening": true,
+    "AwakeningMeterCost": 100,
+    "Montage": "/Game/Characters/Orsted/Montages/AM_Orsted_Awakening.AM_Orsted_Awakening",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_Awakening_Orsted_Formation.NS_Awakening_Orsted_Formation",
+      "Dissipation": "/Game/VFX/Arcane/NS_Awakening_Orsted_Dissipation.NS_Awakening_Orsted_Dissipation",
+      "CastSound": "/Game/Audio/Arcane/SC_Awakening_Orsted_Cast.SC_Awakening_Orsted_Cast",
+      "CameraShakeScale": 0.25
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Orsted_Awakening_DragonGod.T_Icon_Orsted_Awakening_DragonGod",
+    "UnlockRequirement": "Mastery:Character:Orsted:6",
+    "MasteryRequirement": 6,
+    "MasteryXP": 25,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Awakened"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Fire_FireBurst",
+    "DisplayName": "Fire Burst",
+    "Description": "A fast fire bolt that bursts in a 180 cm explosion. The bread-and-butter attack spell of fire magic.",
+    "Behavior": "Projectile",
+    "Element": "Fire",
+    "ElementRequirement": "Fire",
+    "ManaCost": 22,
+    "Cooldown": 1.2,
+    "CastTime": 0.3,
+    "RecoveryTime": 0.3,
+    "Range": 3000,
+    "AOERadius": 180,
+    "Damage": 38,
+    "Stagger": 16,
+    "Knockback": 150,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3400,
+    "ProjectileRadius": 18,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Projectile.AM_Cast_Projectile",
+    "FX": {
+      "Formation": "/Game/VFX/Fire/NS_FireBurst_Formation.NS_FireBurst_Formation",
+      "Travel": "/Game/VFX/Fire/NS_FireBurst_Travel.NS_FireBurst_Travel",
+      "Impact": "/Game/VFX/Fire/NS_FireBurst_Impact.NS_FireBurst_Impact",
+      "Dissipation": "/Game/VFX/Fire/NS_FireBurst_Dissipation.NS_FireBurst_Dissipation",
+      "CastSound": "/Game/Audio/Fire/SC_FireBurst_Cast.SC_FireBurst_Cast",
+      "TravelSound": "/Game/Audio/Fire/SC_FireBurst_Travel.SC_FireBurst_Travel",
+      "ImpactSound": "/Game/Audio/Fire/SC_FireBurst_Impact.SC_FireBurst_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Fire_FireBurst.T_Icon_Fire_FireBurst",
+    "MasteryXP": 4,
+    "RankRequirement": "Beginner",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Fire_FlameField",
+    "DisplayName": "Flame Field",
+    "Description": "Marks a 450 cm ring on the ground. After a clear 0.9 s warning, flames erupt three times, 0.45 s apart. Walk out of the ring to avoid it.",
+    "Behavior": "Zone",
+    "Element": "Fire",
+    "ElementRequirement": "Fire",
+    "ManaCost": 55,
+    "Cooldown": 9,
+    "CastTime": 0.4,
+    "RecoveryTime": 0.35,
+    "Range": 1800,
+    "AOERadius": 450,
+    "Damage": 30,
+    "Stagger": 14,
+    "Duration": 2.4,
+    "bDisruptable": true,
+    "ZoneKind": "Eruptions",
+    "ActivationDelay": 0.9,
+    "PulseCount": 3,
+    "PulseInterval": 0.45,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Zone.AM_Cast_Zone",
+    "FX": {
+      "Formation": "/Game/VFX/Fire/NS_FlameField_Formation.NS_FlameField_Formation",
+      "Impact": "/Game/VFX/Fire/NS_FlameField_Impact.NS_FlameField_Impact",
+      "Dissipation": "/Game/VFX/Fire/NS_FlameField_Dissipation.NS_FlameField_Dissipation",
+      "CastSound": "/Game/Audio/Fire/SC_FlameField_Cast.SC_FlameField_Cast",
+      "ImpactSound": "/Game/Audio/Fire/SC_FlameField_Impact.SC_FlameField_Impact",
+      "DecalMaterial": "/Game/VFX/Fire/Materials/MI_Decal_FlameField_Warning.MI_Decal_FlameField_Warning"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Fire_FlameField.T_Icon_Fire_FlameField",
+    "UnlockRequirement": "Mastery:Element:Fire:2",
+    "MasteryRequirement": 2,
+    "MasteryXP": 6,
+    "RankRequirement": "Intermediate",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Fire_InfernoCompression",
+    "DisplayName": "Inferno Compression",
+    "Description": "Compresses a huge fire sphere between the hands (0.9 s, very visible), optionally charged longer, then launches it slowly. Detonates in a 520 cm blast. Enormous damage, enormous mana (220), long cooldown.",
+    "Behavior": "Projectile",
+    "Element": "Fire",
+    "ElementRequirement": "Fire",
+    "ManaCost": 220,
+    "Cooldown": 28,
+    "CastTime": 0.9,
+    "RecoveryTime": 0.8,
+    "Range": 3500,
+    "AOERadius": 520,
+    "Damage": 240,
+    "Stagger": 120,
+    "Knockback": 700,
+    "bChargeable": true,
+    "MaxChargeTime": 1.2,
+    "ChargeSpeedScale": 1.2,
+    "ChargeDamageScale": 1.5,
+    "ChargeStaggerScale": 1.4,
+    "ChargeManaScale": 1.3,
+    "Motion": "Straight",
+    "ProjectileSpeed": 1800,
+    "ProjectileRadius": 45,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Charge_Heavy.AM_Cast_Charge_Heavy",
+    "MontageStartSection": "Charge",
+    "MontageReleaseSection": "Release",
+    "FX": {
+      "Formation": "/Game/VFX/Fire/NS_InfernoCompression_Formation.NS_InfernoCompression_Formation",
+      "Travel": "/Game/VFX/Fire/NS_InfernoCompression_Travel.NS_InfernoCompression_Travel",
+      "Impact": "/Game/VFX/Fire/NS_InfernoCompression_Impact.NS_InfernoCompression_Impact",
+      "Dissipation": "/Game/VFX/Fire/NS_InfernoCompression_Dissipation.NS_InfernoCompression_Dissipation",
+      "CastSound": "/Game/Audio/Fire/SC_InfernoCompression_Cast.SC_InfernoCompression_Cast",
+      "TravelSound": "/Game/Audio/Fire/SC_InfernoCompression_Travel.SC_InfernoCompression_Travel",
+      "ImpactSound": "/Game/Audio/Fire/SC_InfernoCompression_Impact.SC_InfernoCompression_Impact",
+      "CameraShakeScale": 0.3
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Fire_InfernoCompression.T_Icon_Fire_InfernoCompression",
+    "UnlockRequirement": "Mastery:Element:Fire:4",
+    "MasteryRequirement": 4,
+    "MasteryXP": 10,
+    "RankRequirement": "Advanced",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Water_WaterCannon",
+    "DisplayName": "Water Cannon",
+    "Description": "A fast, high-pressure jet of water. Modest damage but huge knockback (1100) - the best tool to push attackers away.",
+    "Behavior": "Projectile",
+    "Element": "Water",
+    "ElementRequirement": "Water",
+    "ManaCost": 20,
+    "Cooldown": 1.5,
+    "CastTime": 0.28,
+    "RecoveryTime": 0.3,
+    "Range": 2800,
+    "Damage": 32,
+    "Stagger": 20,
+    "Knockback": 1100,
+    "Motion": "Straight",
+    "ProjectileSpeed": 3600,
+    "ProjectileRadius": 24,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Projectile.AM_Cast_Projectile",
+    "FX": {
+      "Formation": "/Game/VFX/Water/NS_WaterCannon_Formation.NS_WaterCannon_Formation",
+      "Travel": "/Game/VFX/Water/NS_WaterCannon_Travel.NS_WaterCannon_Travel",
+      "Impact": "/Game/VFX/Water/NS_WaterCannon_Impact.NS_WaterCannon_Impact",
+      "Dissipation": "/Game/VFX/Water/NS_WaterCannon_Dissipation.NS_WaterCannon_Dissipation",
+      "CastSound": "/Game/Audio/Water/SC_WaterCannon_Cast.SC_WaterCannon_Cast",
+      "TravelSound": "/Game/Audio/Water/SC_WaterCannon_Travel.SC_WaterCannon_Travel",
+      "ImpactSound": "/Game/Audio/Water/SC_WaterCannon_Impact.SC_WaterCannon_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Water_WaterCannon.T_Icon_Water_WaterCannon",
+    "MasteryXP": 4,
+    "RankRequirement": "Beginner",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Water_FrostPrison",
+    "DisplayName": "Frost Prison",
+    "Description": "After a 0.6 s frost warning, freezes the ground for 2.5 s: targets in the 200 cm centre are rooted (bosses are immune to the root and are only slowed); the 520 cm outer ring slows to 60%.",
+    "Behavior": "Zone",
+    "Element": "Water",
+    "ElementRequirement": "Water",
+    "ManaCost": 60,
+    "Cooldown": 14,
+    "CastTime": 0.45,
+    "RecoveryTime": 0.4,
+    "Range": 1600,
+    "AOERadius": 520,
+    "Damage": 25,
+    "Stagger": 20,
+    "Duration": 2.5,
+    "bDisruptable": true,
+    "ZoneKind": "Freeze",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.6,
+      "AccelerationMultiplier": 0.6,
+      "JumpMultiplier": 0.8,
+      "DodgeDistanceMultiplier": 0.8,
+      "bRooted": false
+    },
+    "ZoneInnerMovement": {
+      "SpeedMultiplier": 0.1,
+      "AccelerationMultiplier": 0.1,
+      "JumpMultiplier": 0.0,
+      "DodgeDistanceMultiplier": 0.2,
+      "bRooted": true
+    },
+    "InnerRadius": 200,
+    "ActivationDelay": 0.6,
+    "PulseCount": 1,
+    "PulseInterval": 0.5,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Zone.AM_Cast_Zone",
+    "FX": {
+      "Formation": "/Game/VFX/Water/NS_FrostPrison_Formation.NS_FrostPrison_Formation",
+      "Impact": "/Game/VFX/Water/NS_FrostPrison_Impact.NS_FrostPrison_Impact",
+      "Dissipation": "/Game/VFX/Water/NS_FrostPrison_Dissipation.NS_FrostPrison_Dissipation",
+      "CastSound": "/Game/Audio/Water/SC_FrostPrison_Cast.SC_FrostPrison_Cast",
+      "ImpactSound": "/Game/Audio/Water/SC_FrostPrison_Impact.SC_FrostPrison_Impact",
+      "DecalMaterial": "/Game/VFX/Water/Materials/MI_Decal_FrostPrison.MI_Decal_FrostPrison"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Water_FrostPrison.T_Icon_Water_FrostPrison",
+    "UnlockRequirement": "Mastery:Element:Water:2",
+    "MasteryRequirement": 2,
+    "MasteryXP": 6,
+    "RankRequirement": "Intermediate",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Water_Cumulonimbus",
+    "DisplayName": "Cumulonimbus",
+    "Description": "Summons a storm cloud over a 900 cm area for 12 s: heavy rain slows enemies slightly and lightning strikes periodically. Water-element casters standing inside pay 30% less mana for spells. Canon Saint-tier Water magic (gated at Advanced for this build).",
+    "Behavior": "Zone",
+    "Element": "Water",
+    "ElementRequirement": "Water",
+    "ManaCost": 150,
+    "Cooldown": 35,
+    "CastTime": 0.9,
+    "RecoveryTime": 0.6,
+    "Range": 2000,
+    "AOERadius": 900,
+    "Damage": 18,
+    "Stagger": 10,
+    "Duration": 12,
+    "bDisruptable": true,
+    "ZoneKind": "Storm",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.9,
+      "AccelerationMultiplier": 0.9
+    },
+    "ActivationDelay": 1.0,
+    "PulseCount": 6,
+    "PulseInterval": 2.0,
+    "BuffStats": {
+      "ManaCostMultiplier": 0.7
+    },
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Channel_Sky.AM_Cast_Channel_Sky",
+    "FX": {
+      "Formation": "/Game/VFX/Water/NS_Cumulonimbus_Formation.NS_Cumulonimbus_Formation",
+      "Impact": "/Game/VFX/Water/NS_Cumulonimbus_Impact.NS_Cumulonimbus_Impact",
+      "Dissipation": "/Game/VFX/Water/NS_Cumulonimbus_Dissipation.NS_Cumulonimbus_Dissipation",
+      "CastSound": "/Game/Audio/Water/SC_Cumulonimbus_Cast.SC_Cumulonimbus_Cast",
+      "ImpactSound": "/Game/Audio/Water/SC_Cumulonimbus_Impact.SC_Cumulonimbus_Impact",
+      "DecalMaterial": "/Game/VFX/Water/Materials/MI_Decal_Rain.MI_Decal_Rain"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Water_Cumulonimbus.T_Icon_Water_Cumulonimbus",
+    "UnlockRequirement": "Mastery:Element:Water:4",
+    "MasteryRequirement": 4,
+    "MasteryXP": 10,
+    "RankRequirement": "Advanced",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Earth_StoneCannon",
+    "DisplayName": "Stone Cannon",
+    "Description": "The element-school version of Stone Cannon: a chargeable stone slug. Solid, but slower, weaker and less charge-scaling than Rudeus's refined signature cast.",
+    "Behavior": "Projectile",
+    "Element": "Earth",
+    "ElementRequirement": "Earth",
+    "ManaCost": 35,
+    "Cooldown": 2.0,
+    "CastTime": 0.35,
+    "RecoveryTime": 0.35,
+    "Range": 3500,
+    "Damage": 60,
+    "Stagger": 30,
+    "Knockback": 250,
+    "bChargeable": true,
+    "MaxChargeTime": 1.2,
+    "ChargeSpeedScale": 1.4,
+    "ChargeDamageScale": 1.6,
+    "ChargeStaggerScale": 1.8,
+    "ChargeManaScale": 1.6,
+    "Motion": "Straight",
+    "ProjectileSpeed": 2800,
+    "ProjectileRadius": 16,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Charge.AM_Cast_Charge",
+    "MontageStartSection": "Charge",
+    "MontageReleaseSection": "Release",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_StoneCannon_Formation.NS_StoneCannon_Formation",
+      "Travel": "/Game/VFX/Earth/NS_StoneCannon_Travel.NS_StoneCannon_Travel",
+      "Impact": "/Game/VFX/Earth/NS_StoneCannon_Impact.NS_StoneCannon_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_StoneCannon_Dissipation.NS_StoneCannon_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_StoneCannon_Cast.SC_StoneCannon_Cast",
+      "TravelSound": "/Game/Audio/Earth/SC_StoneCannon_Travel.SC_StoneCannon_Travel",
+      "ImpactSound": "/Game/Audio/Earth/SC_StoneCannon_Impact.SC_StoneCannon_Impact",
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
+      "CameraShakeScale": 0.1
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Earth_StoneCannon.T_Icon_Earth_StoneCannon",
+    "MasteryXP": 4,
+    "RankRequirement": "Beginner",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Earth_Quagmire",
+    "DisplayName": "Quagmire",
+    "Description": "Element-school Quagmire: a smaller (450 cm), shorter (6 s) mud field. 65% move speed, weaker jumps and dodges; never a root.",
+    "Behavior": "Zone",
+    "Element": "Earth",
+    "ElementRequirement": "Earth",
+    "ManaCost": 70,
+    "Cooldown": 16,
+    "CastTime": 0.5,
+    "RecoveryTime": 0.4,
+    "Range": 1600,
+    "AOERadius": 450,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 6,
+    "bDisruptable": true,
+    "ZoneKind": "Mire",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.65,
+      "AccelerationMultiplier": 0.5,
+      "JumpMultiplier": 0.6,
+      "DodgeDistanceMultiplier": 0.6,
+      "bRooted": false
+    },
+    "ActivationDelay": 0.3,
+    "PulseCount": 1,
+    "PulseInterval": 0.5,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Zone.AM_Cast_Zone",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_Quagmire_Formation.NS_Quagmire_Formation",
+      "Impact": "/Game/VFX/Earth/NS_Quagmire_Impact.NS_Quagmire_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_Quagmire_Dissipation.NS_Quagmire_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_Quagmire_Cast.SC_Quagmire_Cast",
+      "ImpactSound": "/Game/Audio/Earth/SC_Quagmire_Impact.SC_Quagmire_Impact",
+      "DecalMaterial": "/Game/VFX/Earth/Materials/MI_Decal_Quagmire.MI_Decal_Quagmire"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Earth_Quagmire.T_Icon_Earth_Quagmire",
+    "UnlockRequirement": "Mastery:Element:Earth:2",
+    "MasteryRequirement": 2,
+    "MasteryXP": 6,
+    "RankRequirement": "Intermediate",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Earth_EarthFortress",
+    "DisplayName": "Earth Fortress",
+    "Description": "Raises three stone walls (each 350 HP, 3.2 m wide, 3 m tall) in front of the caster for 15 s. Blocks projectiles and paths; enemies standing where a wall rises are jolted.",
+    "Behavior": "Structure",
+    "Element": "Earth",
+    "ElementRequirement": "Earth",
+    "ManaCost": 80,
+    "Cooldown": 20,
+    "CastTime": 0.5,
+    "RecoveryTime": 0.4,
+    "Range": 600,
+    "Damage": 10,
+    "Stagger": 25,
+    "Duration": 15,
+    "bDisruptable": true,
+    "StructureCount": 3,
+    "StructureHealth": 350,
+    "StructureExtent": {
+      "X": 40,
+      "Y": 160,
+      "Z": 150
+    },
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Ground.AM_Cast_Ground",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_EarthFortress_Formation.NS_EarthFortress_Formation",
+      "Impact": "/Game/VFX/Earth/NS_EarthFortress_Impact.NS_EarthFortress_Impact",
+      "Dissipation": "/Game/VFX/Earth/NS_EarthFortress_Dissipation.NS_EarthFortress_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_EarthFortress_Cast.SC_EarthFortress_Cast",
+      "ImpactSound": "/Game/Audio/Earth/SC_EarthFortress_Impact.SC_EarthFortress_Impact",
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_EarthWall.SM_EarthWall",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_EarthWall.MI_EarthWall"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Earth_EarthFortress.T_Icon_Earth_EarthFortress",
+    "UnlockRequirement": "Mastery:Element:Earth:4",
+    "MasteryRequirement": 4,
+    "MasteryXP": 8,
+    "RankRequirement": "Advanced",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Wind_AirBlade",
+    "DisplayName": "Air Blade",
+    "Description": "A very fast, wide and thin crescent of compressed air that drifts slightly as it flies. Light damage, hard to sidestep.",
+    "Behavior": "Projectile",
+    "Element": "Wind",
+    "ElementRequirement": "Wind",
+    "ManaCost": 18,
+    "Cooldown": 1.0,
+    "CastTime": 0.25,
+    "RecoveryTime": 0.25,
+    "Range": 2600,
+    "Damage": 28,
+    "Stagger": 10,
+    "Knockback": 0,
+    "Motion": "Wave",
+    "ProjectileSpeed": 4000,
+    "ProjectileRadius": 40,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Slash.AM_Cast_Slash",
+    "FX": {
+      "Formation": "/Game/VFX/Wind/NS_AirBlade_Formation.NS_AirBlade_Formation",
+      "Travel": "/Game/VFX/Wind/NS_AirBlade_Travel.NS_AirBlade_Travel",
+      "Impact": "/Game/VFX/Wind/NS_AirBlade_Impact.NS_AirBlade_Impact",
+      "Dissipation": "/Game/VFX/Wind/NS_AirBlade_Dissipation.NS_AirBlade_Dissipation",
+      "CastSound": "/Game/Audio/Wind/SC_AirBlade_Cast.SC_AirBlade_Cast",
+      "TravelSound": "/Game/Audio/Wind/SC_AirBlade_Travel.SC_AirBlade_Travel",
+      "ImpactSound": "/Game/Audio/Wind/SC_AirBlade_Impact.SC_AirBlade_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wind_AirBlade.T_Icon_Wind_AirBlade",
+    "MasteryXP": 4,
+    "RankRequirement": "Beginner",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Wind_GaleStep",
+    "DisplayName": "Gale Step",
+    "Description": "A burst of wind carries the caster 650 cm in any input direction. Mobility, not a dodge: no invulnerability.",
+    "Behavior": "Dash",
+    "Element": "Wind",
+    "ElementRequirement": "Wind",
+    "ManaCost": 25,
+    "StaminaCost": 10,
+    "Cooldown": 4,
+    "CastTime": 0.05,
+    "RecoveryTime": 0.2,
+    "Range": 650,
+    "Damage": 0,
+    "Stagger": 0,
+    "bDisruptable": false,
+    "DashDistance": 650,
+    "DashDuration": 0.2,
+    "bDashTowardTarget": false,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Dash_Wind.AM_Dash_Wind",
+    "CastSocket": "foot_r",
+    "FX": {
+      "Formation": "/Game/VFX/Wind/NS_GaleStep_Formation.NS_GaleStep_Formation",
+      "Travel": "/Game/VFX/Wind/NS_GaleStep_Travel.NS_GaleStep_Travel",
+      "Impact": "/Game/VFX/Wind/NS_GaleStep_Impact.NS_GaleStep_Impact",
+      "CastSound": "/Game/Audio/Wind/SC_GaleStep_Cast.SC_GaleStep_Cast",
+      "ImpactSound": "/Game/Audio/Wind/SC_GaleStep_Impact.SC_GaleStep_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wind_GaleStep.T_Icon_Wind_GaleStep",
+    "UnlockRequirement": "Mastery:Element:Wind:2",
+    "MasteryRequirement": 2,
+    "MasteryXP": 5,
+    "RankRequirement": "Intermediate"
+  },
+  {
+    "AbilityID": "Wind_TempestDomain",
+    "DisplayName": "Tempest Domain",
+    "Description": "A 600 cm whirlwind around the target point for 8 s: weak enemies are shoved outward, everyone inside is slowed, and ordinary (non-boss) projectiles crossing it are deflected.",
+    "Behavior": "Zone",
+    "Element": "Wind",
+    "ElementRequirement": "Wind",
+    "ManaCost": 110,
+    "Cooldown": 26,
+    "CastTime": 0.6,
+    "RecoveryTime": 0.5,
+    "Range": 1500,
+    "AOERadius": 600,
+    "Damage": 6,
+    "Stagger": 12,
+    "Knockback": 400,
+    "Duration": 8,
+    "bDisruptable": true,
+    "ZoneKind": "WindField",
+    "ZoneMovement": {
+      "SpeedMultiplier": 0.8,
+      "AccelerationMultiplier": 0.8,
+      "JumpMultiplier": 0.9
+    },
+    "ActivationDelay": 0.3,
+    "PulseCount": 8,
+    "PulseInterval": 1.0,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Channel_Sky.AM_Cast_Channel_Sky",
+    "FX": {
+      "Formation": "/Game/VFX/Wind/NS_TempestDomain_Formation.NS_TempestDomain_Formation",
+      "Impact": "/Game/VFX/Wind/NS_TempestDomain_Impact.NS_TempestDomain_Impact",
+      "Dissipation": "/Game/VFX/Wind/NS_TempestDomain_Dissipation.NS_TempestDomain_Dissipation",
+      "CastSound": "/Game/Audio/Wind/SC_TempestDomain_Cast.SC_TempestDomain_Cast",
+      "ImpactSound": "/Game/Audio/Wind/SC_TempestDomain_Impact.SC_TempestDomain_Impact",
+      "DecalMaterial": "/Game/VFX/Wind/Materials/MI_Decal_Wind.MI_Decal_Wind"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wind_TempestDomain.T_Icon_Wind_TempestDomain",
+    "UnlockRequirement": "Mastery:Element:Wind:4",
+    "MasteryRequirement": 4,
+    "MasteryXP": 10,
+    "RankRequirement": "Advanced",
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Race_Human_SecondWind",
+    "DisplayName": "Second Wind",
+    "Description": "Catch your breath mid-fight: for 6 s you shrug off 20% of incoming stagger and move 5% faster while stamina and poise recover. Small, reliable, human.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Human",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "StaminaCost": 0,
+    "Cooldown": 45,
+    "CastTime": 0.2,
+    "RecoveryTime": 0.2,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 6,
+    "bDisruptable": false,
+    "BuffStats": {
+      "StaggerResistance": 0.2
+    },
+    "BuffMovement": {
+      "SpeedMultiplier": 1.05
+    },
+    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Quick.AM_Buff_Quick",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Human_SecondWind_Formation.NS_Race_Human_SecondWind_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Human_SecondWind_Dissipation.NS_Race_Human_SecondWind_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Human_SecondWind_Cast.SC_Race_Human_SecondWind_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Human_SecondWind.T_Icon_Race_Human_SecondWind",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Human_LimitBreak",
+    "DisplayName": "Limit Break",
+    "Description": "A human pushes past their limits for 15 s: +15% damage and 30% stagger resistance. Modest by design.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Human",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.15,
+      "StaggerResistance": 0.3
+    },
+    "TransformationTime": 0.6,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Human_LimitBreak_Formation.NS_Race_Human_LimitBreak_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Human_LimitBreak_Dissipation.NS_Race_Human_LimitBreak_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Human_LimitBreak_Cast.SC_Race_Human_LimitBreak_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Human_LimitBreak.T_Icon_Race_Human_LimitBreak",
+    "UnlockRequirement": "Mastery:Race:Human:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Migurd_ResonancePulse",
+    "DisplayName": "Resonance Pulse",
+    "Description": "Inspired by Migurd telepathy: a silent mental pulse that 'hears' hostile intent within 1500 cm, revealing enemies and their incoming attacks (foresight) for 3 s.",
+    "Behavior": "Buff",
+    "Element": "Arcane",
+    "RaceRequirement": "Migurd",
+    "bRequiresRace": true,
+    "ManaCost": 20,
+    "Cooldown": 20,
+    "CastTime": 0.15,
+    "RecoveryTime": 0.2,
+    "Range": 0,
+    "AOERadius": 1500,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 3,
+    "bDisruptable": false,
+    "bGrantsForesight": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Quick.AM_Buff_Quick",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_Race_Migurd_ResonancePulse_Formation.NS_Race_Migurd_ResonancePulse_Formation",
+      "Dissipation": "/Game/VFX/Arcane/NS_Race_Migurd_ResonancePulse_Dissipation.NS_Race_Migurd_ResonancePulse_Dissipation",
+      "CastSound": "/Game/Audio/Arcane/SC_Race_Migurd_ResonancePulse_Cast.SC_Race_Migurd_ResonancePulse_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Migurd_ResonancePulse.T_Icon_Race_Migurd_ResonancePulse",
+    "MasteryXP": 5,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Foresight"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Race_Migurd_ManaResonance",
+    "DisplayName": "Mana Resonance",
+    "Description": "The caster's mana resonates like a Migurd choir for 15 s: spells cost 25% less and cast 10% faster.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Migurd",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "ManaCostMultiplier": 0.75,
+      "CastTimeMultiplier": 0.9
+    },
+    "TransformationTime": 0.8,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Migurd_ManaResonance_Formation.NS_Race_Migurd_ManaResonance_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Migurd_ManaResonance_Dissipation.NS_Race_Migurd_ManaResonance_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Migurd_ManaResonance_Cast.SC_Race_Migurd_ManaResonance_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Migurd_ManaResonance.T_Icon_Race_Migurd_ManaResonance",
+    "UnlockRequirement": "Mastery:Race:Migurd:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Beast_HuntersDash",
+    "DisplayName": "Hunter's Dash",
+    "Description": "A low, explosive lunge of 550 cm toward the target with a raking strike on arrival. Not invulnerable.",
+    "Behavior": "Dash",
+    "Element": "None",
+    "RaceRequirement": "Beast",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "StaminaCost": 15,
+    "Cooldown": 5,
+    "CastTime": 0.1,
+    "RecoveryTime": 0.3,
+    "Range": 550,
+    "AOERadius": 120,
+    "Damage": 20,
+    "Stagger": 20,
+    "Knockback": 100,
+    "bDisruptable": false,
+    "DashDistance": 550,
+    "DashDuration": 0.2,
+    "bDashTowardTarget": true,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Dash_Lunge.AM_Dash_Lunge",
+    "CastSocket": "foot_r",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Beast_HuntersDash_Formation.NS_Race_Beast_HuntersDash_Formation",
+      "Travel": "/Game/VFX/Physical/NS_Race_Beast_HuntersDash_Travel.NS_Race_Beast_HuntersDash_Travel",
+      "Impact": "/Game/VFX/Physical/NS_Race_Beast_HuntersDash_Impact.NS_Race_Beast_HuntersDash_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Beast_HuntersDash_Cast.SC_Race_Beast_HuntersDash_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Race_Beast_HuntersDash_Impact.SC_Race_Beast_HuntersDash_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Beast_HuntersDash.T_Icon_Race_Beast_HuntersDash",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Beast_BeastInstinct",
+    "DisplayName": "Beast Instinct",
+    "Description": "Senses sharpen and the body follows for 15 s: +15% movement speed, 20% longer dashes and 0.15 s earlier warning of incoming attacks.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Beast",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DashMultiplier": 1.2,
+      "ForesightLeadBonus": 0.15
+    },
+    "BuffMovement": {
+      "SpeedMultiplier": 1.15
+    },
+    "TransformationTime": 0.7,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Beast_BeastInstinct_Formation.NS_Race_Beast_BeastInstinct_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Beast_BeastInstinct_Dissipation.NS_Race_Beast_BeastInstinct_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Beast_BeastInstinct_Cast.SC_Race_Beast_BeastInstinct_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Beast_BeastInstinct.T_Icon_Race_Beast_BeastInstinct",
+    "UnlockRequirement": "Mastery:Race:Beast:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Superd_ThirdEyeSense",
+    "DisplayName": "Third Eye Sense",
+    "Description": "The red jewel on a Superd's forehead perceives living beings and the flow of mana: reveals enemies within 2000 cm, even behind cover, and their incoming attacks for 5 s.",
+    "Behavior": "Buff",
+    "Element": "Arcane",
+    "RaceRequirement": "Superd",
+    "bRequiresRace": true,
+    "ManaCost": 25,
+    "Cooldown": 25,
+    "CastTime": 0.1,
+    "RecoveryTime": 0.2,
+    "Range": 0,
+    "AOERadius": 2000,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 5,
+    "bDisruptable": false,
+    "bGrantsForesight": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Quick.AM_Buff_Quick",
+    "FX": {
+      "Formation": "/Game/VFX/Arcane/NS_Race_Superd_ThirdEyeSense_Formation.NS_Race_Superd_ThirdEyeSense_Formation",
+      "Dissipation": "/Game/VFX/Arcane/NS_Race_Superd_ThirdEyeSense_Dissipation.NS_Race_Superd_ThirdEyeSense_Dissipation",
+      "CastSound": "/Game/Audio/Arcane/SC_Race_Superd_ThirdEyeSense_Cast.SC_Race_Superd_ThirdEyeSense_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Superd_ThirdEyeSense.T_Icon_Race_Superd_ThirdEyeSense",
+    "MasteryXP": 5,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Foresight"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Race_Superd_WarriorState",
+    "DisplayName": "Warrior State",
+    "Description": "The feared Superd warrior spirit for 15 s: +15% damage, 30% stagger resistance, +0.05 s counter windows.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Superd",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.15,
+      "StaggerResistance": 0.3,
+      "CounterWindowBonus": 0.05
+    },
+    "TransformationTime": 0.8,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Superd_WarriorState_Formation.NS_Race_Superd_WarriorState_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Superd_WarriorState_Dissipation.NS_Race_Superd_WarriorState_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Superd_WarriorState_Cast.SC_Race_Superd_WarriorState_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Superd_WarriorState.T_Icon_Race_Superd_WarriorState",
+    "UnlockRequirement": "Mastery:Race:Superd:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Elf_SpiritArrow",
+    "DisplayName": "Spirit Arrow",
+    "Description": "Elves are famed archers and mages: a fast, straight arrow of condensed wind mana.",
+    "Behavior": "Projectile",
+    "Element": "Wind",
+    "RaceRequirement": "Elf",
+    "bRequiresRace": true,
+    "ManaCost": 15,
+    "Cooldown": 2.5,
+    "CastTime": 0.3,
+    "RecoveryTime": 0.3,
+    "Range": 3500,
+    "Damage": 30,
+    "Stagger": 12,
+    "Knockback": 0,
+    "Motion": "Straight",
+    "ProjectileSpeed": 4200,
+    "ProjectileRadius": 12,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Cast_Bow.AM_Cast_Bow",
+    "FX": {
+      "Formation": "/Game/VFX/Wind/NS_Race_Elf_SpiritArrow_Formation.NS_Race_Elf_SpiritArrow_Formation",
+      "Travel": "/Game/VFX/Wind/NS_Race_Elf_SpiritArrow_Travel.NS_Race_Elf_SpiritArrow_Travel",
+      "Impact": "/Game/VFX/Wind/NS_Race_Elf_SpiritArrow_Impact.NS_Race_Elf_SpiritArrow_Impact",
+      "Dissipation": "/Game/VFX/Wind/NS_Race_Elf_SpiritArrow_Dissipation.NS_Race_Elf_SpiritArrow_Dissipation",
+      "CastSound": "/Game/Audio/Wind/SC_Race_Elf_SpiritArrow_Cast.SC_Race_Elf_SpiritArrow_Cast",
+      "TravelSound": "/Game/Audio/Wind/SC_Race_Elf_SpiritArrow_Travel.SC_Race_Elf_SpiritArrow_Travel",
+      "ImpactSound": "/Game/Audio/Wind/SC_Race_Elf_SpiritArrow_Impact.SC_Race_Elf_SpiritArrow_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Elf_SpiritArrow.T_Icon_Race_Elf_SpiritArrow",
+    "MasteryXP": 5,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Casting"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Race_Elf_AncientMana",
+    "DisplayName": "Ancient Mana",
+    "Description": "Draws on the long-lived elves' deep mana for 15 s: spells cost 20% less and zones are 15% wider.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Elf",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "ManaCostMultiplier": 0.8,
+      "AreaMultiplier": 1.15
+    },
+    "TransformationTime": 0.8,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Elf_AncientMana_Formation.NS_Race_Elf_AncientMana_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Elf_AncientMana_Dissipation.NS_Race_Elf_AncientMana_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Elf_AncientMana_Cast.SC_Race_Elf_AncientMana_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Elf_AncientMana.T_Icon_Race_Elf_AncientMana",
+    "UnlockRequirement": "Mastery:Race:Elf:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Dwarf_Stonehide",
+    "DisplayName": "Stonehide",
+    "Description": "Brace like a mountain for 5 s: 20% damage and 25% stagger resistance, but 15% slower.",
+    "Behavior": "Buff",
+    "Element": "Earth",
+    "RaceRequirement": "Dwarf",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "StaminaCost": 15,
+    "Cooldown": 25,
+    "CastTime": 0.2,
+    "RecoveryTime": 0.2,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 5,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageResistance": 0.2,
+      "StaggerResistance": 0.25
+    },
+    "BuffMovement": {
+      "SpeedMultiplier": 0.85
+    },
+    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Brace.AM_Buff_Brace",
+    "FX": {
+      "Formation": "/Game/VFX/Earth/NS_Race_Dwarf_Stonehide_Formation.NS_Race_Dwarf_Stonehide_Formation",
+      "Dissipation": "/Game/VFX/Earth/NS_Race_Dwarf_Stonehide_Dissipation.NS_Race_Dwarf_Stonehide_Dissipation",
+      "CastSound": "/Game/Audio/Earth/SC_Race_Dwarf_Stonehide_Cast.SC_Race_Dwarf_Stonehide_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Dwarf_Stonehide.T_Icon_Race_Dwarf_Stonehide",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Dwarf_ForgeHeart",
+    "DisplayName": "Forge Heart",
+    "Description": "A smith's fire in the chest for 15 s: +10% damage, 15% damage and 30% stagger resistance.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Dwarf",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.1,
+      "DamageResistance": 0.15,
+      "StaggerResistance": 0.3
+    },
+    "TransformationTime": 0.8,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Dwarf_ForgeHeart_Formation.NS_Race_Dwarf_ForgeHeart_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Dwarf_ForgeHeart_Dissipation.NS_Race_Dwarf_ForgeHeart_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Dwarf_ForgeHeart_Cast.SC_Race_Dwarf_ForgeHeart_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Dwarf_ForgeHeart.T_Icon_Race_Dwarf_ForgeHeart",
+    "UnlockRequirement": "Mastery:Race:Dwarf:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Dragon_ScaleGuard",
+    "DisplayName": "Scale Guard",
+    "Description": "Hardens dragon-tribe scales for 4 s: 25% damage and 15% magic resistance.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "DragonTribe",
+    "bRequiresRace": true,
+    "ManaCost": 20,
+    "Cooldown": 22,
+    "CastTime": 0.15,
+    "RecoveryTime": 0.2,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 4,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageResistance": 0.25,
+      "MagicResistance": 0.15
+    },
+    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Brace.AM_Buff_Brace",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Dragon_ScaleGuard_Formation.NS_Race_Dragon_ScaleGuard_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Dragon_ScaleGuard_Dissipation.NS_Race_Dragon_ScaleGuard_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Dragon_ScaleGuard_Cast.SC_Race_Dragon_ScaleGuard_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Dragon_ScaleGuard.T_Icon_Race_Dragon_ScaleGuard",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Dragon_Aura",
+    "DisplayName": "Dragon Battle Aura",
+    "Description": "The Dragon Tribe's battle aura flares for 15 s: +15% damage, 15% damage and 35% stagger resistance.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "DragonTribe",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.15,
+      "DamageResistance": 0.15,
+      "StaggerResistance": 0.35
+    },
+    "TransformationTime": 1.0,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Dragon_Aura_Formation.NS_Race_Dragon_Aura_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Dragon_Aura_Dissipation.NS_Race_Dragon_Aura_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Dragon_Aura_Cast.SC_Race_Dragon_Aura_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Dragon_Aura.T_Icon_Race_Dragon_Aura",
+    "UnlockRequirement": "Mastery:Race:DragonTribe:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10,
+    "ActivationTags": {
+      "GameplayTags": [
+        {
+          "TagName": "State.Aura"
+        }
+      ]
+    }
+  },
+  {
+    "AbilityID": "Race_Immortal_Reassemble",
+    "DisplayName": "Reassemble",
+    "Description": "Immortal flesh knits back together: for 3 s take 30% less damage and 50% less stagger while the body reassembles.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "ImmortalDemon",
+    "bRequiresRace": true,
+    "ManaCost": 30,
+    "Cooldown": 30,
+    "CastTime": 0.1,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 3,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageResistance": 0.3,
+      "StaggerResistance": 0.5
+    },
+    "Montage": "/Game/Characters/Shared/Montages/AM_Buff_Brace.AM_Buff_Brace",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Immortal_Reassemble_Formation.NS_Race_Immortal_Reassemble_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Immortal_Reassemble_Dissipation.NS_Race_Immortal_Reassemble_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Immortal_Reassemble_Cast.SC_Race_Immortal_Reassemble_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Immortal_Reassemble.T_Icon_Race_Immortal_Reassemble",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Immortal_State",
+    "DisplayName": "Immortal State",
+    "Description": "Embraces immortal-demon resilience for 15 s: 20% damage and 40% stagger resistance, +10% damage.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "ImmortalDemon",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.1,
+      "DamageResistance": 0.2,
+      "StaggerResistance": 0.4
+    },
+    "TransformationTime": 1.0,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Immortal_State_Formation.NS_Race_Immortal_State_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Immortal_State_Dissipation.NS_Race_Immortal_State_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Immortal_State_Cast.SC_Race_Immortal_State_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Immortal_State.T_Icon_Race_Immortal_State",
+    "UnlockRequirement": "Mastery:Race:ImmortalDemon:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Ogre_GroundBreaker",
+    "DisplayName": "Ground Breaker",
+    "Description": "A slow, heavy two-handed slam (0.55 s wind-up) that hits everything within 300 cm with big stagger.",
+    "Behavior": "Melee",
+    "Element": "None",
+    "RaceRequirement": "Ogre",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "StaminaCost": 25,
+    "Cooldown": 12,
+    "CastTime": 0.55,
+    "RecoveryTime": 0.6,
+    "Range": 250,
+    "AOERadius": 300,
+    "Damage": 45,
+    "Stagger": 60,
+    "Knockback": 400,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Melee_Slam.AM_Melee_Slam",
+    "FX": {
+      "Impact": "/Game/VFX/Physical/NS_Race_Ogre_GroundBreaker_Impact.NS_Race_Ogre_GroundBreaker_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Ogre_GroundBreaker_Cast.SC_Race_Ogre_GroundBreaker_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Race_Ogre_GroundBreaker_Impact.SC_Race_Ogre_GroundBreaker_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Ogre_GroundBreaker.T_Icon_Race_Ogre_GroundBreaker",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Ogre_Champion",
+    "DisplayName": "Ogre Champion",
+    "Description": "Ogre might unleashed for 15 s: +20% damage and 35% stagger resistance, 5% slower.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "Ogre",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.2,
+      "StaggerResistance": 0.35
+    },
+    "BuffMovement": {
+      "SpeedMultiplier": 0.95
+    },
+    "TransformationTime": 1.0,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Ogre_Champion_Formation.NS_Race_Ogre_Champion_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Ogre_Champion_Dissipation.NS_Race_Ogre_Champion_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Ogre_Champion_Cast.SC_Race_Ogre_Champion_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Ogre_Champion.T_Icon_Race_Ogre_Champion",
+    "UnlockRequirement": "Mastery:Race:Ogre:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Race_Sea_TideRush",
+    "DisplayName": "Tide Rush",
+    "Description": "Rides a surge of water 600 cm in any direction. Not invulnerable.",
+    "Behavior": "Dash",
+    "Element": "Water",
+    "RaceRequirement": "SeaRace",
+    "bRequiresRace": true,
+    "ManaCost": 15,
+    "StaminaCost": 10,
+    "Cooldown": 6,
+    "CastTime": 0.05,
+    "RecoveryTime": 0.2,
+    "Range": 600,
+    "Damage": 0,
+    "Stagger": 0,
+    "bDisruptable": false,
+    "DashDistance": 600,
+    "DashDuration": 0.22,
+    "bDashTowardTarget": false,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Dash_Wind.AM_Dash_Wind",
+    "CastSocket": "foot_r",
+    "FX": {
+      "Formation": "/Game/VFX/Water/NS_Race_Sea_TideRush_Formation.NS_Race_Sea_TideRush_Formation",
+      "Travel": "/Game/VFX/Water/NS_Race_Sea_TideRush_Travel.NS_Race_Sea_TideRush_Travel",
+      "Impact": "/Game/VFX/Water/NS_Race_Sea_TideRush_Impact.NS_Race_Sea_TideRush_Impact",
+      "CastSound": "/Game/Audio/Water/SC_Race_Sea_TideRush_Cast.SC_Race_Sea_TideRush_Cast",
+      "ImpactSound": "/Game/Audio/Water/SC_Race_Sea_TideRush_Impact.SC_Race_Sea_TideRush_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Sea_TideRush.T_Icon_Race_Sea_TideRush",
+    "MasteryXP": 5
+  },
+  {
+    "AbilityID": "Race_Sea_OceanBlessing",
+    "DisplayName": "Ocean Blessing",
+    "Description": "The sea's favour for 15 s: spells cost 15% less, 15% magic resistance, +10% movement speed.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "RaceRequirement": "SeaRace",
+    "bRequiresRace": true,
+    "ManaCost": 0,
+    "Cooldown": 180,
+    "CastTime": 0,
+    "RecoveryTime": 0.3,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 15,
+    "bDisruptable": false,
+    "BuffStats": {
+      "ManaCostMultiplier": 0.85,
+      "MagicResistance": 0.15
+    },
+    "BuffMovement": {
+      "SpeedMultiplier": 1.1
+    },
+    "TransformationTime": 0.8,
+    "Montage": "/Game/Characters/Shared/Montages/AM_Transform_Race.AM_Transform_Race",
+    "CastSocket": "spine_03",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Race_Sea_OceanBlessing_Formation.NS_Race_Sea_OceanBlessing_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_Race_Sea_OceanBlessing_Dissipation.NS_Race_Sea_OceanBlessing_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_Race_Sea_OceanBlessing_Cast.SC_Race_Sea_OceanBlessing_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Race_Sea_OceanBlessing.T_Icon_Race_Sea_OceanBlessing",
+    "UnlockRequirement": "Mastery:Race:SeaRace:3",
+    "MasteryRequirement": 3,
+    "MasteryXP": 10
+  },
+  {
+    "AbilityID": "Wolf_Bite",
+    "DisplayName": "Bite",
+    "Description": "Quick snapping bite. Short range, light stagger.",
+    "Behavior": "Melee",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 1.2,
+    "CastTime": 0.35,
+    "RecoveryTime": 0.6,
+    "Range": 160,
+    "AOERadius": 90,
+    "Damage": 18,
+    "Stagger": 12,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Enemies/Wolf/Montages/AM_Wolf_Bite.AM_Wolf_Bite",
+    "FX": {
+      "Impact": "/Game/VFX/Physical/NS_Wolf_Bite_Impact.NS_Wolf_Bite_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Wolf_Bite_Cast.SC_Wolf_Bite_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Wolf_Bite_Impact.SC_Wolf_Bite_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wolf_Bite.T_Icon_Wolf_Bite",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Wolf_Lunge",
+    "DisplayName": "Lunge",
+    "Description": "Crouches (0.5 s tell) then leaps 450 cm at the target.",
+    "Behavior": "Dash",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 4,
+    "CastTime": 0.5,
+    "RecoveryTime": 0.8,
+    "Range": 450,
+    "AOERadius": 110,
+    "Damage": 22,
+    "Stagger": 18,
+    "Knockback": 150,
+    "bDisruptable": false,
+    "DashDistance": 450,
+    "DashDuration": 0.25,
+    "bDashTowardTarget": true,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Enemies/Wolf/Montages/AM_Wolf_Lunge.AM_Wolf_Lunge",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_Wolf_Lunge_Formation.NS_Wolf_Lunge_Formation",
+      "Travel": "/Game/VFX/Physical/NS_Wolf_Lunge_Travel.NS_Wolf_Lunge_Travel",
+      "Impact": "/Game/VFX/Physical/NS_Wolf_Lunge_Impact.NS_Wolf_Lunge_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Wolf_Lunge_Cast.SC_Wolf_Lunge_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Wolf_Lunge_Impact.SC_Wolf_Lunge_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wolf_Lunge.T_Icon_Wolf_Lunge",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Goblin_Club",
+    "DisplayName": "Club Swing",
+    "Description": "Clumsy overhead club swing.",
+    "Behavior": "Melee",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 1.6,
+    "CastTime": 0.45,
+    "RecoveryTime": 0.7,
+    "Range": 170,
+    "AOERadius": 100,
+    "Damage": 20,
+    "Stagger": 16,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Enemies/Goblin/Montages/AM_Goblin_Club.AM_Goblin_Club",
+    "FX": {
+      "Impact": "/Game/VFX/Physical/NS_Goblin_Club_Impact.NS_Goblin_Club_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Goblin_Club_Cast.SC_Goblin_Club_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Goblin_Club_Impact.SC_Goblin_Club_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Goblin_Club.T_Icon_Goblin_Club",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Goblin_RockThrow",
+    "DisplayName": "Rock Throw",
+    "Description": "Lobs a rock in a visible arc. Physical, not magic: Disturb Magic cannot cancel it.",
+    "Behavior": "Projectile",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 3,
+    "CastTime": 0.6,
+    "RecoveryTime": 0.8,
+    "Range": 1400,
+    "Damage": 14,
+    "Stagger": 10,
+    "Motion": "Arc",
+    "ProjectileSpeed": 1500,
+    "ProjectileRadius": 14,
+    "ProjectileGravity": 1.0,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Enemies/Goblin/Montages/AM_Goblin_RockThrow.AM_Goblin_RockThrow",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_RockThrow_Formation.NS_RockThrow_Formation",
+      "Travel": "/Game/VFX/Physical/NS_RockThrow_Travel.NS_RockThrow_Travel",
+      "Impact": "/Game/VFX/Physical/NS_RockThrow_Impact.NS_RockThrow_Impact",
+      "Dissipation": "/Game/VFX/Physical/NS_RockThrow_Dissipation.NS_RockThrow_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_RockThrow_Cast.SC_RockThrow_Cast",
+      "TravelSound": "/Game/Audio/Physical/SC_RockThrow_Travel.SC_RockThrow_Travel",
+      "ImpactSound": "/Game/Audio/Physical/SC_RockThrow_Impact.SC_RockThrow_Impact",
+      "BodyMesh": "/Game/VFX/Physical/Meshes/SM_Rock.SM_Rock",
+      "BodyMaterial": "/Game/VFX/Physical/Materials/MI_Rock.MI_Rock"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Goblin_RockThrow.T_Icon_Goblin_RockThrow",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Bandit_Slash",
+    "DisplayName": "Sword Slash",
+    "Description": "A trained diagonal sword cut.",
+    "Behavior": "Melee",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 1.4,
+    "CastTime": 0.4,
+    "RecoveryTime": 0.7,
+    "Range": 200,
+    "AOERadius": 110,
+    "Damage": 26,
+    "Stagger": 20,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Enemies/Bandit/Montages/AM_Bandit_Slash.AM_Bandit_Slash",
+    "FX": {
+      "Impact": "/Game/VFX/Physical/NS_Bandit_Slash_Impact.NS_Bandit_Slash_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Bandit_Slash_Cast.SC_Bandit_Slash_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Bandit_Slash_Impact.SC_Bandit_Slash_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Bandit_Slash.T_Icon_Bandit_Slash",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "BanditMage_FireBolt",
+    "DisplayName": "Fire Bolt",
+    "Description": "A chanted fire bolt - the long, audible incantation is the tell. Disruptable.",
+    "Behavior": "Projectile",
+    "Element": "Fire",
+    "ManaCost": 0,
+    "Cooldown": 3,
+    "CastTime": 0.8,
+    "RecoveryTime": 0.9,
+    "Range": 1800,
+    "AOERadius": 100,
+    "Damage": 28,
+    "Stagger": 14,
+    "Knockback": 100,
+    "Motion": "Straight",
+    "ProjectileSpeed": 2400,
+    "ProjectileRadius": 18,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Enemies/BanditMage/Montages/AM_BanditMage_FireBolt.AM_BanditMage_FireBolt",
+    "FX": {
+      "Formation": "/Game/VFX/Fire/NS_FireBolt_Formation.NS_FireBolt_Formation",
+      "Travel": "/Game/VFX/Fire/NS_FireBolt_Travel.NS_FireBolt_Travel",
+      "Impact": "/Game/VFX/Fire/NS_FireBolt_Impact.NS_FireBolt_Impact",
+      "Dissipation": "/Game/VFX/Fire/NS_FireBolt_Dissipation.NS_FireBolt_Dissipation",
+      "CastSound": "/Game/Audio/Fire/SC_FireBolt_Cast.SC_FireBolt_Cast",
+      "TravelSound": "/Game/Audio/Fire/SC_FireBolt_Travel.SC_FireBolt_Travel",
+      "ImpactSound": "/Game/Audio/Fire/SC_FireBolt_Impact.SC_FireBolt_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_BanditMage_FireBolt.T_Icon_BanditMage_FireBolt",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "WolfAlpha_Howl",
+    "DisplayName": "Alpha Howl",
+    "Description": "A long howl (0.9 s, punishable): for 8 s the alpha deals 20% more damage, resists 20% stagger and moves 10% faster.",
+    "Behavior": "Buff",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 20,
+    "CastTime": 0.9,
+    "RecoveryTime": 0.6,
+    "Range": 0,
+    "Damage": 0,
+    "Stagger": 0,
+    "Duration": 8,
+    "bDisruptable": false,
+    "BuffStats": {
+      "DamageMultiplier": 1.2,
+      "StaggerResistance": 0.2
+    },
+    "BuffMovement": {
+      "SpeedMultiplier": 1.1
+    },
+    "Montage": "/Game/Characters/Enemies/WolfAlpha/Montages/AM_WolfAlpha_Howl.AM_WolfAlpha_Howl",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_WolfAlpha_Howl_Formation.NS_WolfAlpha_Howl_Formation",
+      "Dissipation": "/Game/VFX/Physical/NS_WolfAlpha_Howl_Dissipation.NS_WolfAlpha_Howl_Dissipation",
+      "CastSound": "/Game/Audio/Physical/SC_WolfAlpha_Howl_Cast.SC_WolfAlpha_Howl_Cast"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_WolfAlpha_Howl.T_Icon_WolfAlpha_Howl",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "WolfAlpha_Pounce",
+    "DisplayName": "Pounce",
+    "Description": "Coils then pounces 700 cm; long recovery if it misses.",
+    "Behavior": "Dash",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 5,
+    "CastTime": 0.7,
+    "RecoveryTime": 1.1,
+    "Range": 700,
+    "AOERadius": 150,
+    "Damage": 40,
+    "Stagger": 35,
+    "Knockback": 300,
+    "bDisruptable": false,
+    "DashDistance": 700,
+    "DashDuration": 0.3,
+    "bDashTowardTarget": true,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Enemies/WolfAlpha/Montages/AM_WolfAlpha_Pounce.AM_WolfAlpha_Pounce",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_WolfAlpha_Pounce_Formation.NS_WolfAlpha_Pounce_Formation",
+      "Travel": "/Game/VFX/Physical/NS_WolfAlpha_Pounce_Travel.NS_WolfAlpha_Pounce_Travel",
+      "Impact": "/Game/VFX/Physical/NS_WolfAlpha_Pounce_Impact.NS_WolfAlpha_Pounce_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_WolfAlpha_Pounce_Cast.SC_WolfAlpha_Pounce_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_WolfAlpha_Pounce_Impact.SC_WolfAlpha_Pounce_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_WolfAlpha_Pounce.T_Icon_WolfAlpha_Pounce",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Wyrm_Claw",
+    "DisplayName": "Claw Rake",
+    "Description": "A big forward claw rake with a raised-foreleg tell.",
+    "Behavior": "Melee",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 2.5,
+    "CastTime": 0.8,
+    "RecoveryTime": 1.2,
+    "Range": 380,
+    "AOERadius": 260,
+    "Damage": 70,
+    "Stagger": 45,
+    "Knockback": 500,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Enemies/RedWyrm/Montages/AM_Wyrm_Claw.AM_Wyrm_Claw",
+    "FX": {
+      "Impact": "/Game/VFX/Physical/NS_Wyrm_Claw_Impact.NS_Wyrm_Claw_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Wyrm_Claw_Cast.SC_Wyrm_Claw_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Wyrm_Claw_Impact.SC_Wyrm_Claw_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wyrm_Claw.T_Icon_Wyrm_Claw",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Wyrm_TailSweep",
+    "DisplayName": "Tail Sweep",
+    "Description": "Winds up (1.0 s) and sweeps its tail through a full 360 degrees.",
+    "Behavior": "Melee",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 6,
+    "CastTime": 1.0,
+    "RecoveryTime": 1.5,
+    "Range": 420,
+    "AOERadius": 420,
+    "Damage": 60,
+    "Stagger": 60,
+    "Knockback": 700,
+    "bDisruptable": false,
+    "Montage": "/Game/Characters/Enemies/RedWyrm/Montages/AM_Wyrm_TailSweep.AM_Wyrm_TailSweep",
+    "FX": {
+      "Impact": "/Game/VFX/Physical/NS_Wyrm_TailSweep_Impact.NS_Wyrm_TailSweep_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_Wyrm_TailSweep_Cast.SC_Wyrm_TailSweep_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_Wyrm_TailSweep_Impact.SC_Wyrm_TailSweep_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wyrm_TailSweep.T_Icon_Wyrm_TailSweep",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Wyrm_FireBreath",
+    "DisplayName": "Fire Breath",
+    "Description": "Rears back and scorches a line in front of it: ground marks appear 0.8 s before the flames erupt in four pulses. Physical breath, not a spell.",
+    "Behavior": "Zone",
+    "Element": "Fire",
+    "ManaCost": 0,
+    "Cooldown": 9,
+    "CastTime": 1.0,
+    "RecoveryTime": 1.8,
+    "Range": 900,
+    "AOERadius": 350,
+    "Damage": 26,
+    "Stagger": 10,
+    "Duration": 2.2,
+    "bDisruptable": false,
+    "ZoneKind": "Eruptions",
+    "ActivationDelay": 0.8,
+    "PulseCount": 4,
+    "PulseInterval": 0.3,
+    "Montage": "/Game/Characters/Enemies/RedWyrm/Montages/AM_Wyrm_FireBreath.AM_Wyrm_FireBreath",
+    "CastSocket": "head",
+    "FX": {
+      "Formation": "/Game/VFX/Fire/NS_WyrmFireBreath_Formation.NS_WyrmFireBreath_Formation",
+      "Impact": "/Game/VFX/Fire/NS_WyrmFireBreath_Impact.NS_WyrmFireBreath_Impact",
+      "Dissipation": "/Game/VFX/Fire/NS_WyrmFireBreath_Dissipation.NS_WyrmFireBreath_Dissipation",
+      "CastSound": "/Game/Audio/Fire/SC_WyrmFireBreath_Cast.SC_WyrmFireBreath_Cast",
+      "ImpactSound": "/Game/Audio/Fire/SC_WyrmFireBreath_Impact.SC_WyrmFireBreath_Impact",
+      "DecalMaterial": "/Game/VFX/Fire/Materials/MI_Decal_FireBreath_Warning.MI_Decal_FireBreath_Warning"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wyrm_FireBreath.T_Icon_Wyrm_FireBreath",
+    "MasteryXP": 0
+  },
+  {
+    "AbilityID": "Wyrm_Dive",
+    "DisplayName": "Wing Dive",
+    "Description": "Takes off (1.2 s tell) and crashes down along a 1600 cm line; long recovery on landing.",
+    "Behavior": "Dash",
+    "Element": "None",
+    "ManaCost": 0,
+    "Cooldown": 14,
+    "CastTime": 1.2,
+    "RecoveryTime": 2.0,
+    "Range": 1600,
+    "AOERadius": 350,
+    "Damage": 90,
+    "Stagger": 70,
+    "Knockback": 800,
+    "bDisruptable": false,
+    "DashDistance": 1600,
+    "DashDuration": 0.6,
+    "bDashTowardTarget": true,
+    "bDashInvulnerable": false,
+    "Montage": "/Game/Characters/Enemies/RedWyrm/Montages/AM_Wyrm_Dive.AM_Wyrm_Dive",
+    "FX": {
+      "Formation": "/Game/VFX/Physical/NS_WyrmDive_Formation.NS_WyrmDive_Formation",
+      "Travel": "/Game/VFX/Physical/NS_WyrmDive_Travel.NS_WyrmDive_Travel",
+      "Impact": "/Game/VFX/Physical/NS_WyrmDive_Impact.NS_WyrmDive_Impact",
+      "CastSound": "/Game/Audio/Physical/SC_WyrmDive_Cast.SC_WyrmDive_Cast",
+      "ImpactSound": "/Game/Audio/Physical/SC_WyrmDive_Impact.SC_WyrmDive_Impact"
+    },
+    "Icon": "/Game/UI/Icons/T_Icon_Wyrm_Dive.T_Icon_Wyrm_Dive",
+    "MasteryXP": 0
+  }
+]

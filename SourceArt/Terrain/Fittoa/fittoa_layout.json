@@ -1,0 +1,125 @@
+{
+ "Generator": "Tools/generate_fittoa_terrain.py",
+ "Seed": 1717,
+ "Heightmap": {
+  "Resolution": [
+   2017,
+   2017
+  ],
+  "File": "Fittoa_Height_2017.png",
+  "Raw": "Fittoa_Height_2017.r16",
+  "MetresPerSample": 1.0,
+  "ZeroHeightValue": 32768,
+  "CmPerUnit": 0.78125,
+  "ClippedSamples": 0,
+  "MinHeightCm": 2523.5,
+  "MaxHeightCm": 23562.3
+ },
+ "LandscapeImport": {
+  "NewLandscapeLocation": [
+   0,
+   0,
+   0
+  ],
+  "Scale": [
+   100.0,
+   100.0,
+   100.0
+  ],
+  "ResultingActorLocation": [
+   -100800.0,
+   -100800.0,
+   0
+  ],
+  "SectionSize": "63x63 quads",
+  "SectionsPerComponent": "2x2",
+  "NumberOfComponents": "16x16",
+  "WorldPartitionGridSize": 2,
+  "Layers": [
+   "grass",
+   "farmland",
+   "forest_floor",
+   "dirt_road",
+   "riverbed",
+   "rock"
+  ]
+ },
+ "Conventions": {
+  "PlusX": "east",
+  "MinusY": "north (image up)",
+  "WorldFromPixel": "X=(col-1008)*100, Y=(row-1008)*100, Z=height_cm"
+ },
+ "Locations": {
+  "Buena_Village": {
+   "X": -36800.0,
+   "Y": 30200.0,
+   "Z": 2945.0
+  },
+  "Buena_Square": {
+   "X": -36800.0,
+   "Y": 29200.0,
+   "Z": 2945.4
+  },
+  "Buena_Greyrat_House": {
+   "X": -44800.0,
+   "Y": 20700.0,
+   "Z": 3043.8
+  },
+  "Buena_Farms": {
+   "X": -24800.0,
+   "Y": 46200.0,
+   "Z": 2943.5
+  },
+  "Buena_Hill_Tree": {
+   "X": -55300.0,
+   "Y": 9700.0,
+   "Z": 4451.0
+  },
+  "Buena_Forest_Edge": {
+   "X": -75800.0,
+   "Y": 24200.0,
+   "Z": 2900.2
+  },
+  "Fittoa_River_Ford": {
+   "X": -10493.2,
+   "Y": 21096.2,
+   "Z": 2718.2
+  },
+  "Fittoa_Deep_Forest": {
+   "X": -70800.0,
+   "Y": -44800.0,
+   "Z": 4097.1
+  },
+  "Fittoa_Watchtower_Ruins": {
+   "X": 49200.0,
+   "Y": -31800.0,
+   "Z": 5174.5
+  },
+  "Fittoa_Road_To_Roa": {
+   "X": 46769.9,
+   "Y": -20504.0,
+   "Z": 3312.8
+  },
+  "Roa_Gate": {
+   "X": 96300.0,
+   "Y": -44800.0,
+   "Z": 3834.4
+  },
+  "Fittoa_Wyrm_Foothills": {
+   "X": 5200.0,
+   "Y": -75800.0,
+   "Z": 8472.9
+  },
+  "Arena_Test": {
+   "X": 71200.0,
+   "Y": 71200.0,
+   "Z": 2874.7
+  }
+ },
+ "WeightSumCheck": {
+  "min": 255,
+  "max": 255
+ },
+ "BasinHeightCm": 2943.6,
+ "ArenaHeightCm": 2874.7
+}

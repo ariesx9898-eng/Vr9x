@@ -1,0 +1,508 @@
+[
+  {
+    "EnemyID": "Enemy_Wolf",
+    "DisplayName": "Grey Wolf",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Beast"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Enemies/Wolf/SK_Wolf.SK_Wolf",
+    "AnimClass": "/Game/Characters/Enemies/Wolf/ABP_Wolf.ABP_Wolf_C",
+    "MaxHealth": 180,
+    "MaxPoise": 40,
+    "MoveSpeed": 520,
+    "Scale": 1.0,
+    "bIsWeak": true,
+    "bIsBoss": false,
+    "bCrowdControlImmune": false,
+    "PreferredRange": 150,
+    "Reactivity": 0.35,
+    "Aggression": 0.75,
+    "Attacks": [
+      {
+        "AttackId": "Bite",
+        "AbilityId": "Wolf_Bite",
+        "MinRange": 0,
+        "MaxRange": 180,
+        "TelegraphTime": 0.45,
+        "RecoveryTime": 0.6,
+        "Weight": 3.0,
+        "MinPhase": 0,
+        "bIsImportant": false
+      },
+      {
+        "AttackId": "Lunge",
+        "AbilityId": "Wolf_Lunge",
+        "MinRange": 250,
+        "MaxRange": 550,
+        "TelegraphTime": 0.6,
+        "RecoveryTime": 0.9,
+        "Weight": 1.5,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 18,
+    "DropTable": {
+      "Item_WolfPelt": 0.6
+    },
+    "Element": "None",
+    "CharacterLineage": ""
+  },
+  {
+    "EnemyID": "Enemy_Goblin",
+    "DisplayName": "Goblin",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Monster"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Enemies/Goblin/SK_Goblin.SK_Goblin",
+    "AnimClass": "/Game/Characters/Enemies/Goblin/ABP_Goblin.ABP_Goblin_C",
+    "MaxHealth": 140,
+    "MaxPoise": 30,
+    "MoveSpeed": 420,
+    "Scale": 0.8,
+    "bIsWeak": true,
+    "bIsBoss": false,
+    "bCrowdControlImmune": false,
+    "PreferredRange": 180,
+    "Reactivity": 0.25,
+    "Aggression": 0.7,
+    "Attacks": [
+      {
+        "AttackId": "Club",
+        "AbilityId": "Goblin_Club",
+        "MinRange": 0,
+        "MaxRange": 190,
+        "TelegraphTime": 0.5,
+        "RecoveryTime": 0.7,
+        "Weight": 2.5,
+        "MinPhase": 0,
+        "bIsImportant": false
+      },
+      {
+        "AttackId": "RockThrow",
+        "AbilityId": "Goblin_RockThrow",
+        "MinRange": 400,
+        "MaxRange": 1400,
+        "TelegraphTime": 0.7,
+        "RecoveryTime": 1.0,
+        "Weight": 1.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 15,
+    "DropTable": {
+      "Item_GoblinTrinket": 0.35,
+      "Item_IronOre": 0.1
+    },
+    "Element": "None",
+    "CharacterLineage": ""
+  },
+  {
+    "EnemyID": "Enemy_Bandit",
+    "DisplayName": "Road Bandit",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Humanoid"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Enemies/Bandit/SK_Bandit.SK_Bandit",
+    "AnimClass": "/Game/Characters/Enemies/Bandit/ABP_Bandit.ABP_Bandit_C",
+    "MaxHealth": 260,
+    "MaxPoise": 55,
+    "MoveSpeed": 450,
+    "Scale": 1.0,
+    "bIsWeak": true,
+    "bIsBoss": false,
+    "bCrowdControlImmune": false,
+    "PreferredRange": 200,
+    "Reactivity": 0.4,
+    "Aggression": 0.6,
+    "Attacks": [
+      {
+        "AttackId": "Slash",
+        "AbilityId": "Bandit_Slash",
+        "MinRange": 0,
+        "MaxRange": 220,
+        "TelegraphTime": 0.5,
+        "RecoveryTime": 0.7,
+        "Weight": 1.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 25,
+    "DropTable": {
+      "Item_TravelRations": 0.4,
+      "Item_IronOre": 0.15
+    },
+    "Element": "None",
+    "CharacterLineage": ""
+  },
+  {
+    "EnemyID": "Enemy_BanditMage",
+    "DisplayName": "Bandit Hedge-Mage",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Humanoid"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Enemies/BanditMage/SK_BanditMage.SK_BanditMage",
+    "AnimClass": "/Game/Characters/Enemies/BanditMage/ABP_BanditMage.ABP_BanditMage_C",
+    "MaxHealth": 200,
+    "MaxPoise": 35,
+    "MoveSpeed": 400,
+    "Scale": 1.0,
+    "bIsWeak": true,
+    "bIsBoss": false,
+    "bCrowdControlImmune": false,
+    "PreferredRange": 900,
+    "Reactivity": 0.3,
+    "Aggression": 0.45,
+    "Attacks": [
+      {
+        "AttackId": "FireBolt",
+        "AbilityId": "BanditMage_FireBolt",
+        "MinRange": 300,
+        "MaxRange": 1800,
+        "TelegraphTime": 0.8,
+        "RecoveryTime": 1.0,
+        "Weight": 1.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 30,
+    "DropTable": {
+      "Item_MagicStone": 0.25,
+      "Item_ManaCrystal": 0.05
+    },
+    "Element": "Fire",
+    "CharacterLineage": ""
+  },
+  {
+    "EnemyID": "Elite_WolfAlpha",
+    "DisplayName": "Alpha Wolf",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Beast"
+        },
+        {
+          "TagName": "Enemy.Elite"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Enemies/Wolf/SK_WolfAlpha.SK_WolfAlpha",
+    "AnimClass": "/Game/Characters/Enemies/Wolf/ABP_WolfAlpha.ABP_WolfAlpha_C",
+    "MaxHealth": 900,
+    "MaxPoise": 120,
+    "MoveSpeed": 560,
+    "Scale": 1.35,
+    "bIsWeak": false,
+    "bIsBoss": false,
+    "bCrowdControlImmune": false,
+    "PreferredRange": 200,
+    "Reactivity": 0.5,
+    "Aggression": 0.8,
+    "Attacks": [
+      {
+        "AttackId": "Bite",
+        "AbilityId": "Wolf_Bite",
+        "MinRange": 0,
+        "MaxRange": 200,
+        "TelegraphTime": 0.45,
+        "RecoveryTime": 0.6,
+        "Weight": 2.5,
+        "MinPhase": 0,
+        "bIsImportant": false
+      },
+      {
+        "AttackId": "Pounce",
+        "AbilityId": "WolfAlpha_Pounce",
+        "MinRange": 300,
+        "MaxRange": 750,
+        "TelegraphTime": 0.8,
+        "RecoveryTime": 1.1,
+        "Weight": 1.5,
+        "MinPhase": 0,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "Howl",
+        "AbilityId": "WolfAlpha_Howl",
+        "MinRange": 0,
+        "MaxRange": 2000,
+        "TelegraphTime": 0.9,
+        "RecoveryTime": 0.6,
+        "Weight": 0.5,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 120,
+    "DropTable": {
+      "Item_AlphaWolfPelt": 1.0,
+      "Item_WolfPelt": 0.5
+    },
+    "Element": "None",
+    "CharacterLineage": ""
+  },
+  {
+    "EnemyID": "Boss_RedWyrm_Juvenile",
+    "DisplayName": "Juvenile Red Wyrm",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Monster"
+        },
+        {
+          "TagName": "Enemy.Boss"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Enemies/RedWyrm/SK_RedWyrm.SK_RedWyrm",
+    "AnimClass": "/Game/Characters/Enemies/RedWyrm/ABP_RedWyrm.ABP_RedWyrm_C",
+    "MaxHealth": 6000,
+    "MaxPoise": 400,
+    "MoveSpeed": 500,
+    "Scale": 1.0,
+    "bIsWeak": false,
+    "bIsBoss": true,
+    "bCrowdControlImmune": true,
+    "PreferredRange": 400,
+    "Reactivity": 0.35,
+    "Aggression": 0.65,
+    "Attacks": [
+      {
+        "AttackId": "ClawRake",
+        "AbilityId": "Wyrm_Claw",
+        "MinRange": 0,
+        "MaxRange": 420,
+        "TelegraphTime": 0.7,
+        "RecoveryTime": 1.0,
+        "Weight": 3.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "TailSweep",
+        "AbilityId": "Wyrm_TailSweep",
+        "MinRange": 0,
+        "MaxRange": 450,
+        "TelegraphTime": 0.9,
+        "RecoveryTime": 1.5,
+        "Weight": 2.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "FireBreath",
+        "AbilityId": "Wyrm_FireBreath",
+        "MinRange": 300,
+        "MaxRange": 1000,
+        "TelegraphTime": 1.0,
+        "RecoveryTime": 1.8,
+        "Weight": 2.0,
+        "MinPhase": 1,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "WingDive",
+        "AbilityId": "Wyrm_Dive",
+        "MinRange": 800,
+        "MaxRange": 2200,
+        "TelegraphTime": 1.2,
+        "RecoveryTime": 2.0,
+        "Weight": 1.5,
+        "MinPhase": 2,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [
+      0.66,
+      0.33
+    ],
+    "XPReward": 800,
+    "DropTable": {
+      "Item_WyrmScale": 1.0,
+      "Item_MagicStone": 1.0,
+      "Item_ManaCrystal": 0.5
+    },
+    "Element": "Fire",
+    "CharacterLineage": ""
+  },
+  {
+    "EnemyID": "Arena_Orsted",
+    "DisplayName": "Orsted (Arena)",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Humanoid"
+        },
+        {
+          "TagName": "Enemy.Elite"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Orsted/SK_Orsted.SK_Orsted",
+    "AnimClass": "/Game/Characters/Orsted/ABP_Orsted.ABP_Orsted_C",
+    "MaxHealth": 1500,
+    "MaxPoise": 180,
+    "MoveSpeed": 470,
+    "Scale": 1.0,
+    "bIsWeak": false,
+    "bIsBoss": false,
+    "bCrowdControlImmune": true,
+    "PreferredRange": 250,
+    "Reactivity": 0.9,
+    "Aggression": 0.55,
+    "Attacks": [
+      {
+        "AttackId": "PalmStrike",
+        "AbilityId": "Orsted_Basic",
+        "MinRange": 0,
+        "MaxRange": 240,
+        "TelegraphTime": 0.4,
+        "RecoveryTime": 0.5,
+        "Weight": 3.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "DragonStep",
+        "AbilityId": "Orsted_DragonStep",
+        "MinRange": 400,
+        "MaxRange": 1000,
+        "TelegraphTime": 0.45,
+        "RecoveryTime": 0.6,
+        "Weight": 1.5,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 300,
+    "DropTable": {},
+    "Element": "Arcane",
+    "CharacterLineage": "Orsted"
+  },
+  {
+    "EnemyID": "Arena_Rudeus",
+    "DisplayName": "Rudeus (Arena)",
+    "Tags": {
+      "GameplayTags": [
+        {
+          "TagName": "Enemy"
+        },
+        {
+          "TagName": "Enemy.Humanoid"
+        },
+        {
+          "TagName": "Enemy.Elite"
+        }
+      ]
+    },
+    "Mesh": "/Game/Characters/Rudeus/SK_Rudeus.SK_Rudeus",
+    "AnimClass": "/Game/Characters/Rudeus/ABP_Rudeus.ABP_Rudeus_C",
+    "MaxHealth": 900,
+    "MaxPoise": 70,
+    "MoveSpeed": 430,
+    "Scale": 1.0,
+    "bIsWeak": false,
+    "bIsBoss": false,
+    "bCrowdControlImmune": false,
+    "PreferredRange": 1100,
+    "Reactivity": 0.6,
+    "Aggression": 0.6,
+    "Attacks": [
+      {
+        "AttackId": "StoneCannon",
+        "AbilityId": "Rudeus_StoneCannon",
+        "MinRange": 400,
+        "MaxRange": 3000,
+        "TelegraphTime": 0.6,
+        "RecoveryTime": 0.6,
+        "Weight": 2.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "StoneBullet",
+        "AbilityId": "Rudeus_Basic",
+        "MinRange": 0,
+        "MaxRange": 2500,
+        "TelegraphTime": 0.25,
+        "RecoveryTime": 0.3,
+        "Weight": 3.0,
+        "MinPhase": 0,
+        "bIsImportant": false
+      },
+      {
+        "AttackId": "Quagmire",
+        "AbilityId": "Rudeus_Quagmire",
+        "MinRange": 300,
+        "MaxRange": 1600,
+        "TelegraphTime": 0.7,
+        "RecoveryTime": 0.8,
+        "Weight": 1.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      },
+      {
+        "AttackId": "ElementalBarrage",
+        "AbilityId": "Rudeus_ElementalBarrage",
+        "MinRange": 500,
+        "MaxRange": 2500,
+        "TelegraphTime": 0.6,
+        "RecoveryTime": 1.0,
+        "Weight": 1.0,
+        "MinPhase": 0,
+        "bIsImportant": true
+      }
+    ],
+    "PhaseThresholds": [],
+    "XPReward": 300,
+    "DropTable": {},
+    "Element": "Earth",
+    "CharacterLineage": "Rudeus"
+  }
+]

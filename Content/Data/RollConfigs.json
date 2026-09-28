@@ -1,0 +1,38 @@
+[
+  {
+    "Category": "Character",
+    "RarityWeights": {
+      "Legendary": 0.94,
+      "Mythic": 0.06
+    },
+    "SoftPityStart": 20,
+    "SoftPityStep": 0.03,
+    "HardPity": 40,
+    "MythicHardPity": 60,
+    "bDuplicateProtection": true
+  },
+  {
+    "Category": "Element",
+    "RarityWeights": {
+      "Common": 0.6,
+      "Uncommon": 0.4
+    },
+    "SoftPityStart": 1000,
+    "SoftPityStep": 0.0,
+    "HardPity": 1000,
+    "MythicHardPity": 1000,
+    "bDuplicateProtection": true
+  },
+  {
+    "Category": "Race",
+    "RarityWeights": {
+      "Common": 0.5,
+      "Uncommon": 0.5
+    },
+    "SoftPityStart": 1000,
+    "SoftPityStep": 0.0,
+    "HardPity": 1000,
+    "MythicHardPity": 1000,
+    "bDuplicateProtection": true
+  }
+]

@@ -1,0 +1,26 @@
+# Unreal generated
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+.vs/
+.vscode/
+.idea/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+# OS
+.DS_Store
+Thumbs.db
+# Python
+__pycache__/
+*.pyc
+
+# Regenerable from Tools/generate_fittoa_terrain.py (the 16-bit PNG is committed)
+SourceArt/Terrain/**/*.r16

@@ -1,0 +1,834 @@
+[
+  {
+    "QuestID": "Q_Buena_BreadRun",
+    "Type": "Basic",
+    "Title": "Warm Bread for the Fields",
+    "Summary": "Anna's loaves are cooling in Buena Square. Carry three to Farmer Rolf before the midday break.",
+    "GiverNPC": "NPC_BakerAnna",
+    "TurnInNPC": "NPC_BakerAnna",
+    "RequiredRank": "F",
+    "RequiredLevel": 1,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Gather",
+        "TargetId": "Item_Bread",
+        "SecondaryId": "",
+        "Count": 3,
+        "Duration": 0.0,
+        "Description": "Collect loaves from Anna's cooling rack",
+        "MarkerLocationId": "Buena_Square"
+      },
+      {
+        "Type": "Deliver",
+        "TargetId": "Item_Bread",
+        "SecondaryId": "NPC_FarmerRolf",
+        "Count": 3,
+        "Duration": 0.0,
+        "Description": "Deliver the bread to Farmer Rolf",
+        "MarkerLocationId": "Buena_Farms"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 60,
+      "Gold": 15,
+      "AdventurerPoints": 5,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {
+        "Item_TravelRations": 1
+      },
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Oh, perfect timing! Rolf's been in the fields since dawn.",
+      "Three loaves, straight to him - and don't you dare nibble the crusts on the way."
+    ],
+    "CompleteDialogue": [
+      "Rolf said they were still warm? Good. Take some rations for your trouble."
+    ]
+  },
+  {
+    "QuestID": "Q_Buena_HerbGathering",
+    "Type": "Basic",
+    "Title": "Herbs at the Forest Edge",
+    "Summary": "The herbalist is running low on healing herbs. They grow thick where the fields meet the trees.",
+    "GiverNPC": "NPC_Herbalist",
+    "TurnInNPC": "NPC_Herbalist",
+    "RequiredRank": "F",
+    "RequiredLevel": 1,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Gather",
+        "TargetId": "Item_HealingHerb",
+        "SecondaryId": "",
+        "Count": 6,
+        "Duration": 0.0,
+        "Description": "Pick healing herbs at the forest edge",
+        "MarkerLocationId": "Buena_Forest_Edge"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": true,
+    "RepeatCooldown": 600.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 70,
+      "Gold": 20,
+      "AdventurerPoints": 5,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {
+        "Item_HealingPotion": 1
+      },
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Six bundles of the broad-leafed ones, please. Not the fuzzy ones - those make you itch for a week.",
+      "Stay out of the deep woods. Something's been spooking the deer."
+    ],
+    "CompleteDialogue": [
+      "Lovely, fresh and unbruised. Here - one of my own brews, in case the woods bite back."
+    ]
+  },
+  {
+    "QuestID": "Q_Fittoa_LostChild",
+    "Type": "Basic",
+    "Title": "The Little Wanderer",
+    "Summary": "Rolf's youngest wandered off chasing dragonflies. Search the river ford before dusk.",
+    "GiverNPC": "NPC_FarmerRolf",
+    "TurnInNPC": "NPC_FarmerRolf",
+    "RequiredRank": "F",
+    "RequiredLevel": 1,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Reach",
+        "TargetId": "Fittoa_River_Ford",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Search the river ford",
+        "MarkerLocationId": "Fittoa_River_Ford"
+      },
+      {
+        "Type": "Gather",
+        "TargetId": "Item_LostChildCharm",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Pick up the carved bird charm by the water",
+        "MarkerLocationId": "Fittoa_River_Ford"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 90,
+      "Gold": 10,
+      "AdventurerPoints": 8,
+      "CharacterSpins": 0,
+      "ElementSpins": 1,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "My boy... he never goes past the fence, but the gate was open.",
+      "He loves the river. Please - the ford, before it gets dark."
+    ],
+    "CompleteDialogue": [
+      "He was sitting on a rock, crying over his bird charm? Ha... that's my son.",
+      "Thank you. Truly. Buena owes you one."
+    ]
+  },
+  {
+    "QuestID": "Q_Buena_FenceRepair",
+    "Type": "Basic",
+    "Title": "Mending Fences",
+    "Summary": "Wild boars broke through Rolf's pasture fence. Fetch planks from the village and patch the gaps.",
+    "GiverNPC": "NPC_FarmerRolf",
+    "TurnInNPC": "NPC_FarmerRolf",
+    "RequiredRank": "F",
+    "RequiredLevel": 1,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Gather",
+        "TargetId": "Item_FencePlanks",
+        "SecondaryId": "",
+        "Count": 3,
+        "Duration": 0.0,
+        "Description": "Collect fence planks from the village woodpile",
+        "MarkerLocationId": "Buena_Village"
+      },
+      {
+        "Type": "Interact",
+        "TargetId": "Obj_BrokenFence",
+        "SecondaryId": "",
+        "Count": 3,
+        "Duration": 0.0,
+        "Description": "Repair the broken fence sections",
+        "MarkerLocationId": "Buena_Farms"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 60,
+      "Gold": 12,
+      "AdventurerPoints": 5,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Three gaps, and the cows have noticed every one of them.",
+      "Planks are stacked by the woodpile. Hammer's in the shed."
+    ],
+    "CompleteDialogue": [
+      "Solid work. The cows look personally offended."
+    ]
+  },
+  {
+    "QuestID": "Q_Fittoa_GoblinClearing",
+    "Type": "Combat",
+    "Title": "Goblins in the Deep Forest",
+    "Summary": "A goblin band has made camp in the deep forest and has started raiding snares. Thin their numbers.",
+    "GiverNPC": "NPC_AdventurerGuild",
+    "TurnInNPC": "NPC_AdventurerGuild",
+    "RequiredRank": "E",
+    "RequiredLevel": 3,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Kill",
+        "TargetId": "Enemy_Goblin",
+        "SecondaryId": "",
+        "Count": 6,
+        "Duration": 0.0,
+        "Description": "Defeat goblins in the deep forest",
+        "MarkerLocationId": "Fittoa_Deep_Forest"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": true,
+    "RepeatCooldown": 900.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 180,
+      "Gold": 45,
+      "AdventurerPoints": 20,
+      "CharacterSpins": 0,
+      "ElementSpins": 1,
+      "RaceSpins": 0,
+      "Items": {
+        "Item_HealingPotion": 1
+      },
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "E-rank posting: goblins, deep forest, six confirmed at least.",
+      "They're weak alone and brave in groups. Watch for thrown rocks."
+    ],
+    "CompleteDialogue": [
+      "Six? Clean work. The trappers will be glad. Points logged to your card."
+    ]
+  },
+  {
+    "QuestID": "Q_Buena_WolfDefense",
+    "Type": "Combat",
+    "Title": "Wolves at the Pasture",
+    "Summary": "A hungry pack circles Buena's farms at dusk. Hold the livestock pen until the wolves give up.",
+    "GiverNPC": "NPC_Paul",
+    "TurnInNPC": "NPC_Paul",
+    "RequiredRank": "F",
+    "RequiredLevel": 2,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Defend",
+        "TargetId": "Obj_LivestockPen",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 60.0,
+        "Description": "Defend the livestock pen",
+        "MarkerLocationId": "Buena_Farms"
+      },
+      {
+        "Type": "Kill",
+        "TargetId": "Enemy_Wolf",
+        "SecondaryId": "",
+        "Count": 5,
+        "Duration": 0.0,
+        "Description": "Drive off the wolves",
+        "MarkerLocationId": "Buena_Farms"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 200,
+      "Gold": 40,
+      "AdventurerPoints": 20,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 1,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Wolves are testing the pen again. Normally I'd handle it myself, but I'm on patrol duty.",
+      "One minute of holding the line and they'll lose their nerve. Don't let them reach the sheep."
+    ],
+    "CompleteDialogue": [
+      "Not a single sheep missing. Heh - maybe I should hand you my patrol too."
+    ]
+  },
+  {
+    "QuestID": "Q_Fittoa_CaravanEscort",
+    "Type": "Combat",
+    "Title": "The Road to Roa",
+    "Summary": "A merchant's cart is heading to Roa with Buena's harvest. Bandits have been sighted on the road.",
+    "GiverNPC": "NPC_Merchant",
+    "TurnInNPC": "NPC_Merchant",
+    "RequiredRank": "E",
+    "RequiredLevel": 5,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Escort",
+        "TargetId": "NPC_Merchant",
+        "SecondaryId": "Roa_Gate",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Escort the merchant's cart to Roa",
+        "MarkerLocationId": "Fittoa_Road_To_Roa"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 260,
+      "Gold": 80,
+      "AdventurerPoints": 30,
+      "CharacterSpins": 0,
+      "ElementSpins": 1,
+      "RaceSpins": 0,
+      "Items": {
+        "Item_TravelRations": 2
+      },
+      "MasteryXP": 0.0
+    },
+    "Region": "Roa",
+    "OfferDialogue": [
+      "Wheat, cheese and a very nervous mule. That's my whole fortune, friend.",
+      "Get me to Roa's gate in one piece and I'll pay in coin, not in cabbages."
+    ],
+    "CompleteDialogue": [
+      "Roa! Walls, guards, and not one arrow in my hat. You've earned every copper."
+    ]
+  },
+  {
+    "QuestID": "Q_Fittoa_AlphaWolf",
+    "Type": "Elite",
+    "Title": "The Pack Leader",
+    "Summary": "The wolves were driven by an enraged alpha - bigger, faster and smarter than the rest. End it.",
+    "GiverNPC": "NPC_GuardCaptain",
+    "TurnInNPC": "NPC_GuardCaptain",
+    "RequiredRank": "D",
+    "RequiredLevel": 8,
+    "PrerequisiteQuests": [
+      "Q_Buena_WolfDefense"
+    ],
+    "Objectives": [
+      {
+        "Type": "Kill",
+        "TargetId": "Elite_WolfAlpha",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Defeat the alpha wolf",
+        "MarkerLocationId": "Fittoa_Deep_Forest"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [
+      "Enraged",
+      "Swift"
+    ],
+    "Reward": {
+      "XP": 500,
+      "Gold": 150,
+      "AdventurerPoints": 60,
+      "CharacterSpins": 1,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {
+        "Item_AlphaWolfPelt": 1
+      },
+      "MasteryXP": 80.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Tracks the size of a dinner plate. That's no ordinary wolf.",
+      "It's enraged and quick. Watch the crouch before it pounces - that's your opening."
+    ],
+    "CompleteDialogue": [
+      "So the beast is down. The patrols can sleep again. Fine work."
+    ]
+  },
+  {
+    "QuestID": "Q_Fittoa_RedWyrm",
+    "Type": "Boss",
+    "Title": "Scales in the Foothills",
+    "Summary": "A juvenile red wyrm has strayed south from the mountains into the Fittoa foothills. Drive it down before it reaches the farms.",
+    "GiverNPC": "NPC_GuardCaptain",
+    "TurnInNPC": "NPC_GuardCaptain",
+    "RequiredRank": "D",
+    "RequiredLevel": 12,
+    "PrerequisiteQuests": [
+      "Q_Fittoa_AlphaWolf"
+    ],
+    "Objectives": [
+      {
+        "Type": "DefeatBoss",
+        "TargetId": "Boss_RedWyrm_Juvenile",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Defeat the juvenile red wyrm",
+        "MarkerLocationId": "Fittoa_Wyrm_Foothills"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 1500,
+      "Gold": 400,
+      "AdventurerPoints": 150,
+      "CharacterSpins": 2,
+      "ElementSpins": 1,
+      "RaceSpins": 1,
+      "Items": {
+        "Item_WyrmScale": 2
+      },
+      "MasteryXP": 200.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "A red wyrm. Young, thank the gods, but a wyrm all the same.",
+      "It rears before it breathes and it takes wing before it dives. Read it, or it reads you."
+    ],
+    "CompleteDialogue": [
+      "You brought down a red wyrm. Roa will be talking about this for a year."
+    ]
+  },
+  {
+    "QuestID": "Q_Story_ChantlessLessons",
+    "Type": "Story",
+    "Title": "Lessons of Chantless Magic",
+    "Summary": "Paul wants to see what his son's magic can really do before he sends you on to Roa.",
+    "GiverNPC": "NPC_Zenith",
+    "TurnInNPC": "",
+    "RequiredRank": "F",
+    "RequiredLevel": 1,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "TalkTo",
+        "TargetId": "NPC_Paul",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Talk to Paul at the house",
+        "MarkerLocationId": "Buena_Greyrat_House"
+      },
+      {
+        "Type": "UseAbility",
+        "TargetId": "Rudeus_StoneCannon",
+        "SecondaryId": "",
+        "Count": 5,
+        "Duration": 0.0,
+        "Description": "Show Paul your Stone Cannon at the hill tree",
+        "MarkerLocationId": "Buena_Hill_Tree"
+      },
+      {
+        "Type": "Puzzle",
+        "TargetId": "Puzzle_HillRunes",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Light the old runes around the hill",
+        "MarkerLocationId": "Buena_Hill_Tree"
+      },
+      {
+        "Type": "Reach",
+        "TargetId": "Roa_Gate",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Travel to Roa's gate as Paul asked",
+        "MarkerLocationId": "Roa_Gate"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 400,
+      "Gold": 50,
+      "AdventurerPoints": 20,
+      "CharacterSpins": 1,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {
+        "Item_HealingPotion": 2
+      },
+      "MasteryXP": 150.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Your father's been pacing since breakfast. He says he wants to 'see the magic properly'.",
+      "Be gentle with him, dear. His pride bruises easier than his knees."
+    ],
+    "CompleteDialogue": [
+      "You made it all the way to Roa? Good. He won't admit it, but your father is very proud of you."
+    ]
+  },
+  {
+    "QuestID": "Q_Buena_PaulsLetter",
+    "Type": "Basic",
+    "Title": "A Letter for the Captain",
+    "Summary": "Paul has a sealed letter for the guard captain at Roa's gate. Fetch it from his desk and deliver it.",
+    "GiverNPC": "NPC_Paul",
+    "TurnInNPC": "NPC_GuardCaptain",
+    "RequiredRank": "F",
+    "RequiredLevel": 2,
+    "PrerequisiteQuests": [
+      "Q_Story_ChantlessLessons"
+    ],
+    "Objectives": [
+      {
+        "Type": "Gather",
+        "TargetId": "Item_PaulsLetter",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Take the sealed letter from Paul's desk",
+        "MarkerLocationId": "Buena_Greyrat_House"
+      },
+      {
+        "Type": "Deliver",
+        "TargetId": "Item_PaulsLetter",
+        "SecondaryId": "NPC_GuardCaptain",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Hand the letter to the guard captain",
+        "MarkerLocationId": "Roa_Gate"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 100,
+      "Gold": 20,
+      "AdventurerPoints": 10,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Since you know the road now - this goes to the captain at Roa's gate.",
+      "And no reading it. It's boring knight business anyway. Mostly."
+    ],
+    "CompleteDialogue": [
+      "Greyrat's seal. Asking for more patrols again, is he? Tell him I'll see what I can spare."
+    ]
+  },
+  {
+    "QuestID": "Q_Event_BanditRaid",
+    "Type": "WorldEvent",
+    "Title": "Raid on the Roa Road",
+    "Summary": "Bandits are hitting carts on the road to Roa. Anyone nearby can answer the call.",
+    "GiverNPC": "",
+    "TurnInNPC": "",
+    "RequiredRank": "E",
+    "RequiredLevel": 6,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Kill",
+        "TargetId": "Enemy_Bandit",
+        "SecondaryId": "",
+        "Count": 6,
+        "Duration": 0.0,
+        "Description": "Defeat the road bandits",
+        "MarkerLocationId": "Fittoa_Road_To_Roa"
+      },
+      {
+        "Type": "Kill",
+        "TargetId": "Enemy_BanditMage",
+        "SecondaryId": "",
+        "Count": 2,
+        "Duration": 0.0,
+        "Description": "Silence the bandit hedge-mages",
+        "MarkerLocationId": "Fittoa_Road_To_Roa"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": true,
+    "RepeatCooldown": 1800.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 350,
+      "Gold": 120,
+      "AdventurerPoints": 40,
+      "CharacterSpins": 1,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Roa",
+    "OfferDialogue": [
+      "[World Event] Smoke on the Roa road - a caravan is under attack!"
+    ],
+    "CompleteDialogue": [
+      "[World Event] The road is clear. Merchants will remember who helped."
+    ]
+  },
+  {
+    "QuestID": "Q_Event_GoblinIncursion",
+    "Type": "WorldEvent",
+    "Title": "Goblin Incursion",
+    "Summary": "Goblins are pouring out of the forest edge toward Buena. Hold the palisade and break the rush.",
+    "GiverNPC": "",
+    "TurnInNPC": "",
+    "RequiredRank": "F",
+    "RequiredLevel": 4,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Kill",
+        "TargetId": "Enemy_Goblin",
+        "SecondaryId": "",
+        "Count": 10,
+        "Duration": 0.0,
+        "Description": "Break the goblin rush",
+        "MarkerLocationId": "Buena_Forest_Edge"
+      },
+      {
+        "Type": "Defend",
+        "TargetId": "Obj_BuenaPalisade",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 90.0,
+        "Description": "Hold the village palisade",
+        "MarkerLocationId": "Buena_Village"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": true,
+    "RepeatCooldown": 1800.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 300,
+      "Gold": 90,
+      "AdventurerPoints": 35,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 1,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "[World Event] Bells in Buena! Goblins at the forest edge!"
+    ],
+    "CompleteDialogue": [
+      "[World Event] The goblins scatter back into the trees. Buena stands."
+    ]
+  },
+  {
+    "QuestID": "Q_Buena_RunawayCart",
+    "Type": "Basic",
+    "Title": "Mud Brakes",
+    "Summary": "A cart has broken loose at the top of the village lane and is rolling toward the square. Magic is faster than legs - bog it down.",
+    "GiverNPC": "NPC_Lilia",
+    "TurnInNPC": "NPC_Lilia",
+    "RequiredRank": "F",
+    "RequiredLevel": 2,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "UseAbility",
+        "TargetId": "Rudeus_Quagmire",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Stop the runaway cart with Quagmire",
+        "MarkerLocationId": "Buena_Village"
+      }
+    ],
+    "bSequentialObjectives": false,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 120,
+      "Gold": 25,
+      "AdventurerPoints": 10,
+      "CharacterSpins": 0,
+      "ElementSpins": 1,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Young master - the cart! It's heading for the square and the children are playing there!"
+    ],
+    "CompleteDialogue": [
+      "The wheels are sunk to the axle... and nobody hurt. Well done. I will fetch the shovel."
+    ]
+  },
+  {
+    "QuestID": "Q_Fittoa_WatchtowerRuins",
+    "Type": "Basic",
+    "Title": "The Old Watchtower",
+    "Summary": "An old border watchtower stands in ruins north of the river. The guild wants it charted and searched.",
+    "GiverNPC": "NPC_AdventurerGuild",
+    "TurnInNPC": "NPC_AdventurerGuild",
+    "RequiredRank": "F",
+    "RequiredLevel": 3,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Reach",
+        "TargetId": "Fittoa_Watchtower_Ruins",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Discover the watchtower ruins",
+        "MarkerLocationId": "Fittoa_Watchtower_Ruins"
+      },
+      {
+        "Type": "Gather",
+        "TargetId": "Item_OldSurveyMap",
+        "SecondaryId": "",
+        "Count": 1,
+        "Duration": 0.0,
+        "Description": "Search the ruins for patrol records",
+        "MarkerLocationId": "Fittoa_Watchtower_Ruins"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 150,
+      "Gold": 30,
+      "AdventurerPoints": 15,
+      "CharacterSpins": 0,
+      "ElementSpins": 1,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "Exploration posting: chart the old watchtower. Nobody's logged it in years.",
+      "Bring back anything with writing on it. Maps especially."
+    ],
+    "CompleteDialogue": [
+      "An old patrol map? The cartographers will love this. Survey logged."
+    ]
+  },
+  {
+    "QuestID": "Q_Buena_LiliasErrand",
+    "Type": "Basic",
+    "Title": "Supplies for the Greyrat House",
+    "Summary": "Lilia needs healing herbs for the house medicine chest. Gather them and bring them home.",
+    "GiverNPC": "NPC_Lilia",
+    "TurnInNPC": "NPC_Lilia",
+    "RequiredRank": "F",
+    "RequiredLevel": 1,
+    "PrerequisiteQuests": [],
+    "Objectives": [
+      {
+        "Type": "Gather",
+        "TargetId": "Item_HealingHerb",
+        "SecondaryId": "",
+        "Count": 3,
+        "Duration": 0.0,
+        "Description": "Gather healing herbs",
+        "MarkerLocationId": "Buena_Forest_Edge"
+      },
+      {
+        "Type": "Deliver",
+        "TargetId": "Item_HealingHerb",
+        "SecondaryId": "NPC_Lilia",
+        "Count": 3,
+        "Duration": 0.0,
+        "Description": "Bring the herbs to Lilia",
+        "MarkerLocationId": "Buena_Greyrat_House"
+      }
+    ],
+    "bSequentialObjectives": true,
+    "bRepeatable": false,
+    "RepeatCooldown": 300.0,
+    "Modifiers": [],
+    "Reward": {
+      "XP": 50,
+      "Gold": 10,
+      "AdventurerPoints": 3,
+      "CharacterSpins": 0,
+      "ElementSpins": 0,
+      "RaceSpins": 0,
+      "Items": {},
+      "MasteryXP": 0.0
+    },
+    "Region": "Fittoa",
+    "OfferDialogue": [
+      "The medicine chest is nearly empty, and the master insists on sparring every morning."
+    ],
+    "CompleteDialogue": [
+      "Thank you. These will be put to use sooner than I would like, I suspect."
+    ]
+  }
+]

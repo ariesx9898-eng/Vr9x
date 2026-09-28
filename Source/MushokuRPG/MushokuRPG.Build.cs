@@ -1,0 +1,24 @@
+using UnrealBuildTool;
+
+public class MushokuRPG : ModuleRules
+{
+	public MushokuRPG(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+
+		PublicIncludePaths.Add(ModuleDirectory + "/Public");
+
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
+			"GameplayTags", "AIModule", "NavigationSystem", "Niagara",
+			"MotionWarping", "AnimGraphRuntime", "UMG", "Slate", "SlateCore", "Json", "JsonUtilities",
+			"DeveloperSettings", "PhysicsCore", "Landscape", "Foliage"
+		});
+
+		if (Target.bBuildEditor)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+		}
+	}
+}
