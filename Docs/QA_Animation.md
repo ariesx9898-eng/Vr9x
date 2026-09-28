@@ -24,7 +24,7 @@ Mixamo requires an interactive Adobe login, which this cloud session can't use. 
 - **Monotone cubic key interpolation** (Steffen). Motion flows through intermediate keys instead of stopping at each one. It eases into extremes (contacts, strike extensions, holds) and never overshoots a key.
 - **Automatic pelvis lowering** whenever a stride would over-extend a leg, so no leg ever snaps straight.
 - **Coat panels** (8 chains) follow the thighs, so legs never poke through the robe. Hair and coat trail at speed.
-- **Ground clamp** (iterative, per frame) for clips where the body touches the floor.
+- **Ground clamp** (iterative, per frame) on every one-shot and stance loop: nothing but the planted feet ever goes below the floor. It only raises the body and is a no-op otherwise. Gait loops are exact IK by construction; Rise and Fall only play in the air.
 - **Continuous quaternion signs** on export: no 360° flips for any interpolator.
 - **Rig repair:** 214 eye vertices were 100% weighted to the root control bone and would have hung in the air at standing eye height during crouches, knockdowns and death. They are re-weighted to the head.
 
@@ -178,6 +178,16 @@ Projectiles spawn at the ability's `CastTime`, so each strike now reaches full e
 - the lowest vertex of every floor-contact clip within 0.6 cm of the ground.
 
 Rise is an air loop and reaches −2.7 cm in place; it only ever plays while airborne. The contact sheet is in `Docs/Images/Animation/Verify_ExportedGLB.png`, and per-clip sheets are in `Docs/Images/Animation/`.
+
+## Orsted's clip set (stand-in test)
+
+Orsted's own model isn't in the repo yet. His full 40-clip set was built and verified on a **1.9 m stand-in**: Rudeus's mesh re-rigged by `rig_to_rudeus_skeleton.py`, which is also the first step of `make_orsted.sh`.
+
+- **Builder:** 0 clips with IK error, planted slip or seam problems.
+- **`verify_glb.py`: PASS.** The only dips below the floor are about 1 cm of sole on the run loops, plus the airborne Rise.
+- **The test caught one real issue.** On the longer body, Dragon Step (−5.3 cm) and Quagmire (−3.8 cm) reached into the floor. That is why the ground clamp now covers every non-gait clip.
+
+The `A_Orsted_*` contact sheets in `Docs/Images/Animation/` are renders on that stand-in: they show Orsted's motion, not his look.
 
 ## Honest limits
 

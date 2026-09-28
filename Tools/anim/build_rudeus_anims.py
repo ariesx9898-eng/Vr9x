@@ -27,14 +27,20 @@ QA_DIR = os.path.join(scene.ROOT, "Docs", "Images", "Animation")
 TEX = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "SourceArt", "Characters", "Rudeus", "Rudeus_Atlas.png")
 
 
-GROUND_CLAMP = {"Knockdown", "Death", "DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight", "HardLand", "Land", "JumpStart"}
+AIRBORNE = {"Rise", "Fall"}  # these loops only ever play while the capsule is in the air
+
+
+def needs_ground_clamp(name):
+    """Every clip that can reach the floor with more than its planted feet (lying down, kneeling, a hand on the
+    ground, a longer-limbed lineage): all one-shots and stance loops. Gait loops are exact IK by construction."""
+    return name not in AIRBORNE and name not in C.GAITS
 
 
 def ground_corrected(rig, mesh, name, params):
     """Compose a pose; for clips that touch the floor with the body, raise the pelvis so the lowest
     skinned vertex rests exactly on the ground (no penetration, no floating when lying down)."""
     D, pel = compose(rig, params)
-    if name not in GROUND_CLAMP:
+    if not needs_ground_clamp(name):
         return D, pel
     p2 = dict(params)
     base_z = params.get("pel_z", DEFAULTS["pel_z"])
