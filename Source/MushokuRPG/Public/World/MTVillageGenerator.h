@@ -67,10 +67,10 @@ public:
 	FMTGenerationReport GetLastReport() const { return LastReport; }
 
 	UFUNCTION(BlueprintPure, Category = "Village")
-	const TArray<FTransform>& GetNPCSpawnPoints() const { return NPCSpawnPoints; }
+	TArray<FTransform> GetNPCSpawnPoints() const { return NPCSpawnPoints; }
 
 	UFUNCTION(BlueprintPure, Category = "Village")
-	const TArray<FTransform>& GetQuestPoints() const { return QuestPoints; }
+	TArray<FTransform> GetQuestPoints() const { return QuestPoints; }
 
 	static const FName GeneratedTag;
 	static const FName BuildingTag;
@@ -234,7 +234,7 @@ private:
 	FName GetOwnerTag() const;
 	UStaticMesh* ResolveMesh(const TSoftObjectPtr<UStaticMesh>& Slot, const TCHAR* FallbackPath, const TCHAR* SlotName, bool& bOutBlockout);
 	AStaticMeshActor* SpawnMeshActor(UStaticMesh* Mesh, const FTransform& Transform, const FString& Label, bool bBuilding);
-	UHierarchicalInstancedStaticMeshComponent* MakeHISM(const FString& BaseName, UStaticMesh* Mesh, bool bCollision, float CullDistance);
+	UHierarchicalInstancedStaticMeshComponent* GetOrMakeHISM(const FString& BaseName, UStaticMesh* Mesh, bool bCollision, float CullDistance);
 	USplineComponent* MakeRoadSpline(const FMTPolyline2D& Road);
 
 	bool LoadRoadsFromJson(TArray<FMTPolyline2D>& OutRoads, TArray<FMTPolyline2D>& OutRivers) const;
@@ -258,6 +258,8 @@ private:
 	TArray<FPlacedHome> PlacedHomes;
 	TArray<FMTFootprint> PlacedBarns;
 	TArray<const AActor*> IgnoreForTraces;
+	/** Transient lookup used only while Generate() runs; the components themselves are owned by this actor. */
+	TMap<FString, TObjectPtr<UHierarchicalInstancedStaticMeshComponent>> HISMCache;
 	FVector2D Origin = FVector2D::ZeroVector;
 	float OriginZ = 0.f;
 };

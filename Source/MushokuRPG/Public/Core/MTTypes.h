@@ -220,7 +220,7 @@ struct FMTStatusEffect
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float HealthPerSecond = 0.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ManaPerSecond = 0.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FGameplayTagContainer GrantedTags;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) TWeakObjectPtr<AActor> Instigator;
+	UPROPERTY() TWeakObjectPtr<AActor> Instigator;
 };
 
 /** Everything needed to resolve one hit. */
@@ -237,7 +237,7 @@ struct FMTDamageSpec
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) EMTElement Element = EMTElement::None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bIsMagic = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName SourceAbility;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) TWeakObjectPtr<AActor> Instigator;
+	UPROPERTY() TWeakObjectPtr<AActor> Instigator;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FVector HitLocation = FVector::ZeroVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FVector HitDirection = FVector::ForwardVector;
 };
@@ -267,7 +267,7 @@ struct FMTAttackTelegraph
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly) TWeakObjectPtr<AActor> Attacker;
+	UPROPERTY() TWeakObjectPtr<AActor> Attacker;
 	UPROPERTY(BlueprintReadOnly) FName AttackId;
 	/** World location the attacker will be at when the attack lands. */
 	UPROPERTY(BlueprintReadOnly) FVector PredictedAttackerLocation = FVector::ZeroVector;
