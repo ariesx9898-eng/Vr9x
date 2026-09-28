@@ -822,6 +822,15 @@ void UMTQuestSubsystem::HandlePuzzleSolved(FName PuzzleId)
 	}, 1, true);
 }
 
+/** "Rudeus_StoneCannon", "Earth_StoneCannon" and "Rudeus_StoneCannon_Awakened" share the family "StoneCannon". */
+static FString MTAbilityFamily(FName AbilityId)
+{
+	FString Id = AbilityId.ToString();
+	Id.RemoveFromEnd(TEXT("_Awakened"));
+	int32 Underscore = INDEX_NONE;
+	return Id.FindChar(TEXT('_'), Underscore) ? Id.Mid(Underscore + 1) : Id;
+}
+
 void UMTQuestSubsystem::HandleAbilityUsed(FName AbilityId, AActor* User)
 {
 	if (const APawn* Pawn = Cast<APawn>(User))
@@ -836,10 +845,13 @@ void UMTQuestSubsystem::HandleAbilityUsed(FName AbilityId, AActor* User)
 	const EMTElement Element = Ability ? Ability->Element : EMTElement::None;
 	const FName ElementName = (Element != EMTElement::None) ? FName(*MTUtil::ElementToString(Element)) : NAME_None;
 
-	ApplyProgress(EMTObjectiveType::UseAbility, [&AbilityId, &ElementName](const FMTQuestObjective& Objective)
+	const FString Family = MTAbilityFamily(AbilityId);
+	ApplyProgress(EMTObjectiveType::UseAbility, [&AbilityId, &ElementName, &Family](const FMTQuestObjective& Objective)
 	{
-		// TargetId = ability id, or an element name ("Fire") for "cast any fire spell" tasks.
-		return Objective.TargetId.IsNone() || Objective.TargetId == AbilityId || (!ElementName.IsNone() && Objective.TargetId == ElementName);
+		// TargetId = ability id, an element name ("Fire") for "cast any fire spell" tasks, or any
+		// ability of the same family, so the element/awakened versions of a spell also count.
+		return Objective.TargetId.IsNone() || Objective.TargetId == AbilityId || (!ElementName.IsNone() && Objective.TargetId == ElementName)
+			|| (!Family.IsEmpty() && MTAbilityFamily(Objective.TargetId) == Family);
 	}, 1, false);
 }
 
@@ -1056,6 +1068,17 @@ bool UMTQuestSubsystem::AreObjectivesComplete(FName QuestId) const
 	const FMTQuestSaveState* State = QuestStates.Find(QuestId);
 	const FMTQuestData* Quest = FindQuestData(QuestId);
 	return State && Quest && State->bActive && AllObjectivesDone(*Quest, *State);
+}
+
+bool UMTQuestSubsystem::IsObjectiveComplete(FName QuestId, int32 ObjectiveIndex) const
+{
+	const FMTQuestSaveState* State = QuestStates.Find(QuestId);
+	const FMTQuestData* Quest = FindQuestData(QuestId);
+	if (!State || !Quest || !Quest->Objectives.IsValidIndex(ObjectiveIndex))
+	{
+		return false;
+	}
+	return IsObjectiveDone(Quest->Objectives[ObjectiveIndex], *State, ObjectiveIndex);
 }
 
 TArray<FName> UMTQuestSubsystem::GetCompletedQuestIds() const

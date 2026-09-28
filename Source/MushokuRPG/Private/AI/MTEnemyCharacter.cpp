@@ -482,10 +482,14 @@ void AMTEnemyCharacter::HandleDeath(AActor* Killer)
 	}
 	GrantKillRewards(Killer);
 	SpawnDrops();
-	if (CorpseLifeSpan > 0.f && GetLifeSpan() <= 0.f)
-	{
-		SetLifeSpan(CorpseLifeSpan);
-	}
+	// Overrides the base 10 s default: 0 keeps the body (bosses).
+	SetLifeSpan(FMath::Max(0.f, CorpseLifeSpan));
+}
+
+void AMTEnemyCharacter::NotifyPerfectDefense(FName Kind)
+{
+	Super::NotifyPerfectDefense(Kind);
+	OnPerfectDefense.Broadcast(this, Kind);
 }
 
 void AMTEnemyCharacter::GrantKillRewards(AActor* Killer)

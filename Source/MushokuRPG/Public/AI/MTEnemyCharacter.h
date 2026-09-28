@@ -8,6 +8,10 @@
 #include "MTEnemyCharacter.generated.h"
 
 class AMTPickupActor;
+class AMTEnemyCharacter;
+
+/** Successful counter / perfect dodge by an enemy (Kind = "DisturbMagic", "PerfectDodge", ...). */
+DECLARE_MULTICAST_DELEGATE_TwoParams(FMTOnEnemyPerfectDefense, AMTEnemyCharacter* /*Enemy*/, FName /*Kind*/);
 
 UCLASS(Blueprintable)
 class MUSHOKURPG_API AMTEnemyCharacter : public AMTCharacterBase
@@ -62,6 +66,9 @@ public:
 
 	/** Hook for bosses: react defensively when the target charges a spell (block/sidestep). */
 	virtual bool GetDefensiveReaction(const AMTCharacterBase* Target, bool& bOutSidestep) { return false; }
+
+	virtual void NotifyPerfectDefense(FName Kind) override;
+	FMTOnEnemyPerfectDefense OnPerfectDefense;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Mushoku|Enemy") void ReceiveAttackTelegraphed(FName AttackId, float TelegraphTime);
 	UFUNCTION(BlueprintImplementableEvent, Category = "Mushoku|Enemy") void ReceiveAttackReleased(FName AttackId, bool bActivated);

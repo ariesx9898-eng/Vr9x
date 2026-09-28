@@ -22,7 +22,7 @@ Every category that depends on seeing the game run is graded on **evidence only*
 | Roll simulation (`Tools/sim_roll.py`, shipped config) | Orsted 6.1% per spin, guaranteed by 60, hard pity never exceeded: **PASS** |
 | Placement validator mirror (`Tools/placement_validator_test.py`) | **26/26 PASS** |
 | Terrain generation (`Tools/generate_fittoa_terrain.py`) | Heights 25–236 m, weight maps sum to 255 on every pixel: **PASS** |
-| Static integrity check of the C++ module | Local includes resolve, `generated.h` correct and last, no duplicate types: **PASS** |
+| Static integrity check of the C++ module (89 files, ~23.7k lines, 102 reflected types) | Local includes resolve, `generated.h` correct and last, no duplicate types, no Blueprint-exposed weak pointers: **PASS** |
 | Cross-module API check (HUD ↔ player ↔ progression ↔ save ↔ quests ↔ time of day) | Signatures match at every call site checked: **PASS** |
 
 ## Grade: Phase 1 scope
@@ -56,7 +56,7 @@ Every category that depends on seeing the game run is graded on **evidence only*
 ### PASS 2
 - **Score:** 2.1
 - **Problems:** cross-module contract risk (four engineers writing in parallel); weak pointers exposed to Blueprint in shared structs (a UHT error); unreachable design gaps flagged in review (Second Wind/Immortal regen hooks, 90% stagger immunity from stacking, a roll sim not using the shipped config).
-- **Changes:** API cross-check; fixed the UHT-unsafe fields; added buff regen/restore and race regen hooks; capped stagger resistance at 75%; the roll sim now mirrors `GetEffectiveConfig` on `RollConfigs.json`.
+- **Changes:** API cross-check; fixed the UHT-unsafe fields (including in the world validation library); fixed the HUD marking Defend objectives done too early (it now asks the quest system); UseAbility objectives accept the same spell family (Earth_StoneCannon or an awakened variant counts for Rudeus_StoneCannon), so an Orsted build is not soft-locked out of story quests; added buff regen/restore and race regen hooks; capped stagger resistance at 75%; the roll sim now mirrors `GetEffectiveConfig` on `RollConfigs.json`.
 - **Testing:** static include/type check PASS, data validator PASS, roll sim PASS.
 - **New score:** 2.3
 

@@ -709,7 +709,7 @@ void AMTHUD::DrawQuestsPage(float X, float Y, float W, float H)
 	for (int32 i = 0; i < Quest->Objectives.Num(); ++i)
 	{
 		const bool bHidden = bActive && Quest->bSequentialObjectives && State && i > State->Stage;
-		const bool bDone = !bActive || (State && State->Progress.IsValidIndex(i) && State->Progress[i] >= Quest->Objectives[i].Count);
+		const bool bDone = !bActive || Quests->IsObjectiveComplete(SelQuest, i);
 		const FString Line = bHidden ? FString(TEXT("???")) : (bActive ? Quests->GetObjectiveText(SelQuest, i).ToString() : Quest->Objectives[i].Description.ToString());
 		const float Box = Sc(10.f);
 		StrokeRect(DX, DY + Sc(4.f), Box, Box, Gold(0.8f));

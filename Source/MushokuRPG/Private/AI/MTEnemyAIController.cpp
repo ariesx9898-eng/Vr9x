@@ -737,7 +737,7 @@ bool AMTEnemyAIController::ComputeTimeToImpact(AMTProjectile* Spell, const AMTCh
 	{
 		return false;
 	}
-	const FVector Velocity = Spell->GetVelocity();
+	const FVector Velocity = Spell->GetProjectileVelocity();
 	const float Speed = Velocity.Size();
 	if (Speed < 50.f)
 	{
@@ -818,7 +818,7 @@ bool AMTEnemyAIController::TryReactToThreats(AMTCharacterBase* Me, AMTEnemyChara
 		}
 		Soonest = TimeToImpact;
 		bHasThreat = true;
-		ThreatDirection = Spell->GetVelocity().GetSafeNormal();
+		ThreatDirection = Spell->GetProjectileVelocity().GetSafeNormal();
 		ThreatCenter = MyLocation;
 		ThreatRadius = 0.f;
 		ThreatKey = PointerHash(Spell);

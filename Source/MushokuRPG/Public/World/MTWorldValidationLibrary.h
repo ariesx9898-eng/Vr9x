@@ -24,8 +24,9 @@ struct MUSHOKURPG_API FMTValidationIssue
 	UPROPERTY(BlueprintReadOnly, Category = "Validation") EMTValidationSeverity Severity = EMTValidationSeverity::Warning;
 	UPROPERTY(BlueprintReadOnly, Category = "Validation") FName Category;
 	UPROPERTY(BlueprintReadOnly, Category = "Validation") FString Message;
-	UPROPERTY(BlueprintReadOnly, Category = "Validation") TWeakObjectPtr<AActor> ActorA;
-	UPROPERTY(BlueprintReadOnly, Category = "Validation") TWeakObjectPtr<AActor> ActorB;
+	/** Weak (not Blueprint-visible: UHT rejects exposed weak pointers); use ActorAName in scripts. */
+	UPROPERTY() TWeakObjectPtr<AActor> ActorA;
+	UPROPERTY() TWeakObjectPtr<AActor> ActorB;
 	UPROPERTY(BlueprintReadOnly, Category = "Validation") FString ActorAName;
 	UPROPERTY(BlueprintReadOnly, Category = "Validation") FString ActorBName;
 	UPROPERTY(BlueprintReadOnly, Category = "Validation") FVector Location = FVector::ZeroVector;

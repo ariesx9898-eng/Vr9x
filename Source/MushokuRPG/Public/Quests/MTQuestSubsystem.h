@@ -86,6 +86,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Quests")
 	TArray<FName> GetCompletedQuestIds() const;
 
+	/** Per-objective completion using the real requirement (Defend = seconds, TalkTo/Reach/... = 1). */
+	UFUNCTION(BlueprintPure, Category = "Mushoku|Quests")
+	bool IsObjectiveComplete(FName QuestId, int32 ObjectiveIndex) const;
+
 	/** Index of the objective the HUD should highlight (current stage / first incomplete). */
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Quests")
 	int32 GetCurrentObjectiveIndex(FName QuestId) const;

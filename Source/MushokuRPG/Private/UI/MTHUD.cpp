@@ -731,7 +731,7 @@ void AMTHUD::DrawQuestTracker(float TopY)
 			{
 				break; // future stages stay hidden
 			}
-			const bool bDone = State && State->Progress.IsValidIndex(i) && State->Progress[i] >= Quest->Objectives[i].Count;
+			const bool bDone = Quests->IsObjectiveComplete(QuestId, i);
 			Lines.Add({ Quests->GetObjectiveText(QuestId, i).ToString(), bDone });
 		}
 	}
