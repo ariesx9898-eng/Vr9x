@@ -1,4 +1,5 @@
 #include "Combat/MTCombatStatics.h"
+#include "VFX/MTSpellVFX.h"
 #include "Character/MTCharacterBase.h"
 #include "Character/MTAttributeComponent.h"
 #include "Core/MTGameplayTags.h"
@@ -41,6 +42,37 @@ namespace MTCombat
 			UE_LOG(LogMushoku, Log, TEXT("Presentation asset %s is not authored yet: skipped (logged once)."), *Path.ToString());
 		}
 		return Loaded;
+	}
+
+	AMTSpellVFX* SpawnPresetPhase(const UObject* WorldContext, FName Preset, const TCHAR* Phase, const FTransform& Transform, float Scale,
+		USceneComponent* AttachTo, FName Socket, AActor* Source)
+	{
+		if (Preset.IsNone() || !Phase || !WorldContext)
+		{
+			return nullptr;
+		}
+		const FName Name(*FString::Printf(TEXT("%s.%s"), *Preset.ToString(), Phase));
+		return AMTSpellVFX::SpawnPreset(const_cast<UObject*>(WorldContext), Name, Transform, Scale, AttachTo, Socket, Source);
+	}
+
+	AMTSpellVFX* SpawnSpellFX(const UObject* WorldContext, const FMTSpellFX& FX, const TSoftObjectPtr<UNiagaraSystem>& Authored,
+		const TCHAR* Phase, const FTransform& Transform, float Scale, USceneComponent* AttachTo, FName Socket, AActor* Source)
+	{
+		if (!Authored.IsNull() && LoadOptional(Authored))
+		{
+			SpawnFX(WorldContext, Authored, Transform.GetLocation(), Transform.Rotator(), Scale);
+			return nullptr;
+		}
+		return SpawnPresetPhase(WorldContext, FX.Preset, Phase, Transform, Scale * FMath::Max(0.05f, FX.PresetScale), AttachTo, Socket, Source);
+	}
+
+	void StopSpellFX(AMTSpellVFX* Effect)
+	{
+		if (IsValid(Effect))
+		{
+			Effect->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+			Effect->Stop();
+		}
 	}
 
 	UNiagaraComponent* SpawnFX(const UObject* WorldContext, const TSoftObjectPtr<UNiagaraSystem>& System, const FVector& Location, const FRotator& Rotation, float Scale)

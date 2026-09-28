@@ -19,6 +19,7 @@
 
 AMTTestArenaGameMode::AMTTestArenaGameMode()
 {
+	bFrontEndOnStart = false;
 	OpponentClass = AMTEnemyCharacter::StaticClass();
 }
 

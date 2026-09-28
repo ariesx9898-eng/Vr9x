@@ -79,6 +79,15 @@ protected:
 	UFUNCTION() void HandleNotification(FText Message, FLinearColor Color);
 
 private:
+	/** LA PLACE Slate HUD (hotbar + vitals), drawn above the canvas. */
+	TSharedPtr<class SMTHudOverlay> SlateHud;
+	TSharedPtr<class SWidget> SlateHudContainer;
+	void SetSlateHudVisible(bool bVisible);
+public:
+	/** Hides the gameplay HUD (front-end menus, cinematics). */
+	void SetGameplayHudHidden(bool bHidden) { bGameplayHudHidden = bHidden; SetSlateHudVisible(!bHidden); }
+private:
+	bool bGameplayHudHidden = false;
 	// ---------------------------------------------------------------- Palette (original anime-fantasy style:
 	// deep navy panels, thin gold trim, parchment text).
 	static FLinearColor PanelColor(float Alpha = 0.88f) { return FLinearColor(0.04f, 0.05f, 0.09f, Alpha); }

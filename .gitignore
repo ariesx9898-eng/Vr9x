@@ -34,3 +34,15 @@ Content/Collections/
 Content/Developers/
 Content/__ExternalActors__/
 Content/__ExternalObjects__/
+
+# LA PLACE: generated world / kit / texture / audio outputs (rebuilt by Tools/world, Tools/kit, Tools/textures, Tools/audio)
+SourceArt/World/
+SourceArt/Kit/**/*.glb
+SourceArt/Textures/**/*.png
+!SourceArt/Textures/_Sources/**
+SourceArt/Audio/**/*.wav
+SourceArt/UI/
+SourceArt/VFX/Textures/
+# Reference maps supplied for geography only (third-party art, not redistributed)
+Docs/LaPlace/Reference/
+Content/LaPlace/

@@ -1,0 +1,1221 @@
+{
+  "generator": "Tools/audio/synth_sfx.py (procedural, numpy only, deterministic)",
+  "generator_version": 1,
+  "format": {
+    "container": "WAV",
+    "encoding": "PCM",
+    "bit_depth": 16,
+    "sample_rate": 44100,
+    "channels": "mono for 3D one-shots and 3D loops, stereo for UI, 2D feedback, ambience and music"
+  },
+  "peak_ceiling_dbtp": -1.0,
+  "loudness_note": "One-shots are normalised on momentary-max loudness (400 ms, BS.1770), loops / beds / music on integrated loudness. Mono files are measured as one channel.",
+  "files": [
+    {
+      "file": "Fire/fire_gather.wav",
+      "name": "fire_gather",
+      "category": "Fire",
+      "duration": 0.7,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire spells wind-up (Fire_Fireball, Fire_FlameWave, Fire_Inferno, BanditMage_FireBolt): mana gathers into a swirling flame at the hand",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.54,
+      "lufs_momentary_max": -16.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Fire/fireball_launch.wav",
+      "name": "fireball_launch",
+      "category": "Fire",
+      "duration": 1.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_Fireball / BanditMage_FireBolt / Barrage_FireBurst cast: ignition whump, whoosh and roar as the projectile leaves",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.56,
+      "lufs_momentary_max": -13.02,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Fire/fireball_travel_loop.wav",
+      "name": "fireball_travel_loop",
+      "category": "Fire",
+      "duration": 2.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fireball / fire bolt projectile in flight: loop attached to the projectile",
+      "peak_dbfs": -6.3,
+      "true_peak_dbtp": -6.29,
+      "lufs_integrated": -19.0,
+      "lufs_momentary_max": -17.55,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -19.0
+      }
+    },
+    {
+      "file": "Fire/fire_explosion.wav",
+      "name": "fire_explosion",
+      "category": "Fire",
+      "duration": 2.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fireball / fire bolt / fire burst impact: explosion boom with a crackling debris tail",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.46,
+      "lufs_momentary_max": -12.07,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Fire/flamewave_cast.wav",
+      "name": "flamewave_cast",
+      "category": "Fire",
+      "duration": 1.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_FlameWave cast (also Wyrm_FireBreath): a rolling wall of fire surging forward",
+      "peak_dbfs": -2.0,
+      "true_peak_dbtp": -1.99,
+      "lufs_integrated": -16.3,
+      "lufs_momentary_max": -13.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Fire/flame_burn_loop.wav",
+      "name": "flame_burn_loop",
+      "category": "Fire",
+      "duration": 3.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Burning ground left by Fire_FlameWave / Fire_Inferno: looping fire bed",
+      "peak_dbfs": -6.7,
+      "true_peak_dbtp": -6.5,
+      "lufs_integrated": -21.0,
+      "lufs_momentary_max": -19.02,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -21.0
+      }
+    },
+    {
+      "file": "Fire/inferno_charge.wav",
+      "name": "inferno_charge",
+      "category": "Fire",
+      "duration": 1.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_Inferno charge: rising rumble + spinning magic-circle hum; start inferno_eruption as this ends",
+      "peak_dbfs": -4.14,
+      "true_peak_dbtp": -4.11,
+      "lufs_integrated": -17.2,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Fire/inferno_eruption.wav",
+      "name": "inferno_eruption",
+      "category": "Fire",
+      "duration": 3.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_Inferno impact: huge pillar of fire erupting from the ground",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -13.48,
+      "lufs_momentary_max": -11.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
+      "file": "Water/water_gather.wav",
+      "name": "water_gather",
+      "category": "Water",
+      "duration": 0.7,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water spells wind-up (Water_WaterBullet, Water_WaterDragon, Water_Flood): water gathers and swirls at the hand",
+      "peak_dbfs": -1.44,
+      "true_peak_dbtp": -1.39,
+      "lufs_integrated": -17.29,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Water/water_bullet_launch.wav",
+      "name": "water_bullet_launch",
+      "category": "Water",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_WaterBullet / Barrage_WaterCannon cast: pressurised jet of water fired from the hand",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.04,
+      "lufs_momentary_max": -14.06,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Water/water_splash.wav",
+      "name": "water_splash",
+      "category": "Water",
+      "duration": 1.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_WaterBullet impact: splash with bubbles and falling droplets",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -19.45,
+      "lufs_momentary_max": -14.01,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Water/water_dragon_rise.wav",
+      "name": "water_dragon_rise",
+      "category": "Water",
+      "duration": 2.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_WaterDragon summon: a torrent rises and takes shape with a low draconic roar",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.91,
+      "lufs_momentary_max": -12.02,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Water/water_dragon_impact.wav",
+      "name": "water_dragon_impact",
+      "category": "Water",
+      "duration": 2.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_WaterDragon impact: the dragon crashes down, huge splash + shockwave",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -18.05,
+      "lufs_momentary_max": -11.85,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
+      "file": "Water/flood_wave_loop.wav",
+      "name": "flood_wave_loop",
+      "category": "Water",
+      "duration": 3.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_Flood wave travelling (also Race_Sea_TideRush): looping rushing water mass",
+      "peak_dbfs": -2.81,
+      "true_peak_dbtp": -2.81,
+      "lufs_integrated": -17.0,
+      "lufs_momentary_max": -14.82,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -17.0
+      }
+    },
+    {
+      "file": "Water/flood_crash.wav",
+      "name": "flood_crash",
+      "category": "Water",
+      "duration": 2.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_Flood crash: a wall of water slams into the ground",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.12,
+      "lufs_momentary_max": -12.07,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Wind/wind_gather.wav",
+      "name": "wind_gather",
+      "category": "Wind",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind spells wind-up (Wind_WindBlade, Wind_Tornado, Wind_WindBurst): air spirals around the hand",
+      "peak_dbfs": -1.15,
+      "true_peak_dbtp": -1.15,
+      "lufs_integrated": -17.2,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Wind/wind_blade_swish.wav",
+      "name": "wind_blade_swish",
+      "category": "Wind",
+      "duration": 0.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_WindBlade / Barrage_WindBlade / Race_Elf_SpiritArrow cast: a crescent of air flies out with a whistle",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.24,
+      "lufs_momentary_max": -16.02,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Wind/wind_blade_impact.wav",
+      "name": "wind_blade_impact",
+      "category": "Wind",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_WindBlade impact: the blade slices a target then disperses as a gust",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.7,
+      "lufs_momentary_max": -15.43,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Wind/tornado_start.wav",
+      "name": "tornado_start",
+      "category": "Wind",
+      "duration": 1.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_Tornado cast: winds spin up into a vortex; start tornado_loop about 0.3 s before this ends",
+      "peak_dbfs": -2.24,
+      "true_peak_dbtp": -2.24,
+      "lufs_integrated": -16.26,
+      "lufs_momentary_max": -13.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Wind/tornado_loop.wav",
+      "name": "tornado_loop",
+      "category": "Wind",
+      "duration": 3.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_Tornado sustained: looping swirling vortex attached to the tornado",
+      "peak_dbfs": -4.22,
+      "true_peak_dbtp": -4.2,
+      "lufs_integrated": -17.0,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -17.0
+      }
+    },
+    {
+      "file": "Wind/wind_burst.wav",
+      "name": "wind_burst",
+      "category": "Wind",
+      "duration": 1.3,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_WindBurst (also Wind_GaleStep): a heavy whoomp of air pressure then a spreading gust",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.66,
+      "lufs_momentary_max": -13.03,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Earth/stone_form.wav",
+      "name": "stone_form",
+      "category": "Earth",
+      "duration": 0.7,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Earth spells wind-up (Rudeus_Basic stone bullet, Rudeus_StoneCannon, Earth_StoneCannon, Earth_EarthWall): stones grind and form",
+      "peak_dbfs": -1.21,
+      "true_peak_dbtp": -1.18,
+      "lufs_integrated": -17.74,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Earth/stone_spin_loop.wav",
+      "name": "stone_spin_loop",
+      "category": "Earth",
+      "duration": 1.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Stone bullet / stone cannon projectile in flight: spinning stone whirr loop",
+      "peak_dbfs": -8.14,
+      "true_peak_dbtp": -8.12,
+      "lufs_integrated": -19.0,
+      "lufs_momentary_max": -18.77,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -19.0
+      }
+    },
+    {
+      "file": "Earth/stone_cannon_launch.wav",
+      "name": "stone_cannon_launch",
+      "category": "Earth",
+      "duration": 0.9,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_StoneCannon / Earth_StoneCannon / Barrage_Stone cast: a boulder is fired, gunshot-like crack and boom",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.28,
+      "lufs_momentary_max": -13.03,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Earth/rock_impact.wav",
+      "name": "rock_impact",
+      "category": "Earth",
+      "duration": 1.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Stone bullet / stone cannon impact (also Goblin_RockThrow): crunch + debris",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -19.6,
+      "lufs_momentary_max": -13.1,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Earth/crater_impact.wav",
+      "name": "crater_impact",
+      "category": "Earth",
+      "duration": 2.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_StoneCannon_Awakened impact and other huge earth hits (Race_Ogre_GroundBreaker): big boom, crater, debris rain",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -20.09,
+      "lufs_momentary_max": -11.61,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
+      "file": "Earth/earth_wall_rise.wav",
+      "name": "earth_wall_rise",
+      "category": "Earth",
+      "duration": 1.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Earth_EarthWall / earth fortress: a wall of rock grinds up out of the ground and locks in place",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.49,
+      "lufs_momentary_max": -12.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Earth/earth_spike.wav",
+      "name": "earth_spike",
+      "category": "Earth",
+      "duration": 0.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Earth_EarthSpikes: a stone spike bursts from the ground (play per spike, randomise pitch +-2 semitones)",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -20.78,
+      "lufs_momentary_max": -15.85,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Earth/quagmire_loop.wav",
+      "name": "quagmire_loop",
+      "category": "Earth",
+      "duration": 3.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_Quagmire / Rudeus_Quagmire_Awakened field: looping bubbling, sucking mud",
+      "peak_dbfs": -8.23,
+      "true_peak_dbtp": -8.23,
+      "lufs_integrated": -21.0,
+      "lufs_momentary_max": -18.51,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -21.0
+      }
+    },
+    {
+      "file": "Earth/ground_rumble_loop.wav",
+      "name": "ground_rumble_loop",
+      "category": "Earth",
+      "duration": 2.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Sustained tremor under big earth magic (Quagmire_Awakened, Awakening_QuagmireMagician, earth wall rising)",
+      "peak_dbfs": -5.37,
+      "true_peak_dbtp": -5.37,
+      "lufs_integrated": -19.0,
+      "lufs_momentary_max": -17.74,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -19.0
+      }
+    },
+    {
+      "file": "Orsted/palm_strike.wav",
+      "name": "palm_strike",
+      "category": "Orsted",
+      "duration": 0.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_Basic (Dragon God Style: Palm Strike): dry, heavy martial-arts hit with an air snap",
+      "peak_dbfs": -1.16,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -19.1,
+      "lufs_momentary_max": -16.59,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Orsted/shockwave_boom.wav",
+      "name": "shockwave_boom",
+      "category": "Orsted",
+      "duration": 1.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted shockwave (Orsted_DragonCrush impact, awakened strikes): deep pressure boom radiating outward",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.79,
+      "lufs_momentary_max": -11.04,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
+      "file": "Orsted/dragon_step.wav",
+      "name": "dragon_step",
+      "category": "Orsted",
+      "duration": 0.7,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DragonStep / Orsted_DragonStep_Awakened: instantaneous dash that tears the air, arrival stomp",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.18,
+      "lufs_momentary_max": -14.1,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Orsted/ground_crack.wav",
+      "name": "ground_crack",
+      "category": "Orsted",
+      "duration": 1.3,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DragonCrush and heavy downward blows: the ground splits, rubble falls",
+      "peak_dbfs": -1.04,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -18.77,
+      "lufs_momentary_max": -12.99,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Orsted/disturb_magic.wav",
+      "name": "disturb_magic",
+      "category": "Orsted",
+      "duration": 0.9,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DisturbMagic: an enemy spell is broken apart, glassy dissonant shatter",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -18.92,
+      "lufs_momentary_max": -14.08,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Orsted/aura_activate.wav",
+      "name": "aura_activate",
+      "category": "Orsted",
+      "duration": 1.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_SaintDragonAura activation (also Race_Dragon_Aura): dark swell into a heavy bloom",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.57,
+      "lufs_momentary_max": -12.04,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Orsted/aura_hum_loop.wav",
+      "name": "aura_hum_loop",
+      "category": "Orsted",
+      "duration": 3.0,
+      "loop": true,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_SaintDragonAura sustained: low menacing hum loop while the aura is active",
+      "peak_dbfs": -9.93,
+      "true_peak_dbtp": -9.93,
+      "lufs_integrated": -21.0,
+      "lufs_momentary_max": -19.75,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -21.0
+      }
+    },
+    {
+      "file": "Orsted/dragon_god_awaken.wav",
+      "name": "dragon_god_awaken",
+      "category": "Orsted",
+      "duration": 3.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_Awakening_DragonGod: deep drone and dissonant choir swell to a massive bloom",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.89,
+      "lufs_momentary_max": -11.22,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
+      "file": "Rudeus/demon_eye.wav",
+      "name": "demon_eye",
+      "category": "Rudeus",
+      "duration": 1.1,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_DemonEye (Demon Eye of Foresight) activation: mystical shimmer",
+      "peak_dbfs": -5.31,
+      "true_peak_dbtp": -5.26,
+      "lufs_integrated": -16.85,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Rudeus/awakening.wav",
+      "name": "awakening",
+      "category": "Rudeus",
+      "duration": 2.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_Awakening_QuagmireMagician: power surges up into a bright blast of mana",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.89,
+      "lufs_momentary_max": -12.06,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Rudeus/cast_small.wav",
+      "name": "cast_small",
+      "category": "Rudeus",
+      "duration": 0.4,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus quick casts / generic small spell cast (e.g. each Rudeus_ElementalBarrage shot)",
+      "peak_dbfs": -2.52,
+      "true_peak_dbtp": -2.52,
+      "lufs_integrated": -16.0,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Combat/hit_light.wav",
+      "name": "hit_light",
+      "category": "Combat",
+      "duration": 0.35,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Light melee / weapon hit on a body",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -18.54,
+      "lufs_momentary_max": -18.54,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Combat/hit_heavy.wav",
+      "name": "hit_heavy",
+      "category": "Combat",
+      "duration": 0.7,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Heavy melee hit / critical hit on a body",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.27,
+      "lufs_momentary_max": -13.94,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Combat/hit_magic.wav",
+      "name": "hit_magic",
+      "category": "Combat",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Spell / magic damage hit on a target",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -18.75,
+      "lufs_momentary_max": -14.9,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Combat/dodge_whoosh.wav",
+      "name": "dodge_whoosh",
+      "category": "Combat",
+      "duration": 0.45,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Dodge roll / dash: body and cloth moving fast through the air",
+      "peak_dbfs": -1.72,
+      "true_peak_dbtp": -1.53,
+      "lufs_integrated": -18.0,
+      "lufs_momentary_max": -18.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -18.0
+      }
+    },
+    {
+      "file": "Combat/mana_empty.wav",
+      "name": "mana_empty",
+      "category": "Combat",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Not enough mana: the spell sputters and fizzles out",
+      "peak_dbfs": -2.54,
+      "true_peak_dbtp": -2.54,
+      "lufs_integrated": -18.87,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Combat/cooldown_ready.wav",
+      "name": "cooldown_ready",
+      "category": "Combat",
+      "duration": 1.0,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Ability cooldown finished: soft bright chime (2D, player feedback)",
+      "peak_dbfs": -14.39,
+      "true_peak_dbtp": -14.39,
+      "lufs_integrated": -22.21,
+      "lufs_momentary_max": -19.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -19.0
+      }
+    },
+    {
+      "file": "Combat/death_thud.wav",
+      "name": "death_thud",
+      "category": "Combat",
+      "duration": 1.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Character death: body collapses to the ground",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.29,
+      "lufs_momentary_max": -14.94,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Combat/level_up.wav",
+      "name": "level_up",
+      "category": "Combat",
+      "duration": 2.5,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Level up: rising chime flourish (2D, player feedback)",
+      "peak_dbfs": -7.8,
+      "true_peak_dbtp": -7.76,
+      "lufs_integrated": -19.58,
+      "lufs_momentary_max": -15.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -15.0
+      }
+    },
+    {
+      "file": "UI/ui_hover.wav",
+      "name": "ui_hover",
+      "category": "UI",
+      "duration": 0.08,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Menu item hover: very soft tick",
+      "peak_dbfs": -10.05,
+      "true_peak_dbtp": -9.27,
+      "lufs_integrated": -30.0,
+      "lufs_momentary_max": -30.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -30.0
+      }
+    },
+    {
+      "file": "UI/ui_click.wav",
+      "name": "ui_click",
+      "category": "UI",
+      "duration": 0.12,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Button click: warm wooden / parchment click",
+      "peak_dbfs": -2.99,
+      "true_peak_dbtp": -2.98,
+      "lufs_integrated": -24.0,
+      "lufs_momentary_max": -24.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -24.0
+      }
+    },
+    {
+      "file": "UI/ui_open.wav",
+      "name": "ui_open",
+      "category": "UI",
+      "duration": 0.45,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Panel / menu open: parchment unfurls with a soft whoosh",
+      "peak_dbfs": -7.49,
+      "true_peak_dbtp": -7.25,
+      "lufs_integrated": -22.0,
+      "lufs_momentary_max": -22.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -22.0
+      }
+    },
+    {
+      "file": "UI/ui_close.wav",
+      "name": "ui_close",
+      "category": "UI",
+      "duration": 0.42,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Panel / menu close: whoosh down, parchment folds, soft thud",
+      "peak_dbfs": -5.3,
+      "true_peak_dbtp": -5.3,
+      "lufs_integrated": -23.0,
+      "lufs_momentary_max": -23.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -23.0
+      }
+    },
+    {
+      "file": "UI/ui_tab.wav",
+      "name": "ui_tab",
+      "category": "UI",
+      "duration": 0.12,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Tab switch: light page flick",
+      "peak_dbfs": -5.67,
+      "true_peak_dbtp": -5.46,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -25.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "UI/ui_confirm.wav",
+      "name": "ui_confirm",
+      "category": "UI",
+      "duration": 0.9,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Confirm / accept: bright magical sparkle",
+      "peak_dbfs": -12.37,
+      "true_peak_dbtp": -12.3,
+      "lufs_integrated": -22.14,
+      "lufs_momentary_max": -19.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -19.0
+      }
+    },
+    {
+      "file": "UI/ui_spawn.wav",
+      "name": "ui_spawn",
+      "category": "UI",
+      "duration": 1.8,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "SPAWN button: magical rising swell into a bright bloom",
+      "peak_dbfs": -7.04,
+      "true_peak_dbtp": -7.02,
+      "lufs_integrated": -19.65,
+      "lufs_momentary_max": -16.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "UI/ui_error.wav",
+      "name": "ui_error",
+      "category": "UI",
+      "duration": 0.35,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Error / not allowed: soft muted two-note negative cue",
+      "peak_dbfs": -12.03,
+      "true_peak_dbtp": -12.03,
+      "lufs_integrated": -21.0,
+      "lufs_momentary_max": -21.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -21.0
+      }
+    },
+    {
+      "file": "UI/map_select.wav",
+      "name": "map_select",
+      "category": "UI",
+      "duration": 1.4,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "World map location select: bell-like chime",
+      "peak_dbfs": -12.41,
+      "true_peak_dbtp": -12.4,
+      "lufs_integrated": -23.59,
+      "lufs_momentary_max": -19.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -19.0
+      }
+    },
+    {
+      "file": "Ambience/amb_plains_wind.wav",
+      "name": "amb_plains_wind",
+      "category": "Ambience",
+      "duration": 24.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Plains / Asura / Fittoa fields: gentle breeze, grass, distant birds",
+      "peak_dbfs": -10.36,
+      "true_peak_dbtp": -10.36,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -20.62,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Ambience/amb_snow_wind.wav",
+      "name": "amb_snow_wind",
+      "category": "Ambience",
+      "duration": 24.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Northern Territories / Ranoa / high snow: howling cold wind",
+      "peak_dbfs": -8.96,
+      "true_peak_dbtp": -8.92,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -19.35,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Ambience/amb_desert_wind.wav",
+      "name": "amb_desert_wind",
+      "category": "Ambience",
+      "duration": 24.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Begaritt desert: dry gusty wind with blowing sand hiss",
+      "peak_dbfs": -9.79,
+      "true_peak_dbtp": -9.33,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -20.74,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Ambience/amb_forest.wav",
+      "name": "amb_forest",
+      "category": "Ambience",
+      "duration": 28.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Forests (Great Forest, Fittoa woods): dense leaf rustle, drips, creaks, soft birds",
+      "peak_dbfs": -7.53,
+      "true_peak_dbtp": -7.2,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -19.08,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Ambience/amb_demon.wav",
+      "name": "amb_demon",
+      "category": "Ambience",
+      "duration": 30.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Demon Continent: eerie low drone, dusty gusts, distant rumbles",
+      "peak_dbfs": -7.52,
+      "true_peak_dbtp": -7.51,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -19.8,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Ambience/amb_ocean.wav",
+      "name": "amb_ocean",
+      "category": "Ambience",
+      "duration": 28.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Coasts / ports (Wenport, Zant Port, beaches): waves breaking on the shore",
+      "peak_dbfs": -6.04,
+      "true_peak_dbtp": -6.04,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -17.77,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Ambience/amb_town.wav",
+      "name": "amb_town",
+      "category": "Ambience",
+      "duration": 30.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Towns and cities (Roa, Ars, Sharia, Millishion, Rapan...): distant murmur, hammer, carts",
+      "peak_dbfs": -8.23,
+      "true_peak_dbtp": -8.23,
+      "lufs_integrated": -25.0,
+      "lufs_momentary_max": -20.24,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -25.0
+      }
+    },
+    {
+      "file": "Music/music_title_theme.wav",
+      "name": "music_title_theme",
+      "category": "Music",
+      "duration": 105.0,
+      "loop": true,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Title screen music: seamless 105 s loop, Celtic-medieval air in D dorian (harp, lute, strings, flute, frame drum)",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.0,
+      "lufs_momentary_max": -13.57,
+      "loudness_target": {
+        "metric": "integrated",
+        "lufs": -17.0
+      }
+    },
+    {
+      "file": "Music/music_spawn_sting.wav",
+      "name": "music_spawn_sting",
+      "category": "Music",
+      "duration": 6.0,
+      "loop": false,
+      "channels": 2,
+      "spatial": "2D",
+      "use": "Spawn / enter-world sting: 6 s rising flourish into a bright D major bloom",
+      "peak_dbfs": -4.87,
+      "true_peak_dbtp": -4.37,
+      "lufs_integrated": -17.74,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    }
+  ]
+}

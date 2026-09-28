@@ -111,7 +111,12 @@ enum class EMTZoneKind : uint8
 	Freeze,      // Frost Prison: root in centre, slow outside
 	Storm,       // Cumulonimbus: rain, water efficiency buff
 	WindField,   // Tempest Domain: pushes weak enemies, deflects projectiles
-	Aura         // Saint Dragon Aura pressure field (attached to owner)
+	Aura,        // Saint Dragon Aura pressure field (attached to owner)
+	DamageField, // Flame Wave: damage (and burning) to everything inside, usually moving
+	Burst,       // Wind Burst: one outward blast from the caster, then gone
+	LineEruptions, // Earth Spikes: eruptions one after another from the caster toward the target
+	Vortex,      // Tornado: pulls enemies in, lifts and damages them, drifts toward the target
+	Wave         // Flood: rolls forward, sweeping enemies along once each
 };
 
 /** Behaviour-agnostic hit reaction classes. */

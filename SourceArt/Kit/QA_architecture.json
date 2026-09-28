@@ -1,0 +1,1943 @@
+{
+ "assets": [
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_L_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4695,
+    "verts": 8510,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.97,
+     -5.53,
+     -0.502
+    ],
+    "bbox_max": [
+     5.97,
+     5.53,
+     16.626
+    ],
+    "size": [
+     11.94,
+     11.06,
+     17.128
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 295,
+    "closed_shells": 29
+   },
+   "name": "SM_Asura_House_L_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_L_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5470,
+    "verts": 10208,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -6.496,
+     -7.596,
+     -0.502
+    ],
+    "bbox_max": [
+     6.496,
+     7.596,
+     17.089
+    ],
+    "size": [
+     12.992,
+     15.192,
+     17.591
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 324,
+    "closed_shells": 28
+   },
+   "name": "SM_Asura_House_L_B"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_M_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3220,
+    "verts": 5820,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.76,
+     -4.635,
+     -0.502
+    ],
+    "bbox_max": [
+     4.76,
+     4.635,
+     12.682
+    ],
+    "size": [
+     9.52,
+     9.27,
+     13.184
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 201,
+    "closed_shells": 19
+   },
+   "name": "SM_Asura_House_M_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_M_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4868,
+    "verts": 9174,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.27,
+     -5.45,
+     -0.502
+    ],
+    "bbox_max": [
+     4.27,
+     5.45,
+     15.462
+    ],
+    "size": [
+     8.54,
+     10.9,
+     15.964
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 371,
+    "closed_shells": 21
+   },
+   "name": "SM_Asura_House_M_B"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_S_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2301,
+    "verts": 4302,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -3.56,
+     -3.53,
+     -0.502
+    ],
+    "bbox_max": [
+     3.56,
+     3.53,
+     11.083
+    ],
+    "size": [
+     7.12,
+     7.06,
+     11.585
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 167,
+    "closed_shells": 16
+   },
+   "name": "SM_Asura_House_S_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_S_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2135,
+    "verts": 3868,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -3.36,
+     -4.23,
+     -0.502
+    ],
+    "bbox_max": [
+     3.36,
+     4.23,
+     11.312
+    ],
+    "size": [
+     6.72,
+     8.46,
+     11.814
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 137,
+    "closed_shells": 15
+   },
+   "name": "SM_Asura_House_S_B"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_Inn_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5599,
+    "verts": 10254,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -7.07,
+     -6.195,
+     -0.502
+    ],
+    "bbox_max": [
+     7.07,
+     6.195,
+     17.745
+    ],
+    "size": [
+     14.14,
+     12.39,
+     18.247
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 366,
+    "closed_shells": 68
+   },
+   "name": "SM_Asura_Inn_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_Keep_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 10586,
+    "verts": 16294,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -9.089,
+     -9.089,
+     -0.924
+    ],
+    "bbox_max": [
+     9.089,
+     9.089,
+     28.41
+    ],
+    "size": [
+     18.177,
+     18.177,
+     29.334
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 163,
+    "closed_shells": 70
+   },
+   "name": "SM_Asura_Keep_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_Manor_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 9348,
+    "verts": 16718,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -16.058,
+     -10.113,
+     -0.514
+    ],
+    "bbox_max": [
+     16.058,
+     10.113,
+     16.887
+    ],
+    "size": [
+     32.117,
+     20.227,
+     17.401
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 493,
+    "closed_shells": 92
+   },
+   "name": "SM_Asura_Manor_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_Shop_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3653,
+    "verts": 6824,
+    "materials": [
+     "MT_ClothBlue",
+     "MT_ClothRed",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.76,
+     -4.93,
+     -0.502
+    ],
+    "bbox_max": [
+     4.76,
+     4.93,
+     12.913
+    ],
+    "size": [
+     9.52,
+     9.86,
+     13.415
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 262,
+    "closed_shells": 34
+   },
+   "name": "SM_Asura_Shop_A"
+  },
+  {
+   "file": "SourceArt/Kit/Asura/SM_Asura_Tower_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3350,
+    "verts": 5078,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -3.431,
+     -3.516,
+     -0.502
+    ],
+    "bbox_max": [
+     3.431,
+     3.516,
+     24.439
+    ],
+    "size": [
+     6.863,
+     7.031,
+     24.941
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 99,
+    "closed_shells": 22
+   },
+   "name": "SM_Asura_Tower_A"
+  },
+  {
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_Hall_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 7910,
+    "verts": 12567,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -14.62,
+     -12.13,
+     -0.608
+    ],
+    "bbox_max": [
+     14.62,
+     12.13,
+     24.212
+    ],
+    "size": [
+     29.24,
+     24.26,
+     24.82
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 221,
+    "closed_shells": 100
+   },
+   "name": "SM_Noble_Hall_A"
+  },
+  {
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_House_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5460,
+    "verts": 9762,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -6.686,
+     -6.968,
+     -0.502
+    ],
+    "bbox_max": [
+     6.686,
+     6.968,
+     18.342
+    ],
+    "size": [
+     13.371,
+     13.936,
+     18.844
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 290,
+    "closed_shells": 55
+   },
+   "name": "SM_Noble_House_A"
+  },
+  {
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_House_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5925,
+    "verts": 9874,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -6.557,
+     -7.557,
+     -0.502
+    ],
+    "bbox_max": [
+     6.557,
+     7.557,
+     21.897
+    ],
+    "size": [
+     13.113,
+     15.113,
+     22.399
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 241,
+    "closed_shells": 40
+   },
+   "name": "SM_Noble_House_B"
+  },
+  {
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_House_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4482,
+    "verts": 8044,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -9.06,
+     -6.38,
+     -0.506
+    ],
+    "bbox_max": [
+     9.06,
+     6.38,
+     15.723
+    ],
+    "size": [
+     18.12,
+     12.76,
+     16.229
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 214,
+    "closed_shells": 71
+   },
+   "name": "SM_Noble_House_C"
+  },
+  {
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_Tower_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3356,
+    "verts": 4828,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -2.92,
+     -3.11,
+     -0.626
+    ],
+    "bbox_max": [
+     2.92,
+     3.11,
+     38.15
+    ],
+    "size": [
+     5.84,
+     6.22,
+     38.776
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 73,
+    "closed_shells": 36
+   },
+   "name": "SM_Noble_Tower_A"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_Guild_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 8251,
+    "verts": 15168,
+    "materials": [
+     "MT_Crystal",
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofDark",
+     "MT_RoofRed",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -9.279,
+     -7.129,
+     -0.508
+    ],
+    "bbox_max": [
+     9.279,
+     7.129,
+     22.495
+    ],
+    "size": [
+     18.558,
+     14.258,
+     23.003
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 476,
+    "closed_shells": 97
+   },
+   "name": "SM_North_Guild_A"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_House_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2208,
+    "verts": 3906,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofDark",
+     "MT_RoofRed",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.29,
+     -4.055,
+     -0.502
+    ],
+    "bbox_max": [
+     4.29,
+     4.055,
+     13.152
+    ],
+    "size": [
+     8.58,
+     8.11,
+     13.654
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 127,
+    "closed_shells": 15
+   },
+   "name": "SM_North_House_A"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_House_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2427,
+    "verts": 4356,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofDark",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.305,
+     -5.57,
+     -0.502
+    ],
+    "bbox_max": [
+     4.305,
+     5.57,
+     14.326
+    ],
+    "size": [
+     8.61,
+     11.14,
+     14.828
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 144,
+    "closed_shells": 15
+   },
+   "name": "SM_North_House_B"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_House_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1944,
+    "verts": 3254,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofDark",
+     "MT_RoofRed",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.04,
+     -4.18,
+     -0.502
+    ],
+    "bbox_max": [
+     5.04,
+     4.18,
+     11.205
+    ],
+    "size": [
+     10.08,
+     8.36,
+     11.707
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 81,
+    "closed_shells": 23
+   },
+   "name": "SM_North_House_C"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_Shop_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3300,
+    "verts": 5926,
+    "materials": [
+     "MT_Crystal",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofDark",
+     "MT_RoofRed",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.79,
+     -5.03,
+     -0.502
+    ],
+    "bbox_max": [
+     4.79,
+     5.03,
+     14.563
+    ],
+    "size": [
+     9.58,
+     10.06,
+     15.065
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 194,
+    "closed_shells": 38
+   },
+   "name": "SM_North_Shop_A"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_Tower_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3278,
+    "verts": 4577,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofDark",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -3.912,
+     -3.951,
+     -0.556
+    ],
+    "bbox_max": [
+     3.912,
+     3.951,
+     25.247
+    ],
+    "size": [
+     7.824,
+     7.903,
+     25.803
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 36,
+    "closed_shells": 7
+   },
+   "name": "SM_North_Tower_A"
+  },
+  {
+   "file": "SourceArt/Kit/North/SM_North_Workshop_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1704,
+    "verts": 3010,
+    "materials": [
+     "MT_Glass",
+     "MT_Hide",
+     "MT_Iron",
+     "MT_RoofDark",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -8.2,
+     -4.9,
+     -0.502
+    ],
+    "bbox_max": [
+     8.2,
+     4.9,
+     11.21
+    ],
+    "size": [
+     16.4,
+     9.8,
+     11.712
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 77,
+    "closed_shells": 31
+   },
+   "name": "SM_North_Workshop_A"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Barn_A.glb",
+   "errors": [],
+   "warnings": [
+    "974 tris under the expected minimum 1000"
+   ],
+   "info": {
+    "tris": 974,
+    "verts": 1734,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofThatch",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.8,
+     -6.675,
+     -0.502
+    ],
+    "bbox_max": [
+     4.8,
+     6.675,
+     10.687
+    ],
+    "size": [
+     9.6,
+     13.35,
+     11.189
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 51,
+    "closed_shells": 16
+   },
+   "name": "SM_Rural_Barn_A"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Barn_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1111,
+    "verts": 1926,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -7.18,
+     -4.49,
+     -0.502
+    ],
+    "bbox_max": [
+     7.18,
+     4.49,
+     9.751
+    ],
+    "size": [
+     14.36,
+     8.98,
+     10.253
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 51,
+    "closed_shells": 7
+   },
+   "name": "SM_Rural_Barn_B"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Cart.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1064,
+    "verts": 1520,
+    "materials": [
+     "MT_Iron",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -0.9,
+     -2.076,
+     -0.01
+    ],
+    "bbox_max": [
+     0.9,
+     2.076,
+     1.215
+    ],
+    "size": [
+     1.8,
+     4.153,
+     1.225
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 34,
+    "closed_shells": 34
+   },
+   "name": "SM_Rural_Cart"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Fence_2m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 48,
+    "verts": 96,
+    "materials": [
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -1.07,
+     -0.105,
+     -0.352
+    ],
+    "bbox_max": [
+     1.06,
+     0.07,
+     1.15
+    ],
+    "size": [
+     2.13,
+     0.175,
+     1.502
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 4,
+    "closed_shells": 4
+   },
+   "name": "SM_Rural_Fence_2m"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Fence_4m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 60,
+    "verts": 120,
+    "materials": [
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -2.07,
+     -0.105,
+     -0.352
+    ],
+    "bbox_max": [
+     2.06,
+     0.07,
+     1.15
+    ],
+    "size": [
+     4.13,
+     0.175,
+     1.502
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 5,
+    "closed_shells": 5
+   },
+   "name": "SM_Rural_Fence_4m"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_GreyratHouse.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3550,
+    "verts": 6322,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.755,
+     -7.225,
+     -0.502
+    ],
+    "bbox_max": [
+     5.755,
+     7.225,
+     12.177
+    ],
+    "size": [
+     11.51,
+     14.45,
+     12.679
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 200,
+    "closed_shells": 22
+   },
+   "name": "SM_Rural_GreyratHouse"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Haystack.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 274,
+    "verts": 233,
+    "materials": [
+     "MT_RoofThatch",
+     "MT_Timber"
+    ],
+    "bbox_min": [
+     -1.472,
+     -1.436,
+     -0.152
+    ],
+    "bbox_max": [
+     1.472,
+     1.436,
+     3.5
+    ],
+    "size": [
+     2.944,
+     2.872,
+     3.652
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 2,
+    "closed_shells": 2
+   },
+   "name": "SM_Rural_Haystack"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_House_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1146,
+    "verts": 2122,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_RoofThatch",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.3,
+     -3.4,
+     -0.502
+    ],
+    "bbox_max": [
+     4.3,
+     3.4,
+     8.675
+    ],
+    "size": [
+     8.6,
+     6.8,
+     9.177
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 78,
+    "closed_shells": 18
+   },
+   "name": "SM_Rural_House_A"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_House_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1906,
+    "verts": 3390,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.59,
+     -4.48,
+     -0.502
+    ],
+    "bbox_max": [
+     4.59,
+     4.48,
+     9.629
+    ],
+    "size": [
+     9.18,
+     8.96,
+     10.131
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 101,
+    "closed_shells": 35
+   },
+   "name": "SM_Rural_House_B"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_House_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1300,
+    "verts": 2388,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_RoofThatch",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -7.326,
+     -3.602,
+     -0.502
+    ],
+    "bbox_max": [
+     7.326,
+     3.602,
+     8.336
+    ],
+    "size": [
+     14.652,
+     7.204,
+     8.838
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 77,
+    "closed_shells": 26
+   },
+   "name": "SM_Rural_House_C"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Shed_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 518,
+    "verts": 912,
+    "materials": [
+     "MT_Iron",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -2.115,
+     -1.6,
+     -0.302
+    ],
+    "bbox_max": [
+     2.115,
+     1.6,
+     2.942
+    ],
+    "size": [
+     4.23,
+     3.2,
+     3.244
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 23,
+    "closed_shells": 18
+   },
+   "name": "SM_Rural_Shed_A"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Well.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 612,
+    "verts": 844,
+    "materials": [
+     "MT_ClothTan",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -1.155,
+     -1.03,
+     -0.302
+    ],
+    "bbox_max": [
+     1.155,
+     1.03,
+     3.001
+    ],
+    "size": [
+     2.31,
+     2.06,
+     3.303
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 13,
+    "closed_shells": 13
+   },
+   "name": "SM_Rural_Well"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Windmill_Blades.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 800,
+    "verts": 1564,
+    "materials": [
+     "MT_ClothTan",
+     "MT_Iron",
+     "MT_Timber"
+    ],
+    "bbox_min": [
+     -6.067,
+     -0.42,
+     -6.067
+    ],
+    "bbox_max": [
+     6.067,
+     0.3,
+     6.067
+    ],
+    "size": [
+     12.134,
+     0.72,
+     12.134
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 62,
+    "closed_shells": 62
+   },
+   "name": "SM_Rural_Windmill_Blades"
+  },
+  {
+   "file": "SourceArt/Kit/Rural/SM_Rural_Windmill_Body.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1448,
+    "verts": 2344,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_Plaster",
+     "MT_RoofThatch",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -2.975,
+     -3.413,
+     -0.554
+    ],
+    "bbox_max": [
+     2.975,
+     2.975,
+     14.772
+    ],
+    "size": [
+     5.95,
+     6.388,
+     15.326
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 32,
+    "closed_shells": 7
+   },
+   "name": "SM_Rural_Windmill_Body"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Beam.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 576,
+    "verts": 490,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -1.0,
+     -1.0,
+     0.0
+    ],
+    "bbox_max": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "size": [
+     2.0,
+     2.0,
+     1.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Beam"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Crescent.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 840,
+    "verts": 514,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.275,
+     -1.0,
+     -0.025
+    ],
+    "bbox_max": [
+     0.275,
+     1.0,
+     0.025
+    ],
+    "size": [
+     0.55,
+     2.0,
+     0.05
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Crescent"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Crystal.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 58,
+    "verts": 120,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.106,
+     -0.089,
+     -0.25
+    ],
+    "bbox_max": [
+     0.106,
+     0.089,
+     0.25
+    ],
+    "size": [
+     0.211,
+     0.178,
+     0.5
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Crystal"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Disc.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 256,
+    "verts": 386,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -1.0,
+     -1.0,
+     -0.002
+    ],
+    "bbox_max": [
+     1.0,
+     1.0,
+     0.002
+    ],
+    "size": [
+     2.0,
+     2.0,
+     0.004
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Disc"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_DragonHead.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2728,
+    "verts": 2558,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -1.6,
+     -1.785,
+     -1.01
+    ],
+    "bbox_max": [
+     1.6,
+     1.785,
+     1.01
+    ],
+    "size": [
+     3.2,
+     3.57,
+     2.02
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 21,
+    "closed_shells": 21
+   },
+   "name": "SM_VFX_DragonHead"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_DragonSegment.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 432,
+    "verts": 275,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.5,
+     -0.5,
+     -0.5
+    ],
+    "bbox_max": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "size": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_DragonSegment"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_EarthWall.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 456,
+    "verts": 1254,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -3.0,
+     -0.791,
+     0.0
+    ],
+    "bbox_max": [
+     3.0,
+     0.791,
+     4.06
+    ],
+    "size": [
+     6.0,
+     1.583,
+     4.06
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_EarthWall"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Flame.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 816,
+    "verts": 473,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.167,
+     -0.171,
+     0.0
+    ],
+    "bbox_max": [
+     0.205,
+     0.167,
+     1.0
+    ],
+    "size": [
+     0.373,
+     0.337,
+     1.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Flame"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Funnel.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2720,
+    "verts": 1558,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -2.703,
+     -3.11,
+     0.0
+    ],
+    "bbox_max": [
+     3.36,
+     3.11,
+     8.0
+    ],
+    "size": [
+     6.063,
+     6.219,
+     8.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Funnel"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Ring.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1440,
+    "verts": 1460,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -1.035,
+     -1.035,
+     -0.033
+    ],
+    "bbox_max": [
+     1.035,
+     1.035,
+     0.033
+    ],
+    "size": [
+     2.07,
+     2.07,
+     0.067
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Ring"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 36,
+    "verts": 108,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.151,
+     -0.124,
+     -0.112
+    ],
+    "bbox_max": [
+     0.151,
+     0.124,
+     0.112
+    ],
+    "size": [
+     0.303,
+     0.247,
+     0.223
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_RockChunk_A"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 38,
+    "verts": 114,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.184,
+     -0.129,
+     -0.115
+    ],
+    "bbox_max": [
+     0.184,
+     0.129,
+     0.115
+    ],
+    "size": [
+     0.368,
+     0.258,
+     0.23
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_RockChunk_B"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 48,
+    "verts": 144,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.237,
+     -0.219,
+     -0.125
+    ],
+    "bbox_max": [
+     0.237,
+     0.219,
+     0.125
+    ],
+    "size": [
+     0.474,
+     0.438,
+     0.249
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_RockChunk_C"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_D.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 48,
+    "verts": 144,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.291,
+     -0.253,
+     -0.227
+    ],
+    "bbox_max": [
+     0.291,
+     0.253,
+     0.227
+    ],
+    "size": [
+     0.582,
+     0.506,
+     0.453
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_RockChunk_D"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_ShockRing.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 576,
+    "verts": 868,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -1.0,
+     -1.0,
+     -0.003
+    ],
+    "bbox_max": [
+     1.0,
+     1.0,
+     0.003
+    ],
+    "size": [
+     2.0,
+     2.0,
+     0.006
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_ShockRing"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Spike_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 96,
+    "verts": 280,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.531,
+     -0.554,
+     0.0
+    ],
+    "bbox_max": [
+     0.573,
+     0.487,
+     3.0
+    ],
+    "size": [
+     1.104,
+     1.041,
+     3.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Spike_A"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Spike_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 274,
+    "verts": 800,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.636,
+     -0.583,
+     -0.006
+    ],
+    "bbox_max": [
+     0.764,
+     0.549,
+     3.0
+    ],
+    "size": [
+     1.4,
+     1.132,
+     3.006
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "shells": 3,
+    "closed_shells": 3
+   },
+   "name": "SM_VFX_Spike_B"
+  }
+ ],
+ "summary": {
+  "checked": 54,
+  "failed": 0
+ }
+}

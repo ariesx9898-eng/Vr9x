@@ -3,12 +3,39 @@
 #include "Progression/MTProgressionSubsystem.h"
 #include "Save/MTSaveSubsystem.h"
 #include "UI/MTHUD.h"
+#include "UI/LaPlace/MTFrontEndSubsystem.h"
+#include "Kismet/GameplayStatics.h"
 
 AMTGameMode::AMTGameMode()
 {
 	DefaultPawnClass = AMTPlayerCharacter::StaticClass();
 	PlayerControllerClass = AMTPlayerController::StaticClass();
 	HUDClass = AMTHUD::StaticClass();
+}
+
+void AMTGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	if (UGameplayStatics::HasOption(Options, TEXT("Menu")))
+	{
+		bFrontEndOnStart = UGameplayStatics::GetIntOption(Options, TEXT("Menu"), 1) != 0;
+	}
+}
+
+void AMTGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
+{
+	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
+	if (bFrontEndOnStart && NewPlayer && NewPlayer->IsLocalController())
+	{
+		if (UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(this))
+		{
+			FrontEnd->OpenTitle(NewPlayer);
+			if (UGameplayStatics::HasOption(OptionsString, TEXT("UITour")))
+			{
+				FrontEnd->StartTour(NewPlayer);
+			}
+		}
+	}
 }
 
 AMTPlayerController::AMTPlayerController()

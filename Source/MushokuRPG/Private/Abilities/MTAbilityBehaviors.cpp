@@ -1,4 +1,5 @@
 #include "Abilities/MTAbilityBehaviors.h"
+#include "VFX/MTSpellVFX.h"
 #include "Abilities/MTAbilityComponent.h"
 #include "Character/MTCharacterBase.h"
 #include "Character/MTAttributeComponent.h"
@@ -183,7 +184,7 @@ void UMTAbility_Sequence::TickAction(float DeltaTime)
 		{
 			JumpMontageToSection(Step.MontageSection);
 		}
-		SpawnFX(Row->FX.Formation, GetCastLocation(), GetAimRotation());
+		MTCombat::SpawnSpellFX(Owner, Row->FX, Row->FX.Formation, TEXT("Formation"), FTransform(GetAimRotation(), GetCastLocation()), 0.7f, nullptr, NAME_None, Owner);
 		PlaySound(Row->FX.CastSound, GetCastLocation());
 		UMTAbility_Projectile::FireProjectile(Owner, *Row, GetCastLocation(), GetAimPoint(), 0.f);
 	}
@@ -254,14 +255,25 @@ void UMTAbility_Dash::ExecuteAction()
 		Owner->GetAttributes()->SetInvulnerableFor(DashDuration);
 	}
 	Owner->GetStateTags().AddTag(MTTags::State_Dodging);
+	const FVector Feet = Owner->GetActorLocation() - FVector(0.f, 0.f, Owner->GetSimpleCollisionHalfHeight());
+	SpawnPhaseFX(TEXT("Launch"), FTransform(Direction.Rotation(), Feet));
 	RootMotionId = ApplyMoveTo(Owner, Destination, DashDuration, TEXT("MTDash"));
 	SpawnFX(Data.FX.Travel, Owner->GetActorLocation(), Direction.Rotation(), true);
+	DashVFX = SpawnPhaseFX(TEXT("Travel"), FTransform(Direction.Rotation(), Owner->GetActorLocation() - FVector(0.f, 0.f, Owner->GetSimpleCollisionHalfHeight() * 0.9f)),
+		1.f, Owner->GetRootComponent());
+	if (AMTSpellVFX* Trail = DashVFX.Get())
+	{
+		// Snapped to the root (capsule centre): keep the dust at the feet.
+		Trail->SetActorRelativeLocation(FVector(0.f, 0.f, -Owner->GetSimpleCollisionHalfHeight() * 0.9f));
+	}
 }
 
 void UMTAbility_Dash::TickAction(float DeltaTime)
 {
 	if (PhaseTime >= DashDuration)
 	{
+		MTCombat::StopSpellFX(DashVFX.Get());
+		DashVFX.Reset();
 		if (AMTCharacterBase* Owner = GetOwnerCharacter())
 		{
 			Owner->GetStateTags().RemoveTag(MTTags::State_Dodging);
@@ -290,6 +302,8 @@ void UMTAbility_Dash::OnEnded(bool bWasCancelled)
 		Owner->GetStateTags().RemoveTag(MTTags::State_Dodging);
 	}
 	RootMotionId = 0;
+	MTCombat::StopSpellFX(DashVFX.Get());
+	DashVFX.Reset();
 }
 
 // ---------------------------------------------------------------- Counter (Disturb Magic)
@@ -316,9 +330,10 @@ void UMTAbility_Counter::TickAction(float DeltaTime)
 		{
 			if (Spell && Spell->IsDisruptable())
 			{
+				const FVector Where = Spell->GetActorLocation();
 				Spell->Disrupt(Owner);
 				++Disrupted;
-				SpawnFX(Data.FX.Impact, Spell->GetActorLocation(), FRotator::ZeroRotator);
+				MTCombat::SpawnSpellFX(Owner, Data.FX, Data.FX.Impact, TEXT("Impact"), FTransform(Where), 1.f, nullptr, NAME_None, Owner);
 			}
 		}
 	}
@@ -374,6 +389,9 @@ void UMTAbility_Buff::ExecuteAction()
 		Guard.Stats.StaggerResistance = 0.6f;
 		Owner->GetAttributes()->AddStatusEffect(Guard);
 		SpawnFX(Data.FX.Formation, Owner->GetActorLocation(), Owner->GetActorRotation(), true);
+		// The build-up and the reveal are one effect timed to the transformation.
+		SpawnPhaseFX(TEXT("Cast"), FTransform(Owner->GetActorRotation(), Owner->GetActorLocation() - FVector(0.f, 0.f, Owner->GetSimpleCollisionHalfHeight())),
+			1.f, Owner->GetRootComponent());
 	}
 	else
 	{
@@ -441,6 +459,19 @@ void UMTAbility_Buff::ApplyBuff()
 
 	SpawnFX(Data.FX.Impact, Owner->GetActorLocation(), Owner->GetActorRotation(), true);
 	PlaySubtleCameraShake(Data.FX.CameraShakeScale);
+	{
+		const FTransform Feet(Owner->GetActorRotation(), Owner->GetActorLocation() - FVector(0.f, 0.f, Owner->GetSimpleCollisionHalfHeight()));
+		if (Data.TransformationTime <= 0.f)
+		{
+			SpawnPhaseFX(TEXT("Cast"), Feet, 1.f, Owner->GetRootComponent());
+		}
+		MTCombat::StopSpellFX(AuraVFX.Get());
+		AuraVFX = SpawnPhaseFX(TEXT("Aura"), Feet, 1.f, Owner->GetRootComponent());
+		if (AMTSpellVFX* Aura = AuraVFX.Get())
+		{
+			Aura->SetActorRelativeLocation(FVector(0.f, 0.f, -Owner->GetSimpleCollisionHalfHeight()));
+		}
+	}
 
 	TWeakObjectPtr<UMTAbility_Buff> WeakThis(this);
 	Owner->GetWorldTimerManager().SetTimer(ExpireHandle, FTimerDelegate::CreateWeakLambda(this, [WeakThis]()
@@ -466,6 +497,8 @@ void UMTAbility_Buff::ExpireBuff()
 	}
 	Owner->GetAttributes()->RemoveStatusEffect(Data.AbilityID);
 	SpawnFX(Data.FX.Dissipation, Owner->GetActorLocation(), Owner->GetActorRotation(), true);
+	MTCombat::StopSpellFX(AuraVFX.Get());
+	AuraVFX.Reset();
 }
 
 void UMTAbility_Buff::OnEnded(bool bWasCancelled)
@@ -524,6 +557,7 @@ void UMTAbility_Structure::ExecuteAction()
 		if (AMTEarthWall* Wall = World->SpawnActor<AMTEarthWall>(AMTEarthWall::StaticClass(), Center, Facing, SpawnParams))
 		{
 			Wall->InitWall(Data, Owner, Data.StructureHealth, Data.Duration);
+			SpawnPhaseFX(TEXT("Rise"), FTransform(Facing, Ground));
 		}
 	}
 	PlaySubtleCameraShake(Data.FX.CameraShakeScale);

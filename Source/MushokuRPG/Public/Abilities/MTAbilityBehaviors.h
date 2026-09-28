@@ -57,6 +57,8 @@ protected:
 	virtual bool IsInstantAction() const override { return false; }
 	virtual void OnEnded(bool bWasCancelled) override;
 	uint16 RootMotionId = 0;
+	/** Afterimages / dust trail riding with the dasher. */
+	TWeakObjectPtr<class AMTSpellVFX> DashVFX;
 	float DashDuration = 0.2f;
 };
 
@@ -88,6 +90,8 @@ protected:
 	void ExpireBuff();
 	bool bBuffApplied = false;
 	FTimerHandle ExpireHandle;
+	/** Aura effect for the buff's duration. */
+	TWeakObjectPtr<class AMTSpellVFX> AuraVFX;
 };
 
 /** Earth Fortress: raises durable walls in an arc toward the aim direction. */

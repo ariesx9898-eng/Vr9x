@@ -12,6 +12,12 @@ class MUSHOKURPG_API AMTGameMode : public AGameModeBase
 
 public:
 	AMTGameMode();
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
+
+protected:
+	/** LA PLACE title screen when the game starts (?Menu=0 skips it; the arena and showcase modes turn it off). */
+	UPROPERTY(EditDefaultsOnly, Category = "Mushoku|FrontEnd") bool bFrontEndOnStart = true;
 };
 
 /** Switches between gameplay input and menu (cursor) input based on the HUD state. */

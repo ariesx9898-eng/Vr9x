@@ -80,6 +80,16 @@ struct FMTSettingsSave
 	UPROPERTY(SaveGame, BlueprintReadWrite) int32 GraphicsQuality = 3;
 };
 
+/** One character's hotbar keys 1-4. */
+USTRUCT(BlueprintType)
+struct FMTLoadoutSave
+{
+	GENERATED_BODY()
+
+	UPROPERTY(SaveGame, BlueprintReadWrite) FName CharacterId;
+	UPROPERTY(SaveGame, BlueprintReadWrite) TArray<FName> Abilities;
+};
+
 USTRUCT(BlueprintType)
 struct FMTSaveData
 {
@@ -94,6 +104,8 @@ struct FMTSaveData
 	UPROPERTY(SaveGame, BlueprintReadWrite) TArray<EMTElement> EquippedElements;
 	UPROPERTY(SaveGame, BlueprintReadWrite) int32 UnlockedElementSlots = 1;
 	UPROPERTY(SaveGame, BlueprintReadWrite) TArray<FName> OwnedCharacters;
+	/** Hotbar keys 1-4 per character (ABILITIES menu). */
+	UPROPERTY(SaveGame, BlueprintReadWrite) TArray<FMTLoadoutSave> Loadouts;
 	UPROPERTY(SaveGame, BlueprintReadWrite) TArray<EMTElement> OwnedElements;
 	UPROPERTY(SaveGame, BlueprintReadWrite) TArray<EMTRace> OwnedRaces;
 

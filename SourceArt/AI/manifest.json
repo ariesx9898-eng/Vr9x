@@ -1,0 +1,184 @@
+{
+ "assets": [
+  {
+   "file": "Icons/Fire_Fireball.png",
+   "job_id": "8be8c11e-8fa5-4b01-9a7d-710cf13a317d",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Fire_FlameWave.png",
+   "job_id": "95263cd0-7a3f-4c59-8947-c6faff254ae0",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Fire_Inferno.png",
+   "job_id": "1abc7c33-e3a0-4320-afa7-755b75f55124",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Water_WaterBullet.png",
+   "job_id": "c815ead1-97e7-42d0-8bf5-ee4df2f7896c",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Water_WaterDragon.png",
+   "job_id": "285f228a-ee43-43e4-a6e8-1fceedbe35d4",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Water_Flood.png",
+   "job_id": "3d864014-0127-46c6-bf20-01b53e083ac0",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Wind_Tornado.png",
+   "job_id": "e7e98e9f-d676-4f26-ba87-eaace34f2054",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Earth_StoneCannon.png",
+   "job_id": "6fcd3970-2ca9-41ad-a736-bafd6ce30645",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Earth_EarthSpikes.png",
+   "job_id": "43c455e5-9002-43a3-86a6-cffa315cf625",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Wind_WindBlade.png",
+   "job_id": "7a59ce59-cf85-4116-a186-ad5816a39276",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Wind_WindBurst.png",
+   "job_id": "2f8e5ec7-2354-4b57-a3ae-f773879703b4",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Earth_EarthWall.png",
+   "job_id": "888e1d19-e483-455c-854d-8f5481fdfd8f",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Rudeus_StoneCannon.png",
+   "job_id": "15911878-2a13-4615-a04b-33afcea92b79",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Rudeus_Quagmire.png",
+   "job_id": "a4c27cea-67bd-4d84-aa4d-bd5dae54e272",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Rudeus_Basic.png",
+   "job_id": "5d3e272d-54a7-473d-93b9-e3603a30f28a",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Rudeus_ElementalBarrage.png",
+   "job_id": "3e58b0ed-53c1-45ae-b919-dac710a8340b",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Rudeus_DemonEye.png",
+   "job_id": "b342dcc6-61c4-4cdb-bf16-18ea06074a4c",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Rudeus_Awakening_QuagmireMagician.png",
+   "job_id": "46d5b2eb-7aeb-46ed-ad9d-979424449745",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Orsted_Basic.png",
+   "job_id": "f4bcf149-fb57-4c00-8fe8-f1c5ead634d3",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Orsted_DisturbMagic.png",
+   "job_id": "1eb4427e-c611-4540-b219-ffd48c39fc73",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Orsted_DragonStep.png",
+   "job_id": "5cd28630-6335-4371-baa4-4d5f17f58fce",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Orsted_DragonCrush.png",
+   "job_id": "6c6b0dc5-cb55-4472-837e-1f45a80b2481",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Orsted_SaintDragonAura.png",
+   "job_id": "11fc2b38-1d2b-489c-9516-67b466b07212",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Icons/Orsted_Awakening_DragonGod.png",
+   "job_id": "1188c284-4f1a-4009-8658-1ee5a30c7887",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Title/Title_Fittoa_Dawn.png",
+   "job_id": "2031449f-7d2b-4de2-a42c-a44d5d7d7657",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Title/Title_World_Dusk.png",
+   "job_id": "0d2f3c1a-8bbf-4c9c-9143-5c204e32d763",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Roa.png",
+   "job_id": "f6a4f2f0-4f6f-4a24-ab17-3dc0f7606436",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Ars.png",
+   "job_id": "aee60bbe-7c97-4011-9fb8-51cfbd039a10",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Rikarisu.png",
+   "job_id": "af74d285-37ab-49b1-ac5f-0f0c842ead93",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Millishion.png",
+   "job_id": "1a6d2bf0-79b8-438e-91d3-032a1eca3077",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Buena.png",
+   "job_id": "33ff768a-d348-4ab8-9612-bfca15c792ae",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Sharia.png",
+   "job_id": "683351d5-5bf5-41c9-80ee-b87551ab3b8e",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Locations/Rapan.png",
+   "job_id": "0c922081-d04b-4148-a3f6-787f9ad1abb0",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "UI/Ornament_Corner.png",
+   "job_id": "5dd77942-4642-42bf-a971-816e15c5435b",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "UI/Ornament_Divider.png",
+   "job_id": "d56f4267-b60c-42ba-9298-0e8cd507bb9c",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "UI/Parchment.png",
+   "job_id": "ecda62a3-70d6-46bd-b8c3-50ad43a0e00e",
+   "source": "Higgsfield"
+  }
+ ]
+}

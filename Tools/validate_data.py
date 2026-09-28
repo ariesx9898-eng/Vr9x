@@ -367,8 +367,8 @@ def check_abilities(abilities, schema, char_ids, quest_ids):
                 err(f"{ctx}: awakening needs AwakeningMeterCost in (0, 100]")
             if g("TransformationTime") <= 0:
                 err(f"{ctx}: awakening needs a TransformationTime")
-            if g("MasteryRequirement") < 6:
-                err(f"{ctx}: awakenings require MasteryRequirement >= 6")
+            if 0 < g("MasteryRequirement") < 6:
+                err(f"{ctx}: an awakening's MasteryRequirement, when set, must be >= 6")
         stats = g("BuffStats", {})
         for k in ("DamageResistance", "MagicResistance", "StaggerResistance"):
             if not 0 <= stats.get(k, 0) <= 0.9:

@@ -73,4 +73,6 @@ protected:
 	bool bFinished = false;
 	/** False between spawn and InitProjectile: the sphere already overlaps the caster's hand there. */
 	bool bInitialized = false;
+	/** Runtime travel effect riding on the projectile (stopped and left to fade when it ends). */
+	TWeakObjectPtr<class AMTSpellVFX> TravelVFX;
 };

@@ -92,6 +92,8 @@ protected:
 	/** Charge released: ReleaseAnim, or the authored montage's release section. */
 	void PlayReleaseAnimation();
 	void SpawnFX(const TSoftObjectPtr<class UNiagaraSystem>& System, const FVector& Location, const FRotator& Rotation, bool bAttachToOwner = false);
+	/** This ability's runtime effect for Phase ("Impact", "Travel", "Cast", ...), or null if its preset has none. */
+	class AMTSpellVFX* SpawnPhaseFX(const TCHAR* PhaseName, const FTransform& Transform, float Scale = 1.f, USceneComponent* AttachTo = nullptr, FName Socket = NAME_None);
 	void PlaySound(const TSoftObjectPtr<class USoundBase>& Sound, const FVector& Location);
 	void PlaySubtleCameraShake(float Scale);
 	/**
@@ -119,4 +121,6 @@ protected:
 	/** Montage instance of the animation this ability started last (authored or dynamic). */
 	TWeakObjectPtr<UAnimMontage> ActiveAnimMontage;
 	bool bChargeLoopStarted = false;
+	/** Formation effect in the hand; a looping one (charge) is stopped when the spell fires or is cancelled. */
+	TWeakObjectPtr<class AMTSpellVFX> FormationVFX;
 };

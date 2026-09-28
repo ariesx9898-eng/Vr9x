@@ -121,7 +121,16 @@ void UMTProgressionSubsystem::ResetToNewGame()
 	OwnedCharacters.Reset();
 	OwnedElements.Reset();
 	OwnedRaces.Reset();
+	Loadouts.Reset();
 	OwnedCharacters.Add(DefaultCharacterId);
+	// LA PLACE: both lineages are playable from the start (chosen in EDIT).
+	if (const UMTDataRegistry* Registry = UMTDataRegistry::Get(this))
+	{
+		for (const TPair<FName, FMTCharacterData>& Pair : Registry->GetCharacters())
+		{
+			OwnedCharacters.Add(Pair.Key);
+		}
+	}
 	OwnedRaces.Add(DefaultRace);
 	OwnedElements.Add(DefaultElement);
 
@@ -311,6 +320,67 @@ void UMTProgressionSubsystem::ApplyBuildTo(AMTCharacterBase* Character) const
 	{
 		Character->ApplyElementSlot(SlotIndex, GetEquippedElement(SlotIndex));
 	}
+	Character->ApplyLoadout(GetLoadout(EquippedCharacter));
+}
+
+TArray<FName> UMTProgressionSubsystem::GetLoadout(FName CharacterId) const
+{
+	TArray<FName> Out;
+	if (const TArray<FName>* Saved = Loadouts.Find(CharacterId))
+	{
+		Out = *Saved;
+	}
+	else if (const UMTDataRegistry* Registry = UMTDataRegistry::Get(this))
+	{
+		if (const FMTCharacterData* Row = Registry->FindCharacter(CharacterId))
+		{
+			Out = Row->DefaultLoadout;
+		}
+	}
+	Out.SetNum(4);
+	return Out;
+}
+
+void UMTProgressionSubsystem::SetLoadoutSlot(FName CharacterId, int32 Index, FName AbilityId)
+{
+	if (Index < 0 || Index > 3 || CharacterId.IsNone())
+	{
+		return;
+	}
+	TArray<FName> Loadout = GetLoadout(CharacterId);
+	const int32 Existing = AbilityId.IsNone() ? INDEX_NONE : Loadout.IndexOfByKey(AbilityId);
+	if (Existing != INDEX_NONE && Existing != Index)
+	{
+		Loadout[Existing] = Loadout[Index];
+	}
+	Loadout[Index] = AbilityId;
+	Loadouts.Add(CharacterId, Loadout);
+	BroadcastBuildChanged();
+}
+
+TArray<FName> UMTProgressionSubsystem::GetLoadoutPool(FName CharacterId) const
+{
+	TArray<FName> Pool;
+	const UMTDataRegistry* Registry = UMTDataRegistry::Get(this);
+	if (!Registry)
+	{
+		return Pool;
+	}
+	if (const FMTCharacterData* Row = Registry->FindCharacter(CharacterId))
+	{
+		for (const FName& Id : Row->Abilities)
+		{
+			Pool.AddUnique(Id);
+		}
+	}
+	for (const TPair<EMTElement, FMTElementData>& Pair : Registry->GetElements())
+	{
+		for (const FName& Id : Pair.Value.Abilities)
+		{
+			Pool.AddUnique(Id);
+		}
+	}
+	return Pool;
 }
 
 void UMTProgressionSubsystem::BroadcastBuildChanged()
@@ -1022,7 +1092,9 @@ bool UMTProgressionSubsystem::EvaluateUnlock(const FMTAbilityData& Ability, FStr
 
 bool UMTProgressionSubsystem::IsAbilityUnlocked(const FMTAbilityData& Ability) const
 {
-	return EvaluateUnlock(Ability, nullptr);
+	// LA PLACE: every ability can be equipped and used (the loadout is the player's choice); mastery still levels up
+	// and is shown, it just no longer locks anything. EvaluateUnlock remains for the requirement text.
+	return true;
 }
 
 FText UMTProgressionSubsystem::GetAbilityLockReason(const FMTAbilityData& Ability) const
@@ -1053,6 +1125,13 @@ void UMTProgressionSubsystem::WriteToSave(FMTSaveData& Out) const
 	Out.EquippedRace = EquippedRace;
 	Out.EquippedElements = EquippedElements;
 	Out.UnlockedElementSlots = UnlockedElementSlots;
+	Out.Loadouts.Reset();
+	for (const TPair<FName, TArray<FName>>& Pair : Loadouts)
+	{
+		FMTLoadoutSave& Entry = Out.Loadouts.AddDefaulted_GetRef();
+		Entry.CharacterId = Pair.Key;
+		Entry.Abilities = Pair.Value;
+	}
 	Out.OwnedCharacters = OwnedCharacters.Array();
 	Out.OwnedElements = OwnedElements.Array();
 	Out.OwnedRaces = OwnedRaces.Array();
@@ -1088,6 +1167,22 @@ void UMTProgressionSubsystem::ReadFromSave(const FMTSaveData& In)
 	UnlockedElementSlots = In.UnlockedElementSlots;
 	OwnedCharacters.Reset();
 	for (const FName& Id : In.OwnedCharacters) { OwnedCharacters.Add(Id); }
+	Loadouts.Reset();
+	for (const FMTLoadoutSave& Entry : In.Loadouts)
+	{
+		if (!Entry.CharacterId.IsNone())
+		{
+			Loadouts.Add(Entry.CharacterId, Entry.Abilities);
+		}
+	}
+	// Saves from before LA PLACE only owned Rudeus: every lineage is playable now.
+	if (const UMTDataRegistry* Registry = UMTDataRegistry::Get(this))
+	{
+		for (const TPair<FName, FMTCharacterData>& Pair : Registry->GetCharacters())
+		{
+			OwnedCharacters.Add(Pair.Key);
+		}
+	}
 	OwnedElements.Reset();
 	for (const EMTElement E : In.OwnedElements) { OwnedElements.Add(E); }
 	OwnedRaces.Reset();

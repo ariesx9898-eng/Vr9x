@@ -45,7 +45,13 @@
       "B": 0.86,
       "A": 1.0
     },
-    "Portrait": "/Game/UI/Icons/T_Portrait_Rudeus.T_Portrait_Rudeus"
+    "Portrait": "/Game/UI/Icons/T_Portrait_Rudeus.T_Portrait_Rudeus",
+    "DefaultLoadout": [
+      "Rudeus_StoneCannon",
+      "Rudeus_Quagmire",
+      "Fire_Fireball",
+      "Water_WaterDragon"
+    ]
   },
   {
     "CharacterID": "Orsted",
@@ -77,9 +83,9 @@
     "Abilities": [
       "Orsted_DisturbMagic",
       "Orsted_DragonStep",
-      "Orsted_SaintDragonAura"
+      "Orsted_DragonCrush"
     ],
-    "SpecialAbility": "",
+    "SpecialAbility": "Orsted_SaintDragonAura",
     "AwakeningAbility": "Orsted_Awakening_DragonGod",
     "Passive": "DragonGodKnowledge",
     "PassiveDescription": "Dragon God's Knowledge (gameplay original, inspired by his countless loops): a perfect dodge, successful Disturb Magic or clean interrupt grants a short efficiency buff. No permanent stat bonus. Canon handicap kept: his mana regenerates very slowly.",
@@ -90,6 +96,12 @@
       "B": 0.62,
       "A": 1.0
     },
-    "Portrait": "/Game/UI/Icons/T_Portrait_Orsted.T_Portrait_Orsted"
+    "Portrait": "/Game/UI/Icons/T_Portrait_Orsted.T_Portrait_Orsted",
+    "DefaultLoadout": [
+      "Orsted_DragonStep",
+      "Orsted_DisturbMagic",
+      "Orsted_DragonCrush",
+      "Wind_WindBurst"
+    ]
   }
 ]

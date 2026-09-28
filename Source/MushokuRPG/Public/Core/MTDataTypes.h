@@ -38,6 +38,12 @@ struct FMTSpellFX
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UMaterialInterface> DecalMaterial;
 	/** Very subtle camera shake scale (0 = none). Clamped to 0.35 at runtime. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float CameraShakeScale = 0.f;
+	/** Runtime spell-effect family (MTVFXLibrary.cpp): "<Preset>.Formation", ".Travel", ".Impact", ".Zone" ... Used
+	 *  when the matching Niagara system is not authored. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Preset;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float PresetScale = 1.f;
+	/** Melee / dash impacts: play the impact on the ground under the strike (slams) instead of at chest height (palms). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bImpactOnGround = false;
 };
 
 /** One step of a Sequence ability (Elemental Barrage). */
@@ -105,6 +111,9 @@ struct FMTAbilityData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ProjectileGravity = 0.f;
 	/** Can Orsted's Disturb Magic collapse this spell? */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bDisruptable = true;
+	/** Steers toward the caster's lock target (Water Dragon). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bHoming = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float HomingStrength = 4000.f;
 
 	// --- Zone ---
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) EMTZoneKind ZoneKind = EMTZoneKind::Mire;
@@ -116,6 +125,8 @@ struct FMTAbilityData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ActivationDelay = 0.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) int32 PulseCount = 1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float PulseInterval = 0.5f;
+	/** Moving zones (Flame Wave, Flood, Tornado): cm/s along the cast direction, starting in front of the caster. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ZoneMoveSpeed = 0.f;
 
 	// --- Dash ---
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float DashDistance = 0.f;
@@ -235,6 +246,8 @@ struct FMTCharacterData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName SpecialAbility;
 	/** Awakening (key G). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName AwakeningAbility;
+	/** Hotbar keys 1-4 before the player changes them in the ABILITIES menu. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TArray<FName> DefaultLoadout;
 	/** Passive id handled in code: "ChantlessCasting", "DragonGodKnowledge". */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Passive;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FText PassiveDescription;
@@ -488,7 +501,17 @@ struct FMTItemData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UTexture2D> Icon;
 };
 
-/** Named world locations (quest markers, fast travel, discovery). */
+/** Camera placement in data (Locations.json PreviewCamera). */
+USTRUCT(BlueprintType)
+struct FMTCameraPose
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FVector Location = FVector::ZeroVector;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FRotator Rotation = FRotator::ZeroRotator;
+};
+
+/** Named world locations (quest markers, fast travel, discovery, spawn points). */
 USTRUCT(BlueprintType)
 struct FMTLocationData : public FTableRowBase
 {
@@ -501,6 +524,19 @@ struct FMTLocationData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float DiscoveryRadius = 1500.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bFastTravel = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) EMTAdventurerRank RequiredRank = EMTAdventurerRank::F;
+	// --- LA PLACE spawn map ---
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FText Continent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FText Biome;
+	/** 1 (safe) .. 5 (deadly). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) int32 Difficulty = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FText Description;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float SpawnYaw = 0.f;
+	/** Offered on the PLAY map as a place to begin. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bSpawnPoint = false;
+	/** Position on the world map image (0..1). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FVector2D MapUV = FVector2D(0.5f, 0.5f);
+	/** A scenic view of the place (cinematic preview). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FMTCameraPose PreviewCamera;
 };
 
 /** Roll table tuning (pity etc.) for one category. */

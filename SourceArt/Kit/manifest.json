@@ -1,0 +1,3842 @@
+{
+ "spec": "Docs/LaPlace/Spec.md section 7",
+ "units": "metres, Blender Z-up",
+ "assets": [
+  {
+   "name": "SM_Tree_Oak_A",
+   "category": "Trees",
+   "style": "Temperate",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Oak_A.glb",
+   "footprint": [
+    16.72,
+    17.0
+   ],
+   "height": 13.12,
+   "min_z": -0.601,
+   "tris": 5970,
+   "materials": [
+    "MT_BarkOak",
+    "MT_LeavesOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 4036,
+    "MT_LeavesOak": 1934
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    10.0,
+    16.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -8.28,
+     -8.656,
+     -0.601
+    ],
+    [
+     8.443,
+     8.347,
+     13.121
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11
+   ],
+   "scatter": "Trees",
+   "notes": "Classic broad oak: short stout bole, five spreading limbs, lumpy rounded crown."
+  },
+  {
+   "name": "SM_Tree_Oak_B",
+   "category": "Trees",
+   "style": "Temperate",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Oak_B.glb",
+   "footprint": [
+    14.18,
+    14.25
+   ],
+   "height": 15.84,
+   "min_z": -0.592,
+   "tris": 6794,
+   "materials": [
+    "MT_BarkOak",
+    "MT_LeavesOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 4816,
+    "MT_LeavesOak": 1978
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    10.0,
+    16.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -7.172,
+     -6.913,
+     -0.592
+    ],
+    [
+     7.009,
+     7.335,
+     15.84
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11
+   ],
+   "scatter": "Trees",
+   "notes": "Tall upright oak with a central leader and an oval crown."
+  },
+  {
+   "name": "SM_Tree_Oak_C",
+   "category": "Trees",
+   "style": "Temperate",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Oak_C.glb",
+   "footprint": [
+    15.35,
+    15.24
+   ],
+   "height": 12.23,
+   "min_z": -0.608,
+   "tris": 3098,
+   "materials": [
+    "MT_BarkOak",
+    "MT_LeavesOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 1944,
+    "MT_LeavesOak": 1154
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    10.0,
+    16.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -6.024,
+     -8.042,
+     -0.608
+    ],
+    [
+     9.327,
+     7.198,
+     12.226
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11
+   ],
+   "scatter": "Trees",
+   "notes": "Low, wide, gnarled field oak; near-horizontal limbs under a flat-bottomed crown."
+  },
+  {
+   "name": "SM_Tree_Birch_A",
+   "category": "Trees",
+   "style": "Temperate",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Birch_A.glb",
+   "footprint": [
+    7.69,
+    7.13
+   ],
+   "height": 14.29,
+   "min_z": -0.503,
+   "tris": 3969,
+   "materials": [
+    "MT_BarkBirch",
+    "MT_LeavesBirch"
+   ],
+   "tris_by_material": {
+    "MT_BarkBirch": 2921,
+    "MT_LeavesBirch": 1048
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    15.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -4.113,
+     -3.168,
+     -0.503
+    ],
+    [
+     3.581,
+     3.963,
+     14.286
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    11
+   ],
+   "scatter": "Trees",
+   "notes": "Single slender white-barked birch, airy narrow crown of drooping twigs."
+  },
+  {
+   "name": "SM_Tree_Birch_B",
+   "category": "Trees",
+   "style": "Temperate",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Birch_B.glb",
+   "footprint": [
+    10.11,
+    9.24
+   ],
+   "height": 14.63,
+   "min_z": -0.507,
+   "tris": 7118,
+   "materials": [
+    "MT_BarkBirch",
+    "MT_LeavesBirch"
+   ],
+   "tris_by_material": {
+    "MT_BarkBirch": 5464,
+    "MT_LeavesBirch": 1654
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    15.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -4.514,
+     -4.504,
+     -0.507
+    ],
+    [
+     5.593,
+     4.733,
+     14.628
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    11
+   ],
+   "scatter": "Trees",
+   "notes": "Three-stem birch clump leaning apart."
+  },
+  {
+   "name": "SM_Tree_Pine_A",
+   "category": "Trees",
+   "style": "Mountain",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Pine_A.glb",
+   "footprint": [
+    7.04,
+    7.23
+   ],
+   "height": 14.85,
+   "min_z": -0.501,
+   "tris": 5229,
+   "materials": [
+    "MT_BarkPine",
+    "MT_NeedlesPine"
+   ],
+   "tris_by_material": {
+    "MT_BarkPine": 3255,
+    "MT_NeedlesPine": 1974
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    22.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.42,
+     -3.65,
+     -0.501
+    ],
+    [
+     3.618,
+     3.58,
+     14.855
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    6,
+    12
+   ],
+   "scatter": "Trees",
+   "notes": "Dense spruce cone with boughs almost to the ground (folded needle strips)."
+  },
+  {
+   "name": "SM_Tree_Pine_B",
+   "category": "Trees",
+   "style": "Mountain",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Pine_B.glb",
+   "footprint": [
+    10.27,
+    9.51
+   ],
+   "height": 17.3,
+   "min_z": -0.51,
+   "tris": 3156,
+   "materials": [
+    "MT_BarkPine",
+    "MT_NeedlesPine"
+   ],
+   "tris_by_material": {
+    "MT_BarkPine": 2264,
+    "MT_NeedlesPine": 892
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    22.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -5.435,
+     -4.58,
+     -0.51
+    ],
+    [
+     4.84,
+     4.932,
+     17.299
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    6,
+    12
+   ],
+   "scatter": "Trees",
+   "notes": "Scots-pine type: tall bare orange trunk, flat cloud-pruned needle pads."
+  },
+  {
+   "name": "SM_Tree_Pine_C",
+   "category": "Trees",
+   "style": "Mountain",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Pine_C.glb",
+   "footprint": [
+    6.48,
+    6.54
+   ],
+   "height": 21.79,
+   "min_z": -0.505,
+   "tris": 6669,
+   "materials": [
+    "MT_BarkPine",
+    "MT_NeedlesPine"
+   ],
+   "tris_by_material": {
+    "MT_BarkPine": 4165,
+    "MT_NeedlesPine": 2504
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    22.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.218,
+     -3.3,
+     -0.505
+    ],
+    [
+     3.264,
+     3.24,
+     21.79
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    6,
+    12
+   ],
+   "scatter": "Trees",
+   "notes": "Tall slender fir for mountain slopes."
+  },
+  {
+   "name": "SM_Tree_PineSnow_A",
+   "category": "Trees",
+   "style": "Northern",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_PineSnow_A.glb",
+   "footprint": [
+    6.27,
+    6.2
+   ],
+   "height": 13.26,
+   "min_z": -0.501,
+   "tris": 6240,
+   "materials": [
+    "MT_BarkPine",
+    "MT_NeedlesSnow",
+    "MT_Snow"
+   ],
+   "tris_by_material": {
+    "MT_BarkPine": 2598,
+    "MT_NeedlesSnow": 1560,
+    "MT_Snow": 2082
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    22.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.284,
+     -3.038,
+     -0.501
+    ],
+    [
+     2.99,
+     3.159,
+     13.265
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12
+   ],
+   "scatter": "Trees",
+   "notes": "Snow-laden spruce: MT_NeedlesSnow boughs with solid MT_Snow pillows on every tier."
+  },
+  {
+   "name": "SM_Tree_PineSnow_B",
+   "category": "Trees",
+   "style": "Northern",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_PineSnow_B.glb",
+   "footprint": [
+    6.59,
+    6.44
+   ],
+   "height": 17.9,
+   "min_z": -0.503,
+   "tris": 7309,
+   "materials": [
+    "MT_BarkPine",
+    "MT_NeedlesSnow",
+    "MT_Snow"
+   ],
+   "tris_by_material": {
+    "MT_BarkPine": 3075,
+    "MT_NeedlesSnow": 1816,
+    "MT_Snow": 2418
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    12.0,
+    22.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.259,
+     -3.304,
+     -0.503
+    ],
+    [
+     3.33,
+     3.137,
+     17.9
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12
+   ],
+   "scatter": "Trees",
+   "notes": "Taller snow-laden fir, same construction."
+  },
+  {
+   "name": "SM_Tree_Dead_A",
+   "category": "Trees",
+   "style": "Barren",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Dead_A.glb",
+   "footprint": [
+    6.84,
+    8.92
+   ],
+   "height": 8.13,
+   "min_z": -0.615,
+   "tris": 2157,
+   "materials": [
+    "MT_BarkDead"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 2157
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    8.0,
+    16.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.754,
+     -4.046,
+     -0.615
+    ],
+    [
+     3.083,
+     4.869,
+     8.128
+    ]
+   ],
+   "regions": [
+    5,
+    8,
+    14,
+    4
+   ],
+   "scatter": "Trees",
+   "notes": "Dead, gnarled oak with broken limbs and fine twig tips (no leaves)."
+  },
+  {
+   "name": "SM_Tree_Dead_B",
+   "category": "Trees",
+   "style": "Barren",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Dead_B.glb",
+   "footprint": [
+    5.99,
+    5.92
+   ],
+   "height": 13.32,
+   "min_z": -0.611,
+   "tris": 3274,
+   "materials": [
+    "MT_BarkDead"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 3274
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    8.0,
+    16.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -2.832,
+     -2.837,
+     -0.611
+    ],
+    [
+     3.16,
+     3.079,
+     13.324
+    ]
+   ],
+   "regions": [
+    5,
+    8,
+    14,
+    4
+   ],
+   "scatter": "Trees",
+   "notes": "Tall dead snag with a broken top and a few spiky limbs."
+  },
+  {
+   "name": "SM_Tree_Giant_A",
+   "category": "Trees",
+   "style": "GreatForest",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Giant_A.glb",
+   "footprint": [
+    44.27,
+    42.9
+   ],
+   "height": 50.68,
+   "min_z": -1.755,
+   "tris": 9673,
+   "materials": [
+    "MT_BarkGiant",
+    "MT_LeavesGiant"
+   ],
+   "tris_by_material": {
+    "MT_BarkGiant": 7817,
+    "MT_LeavesGiant": 1856
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    20000
+   ],
+   "size_range": [
+    35.0,
+    55.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -22.072,
+     -20.168,
+     -1.755
+    ],
+    [
+     22.195,
+     22.728,
+     50.681
+    ]
+   ],
+   "regions": [
+    10
+   ],
+   "scatter": "Trees",
+   "notes": "Great Forest giant: ~4 m buttressed trunk, surface roots, canopy of cloud masses."
+  },
+  {
+   "name": "SM_Tree_Giant_B",
+   "category": "Trees",
+   "style": "GreatForest",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Giant_B.glb",
+   "footprint": [
+    43.8,
+    45.72
+   ],
+   "height": 53.79,
+   "min_z": -1.874,
+   "tris": 10829,
+   "materials": [
+    "MT_BarkGiant",
+    "MT_LeavesGiant"
+   ],
+   "tris_by_material": {
+    "MT_BarkGiant": 8625,
+    "MT_LeavesGiant": 2204
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    20000
+   ],
+   "size_range": [
+    35.0,
+    55.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -21.801,
+     -23.354,
+     -1.874
+    ],
+    [
+     22.003,
+     22.364,
+     53.786
+    ]
+   ],
+   "regions": [
+    10
+   ],
+   "scatter": "Trees",
+   "notes": "Tallest Great Forest giant: ~5 m trunk, two rings of canopy masses."
+  },
+  {
+   "name": "SM_Tree_Demon_A",
+   "category": "Trees",
+   "style": "Demon",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Demon_A.glb",
+   "footprint": [
+    7.2,
+    6.56
+   ],
+   "height": 9.82,
+   "min_z": -0.6,
+   "tris": 2806,
+   "materials": [
+    "MT_BarkDemon",
+    "MT_LeavesDemon"
+   ],
+   "tris_by_material": {
+    "MT_BarkDemon": 2666,
+    "MT_LeavesDemon": 140
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    6.0,
+    12.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.711,
+     -2.975,
+     -0.6
+    ],
+    [
+     3.487,
+     3.582,
+     9.822
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Trees",
+   "notes": "Twisted rope-bark demon tree with a wide claw crown and sparse purple foliage."
+  },
+  {
+   "name": "SM_Tree_Demon_B",
+   "category": "Trees",
+   "style": "Demon",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Demon_B.glb",
+   "footprint": [
+    7.37,
+    7.12
+   ],
+   "height": 10.39,
+   "min_z": -0.6,
+   "tris": 3410,
+   "materials": [
+    "MT_BarkDemon",
+    "MT_LeavesDemon"
+   ],
+   "tris_by_material": {
+    "MT_BarkDemon": 3290,
+    "MT_LeavesDemon": 120
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    6.0,
+    12.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -4.171,
+     -3.647,
+     -0.6
+    ],
+    [
+     3.196,
+     3.468,
+     10.389
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Trees",
+   "notes": "Corkscrew-trunk demon tree with drooping claw branches."
+  },
+  {
+   "name": "SM_Tree_Demon_C",
+   "category": "Trees",
+   "style": "Demon",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Demon_C.glb",
+   "footprint": [
+    7.43,
+    5.34
+   ],
+   "height": 6.93,
+   "min_z": -0.6,
+   "tris": 3275,
+   "materials": [
+    "MT_BarkDemon",
+    "MT_LeavesDemon"
+   ],
+   "tris_by_material": {
+    "MT_BarkDemon": 3185,
+    "MT_LeavesDemon": 90
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    6.0,
+    12.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.427,
+     -2.044,
+     -0.6
+    ],
+    [
+     4.001,
+     3.293,
+     6.926
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Trees",
+   "notes": "Squat split-trunk demon tree, spiky."
+  },
+  {
+   "name": "SM_Tree_Palm_A",
+   "category": "Trees",
+   "style": "Desert",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Palm_A.glb",
+   "footprint": [
+    8.22,
+    8.5
+   ],
+   "height": 12.21,
+   "min_z": -0.5,
+   "tris": 2028,
+   "materials": [
+    "MT_BarkDead",
+    "MT_GrassDry",
+    "MT_LeavesPalm"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 1210,
+    "MT_GrassDry": 50,
+    "MT_LeavesPalm": 768
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    8.0,
+    15.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.298,
+     -5.051,
+     -0.5
+    ],
+    [
+     4.922,
+     3.445,
+     12.209
+    ]
+   ],
+   "regions": [
+    13,
+    14,
+    15,
+    6
+   ],
+   "scatter": "Trees",
+   "notes": "Oasis palm: ringed, gently curved trunk, arching fronds, dry frond skirt (MT_GrassDry)."
+  },
+  {
+   "name": "SM_Tree_Palm_B",
+   "category": "Trees",
+   "style": "Desert",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Palm_B.glb",
+   "footprint": [
+    10.99,
+    8.95
+   ],
+   "height": 14.78,
+   "min_z": -0.5,
+   "tris": 3902,
+   "materials": [
+    "MT_BarkDead",
+    "MT_GrassDry",
+    "MT_LeavesPalm"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 2660,
+    "MT_GrassDry": 90,
+    "MT_LeavesPalm": 1152
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    8.0,
+    15.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -5.399,
+     -4.91,
+     -0.5
+    ],
+    [
+     5.588,
+     4.038,
+     14.781
+    ]
+   ],
+   "regions": [
+    13,
+    14,
+    15,
+    6
+   ],
+   "scatter": "Trees",
+   "notes": "Twin-trunk oasis palm."
+  },
+  {
+   "name": "SM_Tree_Jungle_A",
+   "category": "Trees",
+   "style": "Jungle",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Jungle_A.glb",
+   "footprint": [
+    23.68,
+    21.63
+   ],
+   "height": 26.28,
+   "min_z": -0.809,
+   "tris": 2755,
+   "materials": [
+    "MT_BarkGiant",
+    "MT_LeavesGiant"
+   ],
+   "tris_by_material": {
+    "MT_BarkGiant": 2157,
+    "MT_LeavesGiant": 598
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    18.0,
+    32.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -10.942,
+     -11.129,
+     -0.809
+    ],
+    [
+     12.739,
+     10.497,
+     26.275
+    ]
+   ],
+   "regions": [
+    6
+   ],
+   "scatter": "Trees",
+   "notes": "Southern jungle emergent with a broad flat umbrella canopy and buttress flare."
+  },
+  {
+   "name": "SM_Tree_Jungle_B",
+   "category": "Trees",
+   "style": "Jungle",
+   "kind": "tree",
+   "file": "SourceArt/Kit/Trees/SM_Tree_Jungle_B.glb",
+   "footprint": [
+    22.34,
+    23.03
+   ],
+   "height": 30.33,
+   "min_z": -0.833,
+   "tris": 3360,
+   "materials": [
+    "MT_BarkGiant",
+    "MT_LeavesGiant"
+   ],
+   "tris_by_material": {
+    "MT_BarkGiant": 2684,
+    "MT_LeavesGiant": 676
+   },
+   "pivot": "base",
+   "budget": [
+    2000,
+    10000
+   ],
+   "size_range": [
+    18.0,
+    32.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -11.178,
+     -12.832,
+     -0.833
+    ],
+    [
+     11.158,
+     10.2,
+     30.326
+    ]
+   ],
+   "regions": [
+    6
+   ],
+   "scatter": "Trees",
+   "notes": "Taller leaning jungle tree with a layered two-tier canopy."
+  },
+  {
+   "name": "SM_Bush_A",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_A.glb",
+   "footprint": [
+    3.23,
+    3.07
+   ],
+   "height": 2.11,
+   "min_z": -0.133,
+   "tris": 1024,
+   "materials": [
+    "MT_BarkOak",
+    "MT_LeavesOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 748,
+    "MT_LeavesOak": 276
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.8,
+    3.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.491,
+     -1.427,
+     -0.133
+    ],
+    [
+     1.737,
+     1.646,
+     2.105
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11,
+    10,
+    6
+   ],
+   "scatter": "Bushes",
+   "notes": "Round leafy bush."
+  },
+  {
+   "name": "SM_Bush_B",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_B.glb",
+   "footprint": [
+    3.58,
+    3.08
+   ],
+   "height": 1.52,
+   "min_z": -0.133,
+   "tris": 1184,
+   "materials": [
+    "MT_BarkOak",
+    "MT_LeavesBirch"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 812,
+    "MT_LeavesBirch": 372
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.8,
+    3.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.804,
+     -1.556,
+     -0.133
+    ],
+    [
+     1.778,
+     1.526,
+     1.518
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11,
+    10,
+    6
+   ],
+   "scatter": "Bushes",
+   "notes": "Low, wide spreading bush (lighter birch-green leaves)."
+  },
+  {
+   "name": "SM_Bush_C",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_C.glb",
+   "footprint": [
+    2.86,
+    2.91
+   ],
+   "height": 2.03,
+   "min_z": -0.13,
+   "tris": 1011,
+   "materials": [
+    "MT_BarkOak",
+    "MT_Flowers",
+    "MT_LeavesOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 715,
+    "MT_Flowers": 44,
+    "MT_LeavesOak": 252
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.8,
+    3.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.405,
+     -1.445,
+     -0.13
+    ],
+    [
+     1.454,
+     1.469,
+     2.033
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11,
+    10,
+    6
+   ],
+   "scatter": "Bushes",
+   "notes": "Flowering bush: leaf clumps sprinkled with MT_Flowers cards."
+  },
+  {
+   "name": "SM_Bush_D",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_D.glb",
+   "footprint": [
+    2.77,
+    2.94
+   ],
+   "height": 2.94,
+   "min_z": -0.126,
+   "tris": 955,
+   "materials": [
+    "MT_BarkOak",
+    "MT_LeavesOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkOak": 727,
+    "MT_LeavesOak": 228
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.8,
+    3.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.324,
+     -1.488,
+     -0.126
+    ],
+    [
+     1.448,
+     1.453,
+     2.94
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    5,
+    11,
+    10,
+    6
+   ],
+   "scatter": "Bushes",
+   "notes": "Tall upright shrub (hedgerow filler)."
+  },
+  {
+   "name": "SM_Bush_Snow_A",
+   "category": "Plants",
+   "style": "Northern",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_Snow_A.glb",
+   "footprint": [
+    2.88,
+    2.89
+   ],
+   "height": 2.08,
+   "min_z": -0.13,
+   "tris": 1335,
+   "materials": [
+    "MT_BarkPine",
+    "MT_NeedlesSnow",
+    "MT_Snow"
+   ],
+   "tris_by_material": {
+    "MT_BarkPine": 695,
+    "MT_NeedlesSnow": 280,
+    "MT_Snow": 360
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.8,
+    2.5
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.428,
+     -1.512,
+     -0.13
+    ],
+    [
+     1.452,
+     1.375,
+     2.076
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12
+   ],
+   "scatter": "Bushes",
+   "notes": "Evergreen shrub under snow: MT_NeedlesSnow clumps with MT_Snow lumps on top."
+  },
+  {
+   "name": "SM_Bush_Desert_A",
+   "category": "Plants",
+   "style": "Desert",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_Desert_A.glb",
+   "footprint": [
+    2.34,
+    2.45
+   ],
+   "height": 1.36,
+   "min_z": -0.124,
+   "tris": 1322,
+   "materials": [
+    "MT_BarkDead",
+    "MT_GrassDry"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 1194,
+    "MT_GrassDry": 128
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.6,
+    2.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.029,
+     -1.248,
+     -0.124
+    ],
+    [
+     1.308,
+     1.205,
+     1.362
+    ]
+   ],
+   "regions": [
+    5,
+    13,
+    14,
+    8
+   ],
+   "scatter": "Bushes",
+   "notes": "Round dry desert scrub: twiggy MT_BarkDead stems with dry tufts."
+  },
+  {
+   "name": "SM_Bush_Desert_B",
+   "category": "Plants",
+   "style": "Desert",
+   "kind": "bush",
+   "file": "SourceArt/Kit/Plants/SM_Bush_Desert_B.glb",
+   "footprint": [
+    3.01,
+    2.87
+   ],
+   "height": 1.98,
+   "min_z": -0.129,
+   "tris": 1826,
+   "materials": [
+    "MT_BarkDead",
+    "MT_GrassDry"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 1586,
+    "MT_GrassDry": 240
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    2000
+   ],
+   "size_range": [
+    0.6,
+    2.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.523,
+     -1.455,
+     -0.129
+    ],
+    [
+     1.491,
+     1.417,
+     1.98
+    ]
+   ],
+   "regions": [
+    5,
+    13,
+    14,
+    8
+   ],
+   "scatter": "Bushes",
+   "notes": "Wider creosote-like dry scrub."
+  },
+  {
+   "name": "SM_Plant_DemonGiant_A",
+   "category": "Plants",
+   "style": "Demon",
+   "kind": "plant",
+   "file": "SourceArt/Kit/Plants/SM_Plant_DemonGiant_A.glb",
+   "footprint": [
+    5.56,
+    5.98
+   ],
+   "height": 3.32,
+   "min_z": -0.3,
+   "tris": 824,
+   "materials": [
+    "MT_BarkDemon",
+    "MT_LeavesDemon"
+   ],
+   "tris_by_material": {
+    "MT_BarkDemon": 504,
+    "MT_LeavesDemon": 320
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    5.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -2.873,
+     -2.865,
+     -0.3
+    ],
+    [
+     2.687,
+     3.115,
+     3.324
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Bushes",
+   "notes": "Alien tentacle-frond rosette with a fiddlehead stalk on a swollen bulb."
+  },
+  {
+   "name": "SM_Plant_DemonGiant_B",
+   "category": "Plants",
+   "style": "Demon",
+   "kind": "plant",
+   "file": "SourceArt/Kit/Plants/SM_Plant_DemonGiant_B.glb",
+   "footprint": [
+    2.89,
+    3.4
+   ],
+   "height": 4.88,
+   "min_z": -0.202,
+   "tris": 1360,
+   "materials": [
+    "MT_BarkDemon",
+    "MT_LeavesDemon"
+   ],
+   "tris_by_material": {
+    "MT_BarkDemon": 1176,
+    "MT_LeavesDemon": 184
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    5.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.337,
+     -1.774,
+     -0.202
+    ],
+    [
+     1.548,
+     1.627,
+     4.879
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Bushes",
+   "notes": "Lantern stalks: curled stalks ending in drooping purple tassels."
+  },
+  {
+   "name": "SM_Plant_DemonGiant_C",
+   "category": "Plants",
+   "style": "Demon",
+   "kind": "plant",
+   "file": "SourceArt/Kit/Plants/SM_Plant_DemonGiant_C.glb",
+   "footprint": [
+    4.26,
+    4.59
+   ],
+   "height": 4.57,
+   "min_z": -0.22,
+   "tris": 608,
+   "materials": [
+    "MT_BarkDemon",
+    "MT_LeavesDemon"
+   ],
+   "tris_by_material": {
+    "MT_BarkDemon": 248,
+    "MT_LeavesDemon": 360
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    5.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.96,
+     -2.372,
+     -0.22
+    ],
+    [
+     2.304,
+     2.221,
+     4.574
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Bushes",
+   "notes": "Spiky purple rosette with a tall flowering spike."
+  },
+  {
+   "name": "SM_Mushroom_Giant_A",
+   "category": "Plants",
+   "style": "Demon",
+   "kind": "plant",
+   "file": "SourceArt/Kit/Plants/SM_Mushroom_Giant_A.glb",
+   "footprint": [
+    5.17,
+    5.4
+   ],
+   "height": 5.78,
+   "min_z": -0.318,
+   "tris": 748,
+   "materials": [
+    "MT_MushroomCap",
+    "MT_MushroomStem"
+   ],
+   "tris_by_material": {
+    "MT_MushroomCap": 180,
+    "MT_MushroomStem": 568
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    6.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.892,
+     -3.1,
+     -0.318
+    ],
+    [
+     1.281,
+     2.303,
+     5.785
+    ]
+   ],
+   "regions": [
+    8,
+    9,
+    10
+   ],
+   "scatter": "Bushes",
+   "notes": "Single 5.6 m mushroom: flared stem, ring skirt, cap with gill underside."
+  },
+  {
+   "name": "SM_Mushroom_Giant_B",
+   "category": "Plants",
+   "style": "Demon",
+   "kind": "plant",
+   "file": "SourceArt/Kit/Plants/SM_Mushroom_Giant_B.glb",
+   "footprint": [
+    5.67,
+    4.72
+   ],
+   "height": 3.96,
+   "min_z": -0.303,
+   "tris": 2472,
+   "materials": [
+    "MT_MushroomCap",
+    "MT_MushroomStem"
+   ],
+   "tris_by_material": {
+    "MT_MushroomCap": 576,
+    "MT_MushroomStem": 1896
+   },
+   "pivot": "base",
+   "budget": [
+    150,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    6.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -2.256,
+     -2.302,
+     -0.303
+    ],
+    [
+     3.415,
+     2.42,
+     3.956
+    ]
+   ],
+   "regions": [
+    8,
+    9,
+    10
+   ],
+   "scatter": "Bushes",
+   "notes": "Cluster of four giant mushrooms (1.5-3.9 m)."
+  },
+  {
+   "name": "SM_Fern_A",
+   "category": "Plants",
+   "style": "GreatForest",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Fern_A.glb",
+   "footprint": [
+    1.55,
+    1.39
+   ],
+   "height": 0.77,
+   "min_z": -0.03,
+   "tris": 176,
+   "materials": [
+    "MT_Fern"
+   ],
+   "tris_by_material": {
+    "MT_Fern": 176
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.4,
+    1.6
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.721,
+     -0.639,
+     -0.03
+    ],
+    [
+     0.829,
+     0.756,
+     0.771
+    ]
+   ],
+   "regions": [
+    10,
+    6,
+    11,
+    2
+   ],
+   "scatter": "Grass",
+   "notes": "Fern clump, arched fronds."
+  },
+  {
+   "name": "SM_Fern_B",
+   "category": "Plants",
+   "style": "GreatForest",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Fern_B.glb",
+   "footprint": [
+    2.66,
+    2.7
+   ],
+   "height": 1.37,
+   "min_z": -0.03,
+   "tris": 240,
+   "materials": [
+    "MT_Fern"
+   ],
+   "tris_by_material": {
+    "MT_Fern": 240
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.4,
+    1.6
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.428,
+     -1.27,
+     -0.03
+    ],
+    [
+     1.231,
+     1.43,
+     1.37
+    ]
+   ],
+   "regions": [
+    10,
+    6,
+    11,
+    2
+   ],
+   "scatter": "Grass",
+   "notes": "Large Great Forest fern."
+  },
+  {
+   "name": "SM_Grass_A",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Grass_A.glb",
+   "footprint": [
+    1.13,
+    1.12
+   ],
+   "height": 0.65,
+   "min_z": -0.02,
+   "tris": 56,
+   "materials": [
+    "MT_Grass"
+   ],
+   "tris_by_material": {
+    "MT_Grass": 56
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.25,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.585,
+     -0.574,
+     -0.02
+    ],
+    [
+     0.55,
+     0.547,
+     0.649
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Grass",
+   "notes": "Meadow grass clump (crossed + fanned blade cards)."
+  },
+  {
+   "name": "SM_Grass_B",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Grass_B.glb",
+   "footprint": [
+    1.32,
+    1.23
+   ],
+   "height": 0.99,
+   "min_z": -0.02,
+   "tris": 84,
+   "materials": [
+    "MT_Grass"
+   ],
+   "tris_by_material": {
+    "MT_Grass": 84
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.25,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.614,
+     -0.614,
+     -0.02
+    ],
+    [
+     0.704,
+     0.616,
+     0.995
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Grass",
+   "notes": "Tall grass clump."
+  },
+  {
+   "name": "SM_Grass_C",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Grass_C.glb",
+   "footprint": [
+    1.65,
+    1.7
+   ],
+   "height": 0.34,
+   "min_z": -0.02,
+   "tris": 80,
+   "materials": [
+    "MT_Grass"
+   ],
+   "tris_by_material": {
+    "MT_Grass": 80
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.25,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.829,
+     -0.749,
+     -0.02
+    ],
+    [
+     0.823,
+     0.951,
+     0.338
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Grass",
+   "notes": "Low, wide lawn patch."
+  },
+  {
+   "name": "SM_Grass_Dry_A",
+   "category": "Plants",
+   "style": "Desert",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Grass_Dry_A.glb",
+   "footprint": [
+    1.07,
+    1.07
+   ],
+   "height": 0.64,
+   "min_z": -0.02,
+   "tris": 56,
+   "materials": [
+    "MT_GrassDry"
+   ],
+   "tris_by_material": {
+    "MT_GrassDry": 56
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.3,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.549,
+     -0.505,
+     -0.02
+    ],
+    [
+     0.526,
+     0.563,
+     0.639
+    ]
+   ],
+   "regions": [
+    5,
+    8,
+    13,
+    14
+   ],
+   "scatter": "Grass",
+   "notes": "Dry grass tuft."
+  },
+  {
+   "name": "SM_Grass_Dry_B",
+   "category": "Plants",
+   "style": "Desert",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Grass_Dry_B.glb",
+   "footprint": [
+    1.49,
+    1.44
+   ],
+   "height": 1.12,
+   "min_z": -0.02,
+   "tris": 96,
+   "materials": [
+    "MT_GrassDry"
+   ],
+   "tris_by_material": {
+    "MT_GrassDry": 96
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.3,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.688,
+     -0.752,
+     -0.02
+    ],
+    [
+     0.798,
+     0.691,
+     1.125
+    ]
+   ],
+   "regions": [
+    5,
+    8,
+    13,
+    14
+   ],
+   "scatter": "Grass",
+   "notes": "Tall dry steppe grass."
+  },
+  {
+   "name": "SM_Grass_Snow_A",
+   "category": "Plants",
+   "style": "Northern",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Grass_Snow_A.glb",
+   "footprint": [
+    0.88,
+    0.82
+   ],
+   "height": 0.53,
+   "min_z": -0.06,
+   "tris": 144,
+   "materials": [
+    "MT_GrassDry",
+    "MT_Snow"
+   ],
+   "tris_by_material": {
+    "MT_GrassDry": 48,
+    "MT_Snow": 96
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.3,
+    0.8
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.435,
+     -0.417,
+     -0.06
+    ],
+    [
+     0.447,
+     0.404,
+     0.534
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12
+   ],
+   "scatter": "Grass",
+   "notes": "Frosted dry grass poking out of a low MT_Snow mound."
+  },
+  {
+   "name": "SM_Wheat_A",
+   "category": "Plants",
+   "style": "Farmland",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Wheat_A.glb",
+   "footprint": [
+    1.93,
+    1.91
+   ],
+   "height": 1.08,
+   "min_z": -0.03,
+   "tris": 200,
+   "materials": [
+    "MT_Wheat"
+   ],
+   "tris_by_material": {
+    "MT_Wheat": 200
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.8,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.941,
+     -0.964,
+     -0.03
+    ],
+    [
+     0.986,
+     0.948,
+     1.082
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    11
+   ],
+   "scatter": "Grass",
+   "notes": "Dense 2 x 2 m wheat patch, ~1 m tall (tiles edge to edge)."
+  },
+  {
+   "name": "SM_Wheat_B",
+   "category": "Plants",
+   "style": "Farmland",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Wheat_B.glb",
+   "footprint": [
+    1.95,
+    2.1
+   ],
+   "height": 0.97,
+   "min_z": -0.03,
+   "tris": 200,
+   "materials": [
+    "MT_Wheat"
+   ],
+   "tris_by_material": {
+    "MT_Wheat": 200
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.8,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.981,
+     -0.946,
+     -0.03
+    ],
+    [
+     0.965,
+     1.155,
+     0.971
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    11
+   ],
+   "scatter": "Grass",
+   "notes": "Wind-bent 2 x 2 m wheat patch."
+  },
+  {
+   "name": "SM_Flowers_A",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Flowers_A.glb",
+   "footprint": [
+    0.8,
+    0.78
+   ],
+   "height": 0.37,
+   "min_z": -0.02,
+   "tris": 64,
+   "materials": [
+    "MT_Flowers",
+    "MT_Grass"
+   ],
+   "tris_by_material": {
+    "MT_Flowers": 32,
+    "MT_Grass": 32
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.25,
+    1.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.388,
+     -0.361,
+     -0.02
+    ],
+    [
+     0.407,
+     0.415,
+     0.374
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    11,
+    10
+   ],
+   "scatter": "Flowers",
+   "notes": "Low wildflower clump with grass."
+  },
+  {
+   "name": "SM_Flowers_B",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Flowers_B.glb",
+   "footprint": [
+    0.88,
+    0.91
+   ],
+   "height": 0.86,
+   "min_z": -0.02,
+   "tris": 72,
+   "materials": [
+    "MT_Flowers",
+    "MT_Grass"
+   ],
+   "tris_by_material": {
+    "MT_Flowers": 40,
+    "MT_Grass": 32
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.25,
+    1.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.454,
+     -0.48,
+     -0.02
+    ],
+    [
+     0.424,
+     0.432,
+     0.865
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    11,
+    10
+   ],
+   "scatter": "Flowers",
+   "notes": "Tall wildflowers."
+  },
+  {
+   "name": "SM_Flowers_C",
+   "category": "Plants",
+   "style": "Temperate",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Flowers_C.glb",
+   "footprint": [
+    1.59,
+    1.5
+   ],
+   "height": 0.53,
+   "min_z": -0.02,
+   "tris": 132,
+   "materials": [
+    "MT_Flowers",
+    "MT_Grass"
+   ],
+   "tris_by_material": {
+    "MT_Flowers": 72,
+    "MT_Grass": 60
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    0.25,
+    1.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.736,
+     -0.808,
+     -0.02
+    ],
+    [
+     0.85,
+     0.696,
+     0.531
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    11,
+    10
+   ],
+   "scatter": "Flowers",
+   "notes": "Wide meadow flower patch (three sub-clumps)."
+  },
+  {
+   "name": "SM_Reeds_A",
+   "category": "Plants",
+   "style": "Wetland",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Reeds_A.glb",
+   "footprint": [
+    1.27,
+    1.19
+   ],
+   "height": 1.93,
+   "min_z": -0.02,
+   "tris": 72,
+   "materials": [
+    "MT_Reeds"
+   ],
+   "tris_by_material": {
+    "MT_Reeds": 72
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    1.2,
+    2.8
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -0.737,
+     -0.612,
+     -0.02
+    ],
+    [
+     0.537,
+     0.574,
+     1.927
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    6,
+    10,
+    11
+   ],
+   "scatter": "Grass",
+   "notes": "Reed clump for river banks."
+  },
+  {
+   "name": "SM_Reeds_B",
+   "category": "Plants",
+   "style": "Wetland",
+   "kind": "groundcover",
+   "file": "SourceArt/Kit/Plants/SM_Reeds_B.glb",
+   "footprint": [
+    1.69,
+    1.81
+   ],
+   "height": 2.59,
+   "min_z": -0.02,
+   "tris": 120,
+   "materials": [
+    "MT_Reeds"
+   ],
+   "tris_by_material": {
+    "MT_Reeds": 120
+   },
+   "pivot": "base",
+   "budget": [
+    8,
+    399
+   ],
+   "size_range": [
+    1.2,
+    2.8
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.064,
+     -1.064,
+     -0.02
+    ],
+    [
+     0.629,
+     0.746,
+     2.591
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    6,
+    10,
+    11
+   ],
+   "scatter": "Grass",
+   "notes": "Dense tall cattail bed."
+  },
+  {
+   "name": "SM_Rock_Small_A",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Small_A.glb",
+   "footprint": [
+    0.42,
+    0.45
+   ],
+   "height": 0.26,
+   "min_z": -0.066,
+   "tris": 320,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 320
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    0.3,
+    1.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -0.21,
+     -0.225,
+     -0.066
+    ],
+    [
+     0.21,
+     0.225,
+     0.263
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Small chiselled rock."
+  },
+  {
+   "name": "SM_Rock_Small_B",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Small_B.glb",
+   "footprint": [
+    0.75,
+    0.63
+   ],
+   "height": 0.54,
+   "min_z": -0.119,
+   "tris": 420,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 420
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    0.3,
+    1.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -0.377,
+     -0.315,
+     -0.119
+    ],
+    [
+     0.376,
+     0.317,
+     0.543
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Small angular rock."
+  },
+  {
+   "name": "SM_Rock_Small_C",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Small_C.glb",
+   "footprint": [
+    0.97,
+    0.89
+   ],
+   "height": 0.28,
+   "min_z": -0.069,
+   "tris": 520,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 520
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    0.2,
+    1.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -0.484,
+     -0.446,
+     -0.069
+    ],
+    [
+     0.484,
+     0.446,
+     0.279
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Cluster of three stones (path / stream scatter)."
+  },
+  {
+   "name": "SM_Rock_Medium_A",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Medium_A.glb",
+   "footprint": [
+    1.31,
+    1.5
+   ],
+   "height": 1.02,
+   "min_z": -0.18,
+   "tris": 700,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 700
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.0,
+    3.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -0.653,
+     -0.825,
+     -0.18
+    ],
+    [
+     0.66,
+     0.68,
+     1.018
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Medium boulder."
+  },
+  {
+   "name": "SM_Rock_Medium_B",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Medium_B.glb",
+   "footprint": [
+    2.21,
+    2.07
+   ],
+   "height": 2.0,
+   "min_z": -0.275,
+   "tris": 900,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 900
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.0,
+    3.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -1.104,
+     -1.026,
+     -0.275
+    ],
+    [
+     1.102,
+     1.04,
+     1.997
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Medium upright boulder."
+  },
+  {
+   "name": "SM_Rock_Medium_C",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Medium_C.glb",
+   "footprint": [
+    2.23,
+    2.9
+   ],
+   "height": 1.34,
+   "min_z": -0.218,
+   "tris": 1100,
+   "materials": [
+    "MT_Rock",
+    "MT_RockMossy"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 704,
+    "MT_RockMossy": 396
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.0,
+    3.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -1.057,
+     -1.511,
+     -0.218
+    ],
+    [
+     1.17,
+     1.388,
+     1.336
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Medium flat boulder with a mossy top (MT_RockMossy)."
+  },
+  {
+   "name": "SM_Rock_Large_A",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Large_A.glb",
+   "footprint": [
+    4.23,
+    5.2
+   ],
+   "height": 2.61,
+   "min_z": -0.358,
+   "tris": 1700,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 1700
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    4.0,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -2.109,
+     -2.599,
+     -0.358
+    ],
+    [
+     2.123,
+     2.601,
+     2.612
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Large boulder with chiselled facets."
+  },
+  {
+   "name": "SM_Rock_Large_B",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Large_B.glb",
+   "footprint": [
+    7.6,
+    7.28
+   ],
+   "height": 3.49,
+   "min_z": -0.478,
+   "tris": 2400,
+   "materials": [
+    "MT_Rock",
+    "MT_RockMossy"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 1710,
+    "MT_RockMossy": 690
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    4.0,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -4.097,
+     -3.647,
+     -0.478
+    ],
+    [
+     3.502,
+     3.632,
+     3.492
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    10,
+    11,
+    12,
+    15
+   ],
+   "scatter": "Rocks",
+   "notes": "Large low outcrop with a mossy top."
+  },
+  {
+   "name": "SM_Rock_Cliff_A",
+   "category": "Rocks",
+   "style": "Mountain",
+   "kind": "formation",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Cliff_A.glb",
+   "footprint": [
+    18.48,
+    12.82
+   ],
+   "height": 14.0,
+   "min_z": -1.007,
+   "tris": 2600,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 2600
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    10.0,
+    30.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -9.152,
+     -6.394,
+     -1.007
+    ],
+    [
+     9.329,
+     6.429,
+     13.997
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12,
+    14,
+    6
+   ],
+   "scatter": "Cliffs",
+   "notes": "14 m cliff chunk: blocky massif, vertical fractures, subtle strata."
+  },
+  {
+   "name": "SM_Rock_Cliff_B",
+   "category": "Rocks",
+   "style": "Mountain",
+   "kind": "formation",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Cliff_B.glb",
+   "footprint": [
+    17.51,
+    11.16
+   ],
+   "height": 23.97,
+   "min_z": -1.79,
+   "tris": 2900,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 2900
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    10.0,
+    30.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -10.008,
+     -5.552,
+     -1.79
+    ],
+    [
+     7.502,
+     5.61,
+     23.967
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12,
+    14,
+    6
+   ],
+   "scatter": "Cliffs",
+   "notes": "24 m tall fractured cliff chunk (mountain faces, canyon walls)."
+  },
+  {
+   "name": "SM_Rock_Cliff_C",
+   "category": "Rocks",
+   "style": "Mountain",
+   "kind": "formation",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Cliff_C.glb",
+   "footprint": [
+    36.64,
+    19.98
+   ],
+   "height": 27.95,
+   "min_z": -2.451,
+   "tris": 3000,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 3000
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    10.0,
+    30.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -18.828,
+     -9.983,
+     -2.451
+    ],
+    [
+     17.815,
+     9.995,
+     27.954
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12,
+    14,
+    6
+   ],
+   "scatter": "Cliffs",
+   "notes": "28 m massive wide cliff chunk."
+  },
+  {
+   "name": "SM_Rock_Snow_A",
+   "category": "Rocks",
+   "style": "Northern",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Snow_A.glb",
+   "footprint": [
+    2.59,
+    2.1
+   ],
+   "height": 1.65,
+   "min_z": -0.238,
+   "tris": 1249,
+   "materials": [
+    "MT_RockSnow",
+    "MT_Snow"
+   ],
+   "tris_by_material": {
+    "MT_RockSnow": 800,
+    "MT_Snow": 449
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.0,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -1.24,
+     -1.049,
+     -0.238
+    ],
+    [
+     1.351,
+     1.052,
+     1.65
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12
+   ],
+   "scatter": "Rocks",
+   "notes": "Boulder (MT_RockSnow) with a separate MT_Snow cap sheet."
+  },
+  {
+   "name": "SM_Rock_Snow_B",
+   "category": "Rocks",
+   "style": "Northern",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Snow_B.glb",
+   "footprint": [
+    5.16,
+    6.19
+   ],
+   "height": 3.92,
+   "min_z": -0.588,
+   "tris": 2700,
+   "materials": [
+    "MT_RockSnow",
+    "MT_Snow"
+   ],
+   "tris_by_material": {
+    "MT_RockSnow": 1800,
+    "MT_Snow": 900
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.0,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -2.57,
+     -3.172,
+     -0.588
+    ],
+    [
+     2.592,
+     3.014,
+     3.919
+    ]
+   ],
+   "regions": [
+    3,
+    4,
+    7,
+    12
+   ],
+   "scatter": "Rocks",
+   "notes": "Large layered rock with snow on the top and ledges."
+  },
+  {
+   "name": "SM_Rock_Desert_A",
+   "category": "Rocks",
+   "style": "Desert",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Desert_A.glb",
+   "footprint": [
+    3.21,
+    2.65
+   ],
+   "height": 2.2,
+   "min_z": -0.298,
+   "tris": 900,
+   "materials": [
+    "MT_RockDesert"
+   ],
+   "tris_by_material": {
+    "MT_RockDesert": 900
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.5,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -1.806,
+     -1.502,
+     -0.298
+    ],
+    [
+     1.4,
+     1.144,
+     2.205
+    ]
+   ],
+   "regions": [
+    13,
+    14,
+    5
+   ],
+   "scatter": "Rocks",
+   "notes": "Layered sandstone boulder."
+  },
+  {
+   "name": "SM_Rock_Desert_B",
+   "category": "Rocks",
+   "style": "Desert",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Desert_B.glb",
+   "footprint": [
+    7.82,
+    5.81
+   ],
+   "height": 3.63,
+   "min_z": -0.502,
+   "tris": 1498,
+   "materials": [
+    "MT_RockDesert"
+   ],
+   "tris_by_material": {
+    "MT_RockDesert": 1498
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.5,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -3.801,
+     -2.991,
+     -0.502
+    ],
+    [
+     4.016,
+     2.816,
+     3.629
+    ]
+   ],
+   "regions": [
+    13,
+    14,
+    5
+   ],
+   "scatter": "Rocks",
+   "notes": "Flat-topped sandstone mesa outcrop."
+  },
+  {
+   "name": "SM_Rock_Desert_C",
+   "category": "Rocks",
+   "style": "Desert",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Desert_C.glb",
+   "footprint": [
+    5.5,
+    4.21
+   ],
+   "height": 5.04,
+   "min_z": -0.69,
+   "tris": 1300,
+   "materials": [
+    "MT_RockDesert"
+   ],
+   "tris_by_material": {
+    "MT_RockDesert": 1300
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    1.5,
+    8.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -2.94,
+     -2.177,
+     -0.69
+    ],
+    [
+     2.562,
+     2.037,
+     5.042
+    ]
+   ],
+   "regions": [
+    13,
+    14,
+    5
+   ],
+   "scatter": "Rocks",
+   "notes": "Sandstone slab with tilted strata."
+  },
+  {
+   "name": "SM_Rock_Arch_A",
+   "category": "Rocks",
+   "style": "Desert",
+   "kind": "formation",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Arch_A.glb",
+   "footprint": [
+    26.49,
+    8.3
+   ],
+   "height": 19.13,
+   "min_z": -0.998,
+   "tris": 3000,
+   "materials": [
+    "MT_RockDesert"
+   ],
+   "tris_by_material": {
+    "MT_RockDesert": 3000
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    16.0,
+    24.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -13.241,
+     -4.215,
+     -0.998
+    ],
+    [
+     13.245,
+     4.089,
+     19.126
+    ]
+   ],
+   "regions": [
+    13,
+    14
+   ],
+   "scatter": "Landmark",
+   "notes": "~19 m natural sandstone arch on two footings."
+  },
+  {
+   "name": "SM_Rock_Pillar_A",
+   "category": "Rocks",
+   "style": "Desert",
+   "kind": "formation",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Pillar_A.glb",
+   "footprint": [
+    9.89,
+    8.66
+   ],
+   "height": 19.44,
+   "min_z": -1.179,
+   "tris": 2200,
+   "materials": [
+    "MT_RockDesert"
+   ],
+   "tris_by_material": {
+    "MT_RockDesert": 2200
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    15.0,
+    40.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -4.933,
+     -4.329,
+     -1.179
+    ],
+    [
+     4.961,
+     4.327,
+     19.441
+    ]
+   ],
+   "regions": [
+    13,
+    14
+   ],
+   "scatter": "Landmark",
+   "notes": "~19 m sandstone hoodoo: flared base, thin neck, cap rock."
+  },
+  {
+   "name": "SM_Rock_Pillar_B",
+   "category": "Rocks",
+   "style": "Mountain",
+   "kind": "formation",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Pillar_B.glb",
+   "footprint": [
+    12.61,
+    15.59
+   ],
+   "height": 37.09,
+   "min_z": -1.195,
+   "tris": 2600,
+   "materials": [
+    "MT_Rock"
+   ],
+   "tris_by_material": {
+    "MT_Rock": 2600
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    15.0,
+    40.0
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -6.301,
+     -7.789,
+     -1.195
+    ],
+    [
+     6.308,
+     7.802,
+     37.087
+    ]
+   ],
+   "regions": [
+    3,
+    12,
+    14,
+    7
+   ],
+   "scatter": "Landmark",
+   "notes": "~37 m weathered granite spire with buttresses and cracks."
+  },
+  {
+   "name": "SM_Rock_Demon_A",
+   "category": "Rocks",
+   "style": "Demon",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Demon_A.glb",
+   "footprint": [
+    3.54,
+    3.69
+   ],
+   "height": 7.44,
+   "min_z": -0.619,
+   "tris": 678,
+   "materials": [
+    "MT_RockDemon"
+   ],
+   "tris_by_material": {
+    "MT_RockDemon": 678
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    2.5,
+    14.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -1.768,
+     -1.845,
+     -0.619
+    ],
+    [
+     1.768,
+     1.845,
+     7.436
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Rocks",
+   "notes": "Cluster of tall obsidian shards on a dark core (flat-shaded, razor edges)."
+  },
+  {
+   "name": "SM_Rock_Demon_B",
+   "category": "Rocks",
+   "style": "Demon",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Demon_B.glb",
+   "footprint": [
+    7.1,
+    7.45
+   ],
+   "height": 12.09,
+   "min_z": -0.824,
+   "tris": 1340,
+   "materials": [
+    "MT_RockDemon"
+   ],
+   "tris_by_material": {
+    "MT_RockDemon": 1340
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    2.5,
+    14.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -3.55,
+     -3.727,
+     -0.824
+    ],
+    [
+     3.55,
+     3.727,
+     12.092
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Rocks",
+   "notes": "Jagged 12 m obsidian crag."
+  },
+  {
+   "name": "SM_Rock_Demon_C",
+   "category": "Rocks",
+   "style": "Demon",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Demon_C.glb",
+   "footprint": [
+    3.74,
+    3.82
+   ],
+   "height": 3.71,
+   "min_z": -0.539,
+   "tris": 612,
+   "materials": [
+    "MT_RockDemon"
+   ],
+   "tris_by_material": {
+    "MT_RockDemon": 612
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    2.5,
+    14.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -1.87,
+     -1.912,
+     -0.539
+    ],
+    [
+     1.87,
+     1.912,
+     3.713
+    ]
+   ],
+   "regions": [
+    8,
+    9
+   ],
+   "scatter": "Rocks",
+   "notes": "Low jagged obsidian outcrop."
+  },
+  {
+   "name": "SM_Rock_Pale_A",
+   "category": "Rocks",
+   "style": "Heaven",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Pale_A.glb",
+   "footprint": [
+    4.6,
+    4.16
+   ],
+   "height": 2.48,
+   "min_z": -0.344,
+   "tris": 1400,
+   "materials": [
+    "MT_RockPale"
+   ],
+   "tris_by_material": {
+    "MT_RockPale": 1400
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    12.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -2.336,
+     -2.112,
+     -0.344
+    ],
+    [
+     2.266,
+     2.05,
+     2.485
+    ]
+   ],
+   "regions": [
+    7
+   ],
+   "scatter": "Rocks",
+   "notes": "Wind-rounded pale boulder (Heaven plateau)."
+  },
+  {
+   "name": "SM_Rock_Pale_B",
+   "category": "Rocks",
+   "style": "Heaven",
+   "kind": "rock",
+   "file": "SourceArt/Kit/Rocks/SM_Rock_Pale_B.glb",
+   "footprint": [
+    6.44,
+    5.73
+   ],
+   "height": 8.0,
+   "min_z": -0.881,
+   "tris": 2000,
+   "materials": [
+    "MT_RockPale"
+   ],
+   "tris_by_material": {
+    "MT_RockPale": 2000
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    2.0,
+    12.0
+   ],
+   "size_rule": "max_extent",
+   "bounds": [
+    [
+     -2.767,
+     -2.993,
+     -0.881
+    ],
+    [
+     3.671,
+     2.738,
+     7.996
+    ]
+   ],
+   "regions": [
+    7
+   ],
+   "scatter": "Rocks",
+   "notes": "Tall chiselled pale slab."
+  },
+  {
+   "name": "SM_Log_A",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "deadwood",
+   "file": "SourceArt/Kit/Rocks/SM_Log_A.glb",
+   "footprint": [
+    7.81,
+    0.93
+   ],
+   "height": 1.04,
+   "min_z": -0.196,
+   "tris": 468,
+   "materials": [
+    "MT_BarkDead",
+    "MT_BarkOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 24,
+    "MT_BarkOak": 444
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    0.4,
+    1.2
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -3.871,
+     -0.338,
+     -0.196
+    ],
+    [
+     3.935,
+     0.596,
+     1.042
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    4,
+    10,
+    11,
+    6
+   ],
+   "scatter": "Rocks",
+   "notes": "Fallen oak log, sunk into the ground, splintered ends (MT_BarkDead) and branch stubs."
+  },
+  {
+   "name": "SM_Stump_A",
+   "category": "Rocks",
+   "style": "Temperate",
+   "kind": "deadwood",
+   "file": "SourceArt/Kit/Rocks/SM_Stump_A.glb",
+   "footprint": [
+    3.25,
+    2.89
+   ],
+   "height": 1.21,
+   "min_z": -0.378,
+   "tris": 798,
+   "materials": [
+    "MT_BarkDead",
+    "MT_BarkOak"
+   ],
+   "tris_by_material": {
+    "MT_BarkDead": 16,
+    "MT_BarkOak": 782
+   },
+   "pivot": "base",
+   "budget": [
+    300,
+    3000
+   ],
+   "size_range": [
+    0.6,
+    1.6
+   ],
+   "size_rule": "height",
+   "bounds": [
+    [
+     -1.492,
+     -1.42,
+     -0.378
+    ],
+    [
+     1.759,
+     1.469,
+     1.206
+    ]
+   ],
+   "regions": [
+    1,
+    2,
+    4,
+    10,
+    11,
+    5
+   ],
+   "scatter": "Rocks",
+   "notes": "Broken stump with root flare and surface roots."
+  }
+ ],
+ "generators": [
+  "Tools/kit/build_nature_kit.py"
+ ],
+ "count": 74
+}

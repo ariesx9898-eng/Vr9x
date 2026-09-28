@@ -1,4 +1,6 @@
 #include "UI/MTHUD.h"
+#include "Engine/GameViewportClient.h"
+#include "UI/LaPlace/SMTHudOverlay.h"
 #include "Abilities/MTAbility.h"
 #include "Abilities/MTAbilityComponent.h"
 #include "Character/MTAttributeComponent.h"
@@ -57,10 +59,32 @@ void AMTHUD::BeginPlay()
 	{
 		Events->OnNotification.AddDynamic(this, &AMTHUD::HandleNotification);
 	}
+
+	// The hotbar and vitals are Slate (SMTHudOverlay), layered above the canvas so nothing can cover them.
+	if (GEngine && GEngine->GameViewport && PlayerOwner)
+	{
+		SlateHud = SNew(SMTHudOverlay).PlayerController(PlayerOwner);
+		SlateHudContainer = SlateHud;
+		GEngine->GameViewport->AddViewportWidgetContent(SlateHudContainer.ToSharedRef(), 20);
+	}
+}
+
+void AMTHUD::SetSlateHudVisible(bool bVisible)
+{
+	if (SlateHud.IsValid())
+	{
+		SlateHud->SetVisibility(bVisible ? EVisibility::HitTestInvisible : EVisibility::Collapsed);
+	}
 }
 
 void AMTHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	if (SlateHudContainer.IsValid() && GEngine && GEngine->GameViewport)
+	{
+		GEngine->GameViewport->RemoveViewportWidgetContent(SlateHudContainer.ToSharedRef());
+	}
+	SlateHudContainer.Reset();
+	SlateHud.Reset();
 	if (UMTGameEvents* Events = UMTGameEvents::Get(this))
 	{
 		Events->OnNotification.RemoveDynamic(this, &AMTHUD::HandleNotification);
@@ -319,15 +343,19 @@ void AMTHUD::DrawHUD()
 	AMTCharacterBase* Char = Cast<AMTCharacterBase>(GetOwningPawn());
 	UpdateWorldScan(Char);
 
-	if (Char)
+	if (Char && !bGameplayHudHidden)
 	{
 		DrawStateOverlays(Char);
+		SetSlateHudVisible(!IsMenuOpen());
 		if (!IsMenuOpen())
 		{
 			DrawLockOn(Char);
 			DrawDamageNumbers();
-			DrawVitals(Char);
-			DrawHotbar(Char);
+			if (!SlateHud.IsValid())
+			{
+				DrawVitals(Char);
+				DrawHotbar(Char);
+			}
 			DrawTopCenter(Char);
 			DrawMinimap(Char);
 			DrawInteractionPrompt(Char);

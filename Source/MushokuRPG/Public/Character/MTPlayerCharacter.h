@@ -40,6 +40,10 @@ public:
 
 	UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	/** Short camera shake (spell impacts). Strength 0..1; overlapping shakes keep the strongest. Scaled by the
+	 *  camera-shake setting. */
+	void AddCameraShake(float Strength, float Duration);
+
 	/** Optional authored assets; if null, equivalents are created at runtime. */
 	UPROPERTY(EditDefaultsOnly, Category = "Mushoku|Input") TObjectPtr<UInputMappingContext> DefaultMappingContext;
 
@@ -86,6 +90,11 @@ protected:
 	void UpdateInteractionFocus();
 	void UpdateLockOn(float DeltaSeconds);
 	void UpdateCamera(float DeltaSeconds);
+	void UpdateCameraShake(float DeltaSeconds);
+
+	float ShakeStrength = 0.f;
+	float ShakeTime = 0.f;
+	float ShakeDuration = 0.f;
 	AActor* FindBestLockTarget(AActor* Exclude) const;
 
 	UFUNCTION() void HandleTelegraph(const FMTAttackTelegraph& Telegraph);

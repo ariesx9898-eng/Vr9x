@@ -84,8 +84,29 @@ if [[ $DO_SETUP -eq 1 ]]; then
     echo "ERROR: editor binary not found: $UE_EDITOR (set UE_ROOT or UE_EDITOR)" >&2
     fail_step "editor-binary-missing"
   else
+    # LA PLACE generated sources (only when missing; each generator is deterministic): effect textures, UI art from the
+    # committed Higgsfield originals, synthesized audio, the Blender kits and the world terrain.
+    BPY="${BPY:-$HOME/.venvs/mushoku-bpy311/bin/python}"
+    if [[ -x "$BPY" ]]; then
+      gen() { # <marker file> <script> [args]
+        local marker="$REPO_ROOT/$1"; shift
+        if [[ ! -e "$marker" ]]; then
+          echo "== generate: $*"
+          run_logged "$LOG_DIR/mt_generate.log" "$BPY" "$REPO_ROOT/$@" || fail_step "generate:$(basename "$1")"
+        fi
+      }
+      gen SourceArt/VFX/Textures/T_VFX_Noise.png Tools/vfx/make_vfx_textures.py
+      gen SourceArt/UI/Icons Tools/ui/prepare_ui_art.py
+      gen SourceArt/Audio/Fire/fire_gather.wav Tools/audio/synth_sfx.py
+      gen SourceArt/Kit/VFX/SM_VFX_Ring.glb Tools/kit/build_architecture_kit.py
+      gen SourceArt/Kit/Trees/SM_Tree_Oak_A.glb Tools/kit/build_nature_kit.py
+      [[ -f "$REPO_ROOT/Tools/world/generate_world.py" ]] && gen SourceArt/World/Height.r16 Tools/world/generate_world.py
+    else
+      echo "== generate: skipped (no Blender/numpy venv at $BPY; see README)"
+    fi
+
     # Editor steps, in order: <log name>:<script in Content/Python>
-    STEPS="materials:mt_create_materials.py rudeus:mt_setup_rudeus.py"
+    STEPS="materials:mt_create_materials.py laplace:mt_setup_laplace.py rudeus:mt_setup_rudeus.py"
     # Orsted's animated GLB exists once Tools/anim/make_orsted.sh has run on his generated mesh.
     if [[ -f "$REPO_ROOT/SourceArt/Characters/Orsted/Orsted_Animated.glb" ]]; then
       STEPS="$STEPS orsted:mt_setup_orsted.py"

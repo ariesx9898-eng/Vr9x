@@ -9,7 +9,8 @@
 class UMTAbility;
 class AMTCharacterBase;
 
-/** Hotbar slots. Keys: LMB, 1-3, F, G, 4-6, 7-9, R, T. */
+/** Ability slots. The player's hotbar is LMB (Basic), 1-4 (Loadout1-4, chosen in the ABILITIES menu), F (Special) and
+ *  G (Awakening). Character/Element/Race slots remain for AI characters and data compatibility. */
 UENUM(BlueprintType)
 enum class EMTAbilitySlot : uint8
 {
@@ -27,6 +28,10 @@ enum class EMTAbilitySlot : uint8
 	ElementB3,
 	RaceActive,
 	RaceTransformation,
+	Loadout1,
+	Loadout2,
+	Loadout3,
+	Loadout4,
 	MAX UMETA(Hidden)
 };
 

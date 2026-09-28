@@ -1,4 +1,5 @@
 #include "Combat/MTProjectile.h"
+#include "VFX/MTSpellVFX.h"
 #include "Combat/MTCombatStatics.h"
 #include "Combat/MTTelegraphSubsystem.h"
 #include "Combat/MTEarthWall.h"
@@ -70,6 +71,8 @@ void AMTProjectile::BeginPlay()
 
 void AMTProjectile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	MTCombat::StopSpellFX(TravelVFX.Get());
+	TravelVFX.Reset();
 	if (UMTTelegraphSubsystem* Telegraphs = UMTTelegraphSubsystem::Get(this))
 	{
 		Telegraphs->UnregisterSpell(this);
@@ -106,15 +109,36 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 	WaveAxis = FVector::CrossProduct(Dir, FVector::UpVector).GetSafeNormal();
 	Lifetime = FMath::Clamp(Data.Range / FMath::Max(100.f, Movement->InitialSpeed) + 0.25f, 0.3f, 8.f);
 
+	// Homing spells (Water Dragon) steer toward the caster's lock target.
+	if (Data.bHoming && InOwner)
+	{
+		if (const AActor* Target = InOwner->GetLockTarget())
+		{
+			Movement->bIsHomingProjectile = true;
+			Movement->HomingTargetComponent = Target->GetRootComponent();
+			Movement->HomingAccelerationMagnitude = Data.HomingStrength;
+		}
+	}
+
 	// Presentation: formation happens at the hand in the ability; here the travel phase.
 	if (UNiagaraSystem* TravelSystem = MTCombat::LoadOptional(Data.FX.Travel))
 	{
 		TravelFX->SetAsset(TravelSystem);
 		TravelFX->Activate(true);
 	}
-	// The authored body when it exists; until then (or if the named asset is missing) the blockout look, never an
-	// invisible spell.
-	if (UStaticMesh* BodyMesh = MTCombat::LoadOptional(Data.FX.BodyMesh))
+	else
+	{
+		TravelVFX = MTCombat::SpawnPresetPhase(this, Data.FX.Preset, TEXT("Travel"), GetActorTransform(),
+			FMath::Max(0.05f, Data.FX.PresetScale) * (1.f + 0.45f * ChargeAlpha), Collision, NAME_None, InOwner);
+	}
+	// The authored body when it exists; the runtime travel effect draws the body itself; otherwise the blockout look,
+	// never an invisible spell.
+	if (TravelVFX.IsValid())
+	{
+		Body->SetVisibility(false);
+		Light->SetIntensity(0.f);
+	}
+	else if (UStaticMesh* BodyMesh = MTCombat::LoadOptional(Data.FX.BodyMesh))
 	{
 		Body->SetStaticMesh(BodyMesh);
 		if (UMaterialInterface* BodyMaterial = MTCombat::LoadOptional(Data.FX.BodyMaterial))
@@ -207,13 +231,16 @@ void AMTProjectile::Tick(float DeltaSeconds)
 		const float Drift = FMath::Cos(Age * 14.f) * 14.f * 8.f * DeltaSeconds;
 		AddActorWorldOffset(WaveAxis * Drift, true);
 	}
-	if (Data.Element == EMTElement::Earth && Body)
+	if (!TravelVFX.IsValid())
 	{
-		Body->AddLocalRotation(FRotator(0.f, 0.f, 720.f * DeltaSeconds)); // rifling spin
-	}
-	if (Data.Element == EMTElement::Fire && Light)
-	{
-		Light->SetIntensity(5000.f + 1500.f * FMath::Sin(Age * 40.f)); // flicker
+		if (Data.Element == EMTElement::Earth && Body)
+		{
+			Body->AddLocalRotation(FRotator(0.f, 0.f, 720.f * DeltaSeconds)); // rifling spin
+		}
+		if (Data.Element == EMTElement::Fire && Light)
+		{
+			Light->SetIntensity(5000.f + 1500.f * FMath::Sin(Age * 40.f)); // flicker
+		}
 	}
 
 	if (Age >= Lifetime)
@@ -356,7 +383,8 @@ void AMTProjectile::Explode(const FVector& Location, const FVector& Normal)
 		}
 	}
 
-	MTCombat::SpawnFX(this, Data.FX.Impact, Location, Normal.Rotation(), 1.f + ChargeAlpha * 0.5f);
+	MTCombat::SpawnSpellFX(this, Data.FX, Data.FX.Impact, TEXT("Impact"), FTransform(Normal.IsNearlyZero() ? FRotator::ZeroRotator : (-Normal).Rotation(), Location),
+		1.f + ChargeAlpha * 0.5f, nullptr, NAME_None, OwnerCharacter.Get());
 	MTCombat::PlaySound(this, Data.FX.ImpactSound, Location);
 	Dissipate(false);
 }
@@ -366,12 +394,14 @@ void AMTProjectile::Dissipate(bool bSpawnFX)
 	bFinished = true;
 	if (bSpawnFX)
 	{
-		MTCombat::SpawnFX(this, Data.FX.Dissipation, GetActorLocation(), GetActorRotation());
+		MTCombat::SpawnSpellFX(this, Data.FX, Data.FX.Dissipation, TEXT("Dissipation"), GetActorTransform(), 1.f, nullptr, NAME_None, OwnerCharacter.Get());
 	}
 	if (TravelFX)
 	{
 		TravelFX->Deactivate();
 	}
+	MTCombat::StopSpellFX(TravelVFX.Get());
+	TravelVFX.Reset();
 	Movement->StopMovementImmediately();
 	Collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Body->SetVisibility(false);
@@ -386,7 +416,7 @@ void AMTProjectile::Disrupt(AActor* By)
 		return;
 	}
 	// The spell's structure destabilises and scatters: dissipation FX, no damage.
-	MTCombat::SpawnFX(this, Data.FX.Dissipation, GetActorLocation(), GetActorRotation(), 1.3f);
+	MTCombat::SpawnSpellFX(this, Data.FX, Data.FX.Dissipation, TEXT("Dissipation"), GetActorTransform(), 1.3f, nullptr, NAME_None, OwnerCharacter.Get());
 	UE_LOG(LogMushoku, Verbose, TEXT("%s disrupted by %s"), *Data.AbilityID.ToString(), *GetNameSafe(By));
 	Dissipate(false);
 }

@@ -41,8 +41,17 @@ protected:
 	void ApplyWindField(const TArray<AMTCharacterBase*>& Targets, float DeltaSeconds);
 	void ApplyAura(const TArray<AMTCharacterBase*>& Targets);
 	void Erupt();
+	void EruptLine();
 	void Expire();
 	void UpdateDecalLook(float DeltaSeconds);
+	void MoveZone(float DeltaSeconds);
+	/** Damage + element status to hostiles inside, at most once per target per Data.PulseInterval. */
+	void ApplyDamageField(const TArray<AMTCharacterBase*>& Targets);
+	void ApplyBurst();
+	void ApplyVortex(const TArray<AMTCharacterBase*>& Targets, float DeltaSeconds);
+	void ApplyWave(const TArray<AMTCharacterBase*>& Targets);
+	void HitTarget(AMTCharacterBase* Target, const FVector& From, float DamageScale = 1.f);
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UPROPERTY(VisibleAnywhere) TObjectPtr<USceneComponent> Root;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UDecalComponent> Decal;
@@ -60,4 +69,15 @@ protected:
 	bool bExpired = false;
 	bool bRootApplied = false;
 	TSet<TWeakObjectPtr<AMTCharacterBase>> Rooted;
+
+	/** Runtime zone effect (loop) riding on the zone. */
+	TWeakObjectPtr<class AMTSpellVFX> ZoneVFX;
+	/** Moving zones and line eruptions: travel direction (horizontal) and the line's start. */
+	FVector MoveDirection = FVector::ForwardVector;
+	FVector LineStart = FVector::ZeroVector;
+	float TrailDistance = 0.f;
+	bool bBurstDone = false;
+	bool bVortexSpawned = false;
+	TMap<TWeakObjectPtr<AMTCharacterBase>, float> LastHitTime;
+	TSet<TWeakObjectPtr<AMTCharacterBase>> SweptOnce;
 };

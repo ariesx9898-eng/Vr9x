@@ -35,6 +35,8 @@ protected:
 	float RiseTime = 0.35f;
 	float Age = 0.f;
 	float Lifetime = 15.f;
+	/** Places the authored mesh so its bounds fill the collision box (rotated if its long axis differs). */
+	FVector MeshBaseOffset = FVector::ZeroVector;
 	FVector Extent = FVector(40.f, 160.f, 140.f);
 	bool bCrumbling = false;
 };

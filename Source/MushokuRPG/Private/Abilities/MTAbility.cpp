@@ -1,4 +1,5 @@
 #include "Abilities/MTAbility.h"
+#include "VFX/MTSpellVFX.h"
 #include "Abilities/MTAbilityComponent.h"
 #include "Character/MTCharacterBase.h"
 #include "Character/MTAttributeComponent.h"
@@ -136,7 +137,13 @@ bool UMTAbility::TryActivate()
 	ActiveAnimMontage.Reset();
 	bChargeLoopStarted = false;
 	PlayMontage(Data.MontageStartSection);
-	SpawnFX(Data.FX.Formation, GetCastLocation(), GetAimRotation(), true);
+	{
+		// Formation in the hand (follows the socket), from the authored system or the runtime preset.
+		USkeletalMeshComponent* OwnerMesh = Owner->GetMesh();
+		const bool bSocket = OwnerMesh && !Data.CastSocket.IsNone() && OwnerMesh->DoesSocketExist(Data.CastSocket);
+		FormationVFX = MTCombat::SpawnSpellFX(Owner, Data.FX, Data.FX.Formation, TEXT("Formation"), FTransform(GetAimRotation(), GetCastLocation()),
+			1.f, bSocket ? OwnerMesh : nullptr, bSocket ? Data.CastSocket : NAME_None, Owner);
+	}
 	PlaySound(Data.FX.CastSound, GetCastLocation());
 	Component->NotifyAbilityStarted(this);
 	return true;
@@ -228,6 +235,10 @@ void UMTAbility::Tick(float DeltaTime)
 
 		EnterPhase(EMTAbilityPhase::Action);
 		Component->StartCooldown(Data.AbilityID, GetEffectiveCooldown());
+		if (AMTSpellVFX* Formation = FormationVFX.Get(); Formation && Formation->IsLooping())
+		{
+			MTCombat::StopSpellFX(Formation);
+		}
 		ExecuteAction();
 		if (IsInstantAction())
 		{
@@ -282,6 +293,7 @@ void UMTAbility::Cancel()
 	}
 	// Cancelled during wind-up: no cooldown, but the mana spent on formation is lost.
 	StopMontage(0.15f);
+	MTCombat::StopSpellFX(FormationVFX.Get());
 	OnEnded(true);
 	EnterPhase(EMTAbilityPhase::Idle);
 	if (Component.IsValid())
@@ -460,6 +472,12 @@ void UMTAbility::SpawnFX(const TSoftObjectPtr<UNiagaraSystem>& System, const FVe
 	MTCombat::SpawnFX(GetOwnerCharacter(), System, Location, Rotation);
 }
 
+AMTSpellVFX* UMTAbility::SpawnPhaseFX(const TCHAR* PhaseName, const FTransform& Transform, float Scale, USceneComponent* AttachTo, FName Socket)
+{
+	AMTCharacterBase* Owner = GetOwnerCharacter();
+	return MTCombat::SpawnPresetPhase(Owner, Data.FX.Preset, PhaseName, Transform, Scale * FMath::Max(0.05f, Data.FX.PresetScale), AttachTo, Socket, Owner);
+}
+
 void UMTAbility::PlaySound(const TSoftObjectPtr<USoundBase>& Sound, const FVector& Location)
 {
 	MTCombat::PlaySound(GetOwnerCharacter(), Sound, Location);
@@ -473,6 +491,20 @@ int32 UMTAbility::StrikeHostilesInRadius(const FVector& Center, float Radius)
 		return 0;
 	}
 	int32 Hits = 0;
+	{
+		// One impact effect per strike (shockwave, cracks), hit or miss: the air still moves.
+		FVector Where = Center + FVector(0.f, 0.f, 30.f);
+		if (Data.FX.bImpactOnGround)
+		{
+			FHitResult Hit;
+			FCollisionObjectQueryParams Objects(ECC_WorldStatic);
+			if (Owner->GetWorld()->LineTraceSingleByObjectType(Hit, Center + FVector(0.f, 0.f, 200.f), Center - FVector(0.f, 0.f, 600.f), Objects))
+			{
+				Where = Hit.ImpactPoint + FVector(0.f, 0.f, 5.f);
+			}
+		}
+		SpawnPhaseFX(TEXT("Impact"), FTransform(Owner->GetActorForwardVector().Rotation(), Where));
+	}
 	for (AMTCharacterBase* Target : MTCombat::GetHostilesInRadius(Owner, Center, Radius))
 	{
 		// Interrupt: striking an enemy mid-cast breaks the spell (Dragon God Knowledge trigger).

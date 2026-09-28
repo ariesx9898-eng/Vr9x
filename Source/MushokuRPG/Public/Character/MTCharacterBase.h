@@ -42,6 +42,8 @@ public:
 	/** Assigns the 3 abilities of an element into element slot A (0) or B (1). */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Character")
 	virtual void ApplyElementSlot(int32 SlotIndex, EMTElement Element);
+	/** Hotbar keys 1-4 (up to four ability ids; missing entries clear the slot). */
+	void ApplyLoadout(const TArray<FName>& AbilityIds);
 
 	/** Central entry point for all damage. */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Combat")

@@ -41,6 +41,10 @@ FString UMTAbilityComponent::SlotToKeyLabel(EMTAbilitySlot Slot)
 	case EMTAbilitySlot::ElementB3: return TEXT("9");
 	case EMTAbilitySlot::RaceActive: return TEXT("R");
 	case EMTAbilitySlot::RaceTransformation: return TEXT("T");
+	case EMTAbilitySlot::Loadout1: return TEXT("1");
+	case EMTAbilitySlot::Loadout2: return TEXT("2");
+	case EMTAbilitySlot::Loadout3: return TEXT("3");
+	case EMTAbilitySlot::Loadout4: return TEXT("4");
 	default: return TEXT("");
 	}
 }

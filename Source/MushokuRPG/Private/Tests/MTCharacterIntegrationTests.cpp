@@ -485,7 +485,7 @@ bool FMTPresentationFallbackTest::RunTest(const FString& Parameters)
 
 	Rudeus->SetLockTarget(Target);
 	Rudeus->ApplyElementSlot(0, EMTElement::Earth);
-	TestTrue(TEXT("Earth Fortress activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Earth_EarthFortress")));
+	TestTrue(TEXT("Earth Wall activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Earth_EarthWall")));
 	Game.Tick(1.5f);
 	int32 Walls = 0;
 	for (TActorIterator<AMTEarthWall> It(Game.World); It; ++It)
@@ -494,8 +494,8 @@ bool FMTPresentationFallbackTest::RunTest(const FString& Parameters)
 		TestTrue(FString::Printf(TEXT("%s is visible (authored mesh or blockout)"), *It->GetName()), WallMesh && WallMesh->GetStaticMesh() != nullptr);
 		++Walls;
 	}
-	TestTrue(FString::Printf(TEXT("Earth Fortress raised walls (%d)"), Walls), Walls > 0);
-	AddInfo(FString::Printf(TEXT("Earth Fortress raised %d walls, all with a visible mesh"), Walls));
+	TestTrue(FString::Printf(TEXT("Earth Wall raised walls (%d)"), Walls), Walls > 0);
+	AddInfo(FString::Printf(TEXT("Earth Wall raised %d walls, all with a visible mesh"), Walls));
 	return true;
 }
 

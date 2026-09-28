@@ -1,4 +1,5 @@
 #include "Character/MTPlayerCharacter.h"
+#include "UI/LaPlace/MTFrontEndSubsystem.h"
 #include "Character/MTAttributeComponent.h"
 #include "Abilities/MTAbility.h"
 #include "Combat/MTTelegraphSubsystem.h"
@@ -171,23 +172,19 @@ void AMTPlayerCharacter::CreateRuntimeInput()
 	// Ability hotbar.
 	Map(MakeAction(TEXT("IA_Basic"), false), EKeys::LeftMouseButton);
 	Map(MakeAction(TEXT("IA_Basic"), false), EKeys::Gamepad_RightTrigger);
-	Map(MakeAction(TEXT("IA_Char1"), false), EKeys::One);
-	Map(MakeAction(TEXT("IA_Char2"), false), EKeys::Two);
-	Map(MakeAction(TEXT("IA_Char3"), false), EKeys::Three);
+	// LA PLACE hotbar: LMB basic, 1-4 the chosen loadout, F special, G awakening.
+	Map(MakeAction(TEXT("IA_Load1"), false), EKeys::One);
+	Map(MakeAction(TEXT("IA_Load2"), false), EKeys::Two);
+	Map(MakeAction(TEXT("IA_Load3"), false), EKeys::Three);
+	Map(MakeAction(TEXT("IA_Load4"), false), EKeys::Four);
 	Map(MakeAction(TEXT("IA_Special"), false), EKeys::F);
 	Map(MakeAction(TEXT("IA_Awakening"), false), EKeys::G);
-	Map(MakeAction(TEXT("IA_ElemA1"), false), EKeys::Four);
-	Map(MakeAction(TEXT("IA_ElemA2"), false), EKeys::Five);
-	Map(MakeAction(TEXT("IA_ElemA3"), false), EKeys::Six);
-	Map(MakeAction(TEXT("IA_ElemB1"), false), EKeys::Seven);
-	Map(MakeAction(TEXT("IA_ElemB2"), false), EKeys::Eight);
-	Map(MakeAction(TEXT("IA_ElemB3"), false), EKeys::Nine);
-	Map(MakeAction(TEXT("IA_RaceActive"), false), EKeys::R);
-	Map(MakeAction(TEXT("IA_RaceTransform"), false), EKeys::T);
-	Map(MakeAction(TEXT("IA_Char1"), false), EKeys::Gamepad_RightShoulder);
-	Map(MakeAction(TEXT("IA_Char2"), false), EKeys::Gamepad_LeftShoulder);
-	Map(MakeAction(TEXT("IA_Char3"), false), EKeys::Gamepad_LeftTrigger);
+	Map(MakeAction(TEXT("IA_Load1"), false), EKeys::Gamepad_RightShoulder);
+	Map(MakeAction(TEXT("IA_Load2"), false), EKeys::Gamepad_LeftShoulder);
+	Map(MakeAction(TEXT("IA_Load3"), false), EKeys::Gamepad_LeftTrigger);
+	Map(MakeAction(TEXT("IA_Load4"), false), EKeys::Gamepad_DPad_Up);
 	Map(MakeAction(TEXT("IA_Special"), false), EKeys::Gamepad_FaceButton_Top);
+	Map(MakeAction(TEXT("IA_Awakening"), false), EKeys::Gamepad_DPad_Down);
 
 	// Menus.
 	Map(MakeAction(TEXT("IA_MenuCharacter"), false), EKeys::C);
@@ -238,19 +235,12 @@ void AMTPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	EIC->BindAction(A(TEXT("IA_Interact")), ETriggerEvent::Started, this, &AMTPlayerCharacter::OnInteract);
 
 	BindSlot(EIC, A(TEXT("IA_Basic")), EMTAbilitySlot::Basic);
-	BindSlot(EIC, A(TEXT("IA_Char1")), EMTAbilitySlot::Character1);
-	BindSlot(EIC, A(TEXT("IA_Char2")), EMTAbilitySlot::Character2);
-	BindSlot(EIC, A(TEXT("IA_Char3")), EMTAbilitySlot::Character3);
+	BindSlot(EIC, A(TEXT("IA_Load1")), EMTAbilitySlot::Loadout1);
+	BindSlot(EIC, A(TEXT("IA_Load2")), EMTAbilitySlot::Loadout2);
+	BindSlot(EIC, A(TEXT("IA_Load3")), EMTAbilitySlot::Loadout3);
+	BindSlot(EIC, A(TEXT("IA_Load4")), EMTAbilitySlot::Loadout4);
 	BindSlot(EIC, A(TEXT("IA_Special")), EMTAbilitySlot::Special);
 	BindSlot(EIC, A(TEXT("IA_Awakening")), EMTAbilitySlot::Awakening);
-	BindSlot(EIC, A(TEXT("IA_ElemA1")), EMTAbilitySlot::ElementA1);
-	BindSlot(EIC, A(TEXT("IA_ElemA2")), EMTAbilitySlot::ElementA2);
-	BindSlot(EIC, A(TEXT("IA_ElemA3")), EMTAbilitySlot::ElementA3);
-	BindSlot(EIC, A(TEXT("IA_ElemB1")), EMTAbilitySlot::ElementB1);
-	BindSlot(EIC, A(TEXT("IA_ElemB2")), EMTAbilitySlot::ElementB2);
-	BindSlot(EIC, A(TEXT("IA_ElemB3")), EMTAbilitySlot::ElementB3);
-	BindSlot(EIC, A(TEXT("IA_RaceActive")), EMTAbilitySlot::RaceActive);
-	BindSlot(EIC, A(TEXT("IA_RaceTransform")), EMTAbilitySlot::RaceTransformation);
 
 	EIC->BindAction(A(TEXT("IA_MenuCharacter")), ETriggerEvent::Started, this, &AMTPlayerCharacter::OnMenuKey, (int32)EMTMenuPage::Character);
 	EIC->BindAction(A(TEXT("IA_MenuRoll")), ETriggerEvent::Started, this, &AMTPlayerCharacter::OnMenuKey, (int32)EMTMenuPage::Roll);
@@ -443,9 +433,9 @@ void AMTPlayerCharacter::OnMenuBack()
 		{
 			HUD->MenuBack();
 		}
-		else
+		else if (UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(this))
 		{
-			HUD->ToggleMenu(EMTMenuPage::Settings);
+			FrontEnd->OpenPause(Cast<APlayerController>(GetController()));
 		}
 	}
 }
@@ -498,6 +488,53 @@ void AMTPlayerCharacter::UpdateCamera(float DeltaSeconds)
 		TargetArm = DefaultArmLength - 40.f;
 	}
 	CameraBoom->TargetArmLength = FMath::FInterpTo(CameraBoom->TargetArmLength, TargetArm, DeltaSeconds, 3.f);
+	UpdateCameraShake(DeltaSeconds);
+}
+
+void AMTPlayerCharacter::AddCameraShake(float Strength, float Duration)
+{
+	float Setting = 1.f;
+	if (const UMTProgressionSubsystem* Progression = UMTProgressionSubsystem::Get(this))
+	{
+		Setting = Progression->GetSettings().CameraShakeScale;
+	}
+	Strength = FMath::Clamp(Strength, 0.f, 1.f) * Setting;
+	const float Remaining = ShakeDuration > 0.f ? ShakeStrength * (1.f - FMath::Clamp(ShakeTime / ShakeDuration, 0.f, 1.f)) : 0.f;
+	if (Strength <= KINDA_SMALL_NUMBER || Strength < Remaining)
+	{
+		return;
+	}
+	ShakeStrength = Strength;
+	ShakeDuration = FMath::Max(0.05f, Duration);
+	ShakeTime = 0.f;
+}
+
+void AMTPlayerCharacter::UpdateCameraShake(float DeltaSeconds)
+{
+	if (!FollowCamera)
+	{
+		return;
+	}
+	if (ShakeDuration <= 0.f)
+	{
+		return;
+	}
+	ShakeTime += DeltaSeconds;
+	const float Remaining = 1.f - FMath::Clamp(ShakeTime / ShakeDuration, 0.f, 1.f);
+	if (Remaining <= 0.f)
+	{
+		ShakeDuration = 0.f;
+		FollowCamera->SetRelativeLocation(FVector::ZeroVector);
+		FollowCamera->SetRelativeRotation(FRotator::ZeroRotator);
+		return;
+	}
+	// Decaying Perlin jitter: a few centimetres and a fraction of a degree even at full strength.
+	const float Amount = ShakeStrength * Remaining * Remaining;
+	const float T = ShakeTime * 28.f;
+	const FVector Offset(0.f, FMath::PerlinNoise1D(T) * 9.f, FMath::PerlinNoise1D(T + 37.f) * 7.f);
+	const FRotator Tilt(FMath::PerlinNoise1D(T + 71.f) * 1.1f, FMath::PerlinNoise1D(T + 113.f) * 0.8f, FMath::PerlinNoise1D(T + 157.f) * 1.4f);
+	FollowCamera->SetRelativeLocation(Offset * Amount);
+	FollowCamera->SetRelativeRotation(Tilt * Amount);
 }
 
 void AMTPlayerCharacter::UpdateLockOn(float DeltaSeconds)

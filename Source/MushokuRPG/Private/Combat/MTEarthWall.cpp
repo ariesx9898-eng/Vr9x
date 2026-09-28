@@ -39,6 +39,15 @@ void AMTEarthWall::InitWall(const FMTAbilityData& InData, AActor* InOwner, float
 		{
 			Mesh->SetMaterial(0, WallMaterial);
 		}
+		// Fit the mesh's bounds to the collision box: what you see is exactly what blocks.
+		const FBox Bounds = WallMesh->GetBoundingBox();
+		const FVector MeshExtent = Bounds.GetExtent().ComponentMax(FVector(1.f));
+		const bool bSwap = (MeshExtent.X > MeshExtent.Y) != (Extent.X > Extent.Y);
+		const FRotator Turn(0.f, bSwap ? 90.f : 0.f, 0.f);
+		const FVector LocalScale = bSwap ? FVector(Extent.Y / MeshExtent.X, Extent.X / MeshExtent.Y, Extent.Z / MeshExtent.Z) : Extent / MeshExtent;
+		Mesh->SetRelativeRotation(Turn);
+		Mesh->SetRelativeScale3D(LocalScale);
+		MeshBaseOffset = -Turn.RotateVector(Bounds.GetCenter() * LocalScale);
 	}
 	else if (UStaticMesh* Cube = MTCombat::LoadEngineShape(TEXT("Cube")))
 	{
@@ -56,7 +65,7 @@ void AMTEarthWall::InitWall(const FMTAbilityData& InData, AActor* InOwner, float
 
 	// Start buried; rise over RiseTime. Collision is on from the start at its final
 	// location so nothing can clip into the rising wall.
-	Mesh->SetRelativeLocation(FVector(0.f, 0.f, -Extent.Z * 2.f));
+	Mesh->SetRelativeLocation(MeshBaseOffset + FVector(0.f, 0.f, -Extent.Z * 2.f));
 	MTCombat::SpawnFX(this, Data.FX.Formation, GetActorLocation() - FVector(0.f, 0.f, Extent.Z), GetActorRotation());
 	MTCombat::PlaySound(this, Data.FX.CastSound, GetActorLocation());
 }
@@ -74,7 +83,7 @@ void AMTEarthWall::Tick(float DeltaSeconds)
 
 	const float Alpha = FMath::Clamp(Age / RiseTime, 0.f, 1.f);
 	const float Eased = 1.f - FMath::Pow(1.f - Alpha, 3.f);
-	Mesh->SetRelativeLocation(FVector(0.f, 0.f, FMath::Lerp(-Extent.Z * 2.f, 0.f, Eased)));
+	Mesh->SetRelativeLocation(MeshBaseOffset + FVector(0.f, 0.f, FMath::Lerp(-Extent.Z * 2.f, 0.f, Eased)));
 
 	if (Age >= Lifetime)
 	{

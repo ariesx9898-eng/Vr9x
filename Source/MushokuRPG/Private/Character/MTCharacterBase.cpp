@@ -1,4 +1,5 @@
 #include "Character/MTCharacterBase.h"
+#include "VFX/MTSpellVFX.h"
 #include "Character/MTAttributeComponent.h"
 #include "Abilities/MTAbilityComponent.h"
 #include "Abilities/MTAbility.h"
@@ -197,6 +198,14 @@ void AMTCharacterBase::ApplyElementSlot(int32 SlotIndex, EMTElement Element)
 	{
 		const FName Id = (Data && Data->Abilities.IsValidIndex(i)) ? Data->Abilities[i] : NAME_None;
 		Abilities->SetSlot((EMTAbilitySlot)((int32)First + i), Id);
+	}
+}
+
+void AMTCharacterBase::ApplyLoadout(const TArray<FName>& AbilityIds)
+{
+	for (int32 i = 0; i < 4; ++i)
+	{
+		Abilities->SetSlot((EMTAbilitySlot)((int32)EMTAbilitySlot::Loadout1 + i), AbilityIds.IsValidIndex(i) ? AbilityIds[i] : NAME_None);
 	}
 }
 
@@ -419,6 +428,18 @@ FMTDamageResult AMTCharacterBase::ReceiveCombatHit(const FMTDamageSpec& Spec)
 
 void AMTCharacterBase::HandleDamaged(const FMTDamageSpec& Spec, const FMTDamageResult& Result)
 {
+	if (Result.DamageDealt > 0.f)
+	{
+		// Every landed hit reads: sparks and a small ring where it connected, bigger for staggering blows.
+		const bool bHeavy = Result.Reaction == EMTHitReaction::Stagger || Result.Reaction == EMTHitReaction::Knockdown || Spec.Damage >= 40.f;
+		FVector Where = FVector(Spec.HitLocation);
+		if (Where.IsNearlyZero() || FVector::DistSquared(Where, GetActorLocation()) > FMath::Square(250.f))
+		{
+			Where = GetActorLocation();
+		}
+		AMTSpellVFX::SpawnPreset(this, bHeavy ? FName(TEXT("Hit.Heavy")) : FName(TEXT("Hit.Light")),
+			FTransform((-Spec.HitDirection).Rotation(), Where + FVector(0.f, 0.f, 20.f)));
+	}
 	if (Result.bKilled)
 	{
 		return;

@@ -69,6 +69,13 @@ public:
 	/** Applies lineage, race and every unlocked element slot to Character. */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Progression") void ApplyBuildTo(AMTCharacterBase* Character) const;
 
+	/** Hotbar keys 1-4 for a character: the player's choice, else Characters.json DefaultLoadout. */
+	UFUNCTION(BlueprintPure, Category = "Mushoku|Progression") TArray<FName> GetLoadout(FName CharacterId) const;
+	/** Puts AbilityId on key Index+1 (0-3); if it already sits on another key the two swap. Re-applies the build. */
+	UFUNCTION(BlueprintCallable, Category = "Mushoku|Progression") void SetLoadoutSlot(FName CharacterId, int32 Index, FName AbilityId);
+	/** What a character can put on 1-4: their own techniques and every element spell. */
+	UFUNCTION(BlueprintPure, Category = "Mushoku|Progression") TArray<FName> GetLoadoutPool(FName CharacterId) const;
+
 	// ---------------------------------------------------------------- Level / XP
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Progression") void AddXP(int32 Amount);
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Progression") int32 GetLevel() const { return Level; }
@@ -202,6 +209,7 @@ private:
 	TArray<EMTElement> EquippedElements;
 	int32 UnlockedElementSlots = 1;
 	TSet<FName> OwnedCharacters;
+	TMap<FName, TArray<FName>> Loadouts;
 	TSet<EMTElement> OwnedElements;
 	TSet<EMTRace> OwnedRaces;
 
