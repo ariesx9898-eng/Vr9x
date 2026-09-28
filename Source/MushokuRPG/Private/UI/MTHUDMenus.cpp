@@ -1083,8 +1083,8 @@ void AMTHUD::DrawRollPage(float X, float Y, float W, float H)
 	{
 		const float T = FMath::Clamp(RollAnimTime / RollAnimDuration, 0.f, 1.f);
 		const float Eased = 1.f - FMath::Pow(1.f - T, 3.f);
-		const int32 Tick = FMath::Min(RollReelTicks, FMath::FloorToInt(Eased * RollReelTicks));
-		const FString& Name = RollReel[(RollReelStart + Tick) % RollReel.Num()];
+		const int32 ReelStep = FMath::Min(RollReelTicks, FMath::FloorToInt(Eased * RollReelTicks));
+		const FString& Name = RollReel[(RollReelStart + ReelStep) % RollReel.Num()];
 		// Whole card is a skip target (registered first so the card art draws on top of it).
 		DrawButtonBox(TEXT("RollSkip"), TEXT(""), RX, RY, CardW, CardH, true, false);
 		DrawPanelBox(RX, RY, CardW, CardH, 0.9f, true);

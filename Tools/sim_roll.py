@@ -50,6 +50,25 @@ class RollConfig:
         self.weights = list(weights) if weights is not None else list(DEFAULT_WEIGHTS)
 
 
+def load_data_config(category):
+    """Mirror of UMTRollSubsystem::GetEffectiveConfig: the RollConfigs.json row for the category,
+    with any missing rarity tiers filled from the code defaults."""
+    import json, os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Content", "Data", "RollConfigs.json")
+    names = ["Common", "Uncommon", "Rare", "Legendary", "Mythic"]
+    try:
+        rows = json.load(open(path))
+    except (OSError, ValueError):
+        return RollConfig()
+    for row in rows:
+        if row.get("Category") == category:
+            w = row.get("RarityWeights", {})
+            weights = [float(w.get(n, DEFAULT_WEIGHTS[i])) for i, n in enumerate(names)]
+            return RollConfig(row.get("SoftPityStart", 40), row.get("SoftPityStep", 0.02), row.get("HardPity", 70),
+                              row.get("MythicHardPity", 160), row.get("bDuplicateProtection", True), weights)
+    return RollConfig()
+
+
 class Entry:
     def __init__(self, entry_id, rarity, weight=1.0):
         self.id = entry_id
@@ -361,7 +380,8 @@ def main():
 
     # 1) The real Character pool today: Rudeus (Legendary, owned at start) + Orsted (Mythic).
     character_pool = [Entry("Rudeus", LEGENDARY), Entry("Orsted", MYTHIC)]
-    all_ok &= report("1. Character pool (current data: Rudeus Legendary, Orsted Mythic)", character_pool, RollConfig(),
+    all_ok &= report("1. Character pool (current data: Rudeus Legendary, Orsted Mythic; config from RollConfigs.json)",
+                     character_pool, load_data_config("Character"),
                      {"Rudeus"}, args.spins, args.seed, args.trials, out)
 
     # 2) Illustrative mixed pool (all five tiers) - exercises soft pity and duplicate protection.

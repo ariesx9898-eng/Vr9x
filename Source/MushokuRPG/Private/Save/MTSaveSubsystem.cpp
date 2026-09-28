@@ -3,6 +3,7 @@
 #include "Progression/MTProgressionSubsystem.h"
 #include "Core/MTGameEvents.h"
 #include "Character/MTCharacterBase.h"
+#include "Character/MTPlayerCharacter.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
@@ -363,7 +364,17 @@ void UMTSaveSubsystem::ApplySettings(bool bIncludeGraphics) const
 	{
 		if (APlayerController* PC = UGameplayStatics::GetPlayerController(World, 0))
 		{
-			if (PC->PlayerCameraManager)
+			if (AMTPlayerCharacter* Player = Cast<AMTPlayerCharacter>(PC->GetPawn()))
+			{
+				// The player camera eases toward BaseFOV every tick (plus a sprint bonus); a locked
+				// camera-manager FOV would override that, so feed BaseFOV and keep the manager unlocked.
+				Player->BaseFOV = Settings.FieldOfView;
+				if (PC->PlayerCameraManager)
+				{
+					PC->PlayerCameraManager->UnlockFOV();
+				}
+			}
+			else if (PC->PlayerCameraManager)
 			{
 				PC->PlayerCameraManager->SetFOV(Settings.FieldOfView);
 			}

@@ -1,71 +1,55 @@
-# QA: Roll Simulation
+# QA: Roll simulation
 
-`Tools/sim_roll.py` mirrors `UMTRollSubsystem::Roll` step by step (same pool ordering, tier
-renormalisation, soft/hard pity, Mythic hard pity, duplicate protection and pity updates). Only the
-random number generator differs (C++ uses `FRandomStream`), so the statistics transfer directly.
+`Tools/sim_roll.py` mirrors `UMTRollSubsystem::Roll` step by step. It uses the same pool ordering, tier renormalization, soft and hard pity, Mythic hard pity, duplicate protection and pity updates. The Character pool uses the **shipped** config from `Content/Data/RollConfigs.json`, so the result matches `GetEffectiveConfig`. Only the random number generator differs (C++ uses `FRandomStream`), so the statistics transfer.
 
-Reproduce:
+Reproduce: `python3 Tools/sim_roll.py --spins 200000 --seed 12345 --trials 20000`
 
-```
-python3 Tools/sim_roll.py --spins 200000 --seed 12345 --trials 20000
-```
+## Findings (shipped data)
 
-## Findings
-
-- **Hard pity is never exceeded** in any scenario (Legendary+ bound 70, Mythic bound 160). In the stress
-  test (soft pity off, Legendary weight 0.2) the longest wait for a Legendary+ is exactly 70 spins, which
-  is the HardPity bound, and the longest run without one is 69.
-- **Character pool today (Rudeus Legendary + Orsted Mythic):** only the Legendary and Mythic tiers have
-  entries, so per the renormalisation rule every spin is Legendary+ and Orsted is **1/6 = 16.7% per spin**
-  (observed 16.79%). The average new account gets its first Orsted in about **6 spins** (median 4, p99 25).
-  New games start with 3 Character spins, so roughly 42% of players (1 - (5/6)^3) get Orsted from the starter
-  spins alone. If Orsted should feel rarer, add a `Character` row to `Content/Data/RollConfigs.json` with
-  explicit weights (for example Legendary 95 / Mythic 5 gives 5%), or add lower-rarity characters to the pool.
-- Rudeus is owned from the start, so every Legendary result in the character pool is a duplicate. The
-  duplicate protection has nothing unowned to re-roll to inside that tier, so the player gets the
-  compensation instead (150 gold + 20 Rudeus mastery XP).
-- **Mixed pool (illustrative):** soft pity lifts the effective Legendary+ rate from the displayed 6.0% base
-  to 6.56%. The Mythic hard pity at 160 applies (longest wait 160, mean 77).
-- Displayed odds (`GetPool`) are the base rates before pity, and they match the observed rates in the
-  character pool, where pity cannot trigger.
+- **Character pool = Rudeus (Legendary) + Orsted (Mythic) only.** The pool has no other characters, as the scope rule requires.
+- **Orsted: 6.0% displayed, 6.12% observed per spin.** The Mythic hard pity **guarantees Orsted within 60 spins**. Over 20,000 fresh accounts the first Orsted takes 16.3 spins on average (median 12, p99 60, max 60). That's rare, but spins come only from gameplay (quests, bosses, level-ups, rank-ups), so it's reachable without grinding for weeks.
+- **Hard pity is never exceeded** in any scenario, including the stress test with soft pity disabled.
+- Rudeus is owned from the start, so a Legendary result is always a duplicate. Duplicate protection has nothing unowned left in that tier, so it pays compensation (150 gold + 20 Rudeus mastery XP) instead of nothing.
+- The displayed odds (`GetPool`) are base rates before pity. In the character pool they match the observed rates within noise.
+- **Design note:** rarity does not grant automatic victory. Orsted trades Rudeus's huge mana pool and ranged pressure for timing-based defense, and he has very low mana regeneration (canon). See `Docs/Lore_Research.md`.
 
 ## Raw output
 
 # Roll simulation output (Tools/sim_roll.py)
 
-## 1. Character pool (current data: Rudeus Legendary, Orsted Mythic)
+## 1. Character pool (current data: Rudeus Legendary, Orsted Mythic; config from RollConfigs.json)
 
-Config: SoftPityStart=40, SoftPityStep=0.02, HardPity=70, MythicHardPity=160, DuplicateProtection=True, weights={'Common': 50.0, 'Uncommon': 30.0, 'Rare': 14.0, 'Legendary': 5.0, 'Mythic': 1.0}
+Config: SoftPityStart=20, SoftPityStep=0.03, HardPity=40, MythicHardPity=60, DuplicateProtection=True, weights={'Common': 50.0, 'Uncommon': 30.0, 'Rare': 14.0, 'Legendary': 0.94, 'Mythic': 0.06}
 Pool: Orsted (Mythic), Rudeus (Legendary); initially owned: ['Rudeus']
 
 Displayed odds (GetPool, base rates before pity):
 
 | Entry | Rarity | Displayed odds |
 |---|---|---|
-| Orsted | Mythic | 16.667% |
-| Rudeus | Legendary | 83.333% |
+| Orsted | Mythic | 6.000% |
+| Rudeus | Legendary | 94.000% |
 
 Simulated 200,000 spins on one account (seed 12345):
 
 | Rarity | Count | Observed rate |
 |---|---|---|
-| Legendary | 166,415 | 83.207% |
-| Mythic | 33,585 | 16.793% |
+| Legendary | 187,764 | 93.882% |
+| Mythic | 12,236 | 6.118% |
 
 | Entry | Count | Observed rate |
 |---|---|---|
-| Orsted | 33,585 | 16.793% |
-| Rudeus | 166,415 | 83.207% |
+| Orsted | 12,236 | 6.118% |
+| Rudeus | 187,764 | 93.882% |
 
 - Legendary+ results: 200,000; effective Legendary+ rate 100.000%
-- Longest run of consecutive spins WITHOUT a Legendary+: 0 (bound: HardPity - 1 = 69)
-- Max spins needed to reach a Legendary+: 1 (hard pity bound: 70); mean 1.00
-- Max spins needed to reach a Mythic: 68 (Mythic hard pity bound: 160); mean 5.95
-- Hard pity (Legendary+ or Mythic guarantee) decided the tier on 0 spins (0.000%)
+- Longest run of consecutive spins WITHOUT a Legendary+: 0 (bound: HardPity - 1 = 39)
+- Max spins needed to reach a Legendary+: 1 (hard pity bound: 40); mean 1.00
+- Max spins needed to reach a Mythic: 60 (Mythic hard pity bound: 60); mean 16.34
+- Hard pity (Legendary+ or Mythic guarantee) decided the tier on 322 spins (0.161%)
 - Duplicate-protection re-rolls: 0; new unlocks: 1; duplicate compensation paid: 29,999,850 gold, 3,999,980 mastery XP
 - First Mythic on this account at spin 8
 - HARD PITY NEVER EXCEEDED: PASS (Legendary+), PASS (Mythic)
-- Average spins to FIRST Mythic over 20,000 fresh accounts: 5.95 (median 4, p99 25, max 55)
+- Average spins to FIRST Mythic over 20,000 fresh accounts: 16.28 (median 12, p99 60, max 60)
 
 ## 2. Illustrative mixed pool (all tiers, default config)
 

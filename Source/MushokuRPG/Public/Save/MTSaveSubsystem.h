@@ -31,7 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Save") void DeleteSave(const FString& Slot = TEXT("Slot0"));
 
 	/**
-	 * Applies the progression settings to the running game: FOV via APlayerCameraManager::SetFOV.
+	 * Applies the progression settings to the running game. FOV: AMTPlayerCharacter::BaseFOV for the
+	 * player character (its camera eases to it, keeping the sprint FOV effect), APlayerCameraManager::SetFOV
+	 * for any other pawn.
 	 * Graphics quality (Scalability) is only applied when bIncludeGraphics (explicit settings-menu change),
 	 * so loading a save never overrides the engine's auto-detected quality silently.
 	 * Mouse sensitivity / invert Y / camera shake / toggle sprint are read live by the player code from
