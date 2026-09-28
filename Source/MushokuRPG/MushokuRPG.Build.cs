@@ -15,12 +15,12 @@ public class MushokuRPG : ModuleRules
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
 			"GameplayTags", "AIModule", "NavigationSystem", "Niagara",
 			"MotionWarping", "AnimGraphRuntime", "UMG", "Slate", "SlateCore", "Json", "JsonUtilities",
-			"DeveloperSettings", "PhysicsCore", "Landscape", "Foliage"
+			"DeveloperSettings", "PhysicsCore", "Landscape", "Foliage", "ImageCore", "ImageWrapper", "MeshDescription", "StaticMeshDescription", "RHI"
 		});
 
 		if (Target.bBuildEditor)
 		{
-			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "AssetRegistry" });
 		}
 	}
 }

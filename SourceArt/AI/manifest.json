@@ -179,6 +179,261 @@
    "file": "UI/Parchment.png",
    "job_id": "ecda62a3-70d6-46bd-b8c3-50ad43a0e00e",
    "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Grass_A.png",
+   "job_id": "a2d19c21-0df0-43e6-a96c-7e941d8bfa6c",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Farmland_A.png",
+   "job_id": "fa22056d-06c3-4612-b077-b57cf4e4448d",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_ForestFloor_A.png",
+   "job_id": "a94d390f-e606-4292-b658-9a9bf7dc9c61",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Moss_A.png",
+   "job_id": "3b77148a-48ec-451d-ac00-74ce492fa37e",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Snow_A.png",
+   "job_id": "52182865-bce6-4926-a966-bf400aba100b",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Desert_A.png",
+   "job_id": "e7321ca1-af2f-4729-871e-521be7ca5616",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_DemonSoil_A.png",
+   "job_id": "4877a175-52f4-421f-8944-cd0423bf2ba7",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Rock_A.png",
+   "job_id": "4b75048d-63dd-4250-8d6c-e021b529cfe1",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Road_A.png",
+   "job_id": "ed0c6038-6e7b-4cff-897d-722fff6a8c37",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Mud_A.png",
+   "job_id": "cf73475f-3928-49f6-b190-7c31067ca92f",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_LeavesOak_A.png",
+   "job_id": "28c55b5b-3324-4264-9628-3171a2c54108",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Sand_A.png",
+   "job_id": "e9a402af-6fa6-4533-86ae-6af5754769e8",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Plaster_A.png",
+   "job_id": "8d0e3e6e-f3fe-48d6-a28d-c902327c1143",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_PlasterTan_A.png",
+   "job_id": "b7f00a1c-63a3-40bc-987e-21aee2c5a7d3",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Stone_A.png",
+   "job_id": "c2f21420-b4a5-4304-859f-7688b910f489",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_StoneWhite_A.png",
+   "job_id": "64a4eb01-4772-4f47-a435-6869b72d7b1e",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_DemonRock_A.png",
+   "job_id": "a57fa13c-fb81-4e02-bc24-7c9136c724c8",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_RoofRed_A.png",
+   "job_id": "9de8e3f8-8dcb-4cc4-a5ca-f6c7d193a2ea",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_RoofBlue_A.png",
+   "job_id": "8b405c5f-9715-4a08-84aa-c77da4fc3e7b",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Timber_A.png",
+   "job_id": "cea8bc66-4016-4521-a216-f2b042f1f518",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Cobble_A.png",
+   "job_id": "cc9e32ab-7f79-4164-a4cc-0295edc20b6a",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Sandstone_A.png",
+   "job_id": "ade3dcc8-0cae-478b-8953-4049ecb349d3",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_RoofDark_A.png",
+   "job_id": "91534e8d-9522-4f39-9425-483d3169a163",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_RoofThatch_A.png",
+   "job_id": "f1a63da5-3d8a-47f6-8106-38efda7b237e",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_RoofSilver_A.png",
+   "job_id": "02ab9698-0945-436b-ab9c-7026c6c63334",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_WoodPlanks_A.png",
+   "job_id": "f841e8b9-ffe3-4caa-8f23-ae6f0fed873e",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Rock_B.png",
+   "job_id": "9e9a425c-2c68-470b-a5a6-2b5f42f85436",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_RoofGreen_A.png",
+   "job_id": "57e78c8b-d498-421e-93c6-892e4975acc6",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Cloth_A.png",
+   "job_id": "9e8eaf4e-9e16-40ed-aea4-f375ac7d0974",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Hide_A.png",
+   "job_id": "955cf604-96fb-46be-8270-82472a6cdd66",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_Bone_A.png",
+   "job_id": "989aa223-e2d9-4339-85f5-b8c6d0ded61f",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_BarkOak_A.png",
+   "job_id": "9b5253d1-6423-4672-b53a-ddb9acb2df07",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_BarkBirch_A.png",
+   "job_id": "0b87cdd0-1a24-4c9d-ad1d-0aa276fb7e31",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_BarkDead_A.png",
+   "job_id": "95f575d9-3ec9-4f66-a3e5-235f04913035",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_BarkGiant_A.png",
+   "job_id": "0946de9f-e548-47d7-924b-7331b89025c7",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_BarkPine_A.png",
+   "job_id": "96bec0e7-bc3e-42dc-9fc2-24d6526f22ce",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_BarkDemon_A.png",
+   "job_id": "612e3a01-80fc-463e-910d-061de5f675f2",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Terrain_Rock_C.png",
+   "job_id": "ef02493b-18ae-4160-b604-166fd3c39df6",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_MushroomCap_A.png",
+   "job_id": "40f2f344-d7af-415d-92a9-e5e1845942d1",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Palette_MushroomStem_A.png",
+   "job_id": "8a243c7d-9dcc-497f-89e8-18ddb7191038",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_LeavesOak_B.png",
+   "job_id": "330fecd3-ef5c-4963-91a5-a5a56b613a4b",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_LeavesBirch_A.png",
+   "job_id": "658be64d-f820-4ab6-90b3-eecbeea4cf4a",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_LeavesGiant_A.png",
+   "job_id": "cf3cfc75-e4f6-45e5-8e40-deeaa66bb276",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_LeavesDemon_A.png",
+   "job_id": "c0cb5afa-f4f4-4bfb-9072-fb443f2ba5e0",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_NeedlesPine_A.png",
+   "job_id": "994ce2f5-de6e-4ee3-b6d4-c75e8f73c256",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_NeedlesSnow_A.png",
+   "job_id": "20a85538-fa6b-4623-8f07-b14b85d5ef17",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_LeavesPalm_A.png",
+   "job_id": "3daf97e6-cad8-4af2-813f-5f2bac7c3e27",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_Fern_A.png",
+   "job_id": "391b9459-8a5e-4dc3-8f6c-c6b9b6553023",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_Grass_A.png",
+   "job_id": "2b6d50be-b9a8-4178-a064-caec1fd76d33",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_GrassDry_A.png",
+   "job_id": "c83f43be-1904-46e6-83b9-2fc5082b7cf7",
+   "source": "Higgsfield"
+  },
+  {
+   "file": "Textures/Card_Flowers_A.png",
+   "job_id": "5ddadb26-9680-4b3f-a808-fdfe019060ee",
+   "source": "Higgsfield"
   }
  ]
 }

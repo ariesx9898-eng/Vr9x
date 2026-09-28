@@ -56,6 +56,15 @@ def arch_poly(u0, v0, w, h, segs=8, pointed=False, k=1.0):
     r = w / 2
     uc = u0 + r
     pts = [(u0, v0), (u0 + w, v0)]
+    if not pointed and h < r - 1e-6:
+        # segmental arch: circle through both springing points (at v0) and the crown (v0 + h)
+        R = (r * r + h * h) / (2 * h)
+        cv = v0 + h - R
+        a = math.asin(min(1.0, r / R))
+        for i in range(1, segs):
+            t = math.pi / 2 - a + 2 * a * i / segs
+            pts.append((uc + R * math.cos(t), cv + R * math.sin(t)))
+        return pts
     if not pointed:
         vs = v0 + h - r
         for i in range(segs + 1):
@@ -604,8 +613,8 @@ def _extrude_x(g, sec, xa, xb, emats, euvs, cap_mat):
         for i in range(k):
             a = sec[i]
             b = sec[(i + 1) % k]
-            g.face([(xa, a[0], a[1]), (xb, a[0], a[1]), (xb, b[0], b[1]), (xa, b[0], b[1])][::-1] if False else
-                   [(xa, a[0], a[1]), (xa, b[0], b[1]), (xb, b[0], b[1]), (xb, a[0], a[1])], emats[i], euvs[i])
+            # edge a->b is CCW seen from +X, so (a@xa, b@xa, b@xb, a@xb) faces outward
+            g.face([(xa, a[0], a[1]), (xa, b[0], b[1]), (xb, b[0], b[1]), (xb, a[0], a[1])], emats[i], euvs[i])
         g.face([(xb, p[0], p[1]) for p in sec], cap_mat, "box")
         g.face([(xa, p[0], p[1]) for p in reversed(sec)], cap_mat, "box")
 
@@ -642,7 +651,7 @@ def _snow_gable(g, xa, xb, ye0, ye1, yc, z_et, ta, ca, run, step, frac, mat, rid
 
 def roof_hip(g, x0, x1, y0, y1, zw, pitch, mat, ov=0.5, th=0.22, course=0.34, step=0.045, under="MT_WoodPlanks",
              fascia="MT_Timber", courses=True, hips=True, hip_mat=None, finial=None, snow=None, snow_from=0.3,
-             cut=None, crest=None):
+             cut=None, crest=None, crest_spacing=0.85):
     """Hip (or pyramid, if square) roof as a solid: flat soffit at the eave, stepped tile courses.
     cut: horizontal inset (m, from the eave edge) where the roof stops with a flat top (lower part of a mansard).
     crest: material for an ornamental crest (spikes) along the ridge."""
@@ -727,7 +736,7 @@ def roof_hip(g, x0, x1, y0, y1, zw, pitch, mat, ov=0.5, th=0.22, course=0.34, st
         (rx0, ry0), (rx1, ry1) = info.ridge
         L = math.hypot(rx1 - rx0, ry1 - ry0)
         if L > 0.8:
-            n = max(1, int(L / 0.85))
+            n = max(1, int(L / crest_spacing))
             for k in range(1, n):
                 t = k / n
                 cx, cy = rx0 + (rx1 - rx0) * t, ry0 + (ry1 - ry0) * t
@@ -1133,7 +1142,7 @@ def gable_block(g, fr, u0, u1, v0, h, n0, n1, side_mat, cap_mat):
         g.face([P(*t, n0) for t in reversed(tri)], cap_mat)
         for (a, b) in ((tri[0], tri[1]), (tri[1], tri[2]), (tri[2], tri[0])):
             m = cap_mat if a[1] == b[1] else side_mat
-            g.face([P(a[0], a[1], n0), P(b[0], b[1], n0), P(b[0], b[1], n1), P(a[0], a[1], n1)][::-1], m,
+            g.face([P(a[0], a[1], n0), P(b[0], b[1], n0), P(b[0], b[1], n1), P(a[0], a[1], n1)], m,
                    "slope" if m == side_mat else "box")
 
 
@@ -1269,3 +1278,53 @@ def rose_tracery(g, fr, uc, vc, r, depth, mat="MT_StoneWhite"):
         bar = [(uc - d[0] * L + nrm[0] * bw, vc - d[1] * L + nrm[1] * bw), (uc - d[0] * L - nrm[0] * bw, vc - d[1] * L - nrm[1] * bw),
                (uc + d[0] * L - nrm[0] * bw, vc + d[1] * L - nrm[1] * bw), (uc + d[0] * L + nrm[0] * bw, vc + d[1] * L + nrm[1] * bw)]
         g.plate(fr, bar, back - 0.03 - 0.004 * k, back + 0.05 - 0.004 * k, mat)
+
+
+def parapet_ring(g, x0, y0, x1, y1, z_roof, h, mat, proud=0.05, thick=0.35, coping=None, merlons=None):
+    """Parapet around a flat roof: a closed ring from 0.1 below the roof top up h, proud of the walls; optional
+    coping lip and rounded / stepped merlons ('round' | 'step') along its top."""
+    outer = [(x0 - proud, y0 - proud), (x1 + proud, y0 - proud), (x1 + proud, y1 + proud), (x0 - proud, y1 + proud)]
+    inner = [(x0 + thick, y0 + thick), (x1 - thick, y0 + thick), (x1 - thick, y1 - thick), (x0 + thick, y1 - thick)]
+    g.prism_holes(outer, [inner], z_roof - 0.1, z_roof + h, mat)
+    if coping:
+        o2 = [(x0 - proud - 0.04, y0 - proud - 0.04), (x1 + proud + 0.04, y0 - proud - 0.04),
+              (x1 + proud + 0.04, y1 + proud + 0.04), (x0 - proud - 0.04, y1 + proud + 0.04)]
+        i2 = [(x0 + thick - 0.04, y0 + thick - 0.04), (x1 - thick + 0.04, y0 + thick - 0.04),
+              (x1 - thick + 0.04, y1 - thick + 0.04), (x0 + thick - 0.04, y1 - thick + 0.04)]
+        g.prism_holes(o2, [i2], z_roof + h - 0.06, z_roof + h + 0.07, coping)
+    if merlons:
+        zt = z_roof + h + (0.07 if coping else 0.0)
+        for (a, b, fixed, axis, inward) in ((x0, x1, y0, "x", 1), (x0, x1, y1, "x", -1), (y0, y1, x0, "y", 1),
+                                           (y0, y1, x1, "y", -1)):
+            m = thick + 0.3          # keep merlons clear of the corners (rows would overlap there)
+            L = b - a - 2 * m
+            if L < 0.6:
+                continue
+            n = max(1, int(L / 1.1))
+            for k in range(n):
+                c = a + m + L * (k + 0.5) / n
+                f0 = fixed - inward * (proud - 0.02)
+                f1 = fixed + inward * (thick - 0.02)
+                w = 0.5
+                d = abs(f1 - f0)
+                if merlons == "round":
+                    prof = [(0, 0), (w, 0), (w, 0.3)] + [(w / 2 + w / 2 * math.cos(math.pi * i / 6),
+                                                          0.3 + w / 2 * math.sin(math.pi * i / 6)) for i in range(1, 6)] + [(0, 0.3)]
+                else:
+                    prof = [(0, 0), (w, 0), (w, 0.25), (w * 0.8, 0.25), (w * 0.8, 0.45), (w * 0.2, 0.45), (w * 0.2, 0.25),
+                            (0, 0.25)]
+                if axis == "x":
+                    # frame normal = X x Z = -Y, so the range [-d, 0] extrudes from min(f0,f1) toward +Y
+                    g.plate(Frame((c - w / 2, min(f0, f1), zt - 0.03), (1, 0, 0), (0, 0, 1)), prof, -d, 0.0, mat)
+                else:
+                    # frame normal = Y x Z = +X
+                    g.plate(Frame((min(f0, f1), c - w / 2, zt - 0.03), (0, 1, 0), (0, 0, 1)), prof, 0.0, d, mat)
+
+
+def viga_row(g, fr, L, v, n_out=0.4, size=0.16, spacing=0.9, mat="MT_Timber", margin=0.5):
+    """Row of protruding round-ish roof beam ends (vigas) under a flat roof."""
+    n = max(1, int((L - 2 * margin) / spacing))
+    for k in range(n + 1):
+        u = margin + (L - 2 * margin) * k / n
+        wplate(g, fr, [(u - size / 2, v), (u + size / 2, v), (u + size / 2, v + size * 0.7), (u, v + size),
+                       (u - size / 2, v + size * 0.7)], -0.1, n_out, mat)

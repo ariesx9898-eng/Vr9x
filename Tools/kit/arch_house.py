@@ -6,9 +6,8 @@ for set-specific extras. Everything is built centred on the origin with the grou
 """
 import math
 
-from arch_geo import Frame
-from arch_parts import (stair, Opening, arch_poly, block, chimney, corner_posts, door_trim, joist_ends, rect, roof_gable,
-                        roof_hip, side_frame, steps, timber_facade, window_trim, frame_ring, _brace)
+from arch_parts import (stair, Opening, arch_poly, block, chimney, corner_posts, door_trim, joist_ends, rect,
+                        roof_gable, roof_hip, side_frame, timber_facade, window_trim, frame_ring, _brace)
 
 SIDES = ("front", "right", "back", "left")
 
@@ -112,8 +111,10 @@ class House:
         self.pitch2 = kw.pop("pitch2", 28)          # mansard upper pitch
         self.mansard_h = kw.pop("mansard_h", 2.4)   # mansard lower slope rise
         self.crest = kw.pop("crest", None)          # ornamental ridge crest material
+        self.crest_spacing = kw.pop("crest_spacing", 0.85)
         self.pilasters = kw.pop("pilasters", None)  # corner pilaster material (masonry houses)
         self.side_win_styles = kw.pop("side_win_styles", None)  # simpler trims for back / side facades
+        self.parapet = kw.pop("parapet", dict(h=0.9, mat=None, coping=None, merlons=None))  # flat roofs
         self.max_panel = kw.pop("max_panel", 1.5)
         if kw:
             raise TypeError(f"unknown House options {sorted(kw)}")
@@ -210,7 +211,8 @@ class House:
                     n = 0
                 pos = self.window_positions.get((i, side))
                 extra = self.extra_openings.get((i, side), [])
-                avoid = avoid + [(o.box[0] - 0.1, o.box[2] + 0.1) for o in extra]
+                avoid = avoid + [(o.box[0] - 0.1, o.box[2] + 0.1) for o in extra
+                                 if o.box[1] < sill + wh + 0.3 and o.box[3] > sill - 0.3]
                 lst += window_row(Lf, n, ws, wh, sill, avoid=avoid, kind=wst.get("kind", self.win_kind),
                                   positions=pos, depth=wst.get("depth", 0.18))
             for o in self.extra_openings.get((i, side), []):
@@ -241,7 +243,7 @@ class House:
             block(g, x0, y0, x1, y1, zb, z1, mat, ops=body_ops,
                   gable=(self.ridge, self.ze, self.zr))
         else:
-            ztop = z1 if not is_top else z1 + 0.25
+            ztop = z1 if (not is_top or self.roof == "flat") else z1 + 0.25
             block(g, x0, y0, x1, y1, zb, ztop, mat, ops=body_ops)
         L["ops"] = ops
         L["frames"] = att
@@ -397,6 +399,13 @@ class House:
                                         under=self.roof_under, fascia=self.fascia, verge=self.verge or self.fascia,
                                         axis=self.ridge, snow=self.snow, snow_from=self.snow_from,
                                         ridge_mat=self.ridge_mat)
+        elif self.roof == "flat":
+            from arch_parts import parapet_ring
+            p = self.parapet
+            parapet_ring(g, x0, y0, x1, y1, self.zw, p.get("h", 0.9), p.get("mat") or self.walls[-1],
+                         proud=p.get("proud", 0.05), thick=p.get("thick", 0.35), coping=p.get("coping"),
+                         merlons=p.get("merlons"))
+            self.roof_info = None
         elif self.roof == "mansard":
             ta = math.tan(math.radians(self.pitch))
             ca = math.cos(math.radians(self.pitch))
@@ -408,16 +417,19 @@ class House:
             self.upper_info = roof_hip(g, cx0, cx1, cy0, cy1, self.roof_info.z_cut - 0.137, self.pitch2, self.roof_mat,
                                        ov=0.0, th=self.th, course=self.course, step=self.step, under=self.roof_under,
                                        fascia=self.fascia, finial=self.hip_finial, hip_mat=self.ridge_mat,
-                                       crest=self.crest)
+                                       crest=self.crest, crest_spacing=self.crest_spacing)
         else:
             self.roof_info = roof_hip(g, x0, x1, y0, y1, self.zw, self.pitch, self.roof_mat, ov=self.ov, th=self.th,
                                       course=self.course, step=self.step, under=self.roof_under, fascia=self.fascia,
-                                      finial=self.hip_finial, snow=self.snow, hip_mat=self.ridge_mat, crest=self.crest)
+                                      finial=self.hip_finial, snow=self.snow, hip_mat=self.ridge_mat, crest=self.crest,
+                                      crest_spacing=self.crest_spacing)
 
     def roof_top_z(self, x, y):
         """Height of the roof tile base above world (x, y) for gable/hip roofs of this house."""
         top = self.levels[-1]
         x0, y0, x1, y1 = top["fp"]
+        if self.roof == "flat":
+            return self.zw
         if self.roof == "mansard":
             cx0, cy0, cx1, cy1 = self.roof_info.cut_rect
             if cx0 <= x <= cx1 and cy0 <= y <= cy1:
@@ -430,6 +442,8 @@ class House:
         return self.roof_info.z_top(d)
 
     def ridge_z(self):
+        if self.roof == "flat":
+            return self.zw + self.parapet.get("h", 0.9)
         if self.roof == "mansard":
             return self.upper_info.z_ridge
         top = self.levels[-1]

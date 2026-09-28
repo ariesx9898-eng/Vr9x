@@ -5,11 +5,10 @@ import math
 
 from mathutils import Vector
 
-from arch_geo import Frame, ccw
-from arch_house import House, gable_heights
-from arch_parts import (Opening, arch_poly, block, circle_poly, corner_posts, door_trim, exterior_chimney, hoist_beam,
-                        porch, rect, roof_cone, roof_gable, roof_shed, shed_body, side_frame, solid, stair,
-                        window_trim, wplate)
+from arch_geo import Frame
+from arch_house import House
+from arch_parts import (Opening, arch_poly, circle_poly, corner_posts, door_trim, exterior_chimney, hoist_beam, porch,
+                        rect, roof_cone, roof_gable, roof_shed, shed_body, side_frame, solid, stair, window_trim)
 from arch_registry import asset
 
 WOOD_WIN = dict(trim="MT_Timber", frame_w=0.08, shutters=True, shutter_mat="MT_WoodPlanks", sill_mat="MT_Timber",
@@ -103,6 +102,18 @@ def barn_a(g, rng):
         L0 = h.levels[0]
         fr, Lf = L0["frames"]["front"]
         hoist_beam(g, fr, Lf / 2, L0["H"] + 2.6, out=0.9)
+        # open lean-to cart shelter along the right wall, with a few hay bales
+        x0, y0, x1, y1 = L0["fp"]
+        with g.xf(loc=(x1 + 1.45, 0.0, 0.0), rotz=90):
+            hw, hd = 4.2, 1.5
+            roof_shed(g, -hw, hw, -hd, hd, 2.5, 3.2, "MT_RoofThatch", ov=0.35, ovv=0.25, th=0.3,
+                      under="MT_RoofThatch", fascia="MT_RoofThatch", course=0.45, step=0.07, ov_back=0.45)
+            for x in (-hw + 0.2, 0.0, hw - 0.2):
+                g.box(x - 0.1, -hd + 0.1, g.buried(-0.3), x + 0.1, -hd + 0.3, 2.52, "MT_Timber")
+            g.box(-hw + 0.05, -hd + 0.08, 2.4, hw - 0.05, -hd + 0.32, 2.58, "MT_Timber")
+            for k, (x, z) in enumerate(((-2.6, 0.0), (-1.4, 0.0), (-2.0, 0.55))):
+                g.box(x - 0.55, -0.4 + 0.05 * k, g.buried(0.0) if z == 0.0 else z - 0.02, x + 0.55,
+                      0.35 + 0.05 * k, z + 0.55, "MT_RoofThatch")
 
     W = 8.4
     doors = [Opening(rect(W / 2 - 1.8, 0.0, 3.6, 3.8), depth=0.25, back="MT_WoodPlanks", kind="door"),

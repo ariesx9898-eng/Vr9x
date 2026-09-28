@@ -101,31 +101,64 @@ def build_one(ad):
     return entry
 
 
+def _write_json_atomic(path, data):
+    tmp = path + ".tmp%d" % os.getpid()
+    with open(tmp, "w") as f:
+        json.dump(data, f, indent=1)
+        f.write("\n")
+    os.replace(tmp, path)
+
+
 def write_manifest(entries, replace_all):
+    """manifest_architecture.json (subset builds merge into it) + merge into the shared manifest.json, both under
+    the same advisory locks the nature kit uses (laplace_kit_<file>.lock in the system temp dir)."""
+    import arch_docs
     path = os.path.join(KIT, "manifest_architecture.json")
-    old = {}
-    if os.path.exists(path) and not replace_all:
-        for e in json.load(open(path)).get("assets", []):
-            old[e["name"]] = e
-    for e in entries:
-        old[e["name"]] = e
-    known = set(R.ORDER)
-    assets = [old[n] for n in R.ORDER if n in old] + [e for n, e in old.items() if n not in known]
-    man = {
-        "generator": "Tools/kit/build_architecture_kit.py",
-        "spec": "Docs/LaPlace/Spec.md sections 6-7",
-        "units": "metres; Blender Z-up (glTF files are Y-up, the exporter converts); +X right, fronts face -Y",
-        "pivot": "base: centre of the XY bounding box at ground level z = 0 (buildings have a buried foundation "
-                 "skirt down to -foundation); base_point: the base attachment point at z = 0 (see notes); "
-                 "center: bounding-box centre; hub: see anchors",
-        "uv": "box-projected, 1 UV unit = 1 m (roof slopes planar along the slope); VFX meshes use the UVs "
-              "described in their notes",
-        "count": len(assets),
-        "assets": assets,
-    }
     os.makedirs(KIT, exist_ok=True)
-    with open(path, "w") as f:
-        json.dump(man, f, indent=1)
+    with arch_docs.locked("manifest_architecture.json"):
+        old = {}
+        if os.path.exists(path) and not replace_all:
+            for e in json.load(open(path)).get("assets", []):
+                old[e["name"]] = e
+        for e in entries:
+            old[e["name"]] = e
+        known = set(R.ORDER)
+        assets = [old[n] for n in R.ORDER if n in old]
+        man = {
+            "generator": "Tools/kit/build_architecture_kit.py",
+            "spec": "Docs/LaPlace/Spec.md sections 6-7",
+            "units": "metres; Blender Z-up (glTF files are Y-up, the exporter converts); +X right, fronts face -Y",
+            "pivot": "base: centre of the XY bounding box at ground level z = 0 (buildings have a buried foundation "
+                     "skirt down to min_z); base_point: the base attachment point at z = 0 (see notes); "
+                     "center: bounding-box centre; hub: see anchors",
+            "uv": "box-projected, 1 UV unit = 1 m (roof slopes planar along the slope); VFX meshes use the UVs "
+                  "described in their notes",
+            "count": len(assets),
+            "assets": assets,
+        }
+        _write_json_atomic(path, man)
+    shared = os.path.join(KIT, "manifest.json")
+    with arch_docs.locked("manifest.json"):
+        sm = None
+        if os.path.exists(shared):
+            try:
+                sm = json.load(open(shared))
+            except ValueError:
+                sm = None
+        if sm is None:
+            sm = {"spec": "Docs/LaPlace/Spec.md section 7", "units": "metres, Blender Z-up", "assets": []}
+        if isinstance(sm, list):
+            sm = {"assets": sm}
+        lst = sm.setdefault("assets", [])
+        mine = {e["name"] for e in assets} | known
+        lst[:] = [a for a in lst if a.get("name") not in mine]
+        lst.extend(assets)
+        gens = sm.get("generators", [])
+        if "Tools/kit/build_architecture_kit.py" not in gens:
+            gens.append("Tools/kit/build_architecture_kit.py")
+        sm["generators"] = gens
+        sm["count"] = len(lst)
+        _write_json_atomic(shared, sm)
     return man
 
 
@@ -173,6 +206,7 @@ def main():
     ap.add_argument("--no-sheets", action="store_true")
     ap.add_argument("--no-qa", action="store_true")
     ap.add_argument("--no-docs", action="store_true")
+    ap.add_argument("--docs", action="store_true", help="also rewrite the Kit.md sections after a partial build")
     ap.add_argument("--views", default=None, help="directory for multi-view debug renders of the built assets")
     ap.add_argument("--view-angles", default="-35:24,145:24,-90:62,35:12")
     ap.add_argument("--list", action="store_true")
@@ -207,15 +241,12 @@ def main():
     if not a.no_sheets:
         cats = [c for c in CATEGORY_ORDER if any(R.REG[n].category == c for n in names)]
         render_sheets(man, cats)
-    if not a.no_docs and full:
-        import arch_docs
-        arch_docs.write_docs(man)
     rc = 0
     if not a.no_qa:
-        cmd = [sys.executable, os.path.join(HERE, "qa_architecture_kit.py")]
-        if a.only:
-            pass
-        rc = subprocess.call(cmd)
+        rc = subprocess.call([sys.executable, os.path.join(HERE, "qa_architecture_kit.py")])
+    if not a.no_docs and (full or a.docs):
+        import arch_docs
+        arch_docs.write_docs()
     return rc
 
 

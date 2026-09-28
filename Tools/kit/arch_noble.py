@@ -3,13 +3,12 @@ with gold crests and finials, cornices, corner pilasters, pedimented windows wit
 a domed government hall and a clock tower with a spire."""
 import math
 
-from mathutils import Vector
 
 from arch_geo import Frame
 from arch_house import House
-from arch_parts import (Opening, arch_poly, balustrade, block, circle_poly, column, cornice, corner_posts, door_trim,
-                        drum_dome, finial_spike, gable_block, poly_body, portico, rect, roof_cone, roof_hip,
-                        side_frame, stair, window_trim, wplate)
+from arch_parts import (Opening, arch_poly, block, circle_poly, column, cornice, corner_posts, door_trim, drum_dome,
+                        finial_spike, gable_block, poly_body, portico, rect, roof_cone, roof_hip, side_frame, stair,
+                        window_trim, wplate)
 from arch_registry import asset
 
 W_GROUND = dict(trim="MT_StoneWhite", frame_w=0.13, shutters=False, sill_mat="MT_StoneWhite", win_w=1.05, win_h=2.0,

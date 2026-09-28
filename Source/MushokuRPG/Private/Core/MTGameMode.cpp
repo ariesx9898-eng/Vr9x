@@ -4,6 +4,7 @@
 #include "Save/MTSaveSubsystem.h"
 #include "UI/MTHUD.h"
 #include "UI/LaPlace/MTFrontEndSubsystem.h"
+#include "Dev/MTWorldTourSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
 AMTGameMode::AMTGameMode()
@@ -34,6 +35,13 @@ void AMTGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewP
 			{
 				FrontEnd->StartTour(NewPlayer);
 			}
+		}
+	}
+	if (NewPlayer && NewPlayer->IsLocalController() && UGameplayStatics::HasOption(OptionsString, TEXT("WorldTour")))
+	{
+		if (UMTWorldTourSubsystem* Tour = NewPlayer->GetGameInstance()->GetSubsystem<UMTWorldTourSubsystem>())
+		{
+			Tour->Start(NewPlayer, OptionsString);
 		}
 	}
 }

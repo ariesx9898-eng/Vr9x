@@ -3833,10 +3833,5518 @@
    ],
    "scatter": "Rocks",
    "notes": "Broken stump with root flare and surface roots."
+  },
+  {
+   "name": "SM_Asura_House_S_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_S_A.glb",
+   "footprint": [
+    7.12,
+    7.06
+   ],
+   "height": 11.08,
+   "min_z": -0.5,
+   "size": [
+    7.12,
+    7.06,
+    11.585
+   ],
+   "tris": 2301,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.56,
+     -3.53,
+     -0.502
+    ],
+    [
+     3.56,
+     3.53,
+     11.083
+    ]
+   ],
+   "notes": "Small two-storey half-timbered house, eaves to the street."
+  },
+  {
+   "name": "SM_Asura_House_S_B",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_S_B.glb",
+   "footprint": [
+    6.72,
+    8.46
+   ],
+   "height": 11.31,
+   "min_z": -0.5,
+   "size": [
+    6.72,
+    8.46,
+    11.814
+   ],
+   "tris": 2267,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.36,
+     -4.23,
+     -0.502
+    ],
+    [
+     3.36,
+     4.23,
+     11.312
+    ]
+   ],
+   "notes": "Small gable-fronted house: stone ground floor, jettied timber upper floor, loft door with hoist beam."
+  },
+  {
+   "name": "SM_Asura_House_M_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_M_A.glb",
+   "footprint": [
+    9.52,
+    9.27
+   ],
+   "height": 12.68,
+   "min_z": -0.5,
+   "size": [
+    9.52,
+    9.27,
+    13.184
+   ],
+   "tris": 3220,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.76,
+     -4.635,
+     -0.502
+    ],
+    [
+     4.76,
+     4.635,
+     12.682
+    ]
+   ],
+   "notes": "Medium house, eaves to the street: stone ground floor, jettied timber upper floor, two dormers."
+  },
+  {
+   "name": "SM_Asura_House_M_B",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_M_B.glb",
+   "footprint": [
+    8.54,
+    10.9
+   ],
+   "height": 15.46,
+   "min_z": -0.5,
+   "size": [
+    8.54,
+    10.9,
+    15.964
+   ],
+   "tris": 4868,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.27,
+     -5.45,
+     -0.502
+    ],
+    [
+     4.27,
+     5.45,
+     15.462
+    ]
+   ],
+   "notes": "Medium gable-fronted town house, three storeys with two stacked jetties."
+  },
+  {
+   "name": "SM_Asura_House_L_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_L_A.glb",
+   "footprint": [
+    11.94,
+    11.06
+   ],
+   "height": 16.63,
+   "min_z": -0.5,
+   "size": [
+    11.94,
+    11.06,
+    17.128
+   ],
+   "tris": 4695,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.97,
+     -5.53,
+     -0.502
+    ],
+    [
+     5.97,
+     5.53,
+     16.626
+    ]
+   ],
+   "notes": "Large three-storey town house, eaves to the street, three dormers, two chimneys."
+  },
+  {
+   "name": "SM_Asura_House_L_B",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_House_L_B.glb",
+   "footprint": [
+    12.99,
+    15.19
+   ],
+   "height": 17.09,
+   "min_z": -0.5,
+   "size": [
+    12.992,
+    15.192,
+    17.591
+   ],
+   "tris": 5470,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -6.496,
+     -7.596,
+     -0.502
+    ],
+    [
+     6.496,
+     7.596,
+     17.089
+    ]
+   ],
+   "notes": "Large hip-roofed corner house with an octagonal oriel turret on the front-left corner."
+  },
+  {
+   "name": "SM_Asura_Shop_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_Shop_A.glb",
+   "footprint": [
+    9.52,
+    9.86
+   ],
+   "height": 12.91,
+   "min_z": -0.5,
+   "size": [
+    9.52,
+    9.86,
+    13.415
+   ],
+   "tris": 3653,
+   "materials": [
+    "MT_ClothBlue",
+    "MT_ClothRed",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.76,
+     -4.93,
+     -0.502
+    ],
+    [
+     4.76,
+     4.93,
+     12.913
+    ]
+   ],
+   "notes": "Shop: two ground-floor counters under red and blue cloth awnings, hanging sign, timber upper floor."
+  },
+  {
+   "name": "SM_Asura_Inn_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_Inn_A.glb",
+   "footprint": [
+    14.14,
+    12.39
+   ],
+   "height": 17.74,
+   "min_z": -0.5,
+   "size": [
+    14.14,
+    12.39,
+    18.247
+   ],
+   "tris": 5599,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -7.07,
+     -6.195,
+     -0.502
+    ],
+    [
+     7.07,
+     6.195,
+     17.745
+    ]
+   ],
+   "notes": "Three-storey inn: stone ground floor with a carriage arch, balcony, hanging sign, dormers."
+  },
+  {
+   "name": "SM_Asura_Tower_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_Tower_A.glb",
+   "footprint": [
+    6.86,
+    7.03
+   ],
+   "height": 24.44,
+   "min_z": -0.5,
+   "size": [
+    6.863,
+    7.031,
+    24.941
+   ],
+   "tris": 3350,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.431,
+     -3.516,
+     -0.502
+    ],
+    [
+     3.431,
+     3.516,
+     24.439
+    ]
+   ],
+   "notes": "Stone watch / bell tower with a jettied half-timbered belfry and a steep pyramid roof."
+  },
+  {
+   "name": "SM_Asura_Manor_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_Manor_A.glb",
+   "footprint": [
+    32.12,
+    20.23
+   ],
+   "height": 16.89,
+   "min_z": -0.51,
+   "size": [
+    32.117,
+    20.227,
+    17.401
+   ],
+   "tris": 9348,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    4000,
+    15000
+   ],
+   "bounds": [
+    [
+     -16.058,
+     -10.113,
+     -0.514
+    ],
+    [
+     16.058,
+     10.113,
+     16.887
+    ]
+   ],
+   "notes": "Boreas-style noble manor (Roa): three-storey main block, two forward wings and a courtyard wall with a gate; the courtyard opens toward -Y.",
+   "attach": {
+    "courtyard_gate_width": 4.0
+   }
+  },
+  {
+   "name": "SM_Asura_Keep_A",
+   "category": "Asura",
+   "style": "Asura",
+   "kind": "building",
+   "file": "SourceArt/Kit/Asura/SM_Asura_Keep_A.glb",
+   "footprint": [
+    18.18,
+    18.18
+   ],
+   "height": 28.41,
+   "min_z": -0.92,
+   "size": [
+    18.177,
+    18.177,
+    29.334
+   ],
+   "tris": 10586,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 1.05,
+   "front": "-Y",
+   "budget": [
+    3000,
+    15000
+   ],
+   "bounds": [
+    [
+     -9.089,
+     -9.089,
+     -0.924
+    ],
+    [
+     9.089,
+     9.089,
+     28.41
+    ]
+   ],
+   "notes": "Castle keep for Roa: square stone keep with a battered base, crenellated walk, four corner turrets with red conical roofs and a hipped central roof.",
+   "attach": {
+    "door_sill_height": 1.0
+   }
+  },
+  {
+   "name": "SM_Noble_House_A",
+   "category": "AsuraNoble",
+   "style": "AsuraNoble",
+   "kind": "building",
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_House_A.glb",
+   "footprint": [
+    13.37,
+    13.94
+   ],
+   "height": 18.34,
+   "min_z": -0.5,
+   "size": [
+    13.371,
+    13.936,
+    18.844
+   ],
+   "tris": 5460,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -6.686,
+     -6.968,
+     -0.502
+    ],
+    [
+     6.686,
+     6.968,
+     18.342
+    ]
+   ],
+   "notes": "Noble town mansion: raised ground floor, pedimented piano nobile with balconettes, blue mansard roof with dormers and a gold crest, columned door portico with steps."
+  },
+  {
+   "name": "SM_Noble_House_B",
+   "category": "AsuraNoble",
+   "style": "AsuraNoble",
+   "kind": "building",
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_House_B.glb",
+   "footprint": [
+    13.11,
+    15.11
+   ],
+   "height": 21.9,
+   "min_z": -0.5,
+   "size": [
+    13.113,
+    15.113,
+    22.399
+   ],
+   "tris": 5925,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -6.557,
+     -7.557,
+     -0.502
+    ],
+    [
+     6.557,
+     7.557,
+     21.897
+    ]
+   ],
+   "notes": "Noble corner house: arched ground floor, balconettes, steep blue hip roof with a gold crest and a round corner turret with a conical spire."
+  },
+  {
+   "name": "SM_Noble_House_C",
+   "category": "AsuraNoble",
+   "style": "AsuraNoble",
+   "kind": "building",
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_House_C.glb",
+   "footprint": [
+    18.12,
+    12.76
+   ],
+   "height": 15.72,
+   "min_z": -0.51,
+   "size": [
+    18.12,
+    12.76,
+    16.229
+   ],
+   "tris": 4482,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    8000
+   ],
+   "bounds": [
+    [
+     -9.06,
+     -6.38,
+     -0.506
+    ],
+    [
+     9.06,
+     6.38,
+     15.723
+    ]
+   ],
+   "notes": "Symmetrical two-storey noble residence with a projecting central frontispiece crowned by a pediment, a balcony on columns over the door, hip roof with gold crest."
+  },
+  {
+   "name": "SM_Noble_Hall_A",
+   "category": "AsuraNoble",
+   "style": "AsuraNoble",
+   "kind": "building",
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_Hall_A.glb",
+   "footprint": [
+    29.24,
+    24.26
+   ],
+   "height": 24.21,
+   "min_z": -0.61,
+   "size": [
+    29.24,
+    24.26,
+    24.82
+   ],
+   "tris": 7910,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.7,
+   "front": "-Y",
+   "budget": [
+    4000,
+    15000
+   ],
+   "bounds": [
+    [
+     -14.62,
+     -12.13,
+     -0.608
+    ],
+    [
+     14.62,
+     12.13,
+     24.212
+    ]
+   ],
+   "notes": "Government hall: stone podium with a grand stair, hexastyle portico with a pediment, two tall storeys of arched windows, low blue hip roof behind a balustrade and a central dome on a windowed drum with a gold lantern.",
+   "attach": {
+    "podium_height": 1.5,
+    "main_door_width": 2.6
+   }
+  },
+  {
+   "name": "SM_Noble_Tower_A",
+   "category": "AsuraNoble",
+   "style": "AsuraNoble",
+   "kind": "building",
+   "file": "SourceArt/Kit/AsuraNoble/SM_Noble_Tower_A.glb",
+   "footprint": [
+    5.84,
+    6.22
+   ],
+   "height": 38.15,
+   "min_z": -0.63,
+   "size": [
+    5.84,
+    6.22,
+    38.776
+   ],
+   "tris": 3356,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.66,
+   "front": "-Y",
+   "budget": [
+    1500,
+    8000
+   ],
+   "bounds": [
+    [
+     -2.92,
+     -3.11,
+     -0.626
+    ],
+    [
+     2.92,
+     3.11,
+     38.15
+    ]
+   ],
+   "notes": "Slender white clock tower: pilastered shaft with string courses, four gilded clock faces, an open arcaded belfry and an octagonal blue spire with a gold finial."
+  },
+  {
+   "name": "SM_Rural_House_A",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_House_A.glb",
+   "footprint": [
+    8.6,
+    6.8
+   ],
+   "height": 8.67,
+   "min_z": -0.5,
+   "size": [
+    8.6,
+    6.8,
+    9.177
+   ],
+   "tris": 1010,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_RoofThatch",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.3,
+     -3.4,
+     -0.502
+    ],
+    [
+     4.3,
+     3.4,
+     8.675
+    ]
+   ],
+   "notes": "Thatched plank cottage with an exterior stone chimney."
+  },
+  {
+   "name": "SM_Rural_House_B",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_House_B.glb",
+   "footprint": [
+    9.18,
+    8.96
+   ],
+   "height": 9.63,
+   "min_z": -0.5,
+   "size": [
+    9.18,
+    8.96,
+    10.131
+   ],
+   "tris": 1794,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.59,
+     -4.48,
+     -0.502
+    ],
+    [
+     4.59,
+     4.48,
+     9.629
+    ]
+   ],
+   "notes": "One-and-a-half storey farmhouse: plank walls, red tile roof with two dormers, front porch."
+  },
+  {
+   "name": "SM_Rural_House_C",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_House_C.glb",
+   "footprint": [
+    14.65,
+    7.2
+   ],
+   "height": 8.34,
+   "min_z": -0.5,
+   "size": [
+    14.652,
+    7.204,
+    8.838
+   ],
+   "tris": 1300,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_RoofThatch",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -7.326,
+     -3.602,
+     -0.502
+    ],
+    [
+     7.326,
+     3.602,
+     8.336
+    ]
+   ],
+   "notes": "Long thatched farmhouse with a hipped roof, a lean-to woodshed on its right end and a chimney."
+  },
+  {
+   "name": "SM_Rural_Barn_A",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Barn_A.glb",
+   "footprint": [
+    12.3,
+    13.35
+   ],
+   "height": 10.69,
+   "min_z": -0.5,
+   "size": [
+    12.3,
+    13.35,
+    11.189
+   ],
+   "tris": 1010,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofThatch",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -6.15,
+     -6.675,
+     -0.502
+    ],
+    [
+     6.15,
+     6.675,
+     10.687
+    ]
+   ],
+   "notes": "Thatched gable-fronted barn with big double doors (3.6 m wide x 3.8 m) facing -Y and a hayloft hatch."
+  },
+  {
+   "name": "SM_Rural_Barn_B",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Barn_B.glb",
+   "footprint": [
+    14.36,
+    8.98
+   ],
+   "height": 9.75,
+   "min_z": -0.5,
+   "size": [
+    14.36,
+    8.98,
+    10.253
+   ],
+   "tris": 1111,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -7.18,
+     -4.49,
+     -0.502
+    ],
+    [
+     7.18,
+     4.49,
+     9.751
+    ]
+   ],
+   "notes": "Red-roofed barn: stone lower storey, plank loft storey, two cart doors on the long -Y side, hoist beam in the gable."
+  },
+  {
+   "name": "SM_Rural_Windmill_Body",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Windmill_Body.glb",
+   "footprint": [
+    5.95,
+    6.39
+   ],
+   "height": 14.77,
+   "min_z": -0.55,
+   "size": [
+    5.95,
+    6.388,
+    15.326
+   ],
+   "tris": 1448,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofThatch",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    800,
+    6000
+   ],
+   "bounds": [
+    [
+     -2.975,
+     -3.413,
+     -0.554
+    ],
+    [
+     2.975,
+     2.975,
+     14.772
+    ]
+   ],
+   "notes": "Tower windmill body: tapered whitewashed octagonal tower on a stone base with a thatched conical cap and the windshaft; origin on the tower axis at ground level. Attach SM_Rural_Windmill_Blades at the 'hub' anchor (0, -3.15, 11.25): the blades rotate about the Y axis (their forward axis, facing -Y).",
+   "anchors": {
+    "hub": [
+     0.0,
+     -3.15,
+     11.25
+    ]
+   },
+   "attach": {
+    "blades": "SM_Rural_Windmill_Blades",
+    "hub": [
+     0.0,
+     -3.15,
+     11.25
+    ],
+    "rotation_axis": "Y",
+    "hub_height": 11.25
+   }
+  },
+  {
+   "name": "SM_Rural_Windmill_Blades",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Windmill_Blades.glb",
+   "footprint": [
+    12.13,
+    0.72
+   ],
+   "height": 6.07,
+   "min_z": -6.07,
+   "size": [
+    12.134,
+    0.72,
+    12.134
+   ],
+   "tris": 800,
+   "materials": [
+    "MT_ClothTan",
+    "MT_Iron",
+    "MT_Timber"
+   ],
+   "pivot": "hub",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    200,
+    3000
+   ],
+   "bounds": [
+    [
+     -6.067,
+     -0.42,
+     -6.067
+    ],
+    [
+     6.067,
+     0.3,
+     6.067
+    ]
+   ],
+   "notes": "Four windmill sails (7.4 m radius) with the hub centre at the origin; the sails lie in the XZ plane and rotate about the Y axis. Place at SM_Rural_Windmill_Body's 'hub' anchor (0, -3.15, 11.25).",
+   "attach": {
+    "rotation_axis": "Y",
+    "radius": 7.4
+   }
+  },
+  {
+   "name": "SM_Rural_Well",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Well.glb",
+   "footprint": [
+    2.31,
+    2.06
+   ],
+   "height": 3.0,
+   "min_z": -0.3,
+   "size": [
+    2.31,
+    2.06,
+    3.303
+   ],
+   "tris": 612,
+   "materials": [
+    "MT_ClothTan",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.35,
+   "front": "-Y",
+   "budget": [
+    200,
+    3000
+   ],
+   "bounds": [
+    [
+     -1.155,
+     -1.03,
+     -0.302
+    ],
+    [
+     1.155,
+     1.03,
+     3.001
+    ]
+   ],
+   "notes": "Village well: stone ring with coping, water surface (MT_Glass) inside, timber posts, winch with crank, rope and bucket under a small shingled roof."
+  },
+  {
+   "name": "SM_Rural_Fence_2m",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Fence_2m.glb",
+   "footprint": [
+    2.13,
+    0.17
+   ],
+   "height": 1.15,
+   "min_z": -0.35,
+   "size": [
+    2.13,
+    0.175,
+    1.502
+   ],
+   "tris": 48,
+   "materials": [
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.4,
+   "front": "-Y",
+   "budget": [
+    20,
+    400
+   ],
+   "bounds": [
+    [
+     -1.07,
+     -0.105,
+     -0.352
+    ],
+    [
+     1.06,
+     0.07,
+     1.15
+    ]
+   ],
+   "notes": "Post-and-rail fence segment spanning x = -1..+1 m. Chain segments end to end every 2 m: the smaller +X post nests inside the next segment's -X post, so joints never z-fight."
+  },
+  {
+   "name": "SM_Rural_Fence_4m",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Fence_4m.glb",
+   "footprint": [
+    4.13,
+    0.17
+   ],
+   "height": 1.15,
+   "min_z": -0.35,
+   "size": [
+    4.13,
+    0.175,
+    1.502
+   ],
+   "tris": 60,
+   "materials": [
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.4,
+   "front": "-Y",
+   "budget": [
+    20,
+    400
+   ],
+   "bounds": [
+    [
+     -2.07,
+     -0.105,
+     -0.352
+    ],
+    [
+     2.06,
+     0.07,
+     1.15
+    ]
+   ],
+   "notes": "Post-and-rail fence segment spanning x = -2..+2 m with a middle post; chains like the 2 m segment."
+  },
+  {
+   "name": "SM_Rural_Haystack",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Haystack.glb",
+   "footprint": [
+    2.94,
+    2.87
+   ],
+   "height": 3.5,
+   "min_z": -0.15,
+   "size": [
+    2.944,
+    2.872,
+    3.652
+   ],
+   "tris": 274,
+   "materials": [
+    "MT_RoofThatch",
+    "MT_Timber"
+   ],
+   "pivot": "base",
+   "foundation": 0.2,
+   "front": "-Y",
+   "budget": [
+    100,
+    1500
+   ],
+   "bounds": [
+    [
+     -1.472,
+     -1.436,
+     -0.152
+    ],
+    [
+     1.472,
+     1.436,
+     3.5
+    ]
+   ],
+   "notes": "Beehive haystack (MT_RoofThatch straw), ~2.9 m across, with a drying pole."
+  },
+  {
+   "name": "SM_Rural_Cart",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Cart.glb",
+   "footprint": [
+    1.8,
+    4.15
+   ],
+   "height": 1.21,
+   "min_z": -0.01,
+   "size": [
+    1.8,
+    4.153,
+    1.225
+   ],
+   "tris": 1064,
+   "materials": [
+    "MT_Iron",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.02,
+   "front": "-Y",
+   "budget": [
+    200,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.9,
+     -2.076,
+     -0.01
+    ],
+    [
+     0.9,
+     2.076,
+     1.215
+    ]
+   ],
+   "notes": "Two-wheeled farm cart, shafts pointing -Y, resting on a prop leg."
+  },
+  {
+   "name": "SM_Rural_Shed_A",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_Shed_A.glb",
+   "footprint": [
+    4.23,
+    3.2
+   ],
+   "height": 2.94,
+   "min_z": -0.3,
+   "size": [
+    4.23,
+    3.2,
+    3.244
+   ],
+   "tris": 518,
+   "materials": [
+    "MT_Iron",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.35,
+   "front": "-Y",
+   "budget": [
+    300,
+    3000
+   ],
+   "bounds": [
+    [
+     -2.115,
+     -1.6,
+     -0.302
+    ],
+    [
+     2.115,
+     1.6,
+     2.942
+    ]
+   ],
+   "notes": "Small lean-to plank shed with a boarded mono-pitch roof and a woodpile on its right side."
+  },
+  {
+   "name": "SM_Rural_GreyratHouse",
+   "category": "Rural",
+   "style": "Rural",
+   "kind": "building",
+   "file": "SourceArt/Kit/Rural/SM_Rural_GreyratHouse.glb",
+   "footprint": [
+    11.51,
+    14.45
+   ],
+   "height": 12.18,
+   "min_z": -0.5,
+   "size": [
+    11.51,
+    14.45,
+    12.679
+   ],
+   "tris": 3550,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.755,
+     -7.225,
+     -0.502
+    ],
+    [
+     5.755,
+     7.225,
+     12.177
+    ]
+   ],
+   "notes": "The Greyrat family house (Buena): two storeys, stone ground floor, plastered upper floor with a timber band, red roof with dormers, front porch, exterior stone chimney and a lean-to kitchen annex behind."
+  },
+  {
+   "name": "SM_North_House_A",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_House_A.glb",
+   "footprint": [
+    8.58,
+    8.11
+   ],
+   "height": 13.15,
+   "min_z": -0.5,
+   "size": [
+    8.58,
+    8.11,
+    13.654
+   ],
+   "tris": 2208,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofDark",
+    "MT_RoofRed",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.29,
+     -4.055,
+     -0.502
+    ],
+    [
+     4.29,
+     4.055,
+     13.152
+    ]
+   ],
+   "notes": "Northern house: stone ground floor, timber upper floor, steep slate roof with a snow blanket."
+  },
+  {
+   "name": "SM_North_House_B",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_House_B.glb",
+   "footprint": [
+    8.61,
+    11.14
+   ],
+   "height": 14.33,
+   "min_z": -0.5,
+   "size": [
+    8.61,
+    11.14,
+    14.828
+   ],
+   "tris": 2427,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofDark",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.305,
+     -5.57,
+     -0.502
+    ],
+    [
+     4.305,
+     5.57,
+     14.326
+    ]
+   ],
+   "notes": "Gable-fronted northern house with a steep 60 degree roof, exterior chimney and a covered entry."
+  },
+  {
+   "name": "SM_North_House_C",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_House_C.glb",
+   "footprint": [
+    10.08,
+    8.36
+   ],
+   "height": 11.2,
+   "min_z": -0.5,
+   "size": [
+    10.08,
+    8.36,
+    11.707
+   ],
+   "tris": 1944,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofDark",
+    "MT_RoofRed",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.04,
+     -4.18,
+     -0.502
+    ],
+    [
+     5.04,
+     4.18,
+     11.205
+    ]
+   ],
+   "notes": "Stone cottage, one and a half storeys, two snow-capped dormers and gable-end chimneys."
+  },
+  {
+   "name": "SM_North_Shop_A",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_Shop_A.glb",
+   "footprint": [
+    9.58,
+    10.06
+   ],
+   "height": 14.56,
+   "min_z": -0.5,
+   "size": [
+    9.58,
+    10.06,
+    15.065
+   ],
+   "tris": 3300,
+   "materials": [
+    "MT_Crystal",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofDark",
+    "MT_RoofRed",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.79,
+     -5.03,
+     -0.502
+    ],
+    [
+     4.79,
+     5.03,
+     14.563
+    ]
+   ],
+   "notes": "Magic shop: wide shop window, door flanked by two glowing crystal lanterns (MT_Crystal), hanging sign, snow-capped gable roof with a dormer."
+  },
+  {
+   "name": "SM_North_Guild_A",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_Guild_A.glb",
+   "footprint": [
+    18.56,
+    14.26
+   ],
+   "height": 22.49,
+   "min_z": -0.51,
+   "size": [
+    18.558,
+    14.258,
+    23.003
+   ],
+   "tris": 8251,
+   "materials": [
+    "MT_Crystal",
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_Plaster",
+    "MT_RoofDark",
+    "MT_RoofRed",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    4000,
+    15000
+   ],
+   "bounds": [
+    [
+     -9.279,
+     -7.129,
+     -0.508
+    ],
+    [
+     9.279,
+     7.129,
+     22.495
+    ]
+   ],
+   "notes": "Adventurer guild: three storeys (stone, then timber), hipped snow roof with dormers, square corner tower with a spire, arched double doors, balcony and a shield-and-swords emblem over the entrance."
+  },
+  {
+   "name": "SM_North_Workshop_A",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_Workshop_A.glb",
+   "footprint": [
+    16.4,
+    9.8
+   ],
+   "height": 11.21,
+   "min_z": -0.5,
+   "size": [
+    16.4,
+    9.8,
+    11.712
+   ],
+   "tris": 1704,
+   "materials": [
+    "MT_Glass",
+    "MT_Hide",
+    "MT_Iron",
+    "MT_RoofDark",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -8.2,
+     -4.9,
+     -0.502
+    ],
+    [
+     8.2,
+     4.9,
+     11.21
+    ]
+   ],
+   "notes": "Smithy / workshop: long stone building with a wide open work front, massive forge chimney and a snowy lean-to shelter with an anvil and a woodpile."
+  },
+  {
+   "name": "SM_North_Tower_A",
+   "category": "North",
+   "style": "North",
+   "kind": "building",
+   "file": "SourceArt/Kit/North/SM_North_Tower_A.glb",
+   "footprint": [
+    7.82,
+    7.9
+   ],
+   "height": 25.25,
+   "min_z": -0.56,
+   "size": [
+    7.824,
+    7.903,
+    25.803
+   ],
+   "tris": 3278,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofDark",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1500,
+    8000
+   ],
+   "bounds": [
+    [
+     -3.912,
+     -3.951,
+     -0.556
+    ],
+    [
+     3.912,
+     3.951,
+     25.247
+    ]
+   ],
+   "notes": "Round stone watch tower (12-sided, radius 3.2 m) with arched windows, a corbelled parapet band and a steep conical slate roof with a snow cap."
+  },
+  {
+   "name": "SM_Millis_House_A",
+   "category": "Millis",
+   "style": "Millis",
+   "kind": "building",
+   "file": "SourceArt/Kit/Millis/SM_Millis_House_A.glb",
+   "footprint": [
+    9.04,
+    11.34
+   ],
+   "height": 18.29,
+   "min_z": -0.5,
+   "size": [
+    9.04,
+    11.34,
+    18.791
+   ],
+   "tris": 5170,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_Stone",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.52,
+     -5.67,
+     -0.502
+    ],
+    [
+     4.52,
+     5.67,
+     18.289
+    ]
+   ],
+   "notes": "Gable-fronted Millis town house with an arcaded ground-floor loggia, arched windows and a round oculus in the steep blue gable."
+  },
+  {
+   "name": "SM_Millis_House_B",
+   "category": "Millis",
+   "style": "Millis",
+   "kind": "building",
+   "file": "SourceArt/Kit/Millis/SM_Millis_House_B.glb",
+   "footprint": [
+    13.19,
+    10.91
+   ],
+   "height": 18.43,
+   "min_z": -0.5,
+   "size": [
+    13.189,
+    10.909,
+    18.931
+   ],
+   "tris": 5104,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_Stone",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -6.595,
+     -5.455,
+     -0.502
+    ],
+    [
+     6.595,
+     5.455,
+     18.429
+    ]
+   ],
+   "notes": "Millis house with a full-height round corner turret and a tall slender spire, arched windows and blue gable roof with dormers."
+  },
+  {
+   "name": "SM_Millis_House_C",
+   "category": "Millis",
+   "style": "Millis",
+   "kind": "building",
+   "file": "SourceArt/Kit/Millis/SM_Millis_House_C.glb",
+   "footprint": [
+    7.16,
+    11.09
+   ],
+   "height": 20.13,
+   "min_z": -0.5,
+   "size": [
+    7.16,
+    11.092,
+    20.631
+   ],
+   "tris": 5126,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_Stone",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.58,
+     -5.546,
+     -0.502
+    ],
+    [
+     3.58,
+     5.546,
+     20.129
+    ]
+   ],
+   "notes": "Tall narrow gable-fronted Millis house, four storeys, with a two-storey oriel bay on the front and a round oculus in the gable."
+  },
+  {
+   "name": "SM_Millis_Shop_A",
+   "category": "Millis",
+   "style": "Millis",
+   "kind": "building",
+   "file": "SourceArt/Kit/Millis/SM_Millis_Shop_A.glb",
+   "footprint": [
+    10.88,
+    11.76
+   ],
+   "height": 16.6,
+   "min_z": -0.5,
+   "size": [
+    10.88,
+    11.76,
+    17.099
+   ],
+   "tris": 4407,
+   "materials": [
+    "MT_ClothBlue",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_Stone",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.44,
+     -5.88,
+     -0.502
+    ],
+    [
+     5.44,
+     5.88,
+     16.597
+    ]
+   ],
+   "notes": "Arcaded Millis shop: three open arches over a loggia with two shop counters under blue awnings, arched windows above, blue roof."
+  },
+  {
+   "name": "SM_Millis_Tower_A",
+   "category": "Millis",
+   "style": "Millis",
+   "kind": "building",
+   "file": "SourceArt/Kit/Millis/SM_Millis_Tower_A.glb",
+   "footprint": [
+    7.75,
+    7.91
+   ],
+   "height": 40.0,
+   "min_z": -0.56,
+   "size": [
+    7.748,
+    7.913,
+    40.561
+   ],
+   "tris": 4080,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_Stone",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1500,
+    8000
+   ],
+   "bounds": [
+    [
+     -3.874,
+     -3.956,
+     -0.556
+    ],
+    [
+     3.874,
+     3.956,
+     40.005
+    ]
+   ],
+   "notes": "Round white Millis tower (radius 3.2 m) with arched windows, a corbelled gallery and a tall slender blue spire with an iron finial."
+  },
+  {
+   "name": "SM_Millis_Chapel_A",
+   "category": "Millis",
+   "style": "Millis",
+   "kind": "building",
+   "file": "SourceArt/Kit/Millis/SM_Millis_Chapel_A.glb",
+   "footprint": [
+    13.46,
+    23.26
+   ],
+   "height": 29.1,
+   "min_z": -0.56,
+   "size": [
+    13.46,
+    23.256,
+    29.656
+   ],
+   "tris": 4420,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_Stone",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    3000,
+    15000
+   ],
+   "bounds": [
+    [
+     -6.73,
+     -11.628,
+     -0.556
+    ],
+    [
+     6.73,
+     11.628,
+     29.1
+    ]
+   ],
+   "notes": "Millis chapel: buttressed nave with pointed windows, a rose window over the pointed-arch door on the west (-Y) front, a square bell tower with a spire on the front-left corner and an apse at the back.",
+   "attach": {
+    "door_width": 2.2
+   }
+  },
+  {
+   "name": "SM_VFX_Ring",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Ring.glb",
+   "footprint": [
+    2.07,
+    2.07
+   ],
+   "height": 0.03,
+   "min_z": -0.03,
+   "size": [
+    2.07,
+    2.07,
+    0.067
+   ],
+   "tris": 1440,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -1.035,
+     -1.035,
+     -0.033
+    ],
+    [
+     1.035,
+     1.035,
+     0.033
+    ]
+   ],
+   "notes": "Thin torus, major radius 1.0 m, tube radius 0.035 m, lying in the XY plane, centred on the origin. UV: u = 0..1 around the ring, v = 0..1 around the tube."
+  },
+  {
+   "name": "SM_VFX_ShockRing",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_ShockRing.glb",
+   "footprint": [
+    2.0,
+    2.0
+   ],
+   "height": 0.0,
+   "min_z": -0.0,
+   "size": [
+    2.0,
+    2.0,
+    0.006
+   ],
+   "tris": 576,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -1.0,
+     -1.0,
+     -0.003
+    ],
+    [
+     1.0,
+     1.0,
+     0.003
+    ]
+   ],
+   "notes": "Flat annulus in the XY plane: inner radius 0.8 m, outer 1.0 m, 6 mm thick, centred on the origin. UV: u = 0..1 around, v = 0 at the inner edge to 1 at the outer edge (top and bottom faces)."
+  },
+  {
+   "name": "SM_VFX_Disc",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Disc.glb",
+   "footprint": [
+    2.0,
+    2.0
+   ],
+   "height": 0.0,
+   "min_z": -0.0,
+   "size": [
+    2.0,
+    2.0,
+    0.004
+   ],
+   "tris": 256,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -1.0,
+     -1.0,
+     -0.002
+    ],
+    [
+     1.0,
+     1.0,
+     0.002
+    ]
+   ],
+   "notes": "Flat disc of radius 1.0 m in the XY plane, 4 mm thick, centred on the origin. Planar UV 0..1 (u = 0.5 + x/2, v = 0.5 + y/2) on both faces."
+  },
+  {
+   "name": "SM_VFX_Crescent",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Crescent.glb",
+   "footprint": [
+    0.55,
+    2.0
+   ],
+   "height": 0.03,
+   "min_z": -0.03,
+   "size": [
+    0.55,
+    2.0,
+    0.05
+   ],
+   "tris": 840,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.275,
+     -1.0,
+     -0.025
+    ],
+    [
+     0.275,
+     1.0,
+     0.025
+    ]
+   ],
+   "notes": "Air-blade crescent lying flat in the XY plane: 2.0 m chord along Y, curving toward +X, 0.27 m wide at the middle, lens-shaped 5 cm thick section with sharp edges; bounding-box centre on the origin. UV: u = 0..1 along the arc (tip at -Y to tip at +Y), v = 0 inner (concave) edge to 1 outer edge."
+  },
+  {
+   "name": "SM_VFX_Flame",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Flame.glb",
+   "footprint": [
+    0.37,
+    0.34
+   ],
+   "height": 1.0,
+   "min_z": 0.0,
+   "size": [
+    0.373,
+    0.337,
+    1.0
+   ],
+   "tris": 816,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.167,
+     -0.171,
+     0.0
+    ],
+    [
+     0.205,
+     0.167,
+     1.0
+    ]
+   ],
+   "notes": "Teardrop flame tongue 1.0 m tall; origin at the base point (z = 0), tip curling toward +X. UV: u = 0..1 around, v = 0 at the base to 1 at the tip."
+  },
+  {
+   "name": "SM_VFX_Funnel",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Funnel.glb",
+   "footprint": [
+    6.06,
+    6.22
+   ],
+   "height": 8.0,
+   "min_z": 0.0,
+   "size": [
+    6.063,
+    6.219,
+    8.0
+   ],
+   "tris": 2720,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -2.703,
+     -3.11,
+     0.0
+    ],
+    [
+     3.36,
+     3.11,
+     8.0
+    ]
+   ],
+   "notes": "Tornado funnel: open twisted funnel 8.0 m tall, origin at the centre of the bottom ring (radius 1.0 m, z = 0), flaring to radius 3.0 m at the top; at the top, five helical lobes (0.35 turns over the height), axis leaning gently; a 3 cm double wall so both sides render. UV: u = 0..1 around (following the helix), v = 0 at the bottom to 1 at the top, on both the outer and inner surfaces."
+  },
+  {
+   "name": "SM_VFX_Beam",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Beam.glb",
+   "footprint": [
+    2.0,
+    2.0
+   ],
+   "height": 1.0,
+   "min_z": 0.0,
+   "size": [
+    2.0,
+    2.0,
+    1.0
+   ],
+   "tris": 576,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "base",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -1.0,
+     -1.0,
+     0.0
+    ],
+    [
+     1.0,
+     1.0,
+     1.0
+    ]
+   ],
+   "notes": "Open cylinder (a 1.5 cm double wall so both sides render), radius 1.0 m, from z = 0 to z = 1.0 m; scale Z for the beam length. UV: u = 0..1 around, v = 0 at the base to 1 at the top."
+  },
+  {
+   "name": "SM_VFX_DragonSegment",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_DragonSegment.glb",
+   "footprint": [
+    1.0,
+    1.0
+   ],
+   "height": 0.5,
+   "min_z": -0.5,
+   "size": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "tris": 432,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.5,
+     -0.5,
+     -0.5
+    ],
+    [
+     0.5,
+     0.5,
+     0.5
+    ]
+   ],
+   "notes": "Smooth tube body segment for the water dragon: radius 0.5 m, 1.0 m long along Y (y = -0.5..0.5), capped ends, centred on the origin; chain segments 1 m apart along the body curve (the head's neck ring is also 0.5 m). UV: u = 0..1 around, v = 0 at y = -0.5 to 1 at y = +0.5."
+  },
+  {
+   "name": "SM_VFX_DragonHead",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_DragonHead.glb",
+   "footprint": [
+    3.2,
+    3.57
+   ],
+   "height": 1.01,
+   "min_z": -1.01,
+   "size": [
+    3.2,
+    3.57,
+    2.02
+   ],
+   "tris": 2728,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -1.6,
+     -1.785,
+     -1.01
+    ],
+    [
+     1.6,
+     1.785,
+     1.01
+    ]
+   ],
+   "notes": "Stylised eastern water-dragon head, 3.0 m long, facing +Y (snout at +Y), smooth, with a slightly open jaw, swept-back horns, long whiskers, brow ridges, eyes and fangs; bounding-box centre on the origin. The neck ring (radius ~0.5 m, matching SM_VFX_DragonSegment) is at the 'neck' anchor. UV: u around, v along +Y on the head and jaw; u around / v along each horn and whisker.",
+   "anchors": {
+    "neck": [
+     0.0,
+     -1.185,
+     -0.34
+    ]
+   }
+  },
+  {
+   "name": "SM_VFX_Spike_A",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Spike_A.glb",
+   "footprint": [
+    1.1,
+    1.04
+   ],
+   "height": 3.0,
+   "min_z": 0.0,
+   "size": [
+    1.104,
+    1.041,
+    3.0
+   ],
+   "tris": 96,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.531,
+     -0.554,
+     0.0
+    ],
+    [
+     0.573,
+     0.487,
+     3.0
+    ]
+   ],
+   "notes": "Jagged rock spike (earth magic), 3.0 m tall, base radius 0.6 m centred on the origin at z = 0, slot MT_Rock, faceted; box-projected UVs (1 UV = 1 m)."
+  },
+  {
+   "name": "SM_VFX_Spike_B",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Spike_B.glb",
+   "footprint": [
+    1.4,
+    1.13
+   ],
+   "height": 3.0,
+   "min_z": -0.01,
+   "size": [
+    1.4,
+    1.132,
+    3.006
+   ],
+   "tris": 274,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.636,
+     -0.583,
+     -0.006
+    ],
+    [
+     0.764,
+     0.549,
+     3.0
+    ]
+   ],
+   "notes": "Rock spike cluster: a 3.0 m main spike (base radius 0.55 m centred on the origin at z = 0) with two smaller shards fused at its base; slot MT_Rock, box-projected UVs."
+  },
+  {
+   "name": "SM_VFX_RockChunk_A",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_A.glb",
+   "footprint": [
+    0.3,
+    0.25
+   ],
+   "height": 0.11,
+   "min_z": -0.11,
+   "size": [
+    0.303,
+    0.247,
+    0.223
+   ],
+   "tris": 36,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.151,
+     -0.124,
+     -0.112
+    ],
+    [
+     0.151,
+     0.124,
+     0.112
+    ]
+   ],
+   "notes": "Faceted rock chunk ~0.3 m (convex, closed), centred on the origin; slot MT_Rock, box UVs."
+  },
+  {
+   "name": "SM_VFX_RockChunk_B",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_B.glb",
+   "footprint": [
+    0.37,
+    0.26
+   ],
+   "height": 0.12,
+   "min_z": -0.12,
+   "size": [
+    0.368,
+    0.258,
+    0.23
+   ],
+   "tris": 38,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.184,
+     -0.129,
+     -0.115
+    ],
+    [
+     0.184,
+     0.129,
+     0.115
+    ]
+   ],
+   "notes": "Faceted rock chunk ~0.4 m, elongated; slot MT_Rock."
+  },
+  {
+   "name": "SM_VFX_RockChunk_C",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_C.glb",
+   "footprint": [
+    0.47,
+    0.44
+   ],
+   "height": 0.12,
+   "min_z": -0.12,
+   "size": [
+    0.474,
+    0.438,
+    0.249
+   ],
+   "tris": 48,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.237,
+     -0.219,
+     -0.125
+    ],
+    [
+     0.237,
+     0.219,
+     0.125
+    ]
+   ],
+   "notes": "Faceted rock chunk ~0.5 m, flattened slab; slot MT_Rock."
+  },
+  {
+   "name": "SM_VFX_RockChunk_D",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_RockChunk_D.glb",
+   "footprint": [
+    0.58,
+    0.51
+   ],
+   "height": 0.23,
+   "min_z": -0.23,
+   "size": [
+    0.582,
+    0.506,
+    0.453
+   ],
+   "tris": 48,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.291,
+     -0.253,
+     -0.227
+    ],
+    [
+     0.291,
+     0.253,
+     0.227
+    ]
+   ],
+   "notes": "Faceted rock chunk ~0.6 m, blocky; slot MT_Rock."
+  },
+  {
+   "name": "SM_VFX_EarthWall",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_EarthWall.glb",
+   "footprint": [
+    6.0,
+    1.58
+   ],
+   "height": 4.06,
+   "min_z": 0.0,
+   "size": [
+    6.0,
+    1.583,
+    4.06
+   ],
+   "tris": 456,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "base",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -3.0,
+     -0.791,
+     0.0
+    ],
+    [
+     3.0,
+     0.791,
+     4.06
+    ]
+   ],
+   "notes": "Earth wall: thick rough stone slab 6.0 m (X) x 1.5 m (Y) x 4.0 m (Z) with a crumbly top edge, base at z = 0, faces -Y; slot MT_Rock, faceted, box-projected UVs."
+  },
+  {
+   "name": "SM_VFX_Crystal",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Crystal.glb",
+   "footprint": [
+    0.21,
+    0.18
+   ],
+   "height": 0.25,
+   "min_z": -0.25,
+   "size": [
+    0.211,
+    0.178,
+    0.5
+   ],
+   "tris": 58,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.106,
+     -0.089,
+     -0.25
+    ],
+    [
+     0.106,
+     0.089,
+     0.25
+    ]
+   ],
+   "notes": "Stone bullet (Stone Cannon): compressed six-sided stone slug 0.5 m long pointing +Z, radius ~0.1 m, faceted; bounding-box centre on the origin; slot MT_Rock, box-projected UVs."
+  },
+  {
+   "name": "SM_Demon_Hut_A",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "building",
+   "file": "SourceArt/Kit/Demon/SM_Demon_Hut_A.glb",
+   "footprint": [
+    5.51,
+    6.96
+   ],
+   "height": 3.54,
+   "min_z": -0.35,
+   "size": [
+    5.507,
+    6.957,
+    3.888
+   ],
+   "tris": 1078,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Hide"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    600,
+    6000
+   ],
+   "bounds": [
+    [
+     -2.753,
+     -3.478,
+     -0.352
+    ],
+    [
+     2.753,
+     3.478,
+     3.536
+    ]
+   ],
+   "notes": "Round rock hut: lumpy dome with a chamfered entrance block, hide door curtain, bone tusks and a crystal."
+  },
+  {
+   "name": "SM_Demon_Hut_B",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "building",
+   "file": "SourceArt/Kit/Demon/SM_Demon_Hut_B.glb",
+   "footprint": [
+    6.81,
+    6.03
+   ],
+   "height": 3.4,
+   "min_z": -0.35,
+   "size": [
+    6.807,
+    6.032,
+    3.754
+   ],
+   "tris": 1378,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Hide"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    600,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.403,
+     -3.016,
+     -0.354
+    ],
+    [
+     3.403,
+     3.016,
+     3.4
+    ]
+   ],
+   "notes": "Twin-dome rock hut with an entrance block and a hide awning on bone poles."
+  },
+  {
+   "name": "SM_Demon_Hut_C",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "building",
+   "file": "SourceArt/Kit/Demon/SM_Demon_Hut_C.glb",
+   "footprint": [
+    7.56,
+    7.07
+   ],
+   "height": 3.55,
+   "min_z": -0.35,
+   "size": [
+    7.559,
+    7.068,
+    3.902
+   ],
+   "tris": 1130,
+   "materials": [
+    "MT_Bone",
+    "MT_DemonRock",
+    "MT_Hide"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    600,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.779,
+     -3.534,
+     -0.352
+    ],
+    [
+     3.779,
+     3.534,
+     3.55
+    ]
+   ],
+   "notes": "Wide low rock hut with a stone smoke pipe, a hide-covered side opening and a bone drying rack."
+  },
+  {
+   "name": "SM_Demon_House_A",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "building",
+   "file": "SourceArt/Kit/Demon/SM_Demon_House_A.glb",
+   "footprint": [
+    9.0,
+    9.21
+   ],
+   "height": 9.8,
+   "min_z": -0.45,
+   "size": [
+    9.0,
+    9.214,
+    10.252
+   ],
+   "tris": 1512,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Glass",
+    "MT_Hide",
+    "MT_Iron"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.5,
+     -4.607,
+     -0.452
+    ],
+    [
+     4.5,
+     4.607,
+     9.8
+    ]
+   ],
+   "notes": "Carved-block demon house: chunky chamfered lower block, stepped upper block under a lumpy dome, recessed windows, hide door and awning, crystal lanterns."
+  },
+  {
+   "name": "SM_Demon_House_B",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "building",
+   "file": "SourceArt/Kit/Demon/SM_Demon_House_B.glb",
+   "footprint": [
+    6.26,
+    6.84
+   ],
+   "height": 13.15,
+   "min_z": -0.45,
+   "size": [
+    6.263,
+    6.837,
+    13.602
+   ],
+   "tris": 1468,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Glass",
+    "MT_Hide"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -3.132,
+     -3.419,
+     -0.452
+    ],
+    [
+     3.132,
+     3.419,
+     13.15
+    ]
+   ],
+   "notes": "Tall demon tower-house: tapering chamfered rock block with slit windows, a hide-covered balcony box, a lumpy cap and bone tusks at the top corners."
+  },
+  {
+   "name": "SM_Demon_Stall_A",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Demon/SM_Demon_Stall_A.glb",
+   "footprint": [
+    4.01,
+    2.61
+   ],
+   "height": 2.71,
+   "min_z": -0.31,
+   "size": [
+    4.009,
+    2.609,
+    3.02
+   ],
+   "tris": 906,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Hide",
+    "MT_Iron",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    300,
+    4000
+   ],
+   "bounds": [
+    [
+     -2.005,
+     -1.305,
+     -0.31
+    ],
+    [
+     2.005,
+     1.305,
+     2.71
+    ]
+   ],
+   "notes": "Demon market stall: carved rock counter, sagging hide canopy on four bone poles, clay pots, crates and a glowing crystal lamp."
+  },
+  {
+   "name": "SM_Demon_Totem_A",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Demon/SM_Demon_Totem_A.glb",
+   "footprint": [
+    2.19,
+    1.66
+   ],
+   "height": 6.21,
+   "min_z": -0.4,
+   "size": [
+    2.193,
+    1.664,
+    6.612
+   ],
+   "tris": 677,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    300,
+    4000
+   ],
+   "bounds": [
+    [
+     -1.096,
+     -0.832,
+     -0.402
+    ],
+    [
+     1.096,
+     0.832,
+     6.21
+    ]
+   ],
+   "notes": "Totem of stacked carved demon-rock blocks with glowing crystal eyes, bone horns and a crystal crown (~6 m)."
+  },
+  {
+   "name": "SM_Demon_Tower_A",
+   "category": "Demon",
+   "style": "Demon",
+   "kind": "building",
+   "file": "SourceArt/Kit/Demon/SM_Demon_Tower_A.glb",
+   "footprint": [
+    5.6,
+    5.6
+   ],
+   "height": 19.4,
+   "min_z": -0.5,
+   "size": [
+    5.6,
+    5.6,
+    19.902
+   ],
+   "tris": 1882,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Glass",
+    "MT_Hide"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1500,
+    8000
+   ],
+   "bounds": [
+    [
+     -2.8,
+     -2.8,
+     -0.502
+    ],
+    [
+     2.8,
+     2.8,
+     19.4
+    ]
+   ],
+   "notes": "Demon watch tower: tall tapering chamfered rock shaft with slit windows and bone buttresses, a flared lumpy crown and a large glowing crystal spike on top (~20 m)."
+  },
+  {
+   "name": "SM_Desert_House_A",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_House_A.glb",
+   "footprint": [
+    8.88,
+    7.62
+   ],
+   "height": 10.54,
+   "min_z": -0.5,
+   "size": [
+    8.88,
+    7.62,
+    11.042
+   ],
+   "tris": 3266,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.44,
+     -3.81,
+     -0.502
+    ],
+    [
+     4.44,
+     3.81,
+     10.54
+    ]
+   ],
+   "notes": "Two-storey Rapan house: tan plaster cube, rounded parapet merlons, roof-beam ends, deep windows with wooden lattices, domed roof kiosk."
+  },
+  {
+   "name": "SM_Desert_House_B",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_House_B.glb",
+   "footprint": [
+    11.49,
+    8.58
+   ],
+   "height": 7.89,
+   "min_z": -0.45,
+   "size": [
+    11.49,
+    8.58,
+    8.344
+   ],
+   "tris": 2335,
+   "materials": [
+    "MT_ClothTan",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.745,
+     -4.29,
+     -0.454
+    ],
+    [
+     5.745,
+     4.29,
+     7.89
+    ]
+   ],
+   "notes": "Stepped Rapan house: single-storey block with a roof terrace behind a stepped parapet, a setback upper room, an outside stair and a cloth awning on poles."
+  },
+  {
+   "name": "SM_Desert_House_C",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_House_C.glb",
+   "footprint": [
+    11.78,
+    8.76
+   ],
+   "height": 10.23,
+   "min_z": -0.5,
+   "size": [
+    11.78,
+    8.76,
+    10.727
+   ],
+   "tris": 3270,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.89,
+     -4.38,
+     -0.502
+    ],
+    [
+     5.89,
+     4.38,
+     10.225
+    ]
+   ],
+   "notes": "Domed Rapan house: sandstone cube with a large central dome on an octagonal drum and a flat-roofed side room."
+  },
+  {
+   "name": "SM_Desert_Shop_A",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_Shop_A.glb",
+   "footprint": [
+    8.76,
+    8.78
+   ],
+   "height": 8.39,
+   "min_z": -0.5,
+   "size": [
+    8.76,
+    8.78,
+    8.892
+   ],
+   "tris": 2578,
+   "materials": [
+    "MT_ClothRed",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1000,
+    6000
+   ],
+   "bounds": [
+    [
+     -4.38,
+     -4.39,
+     -0.502
+    ],
+    [
+     4.38,
+     4.39,
+     8.39
+    ]
+   ],
+   "notes": "Rapan shop: wide arched shop front with a counter under a red cloth awning, upper floor with lattice windows and a wooden balcony screen, flat roof with merlons."
+  },
+  {
+   "name": "SM_Desert_Inn_A",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_Inn_A.glb",
+   "footprint": [
+    18.18,
+    15.49
+   ],
+   "height": 11.09,
+   "min_z": -0.45,
+   "size": [
+    18.18,
+    15.49,
+    11.544
+   ],
+   "tris": 8072,
+   "materials": [
+    "MT_ClothRed",
+    "MT_ClothTan",
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    3000,
+    15000
+   ],
+   "bounds": [
+    [
+     -9.09,
+     -7.745,
+     -0.454
+    ],
+    [
+     9.09,
+     7.745,
+     11.09
+    ]
+   ],
+   "notes": "Rapan inn built around an open courtyard: two storeys of rooms, a deep arched gateway with double doors on the front, courtyard windows and awnings, parapets with merlons and a corner dome.",
+   "attach": {
+    "gate_width": 3.2
+   }
+  },
+  {
+   "name": "SM_Desert_Tower_A",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_Tower_A.glb",
+   "footprint": [
+    5.44,
+    6.06
+   ],
+   "height": 21.94,
+   "min_z": -0.5,
+   "size": [
+    5.44,
+    6.06,
+    22.439
+   ],
+   "tris": 1934,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    1500,
+    8000
+   ],
+   "bounds": [
+    [
+     -2.72,
+     -3.03,
+     -0.502
+    ],
+    [
+     2.72,
+     3.03,
+     21.938
+    ]
+   ],
+   "notes": "Tapering sandstone watch tower with slit windows, a corbelled balcony and an open domed lantern."
+  },
+  {
+   "name": "SM_Desert_CaravanYard_A",
+   "category": "Desert",
+   "style": "Desert",
+   "kind": "building",
+   "file": "SourceArt/Kit/Desert/SM_Desert_CaravanYard_A.glb",
+   "footprint": [
+    28.6,
+    24.6
+   ],
+   "height": 8.32,
+   "min_z": -0.47,
+   "size": [
+    28.6,
+    24.6,
+    8.79
+   ],
+   "tris": 4172,
+   "materials": [
+    "MT_ClothRed",
+    "MT_ClothTan",
+    "MT_Glass",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.56,
+   "front": "-Y",
+   "budget": [
+    2000,
+    15000
+   ],
+   "bounds": [
+    [
+     -14.3,
+     -12.3,
+     -0.47
+    ],
+    [
+     14.3,
+     12.3,
+     8.32
+    ]
+   ],
+   "notes": "Walled caravan yard (~27 x 23 m): sandstone perimeter wall with rounded merlons, an open arched gate (5 m wide) in the -Y wall, corner towers with domes, lean-to stalls along the back wall, a water trough and hitching posts. The yard floor is left to the terrain.",
+   "attach": {
+    "gate_width": 5.0,
+    "gate_height": 5.2
+   }
+  },
+  {
+   "name": "SM_Asura_Wall_12m",
+   "category": "Walls",
+   "style": "Asura",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Asura_Wall_12m.glb",
+   "footprint": [
+    12.0,
+    4.45
+   ],
+   "height": 9.96,
+   "min_z": -1.0,
+   "size": [
+    12.0,
+    4.45,
+    10.962
+   ],
+   "tris": 184,
+   "materials": [
+    "MT_Stone"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -6.0,
+     -2.75,
+     -1.002
+    ],
+    [
+     6.0,
+     1.7,
+     9.96
+    ]
+   ],
+   "notes": "Asura city wall segment: 12.0 m along X (x = -6..+6), walkway at 8.0 m, outer face -Y, rect merlons in 12/n m cells. Chain end to end every 12 m; cover joints with SM_Asura_WallTower.",
+   "attach": {
+    "segment_length": 12.0,
+    "walkway_height": 8.0,
+    "wall_thickness": 3.4,
+    "outer_face": "-Y"
+   }
+  },
+  {
+   "name": "SM_Asura_WallTower",
+   "category": "Walls",
+   "style": "Asura",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Asura_WallTower.glb",
+   "footprint": [
+    10.17,
+    10.17
+   ],
+   "height": 22.34,
+   "min_z": -1.05,
+   "size": [
+    10.173,
+    10.173,
+    23.398
+   ],
+   "tris": 3288,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -5.087,
+     -5.087,
+     -1.054
+    ],
+    [
+     5.087,
+     5.087,
+     22.344
+    ]
+   ],
+   "notes": "Asura wall tower centred on a wall joint (origin = tower axis); covers wall ends meeting at any angle; walkway doors on the +/-X faces at 8.0 m.",
+   "attach": {
+    "covers_joint": true,
+    "tower_radius": 4.2,
+    "walkway_height": 8.0
+   }
+  },
+  {
+   "name": "SM_Asura_Gate",
+   "category": "Walls",
+   "style": "Asura",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Asura_Gate.glb",
+   "footprint": [
+    22.17,
+    10.17
+   ],
+   "height": 23.34,
+   "min_z": -1.06,
+   "size": [
+    22.173,
+    10.173,
+    24.404
+   ],
+   "tris": 5490,
+   "materials": [
+    "MT_ClothRed",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    1000,
+    12000
+   ],
+   "bounds": [
+    [
+     -11.087,
+     -5.087,
+     -1.06
+    ],
+    [
+     11.087,
+     5.087,
+     23.344
+    ]
+   ],
+   "notes": "Asura gatehouse replacing one 12 m wall segment: flanking towers centred at x = +/-6 (on the joints), open arched passage 5.0 m wide on the origin, raised portcullis.",
+   "attach": {
+    "opening_width": 5.0,
+    "opening_height": 6.4,
+    "portcullis_clearance": 3.8,
+    "tower_centres_x": [
+     -6.0,
+     6.0
+    ]
+   }
+  },
+  {
+   "name": "SM_Noble_Wall_12m",
+   "category": "Walls",
+   "style": "Noble",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Noble_Wall_12m.glb",
+   "footprint": [
+    12.0,
+    4.9
+   ],
+   "height": 11.96,
+   "min_z": -1.0,
+   "size": [
+    12.0,
+    4.9,
+    12.962
+   ],
+   "tris": 172,
+   "materials": [
+    "MT_StoneWhite"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -6.0,
+     -2.9,
+     -1.002
+    ],
+    [
+     6.0,
+     2.0,
+     11.96
+    ]
+   ],
+   "notes": "Noble city wall segment: 12.0 m along X (x = -6..+6), walkway at 10.0 m, outer face -Y, rect merlons in 12/n m cells. Chain end to end every 12 m; cover joints with SM_Noble_WallTower.",
+   "attach": {
+    "segment_length": 12.0,
+    "walkway_height": 10.0,
+    "wall_thickness": 4.0,
+    "outer_face": "-Y"
+   }
+  },
+  {
+   "name": "SM_Noble_WallTower",
+   "category": "Walls",
+   "style": "Noble",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Noble_WallTower.glb",
+   "footprint": [
+    10.96,
+    10.96
+   ],
+   "height": 20.88,
+   "min_z": -1.05,
+   "size": [
+    10.963,
+    10.963,
+    21.934
+   ],
+   "tris": 2360,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -5.482,
+     -5.482,
+     -1.054
+    ],
+    [
+     5.482,
+     5.482,
+     20.88
+    ]
+   ],
+   "notes": "Noble wall tower centred on a wall joint (origin = tower axis); covers wall ends meeting at any angle; walkway doors on the +/-X faces at 10.0 m.",
+   "attach": {
+    "covers_joint": true,
+    "tower_radius": 4.6,
+    "walkway_height": 10.0
+   }
+  },
+  {
+   "name": "SM_Noble_Gate",
+   "category": "Walls",
+   "style": "Noble",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Noble_Gate.glb",
+   "footprint": [
+    22.96,
+    10.96
+   ],
+   "height": 21.88,
+   "min_z": -1.06,
+   "size": [
+    22.963,
+    10.963,
+    22.94
+   ],
+   "tris": 3728,
+   "materials": [
+    "MT_ClothBlue",
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    1000,
+    12000
+   ],
+   "bounds": [
+    [
+     -11.482,
+     -5.482,
+     -1.06
+    ],
+    [
+     11.482,
+     5.482,
+     21.88
+    ]
+   ],
+   "notes": "Noble gatehouse replacing one 12 m wall segment: flanking towers centred at x = +/-6 (on the joints), open arched passage 5.0 m wide on the origin, raised portcullis.",
+   "attach": {
+    "opening_width": 5.0,
+    "opening_height": 6.4,
+    "portcullis_clearance": 3.8,
+    "tower_centres_x": [
+     -6.0,
+     6.0
+    ]
+   }
+  },
+  {
+   "name": "SM_North_Wall_12m",
+   "category": "Walls",
+   "style": "North",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_North_Wall_12m.glb",
+   "footprint": [
+    12.0,
+    4.45
+   ],
+   "height": 10.09,
+   "min_z": -1.0,
+   "size": [
+    12.0,
+    4.45,
+    11.092
+   ],
+   "tris": 292,
+   "materials": [
+    "MT_Snow",
+    "MT_Stone"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -6.0,
+     -2.75,
+     -1.002
+    ],
+    [
+     6.0,
+     1.7,
+     10.09
+    ]
+   ],
+   "notes": "North city wall segment: 12.0 m along X (x = -6..+6), walkway at 8.0 m, outer face -Y, rect merlons in 12/n m cells. Chain end to end every 12 m; cover joints with SM_North_WallTower.",
+   "attach": {
+    "segment_length": 12.0,
+    "walkway_height": 8.0,
+    "wall_thickness": 3.4,
+    "outer_face": "-Y"
+   }
+  },
+  {
+   "name": "SM_North_WallTower",
+   "category": "Walls",
+   "style": "North",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_North_WallTower.glb",
+   "footprint": [
+    10.17,
+    10.17
+   ],
+   "height": 22.34,
+   "min_z": -1.05,
+   "size": [
+    10.173,
+    10.173,
+    23.398
+   ],
+   "tris": 3582,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofDark",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -5.087,
+     -5.087,
+     -1.054
+    ],
+    [
+     5.087,
+     5.087,
+     22.344
+    ]
+   ],
+   "notes": "North wall tower centred on a wall joint (origin = tower axis); covers wall ends meeting at any angle; walkway doors on the +/-X faces at 8.0 m.",
+   "attach": {
+    "covers_joint": true,
+    "tower_radius": 4.2,
+    "walkway_height": 8.0
+   }
+  },
+  {
+   "name": "SM_North_Gate",
+   "category": "Walls",
+   "style": "North",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_North_Gate.glb",
+   "footprint": [
+    22.17,
+    10.17
+   ],
+   "height": 23.34,
+   "min_z": -1.06,
+   "size": [
+    22.173,
+    10.173,
+    24.404
+   ],
+   "tris": 6150,
+   "materials": [
+    "MT_ClothBlue",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofDark",
+    "MT_Snow",
+    "MT_Stone",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    1000,
+    12000
+   ],
+   "bounds": [
+    [
+     -11.087,
+     -5.087,
+     -1.06
+    ],
+    [
+     11.087,
+     5.087,
+     23.344
+    ]
+   ],
+   "notes": "North gatehouse replacing one 12 m wall segment: flanking towers centred at x = +/-6 (on the joints), open arched passage 5.0 m wide on the origin, raised portcullis.",
+   "attach": {
+    "opening_width": 5.0,
+    "opening_height": 6.4,
+    "portcullis_clearance": 3.8,
+    "tower_centres_x": [
+     -6.0,
+     6.0
+    ]
+   }
+  },
+  {
+   "name": "SM_Millis_Wall_12m",
+   "category": "Walls",
+   "style": "Millis",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Millis_Wall_12m.glb",
+   "footprint": [
+    12.0,
+    4.5
+   ],
+   "height": 10.96,
+   "min_z": -1.0,
+   "size": [
+    12.0,
+    4.5,
+    11.962
+   ],
+   "tris": 360,
+   "materials": [
+    "MT_StoneWhite"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -6.0,
+     -2.7,
+     -1.002
+    ],
+    [
+     6.0,
+     1.8,
+     10.96
+    ]
+   ],
+   "notes": "Millis city wall segment: 12.0 m along X (x = -6..+6), walkway at 9.0 m, outer face -Y, swallow merlons in 12/n m cells. Chain end to end every 12 m; cover joints with SM_Millis_WallTower.",
+   "attach": {
+    "segment_length": 12.0,
+    "walkway_height": 9.0,
+    "wall_thickness": 3.6,
+    "outer_face": "-Y"
+   }
+  },
+  {
+   "name": "SM_Millis_WallTower",
+   "category": "Walls",
+   "style": "Millis",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Millis_WallTower.glb",
+   "footprint": [
+    10.37,
+    10.37
+   ],
+   "height": 29.31,
+   "min_z": -1.05,
+   "size": [
+    10.371,
+    10.371,
+    30.363
+   ],
+   "tris": 3408,
+   "materials": [
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -5.185,
+     -5.185,
+     -1.054
+    ],
+    [
+     5.185,
+     5.185,
+     29.309
+    ]
+   ],
+   "notes": "Millis wall tower centred on a wall joint (origin = tower axis); covers wall ends meeting at any angle; walkway doors on the +/-X faces at 9.0 m.",
+   "attach": {
+    "covers_joint": true,
+    "tower_radius": 4.3,
+    "walkway_height": 9.0
+   }
+  },
+  {
+   "name": "SM_Millis_Gate",
+   "category": "Walls",
+   "style": "Millis",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Millis_Gate.glb",
+   "footprint": [
+    22.37,
+    10.37
+   ],
+   "height": 30.31,
+   "min_z": -1.06,
+   "size": [
+    22.371,
+    10.371,
+    31.369
+   ],
+   "tris": 5754,
+   "materials": [
+    "MT_ClothBlue",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    1000,
+    12000
+   ],
+   "bounds": [
+    [
+     -11.185,
+     -5.185,
+     -1.06
+    ],
+    [
+     11.185,
+     5.185,
+     30.309
+    ]
+   ],
+   "notes": "Millis gatehouse replacing one 12 m wall segment: flanking towers centred at x = +/-6 (on the joints), open arched passage 5.0 m wide on the origin, raised portcullis.",
+   "attach": {
+    "opening_width": 5.0,
+    "opening_height": 6.4,
+    "portcullis_clearance": 3.8,
+    "tower_centres_x": [
+     -6.0,
+     6.0
+    ]
+   }
+  },
+  {
+   "name": "SM_Demon_Wall_12m",
+   "category": "Walls",
+   "style": "Demon",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Demon_Wall_12m.glb",
+   "footprint": [
+    12.0,
+    5.19
+   ],
+   "height": 9.96,
+   "min_z": -1.0,
+   "size": [
+    12.0,
+    5.189,
+    10.962
+   ],
+   "tris": 448,
+   "materials": [
+    "MT_Bone",
+    "MT_DemonRock"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -6.0,
+     -3.289,
+     -1.002
+    ],
+    [
+     6.0,
+     1.9,
+     9.96
+    ]
+   ],
+   "notes": "Demon city wall segment: 12.0 m along X (x = -6..+6), walkway at 8.0 m, outer face -Y, tri merlons in 12/n m cells. Chain end to end every 12 m; cover joints with SM_Demon_WallTower.",
+   "attach": {
+    "segment_length": 12.0,
+    "walkway_height": 8.0,
+    "wall_thickness": 3.8,
+    "outer_face": "-Y"
+   }
+  },
+  {
+   "name": "SM_Demon_WallTower",
+   "category": "Walls",
+   "style": "Demon",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Demon_WallTower.glb",
+   "footprint": [
+    10.3,
+    10.3
+   ],
+   "height": 15.8,
+   "min_z": -1.05,
+   "size": [
+    10.3,
+    10.3,
+    16.854
+   ],
+   "tris": 1046,
+   "materials": [
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -5.15,
+     -5.15,
+     -1.054
+    ],
+    [
+     5.15,
+     5.15,
+     15.8
+    ]
+   ],
+   "notes": "Demon wall tower centred on a wall joint (origin = tower axis); covers wall ends meeting at any angle; walkway doors on the +/-X faces at 8.0 m.",
+   "attach": {
+    "covers_joint": true,
+    "tower_radius": 4.2,
+    "walkway_height": 8.0
+   }
+  },
+  {
+   "name": "SM_Demon_Gate",
+   "category": "Walls",
+   "style": "Demon",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Demon_Gate.glb",
+   "footprint": [
+    22.3,
+    10.3
+   ],
+   "height": 16.8,
+   "min_z": -1.06,
+   "size": [
+    22.3,
+    10.3,
+    17.86
+   ],
+   "tris": 2054,
+   "materials": [
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Glass",
+    "MT_Hide",
+    "MT_Iron"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    1000,
+    12000
+   ],
+   "bounds": [
+    [
+     -11.15,
+     -5.15,
+     -1.06
+    ],
+    [
+     11.15,
+     5.15,
+     16.8
+    ]
+   ],
+   "notes": "Demon gatehouse replacing one 12 m wall segment: flanking towers centred at x = +/-6 (on the joints), open arched passage 5.0 m wide on the origin, raised portcullis.",
+   "attach": {
+    "opening_width": 5.0,
+    "opening_height": 6.4,
+    "portcullis_clearance": 3.8,
+    "tower_centres_x": [
+     -6.0,
+     6.0
+    ]
+   }
+  },
+  {
+   "name": "SM_Desert_Wall_12m",
+   "category": "Walls",
+   "style": "Desert",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Desert_Wall_12m.glb",
+   "footprint": [
+    12.0,
+    4.1
+   ],
+   "height": 8.96,
+   "min_z": -1.0,
+   "size": [
+    12.0,
+    4.1,
+    9.962
+   ],
+   "tris": 464,
+   "materials": [
+    "MT_Sandstone",
+    "MT_Timber"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -6.0,
+     -2.5,
+     -1.002
+    ],
+    [
+     6.0,
+     1.6,
+     8.96
+    ]
+   ],
+   "notes": "Desert city wall segment: 12.0 m along X (x = -6..+6), walkway at 7.0 m, outer face -Y, round merlons in 12/n m cells. Chain end to end every 12 m; cover joints with SM_Desert_WallTower.",
+   "attach": {
+    "segment_length": 12.0,
+    "walkway_height": 7.0,
+    "wall_thickness": 3.2,
+    "outer_face": "-Y"
+   }
+  },
+  {
+   "name": "SM_Desert_WallTower",
+   "category": "Walls",
+   "style": "Desert",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Desert_WallTower.glb",
+   "footprint": [
+    9.9,
+    9.9
+   ],
+   "height": 18.26,
+   "min_z": -1.05,
+   "size": [
+    9.9,
+    9.9,
+    19.312
+   ],
+   "tris": 1540,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    100,
+    8000
+   ],
+   "bounds": [
+    [
+     -4.95,
+     -4.95,
+     -1.054
+    ],
+    [
+     4.95,
+     4.95,
+     18.258
+    ]
+   ],
+   "notes": "Desert wall tower centred on a wall joint (origin = tower axis); covers wall ends meeting at any angle; walkway doors on the +/-X faces at 7.0 m.",
+   "attach": {
+    "covers_joint": true,
+    "tower_radius": 4.0,
+    "walkway_height": 7.0
+   }
+  },
+  {
+   "name": "SM_Desert_Gate",
+   "category": "Walls",
+   "style": "Desert",
+   "kind": "wall",
+   "file": "SourceArt/Kit/Walls/SM_Desert_Gate.glb",
+   "footprint": [
+    21.9,
+    9.9
+   ],
+   "height": 19.26,
+   "min_z": -1.06,
+   "size": [
+    21.9,
+    9.9,
+    20.318
+   ],
+   "tris": 3138,
+   "materials": [
+    "MT_ClothRed",
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone"
+   ],
+   "pivot": "base_point",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    1000,
+    12000
+   ],
+   "bounds": [
+    [
+     -10.95,
+     -4.95,
+     -1.06
+    ],
+    [
+     10.95,
+     4.95,
+     19.258
+    ]
+   ],
+   "notes": "Desert gatehouse replacing one 12 m wall segment: flanking towers centred at x = +/-6 (on the joints), open arched passage 5.0 m wide on the origin, raised portcullis.",
+   "attach": {
+    "opening_width": 5.0,
+    "opening_height": 6.4,
+    "portcullis_clearance": 3.8,
+    "tower_centres_x": [
+     -6.0,
+     6.0
+    ]
+   }
+  },
+  {
+   "name": "SM_Prop_MarketStall_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_MarketStall_A.glb",
+   "footprint": [
+    3.1,
+    2.24
+   ],
+   "height": 2.65,
+   "min_z": -0.21,
+   "size": [
+    3.1,
+    2.24,
+    2.862
+   ],
+   "tris": 572,
+   "materials": [
+    "MT_ClothRed",
+    "MT_ClothTan",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.25,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -1.55,
+     -1.12,
+     -0.212
+    ],
+    [
+     1.55,
+     1.12,
+     2.65
+    ]
+   ],
+   "notes": "Market stall with a sloped red cloth roof and scalloped valance, crates and sacks; counter faces -Y."
+  },
+  {
+   "name": "SM_Prop_MarketStall_B",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_MarketStall_B.glb",
+   "footprint": [
+    3.34,
+    2.58
+   ],
+   "height": 2.99,
+   "min_z": -0.21,
+   "size": [
+    3.34,
+    2.58,
+    3.201
+   ],
+   "tris": 756,
+   "materials": [
+    "MT_ClothBlue",
+    "MT_Iron",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.25,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -1.67,
+     -1.29,
+     -0.212
+    ],
+    [
+     1.67,
+     1.29,
+     2.989
+    ]
+   ],
+   "notes": "Market stall with a gabled blue cloth roof on a ridge pole, barrels and baskets; counter faces -Y."
+  },
+  {
+   "name": "SM_Prop_MarketStall_C",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_MarketStall_C.glb",
+   "footprint": [
+    3.0,
+    2.22
+   ],
+   "height": 2.44,
+   "min_z": -0.21,
+   "size": [
+    3.0,
+    2.22,
+    2.652
+   ],
+   "tris": 568,
+   "materials": [
+    "MT_ClothGreen",
+    "MT_ClothRed",
+    "MT_ClothTan",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.25,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -1.5,
+     -1.11,
+     -0.212
+    ],
+    [
+     1.5,
+     1.11,
+     2.44
+    ]
+   ],
+   "notes": "Market stall with a flat green-and-tan cloth canopy, side curtain, hanging goods and crates; counter faces -Y."
+  },
+  {
+   "name": "SM_Prop_Crates_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Crates_A.glb",
+   "footprint": [
+    1.6,
+    1.36
+   ],
+   "height": 1.18,
+   "min_z": -0.01,
+   "size": [
+    1.603,
+    1.361,
+    1.186
+   ],
+   "tris": 368,
+   "materials": [
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.02,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -0.801,
+     -0.68,
+     -0.006
+    ],
+    [
+     0.801,
+     0.68,
+     1.18
+    ]
+   ],
+   "notes": "Stack of four wooden crates with timber corners and bands."
+  },
+  {
+   "name": "SM_Prop_Barrels_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Barrels_A.glb",
+   "footprint": [
+    1.36,
+    1.58
+   ],
+   "height": 0.9,
+   "min_z": -0.01,
+   "size": [
+    1.36,
+    1.58,
+    0.907
+   ],
+   "tris": 720,
+   "materials": [
+    "MT_Iron",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.02,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -0.68,
+     -0.79,
+     -0.009
+    ],
+    [
+     0.68,
+     0.79,
+     0.898
+    ]
+   ],
+   "notes": "Group of three iron-hooped barrels (two standing, one lying)."
+  },
+  {
+   "name": "SM_Prop_LampPost_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_LampPost_A.glb",
+   "footprint": [
+    0.4,
+    0.4
+   ],
+   "height": 4.35,
+   "min_z": -0.3,
+   "size": [
+    0.4,
+    0.4,
+    4.652
+   ],
+   "tris": 340,
+   "materials": [
+    "MT_Crystal",
+    "MT_Iron"
+   ],
+   "pivot": "base",
+   "foundation": 0.3,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -0.2,
+     -0.2,
+     -0.302
+    ],
+    [
+     0.2,
+     0.2,
+     4.35
+    ]
+   ],
+   "notes": "Iron street lamp post (~3.9 m) with a caged glowing magic crystal lantern."
+  },
+  {
+   "name": "SM_Prop_Signpost_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Signpost_A.glb",
+   "footprint": [
+    1.61,
+    1.52
+   ],
+   "height": 2.98,
+   "min_z": -0.35,
+   "size": [
+    1.611,
+    1.519,
+    3.332
+   ],
+   "tris": 74,
+   "materials": [
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.35,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -0.805,
+     -0.76,
+     -0.352
+    ],
+    [
+     0.805,
+     0.76,
+     2.98
+    ]
+   ],
+   "notes": "Wooden crossroads signpost with three pointing boards and a small cap."
+  },
+  {
+   "name": "SM_Prop_Fountain_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Fountain_A.glb",
+   "footprint": [
+    5.77,
+    5.77
+   ],
+   "height": 4.05,
+   "min_z": -0.4,
+   "size": [
+    5.765,
+    5.765,
+    4.452
+   ],
+   "tris": 746,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Stone",
+    "MT_StoneWhite"
+   ],
+   "pivot": "base",
+   "foundation": 0.4,
+   "front": "-Y",
+   "budget": [
+    300,
+    4000
+   ],
+   "bounds": [
+    [
+     -2.883,
+     -2.883,
+     -0.402
+    ],
+    [
+     2.883,
+     2.883,
+     4.05
+    ]
+   ],
+   "notes": "Town fountain: octagonal stone basin (radius 3 m, rim 0.75 m) with a flat water surface (MT_Glass placeholder) 12 cm below the rim, central column, upper bowl with its own water and a finial.",
+   "attach": {
+    "water_height": 0.66,
+    "rim_height": 0.78
+   }
+  },
+  {
+   "name": "SM_Prop_Bench_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Bench_A.glb",
+   "footprint": [
+    1.84,
+    0.48
+   ],
+   "height": 0.97,
+   "min_z": -0.0,
+   "size": [
+    1.84,
+    0.48,
+    0.974
+   ],
+   "tris": 132,
+   "materials": [
+    "MT_Stone",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.02,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -0.92,
+     -0.24,
+     -0.004
+    ],
+    [
+     0.92,
+     0.24,
+     0.97
+    ]
+   ],
+   "notes": "Park bench, 1.8 m, wooden slats on stone legs; the seat faces -Y."
+  },
+  {
+   "name": "SM_Prop_Statue_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Statue_A.glb",
+   "footprint": [
+    2.6,
+    2.6
+   ],
+   "height": 6.64,
+   "min_z": -0.3,
+   "size": [
+    2.6,
+    2.6,
+    6.943
+   ],
+   "tris": 430,
+   "materials": [
+    "MT_Stone",
+    "MT_StoneWhite"
+   ],
+   "pivot": "base",
+   "foundation": 0.3,
+   "front": "-Y",
+   "budget": [
+    300,
+    4000
+   ],
+   "bounds": [
+    [
+     -1.3,
+     -1.3,
+     -0.302
+    ],
+    [
+     1.3,
+     1.3,
+     6.641
+    ]
+   ],
+   "notes": "Statue of a cloaked hero with a raised sword on a stepped stone pedestal (~6 m); faces -Y.",
+   "attach": {
+    "pedestal_top": 2.45
+   }
+  },
+  {
+   "name": "SM_Bridge_Stone_12m",
+   "category": "Props",
+   "style": "Props",
+   "kind": "bridge",
+   "file": "SourceArt/Kit/Props/SM_Bridge_Stone_12m.glb",
+   "footprint": [
+    12.1,
+    5.14
+   ],
+   "height": 1.72,
+   "min_z": -3.6,
+   "size": [
+    12.1,
+    5.14,
+    5.322
+   ],
+   "tris": 784,
+   "materials": [
+    "MT_Cobble",
+    "MT_Stone"
+   ],
+   "pivot": "base_point",
+   "foundation": 3.7,
+   "front": "-Y",
+   "budget": [
+    200,
+    6000
+   ],
+   "bounds": [
+    [
+     -6.05,
+     -2.57,
+     -3.602
+    ],
+    [
+     6.05,
+     2.57,
+     1.72
+    ]
+   ],
+   "notes": "Single-arch stone bridge 12 m long along X (x = -6..+6) with 5 m deck width; the deck ends at z = 0 on the banks, rises 0.6 m at mid-span; arch span 8 m, abutments reach z = -3.6 (river bed).",
+   "attach": {
+    "length": 12.0,
+    "deck_width": 4.3,
+    "deck_ends_z": 0.0,
+    "arch_span": 8.0
+   }
+  },
+  {
+   "name": "SM_Bridge_Stone_24m",
+   "category": "Props",
+   "style": "Props",
+   "kind": "bridge",
+   "file": "SourceArt/Kit/Props/SM_Bridge_Stone_24m.glb",
+   "footprint": [
+    24.1,
+    5.14
+   ],
+   "height": 2.12,
+   "min_z": -3.6,
+   "size": [
+    24.1,
+    5.14,
+    5.722
+   ],
+   "tris": 896,
+   "materials": [
+    "MT_Cobble",
+    "MT_Stone"
+   ],
+   "pivot": "base_point",
+   "foundation": 3.7,
+   "front": "-Y",
+   "budget": [
+    200,
+    6000
+   ],
+   "bounds": [
+    [
+     -12.05,
+     -2.57,
+     -3.602
+    ],
+    [
+     12.05,
+     2.57,
+     2.12
+    ]
+   ],
+   "notes": "Three-arch stone bridge 24 m long along X (x = -12..+12), 5 m deck; deck ends at z = 0, rises 1.0 m at mid-span; spans 6.5 m on two piers.",
+   "attach": {
+    "length": 24.0,
+    "deck_width": 4.3,
+    "deck_ends_z": 0.0
+   }
+  },
+  {
+   "name": "SM_Bridge_Wood_10m",
+   "category": "Props",
+   "style": "Props",
+   "kind": "bridge",
+   "file": "SourceArt/Kit/Props/SM_Bridge_Wood_10m.glb",
+   "footprint": [
+    10.0,
+    2.6
+   ],
+   "height": 1.29,
+   "min_z": -3.01,
+   "size": [
+    10.0,
+    2.6,
+    4.299
+   ],
+   "tris": 1020,
+   "materials": [
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 3.2,
+   "front": "-Y",
+   "budget": [
+    200,
+    6000
+   ],
+   "bounds": [
+    [
+     -5.0,
+     -1.3,
+     -3.008
+    ],
+    [
+     5.0,
+     1.3,
+     1.291
+    ]
+   ],
+   "notes": "Timber footbridge 10 m along X (x = -5..+5), 2.6 m wide plank deck at z = 0..0.25 (slight camber) on stringers and two trestle bents reaching z = -3.0, with rails.",
+   "attach": {
+    "length": 10.0,
+    "deck_width": 2.3000000000000003,
+    "deck_ends_z": 0.0
+   }
+  },
+  {
+   "name": "SM_Prop_Pier_10m",
+   "category": "Props",
+   "style": "Props",
+   "kind": "bridge",
+   "file": "SourceArt/Kit/Props/SM_Prop_Pier_10m.glb",
+   "footprint": [
+    2.9,
+    10.23
+   ],
+   "height": 0.52,
+   "min_z": -3.02,
+   "size": [
+    2.9,
+    10.23,
+    3.54
+   ],
+   "tris": 812,
+   "materials": [
+    "MT_Iron",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 3.2,
+   "front": "-Y",
+   "budget": [
+    200,
+    6000
+   ],
+   "bounds": [
+    [
+     -1.45,
+     -5.18,
+     -3.02
+    ],
+    [
+     1.45,
+     5.05,
+     0.52
+    ]
+   ],
+   "notes": "Wooden pier: 10 m plank deck (2.8 m wide) running from the shore end at y = +5 out to y = -5 over the water; deck top at z = 0 (bank level), piles down to z = -3.0, mooring bollards and a ladder at the end.",
+   "attach": {
+    "deck_z": 0.0,
+    "shore_end_y": 5.0,
+    "water_end_y": -5.0
+   }
+  },
+  {
+   "name": "SM_Prop_Boat_A",
+   "category": "Props",
+   "style": "Props",
+   "kind": "prop",
+   "file": "SourceArt/Kit/Props/SM_Prop_Boat_A.glb",
+   "footprint": [
+    1.72,
+    5.2
+   ],
+   "height": 0.8,
+   "min_z": -0.42,
+   "size": [
+    1.72,
+    5.2,
+    1.22
+   ],
+   "tris": 432,
+   "materials": [
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.45,
+   "front": "-Y",
+   "budget": [
+    20,
+    4000
+   ],
+   "bounds": [
+    [
+     -0.86,
+     -2.6,
+     -0.42
+    ],
+    [
+     0.86,
+     2.6,
+     0.8
+    ]
+   ],
+   "notes": "Wooden rowing / fishing boat 5.2 m long along Y (bow toward -Y) with two thwarts and oars; origin at the waterline centre, the hull reaches 0.42 m below it.",
+   "attach": {
+    "waterline_z": 0.0,
+    "draft": 0.42
+   }
+  },
+  {
+   "name": "SM_Landmark_SilverPalace",
+   "category": "Landmarks",
+   "style": "AsuraNoble",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_SilverPalace.glb",
+   "footprint": [
+    116.6,
+    90.9
+   ],
+   "height": 66.8,
+   "min_z": -1.51,
+   "size": [
+    116.6,
+    90.9,
+    68.31
+   ],
+   "tris": 35507,
+   "materials": [
+    "MT_Cobble",
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_RoofSilver",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 1.6,
+   "front": "-Y",
+   "budget": [
+    5000,
+    40000
+   ],
+   "bounds": [
+    [
+     -58.3,
+     -45.45,
+     -1.51
+    ],
+    [
+     58.3,
+     45.45,
+     66.8
+    ]
+   ],
+   "notes": "The Silver Palace of Ars: white-stone palace on a terrace with a grand stair (front, -Y), 82 m main block and two forward wings around a court of honour, four corner towers and a central tower with silver spires (~62 m), roofline turrets and a giant columned portico.",
+   "attach": {
+    "terrace_height": 4.0,
+    "grand_stair_width": 36.0
+   }
+  },
+  {
+   "name": "SM_Landmark_RanoaUniversity",
+   "category": "Landmarks",
+   "style": "North",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RanoaUniversity.glb",
+   "footprint": [
+    147.8,
+    116.8
+   ],
+   "height": 57.65,
+   "min_z": -0.63,
+   "size": [
+    147.8,
+    116.8,
+    58.282
+   ],
+   "tris": 24966,
+   "materials": [
+    "MT_Cobble",
+    "MT_Crystal",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofGreen",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 1.1,
+   "front": "-Y",
+   "budget": [
+    5000,
+    40000
+   ],
+   "bounds": [
+    [
+     -73.9,
+     -58.4,
+     -0.632
+    ],
+    [
+     73.9,
+     58.4,
+     57.65
+    ]
+   ],
+   "notes": "Ranoa University of Magic (Sharia): a 3-storey stone quadrangle (~146 x 116 m) around a courtyard, a gate tower with an open arched passage on the front (-Y), four corner towers with green copper domes, and the great domed hall (green dome, ~52 m) with a glowing crystal lantern; crystal clusters on the towers.",
+   "attach": {
+    "gate_passage_width": 7.0,
+    "gate_passage_height": 8.5
+   }
+  },
+  {
+   "name": "SM_Landmark_MillisCathedral",
+   "category": "Landmarks",
+   "style": "Millis",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_MillisCathedral.glb",
+   "footprint": [
+    50.96,
+    85.46
+   ],
+   "height": 64.1,
+   "min_z": -0.65,
+   "size": [
+    50.96,
+    85.46,
+    64.748
+   ],
+   "tris": 16246,
+   "materials": [
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_RoofBlue",
+    "MT_StoneWhite",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.7,
+   "front": "-Y",
+   "budget": [
+    5000,
+    40000
+   ],
+   "bounds": [
+    [
+     -25.48,
+     -42.73,
+     -0.648
+    ],
+    [
+     25.48,
+     42.73,
+     64.1
+    ]
+   ],
+   "notes": "Millis cathedral (~84 x 52 m): twin west towers with spires (~62 m) framing a rose window and a triple portal on the -Y front, buttressed nave with aisles, transept, crossing lantern, apse and flying buttresses; white stone, blue roofs.",
+   "attach": {
+    "main_door_width": 5.2
+   }
+  },
+  {
+   "name": "SM_Landmark_RoaKeep",
+   "category": "Landmarks",
+   "style": "Asura",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RoaKeep.glb",
+   "footprint": [
+    74.17,
+    62.17
+   ],
+   "height": 31.82,
+   "min_z": -1.12,
+   "size": [
+    74.173,
+    62.173,
+    32.935
+   ],
+   "tris": 29653,
+   "materials": [
+    "MT_ClothRed",
+    "MT_Cobble",
+    "MT_Glass",
+    "MT_Iron",
+    "MT_RoofRed",
+    "MT_Stone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 1.3,
+   "front": "-Y",
+   "budget": [
+    5000,
+    40000
+   ],
+   "bounds": [
+    [
+     -37.087,
+     -31.087,
+     -1.116
+    ],
+    [
+     37.087,
+     31.087,
+     31.819
+    ]
+   ],
+   "notes": "Castle of Roa: crenellated curtain wall (~66 x 54 m) with four round corner towers (red conical roofs), a twin-towered gatehouse with an open 5 m passage on the -Y side, the great keep at the back and a red-roofed great hall inside the bailey.",
+   "attach": {
+    "gate_opening_width": 5.0,
+    "bailey": [
+     60.4,
+     48.4
+    ]
+   }
+  },
+  {
+   "name": "SM_Landmark_RikarisuHall",
+   "category": "Landmarks",
+   "style": "Demon",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RikarisuHall.glb",
+   "footprint": [
+    62.91,
+    69.6
+   ],
+   "height": 35.9,
+   "min_z": -0.81,
+   "size": [
+    62.906,
+    69.595,
+    36.71
+   ],
+   "tris": 7028,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Glass",
+    "MT_Hide",
+    "MT_Iron"
+   ],
+   "pivot": "base",
+   "foundation": 0.9,
+   "front": "-Y",
+   "budget": [
+    5000,
+    40000
+   ],
+   "bounds": [
+    [
+     -31.453,
+     -34.798,
+     -0.81
+    ],
+    [
+     31.453,
+     34.798,
+     35.9
+    ]
+   ],
+   "notes": "Rikarisu great hall / arena carved into a demon-rock outcrop (~64 x 52 m, ~24 m): a lumpy oval rock ring with stepped seating tiers around a sunken arena floor, a monumental carved portal on the -Y side with pillars, giant bone tusks and crystal braziers, and crystal clusters around the rim.",
+   "attach": {
+    "arena_floor_z": 1.1,
+    "portal_width": 8.0
+   }
+  },
+  {
+   "name": "SM_Landmark_RapanGuild",
+   "category": "Landmarks",
+   "style": "Desert",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RapanGuild.glb",
+   "footprint": [
+    44.9,
+    38.37
+   ],
+   "height": 41.37,
+   "min_z": -0.65,
+   "size": [
+    44.9,
+    38.37,
+    42.025
+   ],
+   "tris": 18430,
+   "materials": [
+    "MT_ClothRed",
+    "MT_ClothTan",
+    "MT_Glass",
+    "MT_Gold",
+    "MT_Iron",
+    "MT_PlasterTan",
+    "MT_Sandstone",
+    "MT_Timber",
+    "MT_WoodPlanks"
+   ],
+   "pivot": "base",
+   "foundation": 0.7,
+   "front": "-Y",
+   "budget": [
+    5000,
+    40000
+   ],
+   "bounds": [
+    [
+     -22.45,
+     -19.185,
+     -0.654
+    ],
+    [
+     22.45,
+     19.185,
+     41.371
+    ]
+   ],
+   "notes": "Rapan adventurer guild (~52 x 40 m): two-storey sandstone block with rounded merlons, a monumental pointed-arch portal (iwan) with the guild shield on the -Y front, two slender towers with domes, a great pointed dome on a windowed drum (~36 m), arcaded ground floor, awnings and banners.",
+   "attach": {
+    "portal_width": 11.0,
+    "door_width": 3.6
+   }
+  },
+  {
+   "name": "SM_Landmark_LabyrinthGate",
+   "category": "Landmarks",
+   "style": "Desert",
+   "kind": "landmark",
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_LabyrinthGate.glb",
+   "footprint": [
+    46.0,
+    20.6
+   ],
+   "height": 36.6,
+   "min_z": -1.21,
+   "size": [
+    46.0,
+    20.6,
+    37.808
+   ],
+   "tris": 3173,
+   "materials": [
+    "MT_Bone",
+    "MT_Crystal",
+    "MT_DemonRock",
+    "MT_Iron",
+    "MT_Sandstone",
+    "MT_Stone"
+   ],
+   "pivot": "base",
+   "foundation": 1.2,
+   "front": "-Y",
+   "budget": [
+    3000,
+    40000
+   ],
+   "bounds": [
+    [
+     -23.0,
+     -10.3,
+     -1.208
+    ],
+    [
+     23.0,
+     10.3,
+     36.6
+    ]
+   ],
+   "notes": "Colossal labyrinth gate (~46 m wide, ~33 m tall) meant to be set into a cliff: the facade faces -Y and the block runs 14 m back (+Y) into the rock. A 13 x 22 m pointed opening is a dark 9 m deep recess with stepped archivolts; two 20 m guardian statues, a carved face with glowing crystal eyes above the arch, rune bands and a toothed frieze.",
+   "attach": {
+    "opening_width": 13.0,
+    "opening_height": 22.0,
+    "recess_depth": 9.0,
+    "back_into_cliff": 14.0
+   }
   }
  ],
  "generators": [
-  "Tools/kit/build_nature_kit.py"
+  "Tools/kit/build_nature_kit.py",
+  "Tools/kit/build_architecture_kit.py"
  ],
- "count": 74
+ "count": 189
 }

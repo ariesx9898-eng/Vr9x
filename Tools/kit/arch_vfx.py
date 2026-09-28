@@ -4,7 +4,7 @@ both sides render with back-face culling)."""
 import math
 
 import bmesh
-from mathutils import Matrix, Vector
+from mathutils import Vector
 
 from arch_registry import asset
 

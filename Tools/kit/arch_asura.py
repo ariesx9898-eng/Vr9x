@@ -3,10 +3,9 @@ red clay-tile roofs with stepped tile courses, jettied upper floors, dormers and
 manor and a castle keep for Roa."""
 import math
 
-from arch_geo import Frame
 from arch_house import House, shift
-from arch_parts import (Opening, arch_poly, balcony, block, circle_poly, cornice, frame_ring, hanging_sign,
-                        hoist_beam, poly_body, rect, roof_cone, roof_hip, stair, window_trim, door_trim, finial_spike)
+from arch_parts import (Opening, arch_poly, balcony, block, circle_poly, cornice, hanging_sign, hoist_beam, poly_body,
+                        rect, roof_cone, roof_hip, stair, window_trim, door_trim)
 from arch_registry import asset
 
 STONE_WIN = dict(trim="MT_Stone", frame_w=0.1, shutters=True, sill_mat="MT_Stone", win_w=0.85, win_h=1.2,

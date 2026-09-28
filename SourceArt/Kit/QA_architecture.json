@@ -33,6 +33,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 295,
     "closed_shells": 29
    },
@@ -71,6 +72,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 324,
     "closed_shells": 28
    },
@@ -109,6 +111,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 201,
     "closed_shells": 19
    },
@@ -147,6 +150,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 371,
     "closed_shells": 21
    },
@@ -185,6 +189,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 167,
     "closed_shells": 16
    },
@@ -195,8 +200,8 @@
    "errors": [],
    "warnings": [],
    "info": {
-    "tris": 2135,
-    "verts": 3868,
+    "tris": 2267,
+    "verts": 4116,
     "materials": [
      "MT_Glass",
      "MT_Iron",
@@ -223,7 +228,8 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
-    "shells": 137,
+    "repeated_directed_edges": 0,
+    "shells": 147,
     "closed_shells": 15
    },
    "name": "SM_Asura_House_S_B"
@@ -261,6 +267,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 366,
     "closed_shells": 68
    },
@@ -298,6 +305,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 163,
     "closed_shells": 70
    },
@@ -336,6 +344,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 493,
     "closed_shells": 92
    },
@@ -376,6 +385,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 262,
     "closed_shells": 34
    },
@@ -414,6 +424,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 99,
     "closed_shells": 22
    },
@@ -452,8 +463,9 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 221,
-    "closed_shells": 100
+    "closed_shells": 101
    },
    "name": "SM_Noble_Hall_A"
   },
@@ -490,8 +502,9 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 290,
-    "closed_shells": 55
+    "closed_shells": 56
    },
    "name": "SM_Noble_House_A"
   },
@@ -528,6 +541,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 241,
     "closed_shells": 40
    },
@@ -566,8 +580,9 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 214,
-    "closed_shells": 71
+    "closed_shells": 72
    },
    "name": "SM_Noble_House_C"
   },
@@ -604,10 +619,1090 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 73,
     "closed_shells": 36
    },
    "name": "SM_Noble_Tower_A"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_House_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1512,
+    "verts": 2082,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Glass",
+     "MT_Hide",
+     "MT_Iron"
+    ],
+    "bbox_min": [
+     -4.5,
+     -4.607,
+     -0.452
+    ],
+    "bbox_max": [
+     4.5,
+     4.607,
+     9.8
+    ],
+    "size": [
+     9.0,
+     9.214,
+     10.252
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 41,
+    "closed_shells": 26
+   },
+   "name": "SM_Demon_House_A"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_House_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1468,
+    "verts": 1841,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Glass",
+     "MT_Hide"
+    ],
+    "bbox_min": [
+     -3.132,
+     -3.419,
+     -0.452
+    ],
+    "bbox_max": [
+     3.132,
+     3.419,
+     13.15
+    ],
+    "size": [
+     6.263,
+     6.837,
+     13.602
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 19,
+    "closed_shells": 10
+   },
+   "name": "SM_Demon_House_B"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_Hut_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1078,
+    "verts": 1224,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Hide"
+    ],
+    "bbox_min": [
+     -2.753,
+     -3.478,
+     -0.352
+    ],
+    "bbox_max": [
+     2.753,
+     3.478,
+     3.536
+    ],
+    "size": [
+     5.507,
+     6.957,
+     3.888
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 13,
+    "closed_shells": 12
+   },
+   "name": "SM_Demon_Hut_A"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_Hut_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1378,
+    "verts": 1252,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Hide"
+    ],
+    "bbox_min": [
+     -3.403,
+     -3.016,
+     -0.354
+    ],
+    "bbox_max": [
+     3.403,
+     3.016,
+     3.4
+    ],
+    "size": [
+     6.807,
+     6.032,
+     3.754
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 11,
+    "closed_shells": 10
+   },
+   "name": "SM_Demon_Hut_B"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_Hut_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1130,
+    "verts": 1286,
+    "materials": [
+     "MT_Bone",
+     "MT_DemonRock",
+     "MT_Hide"
+    ],
+    "bbox_min": [
+     -3.779,
+     -3.534,
+     -0.352
+    ],
+    "bbox_max": [
+     3.779,
+     3.534,
+     3.55
+    ],
+    "size": [
+     7.559,
+     7.068,
+     3.902
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 16,
+    "closed_shells": 15
+   },
+   "name": "SM_Demon_Hut_C"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_Stall_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 906,
+    "verts": 1326,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Hide",
+     "MT_Iron",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -2.005,
+     -1.305,
+     -0.31
+    ],
+    "bbox_max": [
+     2.005,
+     1.305,
+     2.71
+    ],
+    "size": [
+     4.009,
+     2.609,
+     3.02
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 17,
+    "closed_shells": 17
+   },
+   "name": "SM_Demon_Stall_A"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_Totem_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 677,
+    "verts": 1026,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock"
+    ],
+    "bbox_min": [
+     -1.096,
+     -0.832,
+     -0.402
+    ],
+    "bbox_max": [
+     1.096,
+     0.832,
+     6.21
+    ],
+    "size": [
+     2.193,
+     1.664,
+     6.612
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 11,
+    "closed_shells": 10
+   },
+   "name": "SM_Demon_Totem_A"
+  },
+  {
+   "file": "SourceArt/Kit/Demon/SM_Demon_Tower_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1882,
+    "verts": 2424,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Glass",
+     "MT_Hide"
+    ],
+    "bbox_min": [
+     -2.8,
+     -2.8,
+     -0.502
+    ],
+    "bbox_max": [
+     2.8,
+     2.8,
+     19.4
+    ],
+    "size": [
+     5.6,
+     5.6,
+     19.902
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 22,
+    "closed_shells": 10
+   },
+   "name": "SM_Demon_Tower_A"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_CaravanYard_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4172,
+    "verts": 6468,
+    "materials": [
+     "MT_ClothRed",
+     "MT_ClothTan",
+     "MT_Glass",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -14.3,
+     -12.3,
+     -0.47
+    ],
+    "bbox_max": [
+     14.3,
+     12.3,
+     8.32
+    ],
+    "size": [
+     28.6,
+     24.6,
+     8.79
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 161,
+    "closed_shells": 153
+   },
+   "name": "SM_Desert_CaravanYard_A"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_House_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3266,
+    "verts": 4991,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.44,
+     -3.81,
+     -0.502
+    ],
+    "bbox_max": [
+     4.44,
+     3.81,
+     10.54
+    ],
+    "size": [
+     8.88,
+     7.62,
+     11.042
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 124,
+    "closed_shells": 32
+   },
+   "name": "SM_Desert_House_A"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_House_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2335,
+    "verts": 3849,
+    "materials": [
+     "MT_ClothTan",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.745,
+     -4.29,
+     -0.454
+    ],
+    "bbox_max": [
+     5.745,
+     4.29,
+     7.89
+    ],
+    "size": [
+     11.49,
+     8.58,
+     8.344
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 96,
+    "closed_shells": 56
+   },
+   "name": "SM_Desert_House_B"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_House_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3270,
+    "verts": 5067,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.89,
+     -4.38,
+     -0.502
+    ],
+    "bbox_max": [
+     5.89,
+     4.38,
+     10.225
+    ],
+    "size": [
+     11.78,
+     8.76,
+     10.727
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 100,
+    "closed_shells": 35
+   },
+   "name": "SM_Desert_House_C"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_Inn_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 8072,
+    "verts": 13148,
+    "materials": [
+     "MT_ClothRed",
+     "MT_ClothTan",
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -9.09,
+     -7.745,
+     -0.454
+    ],
+    "bbox_max": [
+     9.09,
+     7.745,
+     11.09
+    ],
+    "size": [
+     18.18,
+     15.49,
+     11.544
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 384,
+    "closed_shells": 107
+   },
+   "name": "SM_Desert_Inn_A"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_Shop_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2578,
+    "verts": 4486,
+    "materials": [
+     "MT_ClothRed",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.38,
+     -4.39,
+     -0.502
+    ],
+    "bbox_max": [
+     4.38,
+     4.39,
+     8.39
+    ],
+    "size": [
+     8.76,
+     8.78,
+     8.892
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 113,
+    "closed_shells": 38
+   },
+   "name": "SM_Desert_Shop_A"
+  },
+  {
+   "file": "SourceArt/Kit/Desert/SM_Desert_Tower_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1934,
+    "verts": 2801,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -2.72,
+     -3.03,
+     -0.502
+    ],
+    "bbox_max": [
+     2.72,
+     3.03,
+     21.938
+    ],
+    "size": [
+     5.44,
+     6.06,
+     22.439
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 39,
+    "closed_shells": 23
+   },
+   "name": "SM_Desert_Tower_A"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_LabyrinthGate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3173,
+    "verts": 4870,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Iron",
+     "MT_Sandstone",
+     "MT_Stone"
+    ],
+    "bbox_min": [
+     -23.0,
+     -10.3,
+     -1.208
+    ],
+    "bbox_max": [
+     23.0,
+     10.3,
+     36.6
+    ],
+    "size": [
+     46.0,
+     20.6,
+     37.808
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 127,
+    "closed_shells": 64
+   },
+   "name": "SM_Landmark_LabyrinthGate"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_MillisCathedral.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 16246,
+    "verts": 26236,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -25.48,
+     -42.73,
+     -0.648
+    ],
+    "bbox_max": [
+     25.48,
+     42.73,
+     64.1
+    ],
+    "size": [
+     50.96,
+     85.46,
+     64.748
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 332,
+    "closed_shells": 166
+   },
+   "name": "SM_Landmark_MillisCathedral"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RanoaUniversity.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 24966,
+    "verts": 40796,
+    "materials": [
+     "MT_Cobble",
+     "MT_Crystal",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofGreen",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -73.9,
+     -58.4,
+     -0.632
+    ],
+    "bbox_max": [
+     73.9,
+     58.4,
+     57.65
+    ],
+    "size": [
+     147.8,
+     116.8,
+     58.282
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 924,
+    "closed_shells": 122
+   },
+   "name": "SM_Landmark_RanoaUniversity"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RapanGuild.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 18430,
+    "verts": 26280,
+    "materials": [
+     "MT_ClothRed",
+     "MT_ClothTan",
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -22.45,
+     -19.185,
+     -0.654
+    ],
+    "bbox_max": [
+     22.45,
+     19.185,
+     41.371
+    ],
+    "size": [
+     44.9,
+     38.37,
+     42.025
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 468,
+    "closed_shells": 288
+   },
+   "name": "SM_Landmark_RapanGuild"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RikarisuHall.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 7028,
+    "verts": 8125,
+    "materials": [
+     "MT_Bone",
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Glass",
+     "MT_Hide",
+     "MT_Iron"
+    ],
+    "bbox_min": [
+     -31.453,
+     -34.798,
+     -0.81
+    ],
+    "bbox_max": [
+     31.453,
+     34.798,
+     35.9
+    ],
+    "size": [
+     62.906,
+     69.595,
+     36.71
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 54,
+    "closed_shells": 44
+   },
+   "name": "SM_Landmark_RikarisuHall"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_RoaKeep.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 29653,
+    "verts": 48623,
+    "materials": [
+     "MT_ClothRed",
+     "MT_Cobble",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -37.087,
+     -31.087,
+     -1.116
+    ],
+    "bbox_max": [
+     37.087,
+     31.087,
+     31.819
+    ],
+    "size": [
+     74.173,
+     62.173,
+     32.935
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 550,
+    "closed_shells": 391
+   },
+   "name": "SM_Landmark_RoaKeep"
+  },
+  {
+   "file": "SourceArt/Kit/Landmarks/SM_Landmark_SilverPalace.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 35507,
+    "verts": 59230,
+    "materials": [
+     "MT_Cobble",
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_RoofSilver",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -58.3,
+     -45.45,
+     -1.51
+    ],
+    "bbox_max": [
+     58.3,
+     45.45,
+     66.8
+    ],
+    "size": [
+     116.6,
+     90.9,
+     68.31
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 1091,
+    "closed_shells": 308
+   },
+   "name": "SM_Landmark_SilverPalace"
+  },
+  {
+   "file": "SourceArt/Kit/Millis/SM_Millis_Chapel_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4420,
+    "verts": 6723,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_Stone",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -6.73,
+     -11.628,
+     -0.556
+    ],
+    "bbox_max": [
+     6.73,
+     11.628,
+     29.1
+    ],
+    "size": [
+     13.46,
+     23.256,
+     29.656
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 106,
+    "closed_shells": 29
+   },
+   "name": "SM_Millis_Chapel_A"
+  },
+  {
+   "file": "SourceArt/Kit/Millis/SM_Millis_House_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5170,
+    "verts": 7262,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_Stone",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.52,
+     -5.67,
+     -0.502
+    ],
+    "bbox_max": [
+     4.52,
+     5.67,
+     18.289
+    ],
+    "size": [
+     9.04,
+     11.34,
+     18.791
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 139,
+    "closed_shells": 14
+   },
+   "name": "SM_Millis_House_A"
+  },
+  {
+   "file": "SourceArt/Kit/Millis/SM_Millis_House_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5104,
+    "verts": 7697,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_Stone",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -6.595,
+     -5.455,
+     -0.502
+    ],
+    "bbox_max": [
+     6.595,
+     5.455,
+     18.429
+    ],
+    "size": [
+     13.189,
+     10.909,
+     18.931
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 116,
+    "closed_shells": 21
+   },
+   "name": "SM_Millis_House_B"
+  },
+  {
+   "file": "SourceArt/Kit/Millis/SM_Millis_House_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5126,
+    "verts": 7300,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_Stone",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -3.58,
+     -5.546,
+     -0.502
+    ],
+    "bbox_max": [
+     3.58,
+     5.546,
+     20.129
+    ],
+    "size": [
+     7.16,
+     11.092,
+     20.631
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 145,
+    "closed_shells": 22
+   },
+   "name": "SM_Millis_House_C"
+  },
+  {
+   "file": "SourceArt/Kit/Millis/SM_Millis_Shop_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4407,
+    "verts": 6456,
+    "materials": [
+     "MT_ClothBlue",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_Stone",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.44,
+     -5.88,
+     -0.502
+    ],
+    "bbox_max": [
+     5.44,
+     5.88,
+     16.597
+    ],
+    "size": [
+     10.88,
+     11.76,
+     17.099
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 133,
+    "closed_shells": 26
+   },
+   "name": "SM_Millis_Shop_A"
+  },
+  {
+   "file": "SourceArt/Kit/Millis/SM_Millis_Tower_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 4080,
+    "verts": 5457,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_Stone",
+     "MT_StoneWhite",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -3.874,
+     -3.956,
+     -0.556
+    ],
+    "bbox_max": [
+     3.874,
+     3.956,
+     40.005
+    ],
+    "size": [
+     7.748,
+     7.913,
+     40.561
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 48,
+    "closed_shells": 11
+   },
+   "name": "SM_Millis_Tower_A"
   },
   {
    "file": "SourceArt/Kit/North/SM_North_Guild_A.glb",
@@ -646,6 +1741,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 476,
     "closed_shells": 97
    },
@@ -686,6 +1782,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 127,
     "closed_shells": 15
    },
@@ -725,6 +1822,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 144,
     "closed_shells": 15
    },
@@ -765,6 +1863,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 81,
     "closed_shells": 23
    },
@@ -806,6 +1905,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 194,
     "closed_shells": 38
    },
@@ -844,6 +1944,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 36,
     "closed_shells": 7
    },
@@ -883,20 +1984,539 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 77,
     "closed_shells": 31
    },
    "name": "SM_North_Workshop_A"
   },
   {
+   "file": "SourceArt/Kit/Props/SM_Bridge_Stone_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 784,
+    "verts": 1224,
+    "materials": [
+     "MT_Cobble",
+     "MT_Stone"
+    ],
+    "bbox_min": [
+     -6.05,
+     -2.57,
+     -3.602
+    ],
+    "bbox_max": [
+     6.05,
+     2.57,
+     1.72
+    ],
+    "size": [
+     12.1,
+     5.14,
+     5.322
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 6,
+    "closed_shells": 6
+   },
+   "name": "SM_Bridge_Stone_12m"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Bridge_Stone_24m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 896,
+    "verts": 1380,
+    "materials": [
+     "MT_Cobble",
+     "MT_Stone"
+    ],
+    "bbox_min": [
+     -12.05,
+     -2.57,
+     -3.602
+    ],
+    "bbox_max": [
+     12.05,
+     2.57,
+     2.12
+    ],
+    "size": [
+     24.1,
+     5.14,
+     5.722
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 6,
+    "closed_shells": 6
+   },
+   "name": "SM_Bridge_Stone_24m"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Bridge_Wood_10m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1020,
+    "verts": 1860,
+    "materials": [
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.0,
+     -1.3,
+     -3.008
+    ],
+    "bbox_max": [
+     5.0,
+     1.3,
+     1.291
+    ],
+    "size": [
+     10.0,
+     2.6,
+     4.299
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 55,
+    "closed_shells": 55
+   },
+   "name": "SM_Bridge_Wood_10m"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Barrels_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 720,
+    "verts": 1026,
+    "materials": [
+     "MT_Iron",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -0.68,
+     -0.79,
+     -0.009
+    ],
+    "bbox_max": [
+     0.68,
+     0.79,
+     0.898
+    ],
+    "size": [
+     1.36,
+     1.58,
+     0.907
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 9,
+    "closed_shells": 9
+   },
+   "name": "SM_Prop_Barrels_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Bench_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 132,
+    "verts": 264,
+    "materials": [
+     "MT_Stone",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -0.92,
+     -0.24,
+     -0.004
+    ],
+    "bbox_max": [
+     0.92,
+     0.24,
+     0.97
+    ],
+    "size": [
+     1.84,
+     0.48,
+     0.974
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 11,
+    "closed_shells": 11
+   },
+   "name": "SM_Prop_Bench_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Boat_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 432,
+    "verts": 458,
+    "materials": [
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -0.86,
+     -2.6,
+     -0.42
+    ],
+    "bbox_max": [
+     0.86,
+     2.6,
+     0.8
+    ],
+    "size": [
+     1.72,
+     5.2,
+     1.22
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 7,
+    "closed_shells": 7
+   },
+   "name": "SM_Prop_Boat_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Crates_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 368,
+    "verts": 672,
+    "materials": [
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -0.801,
+     -0.68,
+     -0.006
+    ],
+    "bbox_max": [
+     0.801,
+     0.68,
+     1.18
+    ],
+    "size": [
+     1.603,
+     1.361,
+     1.186
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 24,
+    "closed_shells": 24
+   },
+   "name": "SM_Prop_Crates_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Fountain_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 746,
+    "verts": 1099,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Stone",
+     "MT_StoneWhite"
+    ],
+    "bbox_min": [
+     -2.883,
+     -2.883,
+     -0.402
+    ],
+    "bbox_max": [
+     2.883,
+     2.883,
+     4.05
+    ],
+    "size": [
+     5.765,
+     5.765,
+     4.452
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 9,
+    "closed_shells": 9
+   },
+   "name": "SM_Prop_Fountain_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_LampPost_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 340,
+    "verts": 640,
+    "materials": [
+     "MT_Crystal",
+     "MT_Iron"
+    ],
+    "bbox_min": [
+     -0.2,
+     -0.2,
+     -0.302
+    ],
+    "bbox_max": [
+     0.2,
+     0.2,
+     4.35
+    ],
+    "size": [
+     0.4,
+     0.4,
+     4.652
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 11,
+    "closed_shells": 11
+   },
+   "name": "SM_Prop_LampPost_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_MarketStall_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 572,
+    "verts": 1059,
+    "materials": [
+     "MT_ClothRed",
+     "MT_ClothTan",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -1.55,
+     -1.12,
+     -0.212
+    ],
+    "bbox_max": [
+     1.55,
+     1.12,
+     2.65
+    ],
+    "size": [
+     3.1,
+     2.24,
+     2.862
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 32,
+    "closed_shells": 32
+   },
+   "name": "SM_Prop_MarketStall_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_MarketStall_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 756,
+    "verts": 1172,
+    "materials": [
+     "MT_ClothBlue",
+     "MT_Iron",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -1.67,
+     -1.29,
+     -0.212
+    ],
+    "bbox_max": [
+     1.67,
+     1.29,
+     2.989
+    ],
+    "size": [
+     3.34,
+     2.58,
+     3.201
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 17,
+    "closed_shells": 17
+   },
+   "name": "SM_Prop_MarketStall_B"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_MarketStall_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 568,
+    "verts": 978,
+    "materials": [
+     "MT_ClothGreen",
+     "MT_ClothRed",
+     "MT_ClothTan",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -1.5,
+     -1.11,
+     -0.212
+    ],
+    "bbox_max": [
+     1.5,
+     1.11,
+     2.44
+    ],
+    "size": [
+     3.0,
+     2.22,
+     2.652
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 33,
+    "closed_shells": 33
+   },
+   "name": "SM_Prop_MarketStall_C"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Pier_10m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 812,
+    "verts": 1514,
+    "materials": [
+     "MT_Iron",
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -1.45,
+     -5.18,
+     -3.02
+    ],
+    "bbox_max": [
+     1.45,
+     5.05,
+     0.52
+    ],
+    "size": [
+     2.9,
+     10.23,
+     3.54
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 46,
+    "closed_shells": 46
+   },
+   "name": "SM_Prop_Pier_10m"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Signpost_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 74,
+    "verts": 146,
+    "materials": [
+     "MT_Timber",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -0.805,
+     -0.76,
+     -0.352
+    ],
+    "bbox_max": [
+     0.805,
+     0.76,
+     2.98
+    ],
+    "size": [
+     1.611,
+     1.519,
+     3.332
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 5,
+    "closed_shells": 5
+   },
+   "name": "SM_Prop_Signpost_A"
+  },
+  {
+   "file": "SourceArt/Kit/Props/SM_Prop_Statue_A.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 430,
+    "verts": 564,
+    "materials": [
+     "MT_Stone",
+     "MT_StoneWhite"
+    ],
+    "bbox_min": [
+     -1.3,
+     -1.3,
+     -0.302
+    ],
+    "bbox_max": [
+     1.3,
+     1.3,
+     6.641
+    ],
+    "size": [
+     2.6,
+     2.6,
+     6.943
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 12,
+    "closed_shells": 12
+   },
+   "name": "SM_Prop_Statue_A"
+  },
+  {
    "file": "SourceArt/Kit/Rural/SM_Rural_Barn_A.glb",
    "errors": [],
-   "warnings": [
-    "974 tris under the expected minimum 1000"
-   ],
+   "warnings": [],
    "info": {
-    "tris": 974,
-    "verts": 1734,
+    "tris": 1010,
+    "verts": 1774,
     "materials": [
      "MT_Glass",
      "MT_Iron",
@@ -906,24 +2526,25 @@
      "MT_WoodPlanks"
     ],
     "bbox_min": [
-     -4.8,
+     -6.15,
      -6.675,
      -0.502
     ],
     "bbox_max": [
-     4.8,
+     6.15,
      6.675,
      10.687
     ],
     "size": [
-     9.6,
+     12.3,
      13.35,
      11.189
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
-    "shells": 51,
-    "closed_shells": 16
+    "repeated_directed_edges": 0,
+    "shells": 48,
+    "closed_shells": 17
    },
    "name": "SM_Rural_Barn_A"
   },
@@ -959,6 +2580,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 51,
     "closed_shells": 7
    },
@@ -993,6 +2615,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 34,
     "closed_shells": 34
    },
@@ -1026,6 +2649,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 4,
     "closed_shells": 4
    },
@@ -1059,6 +2683,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 5,
     "closed_shells": 5
    },
@@ -1097,6 +2722,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 200,
     "closed_shells": 22
    },
@@ -1130,6 +2756,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 2,
     "closed_shells": 2
    },
@@ -1140,8 +2767,8 @@
    "errors": [],
    "warnings": [],
    "info": {
-    "tris": 1146,
-    "verts": 2122,
+    "tris": 1010,
+    "verts": 1850,
     "materials": [
      "MT_Glass",
      "MT_Iron",
@@ -1168,8 +2795,9 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
-    "shells": 78,
-    "closed_shells": 18
+    "repeated_directed_edges": 0,
+    "shells": 66,
+    "closed_shells": 10
    },
    "name": "SM_Rural_House_A"
   },
@@ -1178,8 +2806,8 @@
    "errors": [],
    "warnings": [],
    "info": {
-    "tris": 1906,
-    "verts": 3390,
+    "tris": 1794,
+    "verts": 3166,
     "materials": [
      "MT_Glass",
      "MT_Iron",
@@ -1205,8 +2833,9 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
-    "shells": 101,
-    "closed_shells": 35
+    "repeated_directed_edges": 0,
+    "shells": 91,
+    "closed_shells": 29
    },
    "name": "SM_Rural_House_B"
   },
@@ -1243,6 +2872,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 77,
     "closed_shells": 26
    },
@@ -1277,6 +2907,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 23,
     "closed_shells": 18
    },
@@ -1314,6 +2945,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 13,
     "closed_shells": 13
    },
@@ -1348,6 +2980,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 62,
     "closed_shells": 62
    },
@@ -1386,6 +3019,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 32,
     "closed_shells": 7
    },
@@ -1418,6 +3052,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1450,6 +3085,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1482,6 +3118,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1514,6 +3151,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1546,6 +3184,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 21,
     "closed_shells": 21
    },
@@ -1578,6 +3217,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1610,6 +3250,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1642,6 +3283,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1674,6 +3316,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1706,6 +3349,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1738,6 +3382,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1770,6 +3415,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1802,6 +3448,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1834,6 +3481,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1866,6 +3514,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1898,6 +3547,7 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 1,
     "closed_shells": 1
    },
@@ -1930,14 +3580,669 @@
     ],
     "coplanar_same": 0,
     "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
     "shells": 3,
     "closed_shells": 3
    },
    "name": "SM_VFX_Spike_B"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Asura_Gate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5490,
+    "verts": 8539,
+    "materials": [
+     "MT_ClothRed",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -11.087,
+     -5.087,
+     -1.06
+    ],
+    "bbox_max": [
+     11.087,
+     5.087,
+     23.344
+    ],
+    "size": [
+     22.173,
+     10.173,
+     24.404
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 87,
+    "closed_shells": 75
+   },
+   "name": "SM_Asura_Gate"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Asura_WallTower.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3288,
+    "verts": 4554,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofRed",
+     "MT_Stone",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.087,
+     -5.087,
+     -1.054
+    ],
+    "bbox_max": [
+     5.087,
+     5.087,
+     22.344
+    ],
+    "size": [
+     10.173,
+     10.173,
+     23.398
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 45,
+    "closed_shells": 21
+   },
+   "name": "SM_Asura_WallTower"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Asura_Wall_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 184,
+    "verts": 342,
+    "materials": [
+     "MT_Stone"
+    ],
+    "bbox_min": [
+     -6.0,
+     -2.75,
+     -1.002
+    ],
+    "bbox_max": [
+     6.0,
+     1.7,
+     9.96
+    ],
+    "size": [
+     12.0,
+     4.45,
+     10.962
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 11,
+    "closed_shells": 11
+   },
+   "name": "SM_Asura_Wall_12m"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Demon_Gate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2054,
+    "verts": 3792,
+    "materials": [
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Glass",
+     "MT_Hide",
+     "MT_Iron"
+    ],
+    "bbox_min": [
+     -11.15,
+     -5.15,
+     -1.06
+    ],
+    "bbox_max": [
+     11.15,
+     5.15,
+     16.8
+    ],
+    "size": [
+     22.3,
+     10.3,
+     17.86
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 95,
+    "closed_shells": 91
+   },
+   "name": "SM_Demon_Gate"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Demon_WallTower.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1046,
+    "verts": 1872,
+    "materials": [
+     "MT_Crystal",
+     "MT_DemonRock",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.15,
+     -5.15,
+     -1.054
+    ],
+    "bbox_max": [
+     5.15,
+     5.15,
+     15.8
+    ],
+    "size": [
+     10.3,
+     10.3,
+     16.854
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 37,
+    "closed_shells": 29
+   },
+   "name": "SM_Demon_WallTower"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Demon_Wall_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 448,
+    "verts": 582,
+    "materials": [
+     "MT_Bone",
+     "MT_DemonRock"
+    ],
+    "bbox_min": [
+     -6.0,
+     -3.289,
+     -1.002
+    ],
+    "bbox_max": [
+     6.0,
+     1.9,
+     9.96
+    ],
+    "size": [
+     12.0,
+     5.189,
+     10.962
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 11,
+    "closed_shells": 11
+   },
+   "name": "SM_Demon_Wall_12m"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Desert_Gate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3138,
+    "verts": 4650,
+    "materials": [
+     "MT_ClothRed",
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone"
+    ],
+    "bbox_min": [
+     -10.95,
+     -4.95,
+     -1.06
+    ],
+    "bbox_max": [
+     10.95,
+     4.95,
+     19.258
+    ],
+    "size": [
+     21.9,
+     9.9,
+     20.318
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 91,
+    "closed_shells": 87
+   },
+   "name": "SM_Desert_Gate"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Desert_WallTower.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1540,
+    "verts": 2141,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_PlasterTan",
+     "MT_Sandstone",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -4.95,
+     -4.95,
+     -1.054
+    ],
+    "bbox_max": [
+     4.95,
+     4.95,
+     18.258
+    ],
+    "size": [
+     9.9,
+     9.9,
+     19.312
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 35,
+    "closed_shells": 27
+   },
+   "name": "SM_Desert_WallTower"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Desert_Wall_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 464,
+    "verts": 822,
+    "materials": [
+     "MT_Sandstone",
+     "MT_Timber"
+    ],
+    "bbox_min": [
+     -6.0,
+     -2.5,
+     -1.002
+    ],
+    "bbox_max": [
+     6.0,
+     1.6,
+     8.96
+    ],
+    "size": [
+     12.0,
+     4.1,
+     9.962
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 22,
+    "closed_shells": 10
+   },
+   "name": "SM_Desert_Wall_12m"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Millis_Gate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 5754,
+    "verts": 8932,
+    "materials": [
+     "MT_ClothBlue",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -11.185,
+     -5.185,
+     -1.06
+    ],
+    "bbox_max": [
+     11.185,
+     5.185,
+     30.309
+    ],
+    "size": [
+     22.371,
+     10.371,
+     31.369
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 87,
+    "closed_shells": 75
+   },
+   "name": "SM_Millis_Gate"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Millis_WallTower.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3408,
+    "verts": 4756,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.185,
+     -5.185,
+     -1.054
+    ],
+    "bbox_max": [
+     5.185,
+     5.185,
+     29.309
+    ],
+    "size": [
+     10.371,
+     10.371,
+     30.363
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 45,
+    "closed_shells": 21
+   },
+   "name": "SM_Millis_WallTower"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Millis_Wall_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 360,
+    "verts": 690,
+    "materials": [
+     "MT_StoneWhite"
+    ],
+    "bbox_min": [
+     -6.0,
+     -2.7,
+     -1.002
+    ],
+    "bbox_max": [
+     6.0,
+     1.8,
+     10.96
+    ],
+    "size": [
+     12.0,
+     4.5,
+     11.962
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 25,
+    "closed_shells": 25
+   },
+   "name": "SM_Millis_Wall_12m"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Noble_Gate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3728,
+    "verts": 5306,
+    "materials": [
+     "MT_ClothBlue",
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite"
+    ],
+    "bbox_min": [
+     -11.482,
+     -5.482,
+     -1.06
+    ],
+    "bbox_max": [
+     11.482,
+     5.482,
+     21.88
+    ],
+    "size": [
+     22.963,
+     10.963,
+     22.94
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 88,
+    "closed_shells": 76
+   },
+   "name": "SM_Noble_Gate"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Noble_WallTower.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2360,
+    "verts": 3139,
+    "materials": [
+     "MT_Glass",
+     "MT_Gold",
+     "MT_Iron",
+     "MT_RoofBlue",
+     "MT_StoneWhite",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.482,
+     -5.482,
+     -1.054
+    ],
+    "bbox_max": [
+     5.482,
+     5.482,
+     20.88
+    ],
+    "size": [
+     10.963,
+     10.963,
+     21.934
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 45,
+    "closed_shells": 21
+   },
+   "name": "SM_Noble_WallTower"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_Noble_Wall_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 172,
+    "verts": 330,
+    "materials": [
+     "MT_StoneWhite"
+    ],
+    "bbox_min": [
+     -6.0,
+     -2.9,
+     -1.002
+    ],
+    "bbox_max": [
+     6.0,
+     2.0,
+     11.96
+    ],
+    "size": [
+     12.0,
+     4.9,
+     12.962
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 12,
+    "closed_shells": 12
+   },
+   "name": "SM_Noble_Wall_12m"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_North_Gate.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 6150,
+    "verts": 9848,
+    "materials": [
+     "MT_ClothBlue",
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofDark",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -11.087,
+     -5.087,
+     -1.06
+    ],
+    "bbox_max": [
+     11.087,
+     5.087,
+     23.344
+    ],
+    "size": [
+     22.173,
+     10.173,
+     24.404
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 123,
+    "closed_shells": 111
+   },
+   "name": "SM_North_Gate"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_North_WallTower.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 3582,
+    "verts": 5081,
+    "materials": [
+     "MT_Glass",
+     "MT_Iron",
+     "MT_RoofDark",
+     "MT_Snow",
+     "MT_Stone",
+     "MT_WoodPlanks"
+    ],
+    "bbox_min": [
+     -5.087,
+     -5.087,
+     -1.054
+    ],
+    "bbox_max": [
+     5.087,
+     5.087,
+     22.344
+    ],
+    "size": [
+     10.173,
+     10.173,
+     23.398
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 60,
+    "closed_shells": 36
+   },
+   "name": "SM_North_WallTower"
+  },
+  {
+   "file": "SourceArt/Kit/Walls/SM_North_Wall_12m.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 292,
+    "verts": 558,
+    "materials": [
+     "MT_Snow",
+     "MT_Stone"
+    ],
+    "bbox_min": [
+     -6.0,
+     -2.75,
+     -1.002
+    ],
+    "bbox_max": [
+     6.0,
+     1.7,
+     10.09
+    ],
+    "size": [
+     12.0,
+     4.45,
+     11.092
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 20,
+    "closed_shells": 20
+   },
+   "name": "SM_North_Wall_12m"
   }
  ],
  "summary": {
-  "checked": 54,
+  "checked": 115,
   "failed": 0
  }
 }

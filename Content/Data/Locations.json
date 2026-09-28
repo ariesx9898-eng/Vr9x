@@ -1,171 +1,1052 @@
 [
 	{
+		"LocationID": "Buena",
+		"DisplayName": "Buena Village",
+		"Continent": "Central",
+		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "A quiet farming village of timber houses, wheat fields and a turning windmill at the foot of the Red Wyrm foothills; the Greyrat home sits on a gentle hill nearby.",
+		"WorldLocation": {
+			"X": -658077.4,
+			"Y": -335827.5,
+			"Z": 5838.3
+		},
+		"SpawnYaw": 49.55,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 20800,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.14229,
+			"Y": 0.25849
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -684902.8,
+				"Y": -336714.5,
+				"Z": 18183.5
+			},
+			"Rotation": {
+				"Pitch": -21.56,
+				"Yaw": 10.07,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Roa",
+		"DisplayName": "Roa",
+		"Continent": "Central",
+		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "Walled seat of the Fittoa Region, where stone streets gather around a market square and the Boreas manor keeps watch over the farmland.",
+		"WorldLocation": {
+			"X": -749202.1,
+			"Y": -374250.7,
+			"Z": 4368.8
+		},
+		"SpawnYaw": -60.43,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 30400,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.09262,
+			"Y": 0.22176
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -785835.4,
+				"Y": -361322.5,
+				"Z": 21880.7
+			},
+			"Rotation": {
+				"Pitch": -20.97,
+				"Yaw": -26.46,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Ars",
+		"DisplayName": "Ars",
+		"Continent": "Central",
+		"Region": "Asura",
+		"Biome": "TemperatePlains",
+		"Difficulty": 2,
+		"Description": "The royal capital of Asura, a sprawl of walled wards and busy markets spread beneath the Silver Palace on its rise at the city's edge.",
+		"WorldLocation": {
+			"X": -750505.5,
+			"Y": -279188.1,
+			"Z": 2595.6
+		},
+		"SpawnYaw": 114.44,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 72000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.085,
+			"Y": 0.31
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -807355.0,
+				"Y": -164057.9,
+				"Z": 43540.0
+			},
+			"Rotation": {
+				"Pitch": -20.89,
+				"Yaw": -63.37,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Sharia",
+		"DisplayName": "Sharia",
+		"Continent": "Central",
+		"Region": "North",
+		"Biome": "Snowfield",
+		"Difficulty": 3,
+		"Description": "A cold northern city of stone and timber, full of magic shops and workshops, crowned by the spires of the Ranoa University of Magic.",
+		"WorldLocation": {
+			"X": -685518.9,
+			"Y": -541800.0,
+			"Z": 8485.3
+		},
+		"SpawnYaw": -7.77,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 48000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.13253,
+			"Y": 0.10365
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -653295.5,
+				"Y": -613161.1,
+				"Z": 29860.0
+			},
+			"Rotation": {
+				"Pitch": -16.68,
+				"Yaw": 105.08,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Rikarisu",
+		"DisplayName": "Rikarisu",
+		"Continent": "Demon",
+		"Region": "RikarisuCrater",
+		"Biome": "Crater",
+		"Difficulty": 4,
+		"Description": "A dense town of rock-cut buildings packed onto the floor of a vast crater, the first stop for adventurers crossing the Demon Continent.",
+		"WorldLocation": {
+			"X": 703800.6,
+			"Y": -394802.1,
+			"Z": 11839.8
+		},
+		"SpawnYaw": -88.32,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 35200,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.885,
+			"Y": 0.205
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": 740821.7,
+				"Y": -442549.2,
+				"Z": 42448.8
+			},
+			"Rotation": {
+				"Pitch": -30.11,
+				"Yaw": 134.08,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Millishion",
+		"DisplayName": "Millishion",
+		"Continent": "Millis",
+		"Region": "MillisLowlands",
+		"Biome": "GreenHills",
+		"Difficulty": 2,
+		"Description": "The white holy capital of Millis, ordered streets and bright plazas rising to a great cathedral beside a calm lake.",
+		"WorldLocation": {
+			"X": 451213.3,
+			"Y": 406800.0,
+			"Z": 3324.3
+		},
+		"SpawnYaw": 1.72,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 67200,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.757,
+			"Y": 0.797
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": 508563.9,
+				"Y": 314233.1,
+				"Z": 40804.0
+			},
+			"Rotation": {
+				"Pitch": -20.4,
+				"Yaw": 112.49,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Rapan",
+		"DisplayName": "Rapan",
+		"Continent": "Begaritt",
+		"Region": "BegarittDesert",
+		"Biome": "Desert",
+		"Difficulty": 5,
+		"Description": "A sandstone city of bazaars, inns and caravan yards that lives off the labyrinths hidden in the Begaritt desert.",
+		"WorldLocation": {
+			"X": -356068.9,
+			"Y": 570268.9,
+			"Z": 4572.1
+		},
+		"SpawnYaw": 136.18,
+		"bSpawnPoint": true,
+		"bFastTravel": true,
+		"DiscoveryRadius": 44800,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.30036,
+			"Y": 0.92208
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -367706.2,
+				"Y": 646079.2,
+				"Z": 28036.0
+			},
+			"Rotation": {
+				"Pitch": -19.21,
+				"Yaw": -87.77,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Wenport",
+		"DisplayName": "Wenport",
+		"Continent": "Demon",
+		"Region": "Demon",
+		"Biome": "Badlands",
+		"Difficulty": 3,
+		"Description": "A rough harbour at the southern tip of the Demon Continent where ships from Millis unload under dusty red cliffs.",
+		"WorldLocation": {
+			"X": 790780.6,
+			"Y": 92414.9,
+			"Z": 277.6
+		},
+		"SpawnYaw": 142.03,
+		"bSpawnPoint": false,
+		"bFastTravel": true,
+		"DiscoveryRadius": 22400,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.92958,
+			"Y": 0.57031
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": 767457.4,
+				"Y": 124712.8,
+				"Z": 15268.0
+			},
+			"Rotation": {
+				"Pitch": -24.05,
+				"Yaw": -57.28,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "ZantPort",
+		"DisplayName": "Zant Port",
+		"Continent": "Millis",
+		"Region": "MillisLowlands",
+		"Biome": "GreenHills",
+		"Difficulty": 2,
+		"Description": "The northern harbour of Millis, a gateway between the green Great Forest and the ships bound for the Demon Continent.",
+		"WorldLocation": {
+			"X": 642599.5,
+			"Y": 241794.4,
+			"Z": 267.7
+		},
+		"SpawnYaw": -88.33,
+		"bSpawnPoint": false,
+		"bFastTravel": true,
+		"DiscoveryRadius": 20800,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.85147,
+			"Y": 0.67205
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": 631325.0,
+				"Y": 206955.4,
+				"Z": 14356.0
+			},
+			"Rotation": {
+				"Pitch": -24.31,
+				"Yaw": 68.48,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "WestPort",
+		"DisplayName": "West Port",
+		"Continent": "Millis",
+		"Region": "MillisLowlands",
+		"Biome": "GreenHills",
+		"Difficulty": 2,
+		"Description": "A busy trading port on the western point of Millis, facing East Port across a narrow strait dotted with islets.",
+		"WorldLocation": {
+			"X": 129590.7,
+			"Y": 523623.7,
+			"Z": 511.0
+		},
+		"SpawnYaw": 168.44,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 19200,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.568,
+			"Y": 0.88254
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": 96154.0,
+				"Y": 530521.4,
+				"Z": 13444.0
+			},
+			"Rotation": {
+				"Pitch": -24.2,
+				"Yaw": -11.67,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "EastPort",
+		"DisplayName": "East Port",
+		"Continent": "Central",
+		"Region": "SouthCentral",
+		"Biome": "Jungle",
+		"Difficulty": 2,
+		"Description": "The ferry town at the southern tip of the Central Continent, where travellers cross the strait to Millis.",
+		"WorldLocation": {
+			"X": 50410.0,
+			"Y": 476185.8,
+			"Z": 230.0
+		},
+		"SpawnYaw": 19.5,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 19200,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.53028,
+			"Y": 0.84846
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": 80796.4,
+				"Y": 491484.9,
+				"Z": 13444.0
+			},
+			"Rotation": {
+				"Pitch": -24.66,
+				"Yaw": -151.96,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "KingDragon",
+		"DisplayName": "King Dragon Kingdom",
+		"Continent": "Central",
+		"Region": "SouthCentral",
+		"Biome": "Jungle",
+		"Difficulty": 3,
+		"Description": "Capital of the King Dragon Kingdom, a fortified town on the narrow southern cape below the King Dragon range.",
+		"WorldLocation": {
+			"X": -1710.5,
+			"Y": 459034.0,
+			"Z": 2920.5
+		},
+		"SpawnYaw": 128.32,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 35200,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.49573,
+			"Y": 0.8403
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -55042.0,
+				"Y": 490355.5,
+				"Z": 22564.0
+			},
+			"Rotation": {
+				"Pitch": -20.32,
+				"Yaw": -26.55,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "SwordSanctuary",
+		"DisplayName": "Sword Sanctuary",
+		"Continent": "Central",
+		"Region": "North",
+		"Biome": "Snowfield",
+		"Difficulty": 4,
+		"Description": "A secluded snowbound village in the far north-west where swordsmen come to train under strict masters.",
+		"WorldLocation": {
+			"X": -862209.5,
+			"Y": -557990.8,
+			"Z": 3705.9
+		},
+		"SpawnYaw": -168.16,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 16000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.02617,
+			"Y": 0.09252
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -892286.4,
+				"Y": -562492.2,
+				"Z": 15129.3
+			},
+			"Rotation": {
+				"Pitch": -23.89,
+				"Yaw": 7.95,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Labyrinth_1",
+		"DisplayName": "Ring Labyrinth Gate",
+		"Continent": "Begaritt",
+		"Region": "BegarittBadlands",
+		"Biome": "Badlands",
+		"Difficulty": 5,
+		"Description": "A colossal stone gate carved into the inner wall of the rocky ring, leading down into a labyrinth.",
+		"WorldLocation": {
+			"X": -708899.2,
+			"Y": 390539.7,
+			"Z": 9409.1
+		},
+		"SpawnYaw": 1.44,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 12000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.11368,
+			"Y": 0.78478
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -721943.3,
+				"Y": 411516.6,
+				"Z": 21423.8
+			},
+			"Rotation": {
+				"Pitch": -24.8,
+				"Yaw": -53.56,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Labyrinth_2",
+		"DisplayName": "Northern Mesa Labyrinth Gate",
+		"Continent": "Begaritt",
+		"Region": "BegarittBadlands",
+		"Biome": "Badlands",
+		"Difficulty": 5,
+		"Description": "An ancient gate set into a mesa cliff on the northern badlands of Begaritt.",
+		"WorldLocation": {
+			"X": -753024.0,
+			"Y": 249007.9,
+			"Z": 9079.4
+		},
+		"SpawnYaw": 119.34,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 12000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.0876,
+			"Y": 0.68307
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -754499.6,
+				"Y": 225101.7,
+				"Z": 21079.2
+			},
+			"Rotation": {
+				"Pitch": -24.77,
+				"Yaw": 89.34,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Labyrinth_3",
+		"DisplayName": "Canyon Labyrinth Gate",
+		"Continent": "Begaritt",
+		"Region": "BegarittBadlands",
+		"Biome": "Badlands",
+		"Difficulty": 5,
+		"Description": "A half-buried gate in a canyon wall, guarded by wind-carved rock.",
+		"WorldLocation": {
+			"X": -710687.7,
+			"Y": 270660.6,
+			"Z": 6620.2
+		},
+		"SpawnYaw": 151.66,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 12000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.11024,
+			"Y": 0.69816
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -686810.9,
+				"Y": 272552.3,
+				"Z": 18512.1
+			},
+			"Rotation": {
+				"Pitch": -24.56,
+				"Yaw": -178.34,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Labyrinth_4",
+		"DisplayName": "Rapan Butte Labyrinth Gate",
+		"Continent": "Begaritt",
+		"Region": "BegarittDesert",
+		"Biome": "Desert",
+		"Difficulty": 5,
+		"Description": "A monumental gate cut into the sandstone butte north-west of Rapan.",
+		"WorldLocation": {
+			"X": -447359.4,
+			"Y": 534747.6,
+			"Z": 2754.5
+		},
+		"SpawnYaw": 136.49,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 12000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.25443,
+			"Y": 0.89108
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -441720.0,
+				"Y": 511469.4,
+				"Z": 14724.8
+			},
+			"Rotation": {
+				"Pitch": -24.72,
+				"Yaw": 106.49,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
+		"LocationID": "Labyrinth_5",
+		"DisplayName": "Southern Butte Labyrinth Gate",
+		"Continent": "Begaritt",
+		"Region": "BegarittDesert",
+		"Biome": "Desert",
+		"Difficulty": 5,
+		"Description": "A lonely gate in the flank of a southern butte, reached by a faint caravan track.",
+		"WorldLocation": {
+			"X": -707821.8,
+			"Y": 542137.4,
+			"Z": 4677.2
+		},
+		"SpawnYaw": 79.88,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 12000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.11319,
+			"Y": 0.89698
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -733399.9,
+				"Y": 544555.5,
+				"Z": 16677.3
+			},
+			"Rotation": {
+				"Pitch": -24.78,
+				"Yaw": -0.12,
+				"Roll": 0.0
+			}
+		}
+	},
+	{
 		"LocationID": "Buena_Village",
 		"DisplayName": "Buena Village",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "Quest marker for Buena Village as a whole.",
 		"WorldLocation": {
-			"X": -36800.0,
-			"Y": 30200.0,
-			"Z": 2945.0
+			"X": -654183.2,
+			"Y": -331260.5,
+			"Z": 5852.9
 		},
-		"DiscoveryRadius": 30000.0,
-		"bFastTravel": true,
-		"RequiredRank": "F"
+		"SpawnYaw": -139.93,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 30000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.14229,
+			"Y": 0.25849
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -726183.2,
+				"Y": -331260.5,
+				"Z": 32128.8
+			},
+			"Rotation": {
+				"Pitch": -20.05,
+				"Yaw": 0.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Buena_Square",
 		"DisplayName": "Buena Village Square",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "The small square at the heart of Buena where villagers trade news.",
 		"WorldLocation": {
-			"X": -36800.0,
-			"Y": 29200.0,
-			"Z": 2945.4
+			"X": -652983.2,
+			"Y": -330660.5,
+			"Z": 5853.8
 		},
-		"DiscoveryRadius": 2500.0,
-		"bFastTravel": true,
-		"RequiredRank": "F"
+		"SpawnYaw": -153.43,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 2500,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.14294,
+			"Y": 0.25892
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -659712.5,
+				"Y": -355774.6,
+				"Z": 17533.7
+			},
+			"Rotation": {
+				"Pitch": -24.19,
+				"Yaw": 75.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Buena_Greyrat_House",
 		"DisplayName": "Greyrat House",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "A two-storey family home on a gentle rise at the edge of Buena.",
 		"WorldLocation": {
-			"X": -44800.0,
-			"Y": 20700.0,
-			"Z": 3043.8
+			"X": -646513.2,
+			"Y": -344545.4,
+			"Z": 6132.9
 		},
-		"DiscoveryRadius": 1500.0,
+		"SpawnYaw": 120.0,
+		"bSpawnPoint": false,
 		"bFastTravel": false,
-		"RequiredRank": "F"
+		"DiscoveryRadius": 1500,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.14648,
+			"Y": 0.2488
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -672513.2,
+				"Y": -344545.4,
+				"Z": 17338.5
+			},
+			"Rotation": {
+				"Pitch": -23.32,
+				"Yaw": 0.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Buena_Farms",
 		"DisplayName": "Buena Wheat Fields",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "Wheat and barley fields that patchwork the land around Buena.",
 		"WorldLocation": {
-			"X": -24800.0,
-			"Y": 46200.0,
-			"Z": 2943.5
+			"X": -641469.7,
+			"Y": -317140.8,
+			"Z": 5924.7
 		},
-		"DiscoveryRadius": 9000.0,
+		"SpawnYaw": -132.0,
+		"bSpawnPoint": false,
 		"bFastTravel": false,
-		"RequiredRank": "F"
+		"DiscoveryRadius": 9000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.14924,
+			"Y": 0.26878
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -658182.2,
+				"Y": -337057.9,
+				"Z": 18247.7
+			},
+			"Rotation": {
+				"Pitch": -25.36,
+				"Yaw": 50.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Buena_Hill_Tree",
 		"DisplayName": "Hill of the Lone Tree",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "A grassy hilltop near Buena with a single broad tree and a view of the fields.",
 		"WorldLocation": {
-			"X": -55300.0,
-			"Y": 9700.0,
-			"Z": 4451.0
+			"X": -586633.2,
+			"Y": -370260.5,
+			"Z": 63368.8
 		},
-		"DiscoveryRadius": 3000.0,
-		"bFastTravel": true,
-		"RequiredRank": "F"
+		"SpawnYaw": 150.0,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 3000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.17923,
+			"Y": 0.23005
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -610197.2,
+				"Y": -359272.5,
+				"Z": 43750.0
+			},
+			"Rotation": {
+				"Pitch": 37.04,
+				"Yaw": -25.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Buena_Forest_Edge",
 		"DisplayName": "Buena Forest Edge",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "Where Buena's pastures meet the first trees of the woods.",
 		"WorldLocation": {
-			"X": -75800.0,
-			"Y": 24200.0,
-			"Z": 2900.2
+			"X": -632308.9,
+			"Y": -338367.9,
+			"Z": 7467.6
 		},
-		"DiscoveryRadius": 6000.0,
+		"SpawnYaw": 162.0,
+		"bSpawnPoint": false,
 		"bFastTravel": false,
-		"RequiredRank": "F"
+		"DiscoveryRadius": 6000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.15425,
+			"Y": 0.2533
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -639038.2,
+				"Y": -363482.0,
+				"Z": 17662.1
+			},
+			"Rotation": {
+				"Pitch": -21.41,
+				"Yaw": 75.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Fittoa_River_Ford",
-		"DisplayName": "Fittoa Stream Ford",
+		"DisplayName": "Fittoa River Crossing",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "The crossing where the Fittoa lane meets the Fittoa River.",
 		"WorldLocation": {
-			"X": -10493.2,
-			"Y": 21096.2,
-			"Z": 2718.2
+			"X": -724175.0,
+			"Y": -337459.0,
+			"Z": 2267.5
 		},
-		"DiscoveryRadius": 3000.0,
-		"bFastTravel": true,
-		"RequiredRank": "F"
+		"SpawnYaw": 5.06,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 3000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.10402,
+			"Y": 0.25397
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -719660.2,
+				"Y": -311854.0,
+				"Z": 14763.9
+			},
+			"Rotation": {
+				"Pitch": -25.67,
+				"Yaw": -100.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Fittoa_Deep_Forest",
 		"DisplayName": "Deep Fittoa Forest",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 2,
+		"Description": "The dense heart of the nearest Fittoa woodland, where wolves den.",
 		"WorldLocation": {
-			"X": -70800.0,
-			"Y": -44800.0,
-			"Z": 4097.1
+			"X": -663123.4,
+			"Y": -373320.9,
+			"Z": 6682.0
 		},
-		"DiscoveryRadius": 12000.0,
+		"SpawnYaw": 78.0,
+		"bSpawnPoint": false,
 		"bFastTravel": false,
-		"RequiredRank": "E"
+		"DiscoveryRadius": 12000,
+		"RequiredRank": "E",
+		"MapUV": {
+			"X": 0.1374,
+			"Y": 0.22782
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -681635.7,
+				"Y": -351258.8,
+				"Z": 16141.6
+			},
+			"Rotation": {
+				"Pitch": -18.18,
+				"Yaw": -50.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Fittoa_Watchtower_Ruins",
 		"DisplayName": "Old Watchtower Ruins",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 2,
+		"Description": "A crumbling watchtower on a high point overlooking the Buena countryside.",
 		"WorldLocation": {
-			"X": 49200.0,
-			"Y": -31800.0,
-			"Z": 5174.5
+			"X": -582426.8,
+			"Y": -372689.1,
+			"Z": 66283.9
 		},
-		"DiscoveryRadius": 4000.0,
-		"bFastTravel": true,
-		"RequiredRank": "D"
+		"SpawnYaw": 150.0,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 4000,
+		"RequiredRank": "D",
+		"MapUV": {
+			"X": 0.18153,
+			"Y": 0.22828
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -577912.0,
+				"Y": -398294.1,
+				"Z": 52545.2
+			},
+			"Rotation": {
+				"Pitch": 27.85,
+				"Yaw": 100.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Fittoa_Road_To_Roa",
 		"DisplayName": "Road to Roa",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "The lane between Buena and Roa, halfway along.",
 		"WorldLocation": {
-			"X": 46769.9,
-			"Y": -20504.0,
-			"Z": 3312.8
+			"X": -717873.6,
+			"Y": -325660.6,
+			"Z": 2451.6
 		},
-		"DiscoveryRadius": 5000.0,
+		"SpawnYaw": -5.02,
+		"bSpawnPoint": false,
 		"bFastTravel": false,
-		"RequiredRank": "F"
+		"DiscoveryRadius": 5000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.10746,
+			"Y": 0.26257
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -734586.1,
+				"Y": -345577.7,
+				"Z": 14473.7
+			},
+			"Rotation": {
+				"Pitch": -24.82,
+				"Yaw": 50.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Roa_Gate",
-		"DisplayName": "Roa Road Waystone (to the Citadel of Roa)",
+		"DisplayName": "Roa Road Waystone",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 1,
+		"Description": "A waystone outside the gate of Roa.",
 		"WorldLocation": {
-			"X": 96300.0,
-			"Y": -44800.0,
-			"Z": 3834.4
+			"X": -748205.0,
+			"Y": -360376.7,
+			"Z": 3551.4
 		},
-		"DiscoveryRadius": 3000.0,
-		"bFastTravel": true,
-		"RequiredRank": "F"
+		"SpawnYaw": 17.21,
+		"bSpawnPoint": false,
+		"bFastTravel": false,
+		"DiscoveryRadius": 3000,
+		"RequiredRank": "F",
+		"MapUV": {
+			"X": 0.09088,
+			"Y": 0.23726
+		},
+		"PreviewCamera": {
+			"Location": {
+				"X": -733292.0,
+				"Y": -339078.8,
+				"Z": 14409.4
+			},
+			"Rotation": {
+				"Pitch": -22.67,
+				"Yaw": -125.0,
+				"Roll": 0.0
+			}
+		}
 	},
 	{
 		"LocationID": "Fittoa_Wyrm_Foothills",
 		"DisplayName": "Red Wyrm Foothills",
+		"Continent": "Central",
 		"Region": "Fittoa",
+		"Biome": "RuralFields",
+		"Difficulty": 3,
+		"Description": "The rising foothills of the Red Wyrm Mountains east of Buena.",
 		"WorldLocation": {
-			"X": 5200.0,
-			"Y": -75800.0,
-			"Z": 8472.9
+			"X": -681994.7,
+			"Y": -416855.6,
+			"Z": 22674.8
 		},
-		"DiscoveryRadius": 15000.0,
+		"SpawnYaw": 72.0,
+		"bSpawnPoint": false,
 		"bFastTravel": false,
-		"RequiredRank": "C"
-	},
-	{
-		"LocationID": "Arena_Test",
-		"DisplayName": "Test Arena (dev)",
-		"Region": "Fittoa",
-		"WorldLocation": {
-			"X": 71200.0,
-			"Y": 71200.0,
-			"Z": 2874.7
+		"DiscoveryRadius": 15000,
+		"RequiredRank": "C",
+		"MapUV": {
+			"X": 0.12708,
+			"Y": 0.19608
 		},
-		"DiscoveryRadius": 5000.0,
-		"bFastTravel": false,
-		"RequiredRank": "F"
+		"PreviewCamera": {
+			"Location": {
+				"X": -714621.8,
+				"Y": -401641.4,
+				"Z": 23118.4
+			},
+			"Rotation": {
+				"Pitch": -0.71,
+				"Yaw": -25.0,
+				"Roll": 0.0
+			}
+		}
 	}
 ]

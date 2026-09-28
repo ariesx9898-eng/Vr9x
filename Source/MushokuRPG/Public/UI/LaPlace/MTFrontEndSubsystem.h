@@ -28,6 +28,8 @@ public:
 	bool IsOpen() const { return Widget.IsValid(); }
 	/** Places the player at a spawn location (Locations.json) and hands control back. */
 	bool SpawnAt(FName LocationId);
+	/** The player the front end acts on (set by the pages; tools that skip the menus set it directly). */
+	void SetController(APlayerController* PC) { Controller = PC; }
 
 	virtual void Deinitialize() override;
 

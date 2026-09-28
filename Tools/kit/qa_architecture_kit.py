@@ -15,7 +15,6 @@ Usage: python Tools/kit/qa_architecture_kit.py [--all] [--only SUBSTR] [--verbos
 """
 import argparse
 import json
-import math
 import os
 import struct
 import sys
@@ -311,6 +310,14 @@ def check_asset(path, meta, verbose=False):
         res["errors"].append(f"{b2b} coplanar overlapping back-to-back triangle pairs (hidden coincident faces)")
     if ex and verbose:
         res["info"]["coplanar_examples"] = ex
+    # consistent winding: a directed edge used by two triangles means one of them is flipped
+    de = np.concatenate([keys[:, [0, 1]], keys[:, [1, 2]], keys[:, [2, 0]]])
+    de = de[de[:, 0] != de[:, 1]]
+    _, dcnt = np.unique(de, axis=0, return_counts=True)
+    flipped = int((dcnt > 1).sum())
+    res["info"]["repeated_directed_edges"] = flipped
+    if flipped:
+        res["errors"].append(f"{flipped} directed edges shared by two triangles (inconsistent winding / flipped faces)")
     sh = shells(keys, T)
     closed = [s for s in sh if s[1]]
     inverted = [s for s in closed if s[2] < -1e-6]

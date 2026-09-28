@@ -7,7 +7,7 @@ from arch_geo import Frame
 from arch_house import House
 from arch_parts import (Opening, arch_poly, balcony, circle_poly, cornice, crystal_lantern, door_trim, emblem_shield,
                         exterior_chimney, hanging_sign, poly_body, rect, roof_cone, roof_hip, roof_shed, side_frame,
-                        stair, window_trim, wplate)
+                        stair, window_trim)
 from arch_registry import asset
 
 N_STONE_WIN = dict(trim="MT_Stone", frame_w=0.11, shutters=True, shutter_mat="MT_WoodPlanks", sill_mat="MT_Stone",
