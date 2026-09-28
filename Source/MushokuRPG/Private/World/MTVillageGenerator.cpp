@@ -970,7 +970,7 @@ void AMTVillageGenerator::BuildFieldContents(FRandomStream& Rng, const FMTFootpr
 				PostHISM->AddInstance(T, true);
 			};
 			AddPost(P0, Z0);
-			const bool bNextOpen = (J + 1 < NumSegments) ? IsSkipped(J + 1) : (Edge == 3 ? false : false);
+			const bool bNextOpen = (J + 1 < NumSegments) && IsSkipped(J + 1);
 			if (bNextOpen)
 			{
 				AddPost(P1, Z1); // close the fence at a gate / exclusion gap

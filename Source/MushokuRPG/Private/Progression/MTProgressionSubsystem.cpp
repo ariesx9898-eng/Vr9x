@@ -78,8 +78,8 @@ void UMTProgressionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 	if (UMTGameEvents* Events = GetEvents())
 	{
+		// Boss defeats are NOT bound: AMTBossCharacter calls RecordBossDefeated itself before broadcasting.
 		Events->OnEnemyKilled.AddDynamic(this, &UMTProgressionSubsystem::HandleEnemyKilled);
-		Events->OnBossDefeated.AddDynamic(this, &UMTProgressionSubsystem::HandleBossDefeated);
 		Events->OnLocationReached.AddDynamic(this, &UMTProgressionSubsystem::HandleLocationReached);
 	}
 }
@@ -89,7 +89,6 @@ void UMTProgressionSubsystem::Deinitialize()
 	if (UMTGameEvents* Events = GetEvents())
 	{
 		Events->OnEnemyKilled.RemoveDynamic(this, &UMTProgressionSubsystem::HandleEnemyKilled);
-		Events->OnBossDefeated.RemoveDynamic(this, &UMTProgressionSubsystem::HandleBossDefeated);
 		Events->OnLocationReached.RemoveDynamic(this, &UMTProgressionSubsystem::HandleLocationReached);
 	}
 	Super::Deinitialize();
@@ -717,13 +716,7 @@ void UMTProgressionSubsystem::RecordBossDefeated(FName BossId)
 	{
 		return;
 	}
-	int32& Kills = BossKills.FindOrAdd(BossId);
-	++Kills;
-	if (Kills == 1)
-	{
-		AddSpins(EMTRollCategory::Character, 1);
-		Notify(LOCTEXT("BossFirstKill", "First victory over this foe! +1 Character spin"), MTProgressionPrivate::ColorLevel);
-	}
+	++BossKills.FindOrAdd(BossId);
 }
 
 int32 UMTProgressionSubsystem::GetBossKills(FName BossId) const
@@ -763,11 +756,6 @@ void UMTProgressionSubsystem::HandleEnemyKilled(FName EnemyId, FGameplayTagConta
 	}
 }
 
-void UMTProgressionSubsystem::HandleBossDefeated(FName BossId)
-{
-	RecordBossDefeated(BossId);
-}
-
 void UMTProgressionSubsystem::HandleLocationReached(FName LocationId)
 {
 	DiscoverLocation(LocationId);
@@ -777,16 +765,6 @@ void UMTProgressionSubsystem::HandleLocationReached(FName LocationId)
 
 FName UMTProgressionSubsystem::RaceKey(EMTRace Race) const
 {
-	if (const UMTDataRegistry* Registry = GetRegistry())
-	{
-		if (const FMTRaceData* Row = Registry->FindRace(Race))
-		{
-			if (!Row->RaceID.IsNone())
-			{
-				return Row->RaceID;
-			}
-		}
-	}
 	return FName(*MTProgressionPrivate::RaceEnumName(Race));
 }
 

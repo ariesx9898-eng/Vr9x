@@ -112,7 +112,7 @@ public:
 	// ---------------------------------------------------------------- World
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Progression") void DiscoverLocation(FName LocationId);
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Progression") bool IsLocationDiscovered(FName LocationId) const { return DiscoveredLocations.Contains(LocationId); }
-	/** Counts the kill; the first defeat of each boss grants a Character spin. */
+	/** Counts the kill (boss rewards such as spins are granted by the boss itself). */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|Progression") void RecordBossDefeated(FName BossId);
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Progression") int32 GetBossKills(FName BossId) const;
 
@@ -157,7 +157,7 @@ public:
 	static float GetMagicRankThreshold(EMTMagicRank Rank);
 	static int32 GetAdventurerRankThreshold(EMTAdventurerRank Rank);
 	static FName ElementKey(EMTElement Element) { return FName(*MTUtil::ElementToString(Element)); }
-	/** Race mastery / roll key: the race row's RaceID, or the enum name when no row exists. */
+	/** Race mastery key: the enum name ("Human", "DragonTribe"), matching UMTAbilityComponent's mastery reporting. */
 	FName RaceKey(EMTRace Race) const;
 	/** Display names resolved through the data registry (falls back to ids). */
 	FText GetCharacterDisplayName(FName CharacterId) const;
@@ -172,12 +172,15 @@ public:
 	UPROPERTY(BlueprintAssignable) FMTOnProgressionChanged OnInventoryChanged;
 	UPROPERTY(BlueprintAssignable) FMTOnProgressionChanged OnSpinsChanged;
 
-	/** Grant FMTEnemyData::XPReward when the local player kills an enemy (via UMTGameEvents::OnEnemyKilled). */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Progression") bool bGrantKillXP = true;
+	/**
+	 * Opt-in: grant FMTEnemyData::XPReward from UMTGameEvents::OnEnemyKilled. Off by default because
+	 * AMTEnemyCharacter already calls AddXP on death (enabling both would double the XP).
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Progression") bool bGrantKillXP = false;
 
 protected:
 	UFUNCTION() void HandleEnemyKilled(FName EnemyId, FGameplayTagContainer EnemyTags, AActor* Killer);
-	UFUNCTION() void HandleBossDefeated(FName BossId);
+	/** OnLocationReached -> DiscoverLocation (idempotent, safe alongside direct calls). */
 	UFUNCTION() void HandleLocationReached(FName LocationId);
 
 private:

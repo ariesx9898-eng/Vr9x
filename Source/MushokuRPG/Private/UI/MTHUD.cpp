@@ -17,6 +17,7 @@
 #include "EngineUtils.h"
 #include "GameFramework/PlayerController.h"
 #include "HAL/PlatformTime.h"
+#include "UObject/UObjectIterator.h"
 
 #define LOCTEXT_NAMESPACE "MTHUD"
 
@@ -364,13 +365,28 @@ void AMTHUD::UpdateWorldScan(AMTCharacterBase* Char)
 		return;
 	}
 
+	// Quest-giver markers ("!" offer, "?" turn in), refreshed twice a second.
 	NpcMarkerRefresh -= FrameDelta;
-	const bool bRefreshNpcs = NpcMarkerRefresh <= 0.f;
-	UMTQuestSubsystem* Quests = bRefreshNpcs ? UMTQuestSubsystem::Get(this) : nullptr;
-	if (bRefreshNpcs)
+	if (NpcMarkerRefresh <= 0.f)
 	{
 		NpcMarkerRefresh = 0.5f;
 		NpcMarkers.Reset();
+		for (TObjectIterator<UMTQuestGiverComponent> It; It; ++It)
+		{
+			UMTQuestGiverComponent* Giver = *It;
+			if (!IsValid(Giver) || Giver->IsTemplate() || Giver->GetWorld() != World || !Giver->GetOwner())
+			{
+				continue;
+			}
+			bool bTurnIn = false;
+			if (Giver->HasQuestIndicator(bTurnIn))
+			{
+				FNpcMarker Marker;
+				Marker.Actor = Giver->GetOwner();
+				Marker.bTurnIn = bTurnIn;
+				NpcMarkers.Add(Marker);
+			}
+		}
 	}
 
 	const FVector PlayerLoc = Char->GetActorLocation();
@@ -396,19 +412,6 @@ void AMTHUD::UpdateWorldScan(AMTCharacterBase* Char)
 			{
 				BestBossSq = DistSq;
 				NearestBoss = Other;
-			}
-		}
-		else if (Quests && !Other->GameplayId.IsNone())
-		{
-			// Quest givers: friendly characters whose GameplayId is an NPC id with offers / turn-ins.
-			const bool bTurnIn = Quests->GetTurnInQuestsForNPC(Other->GameplayId).Num() > 0;
-			const bool bOffer = Quests->GetAvailableQuestsForNPC(Other->GameplayId).Num() > 0;
-			if (bTurnIn || bOffer)
-			{
-				FNpcMarker Marker;
-				Marker.Actor = Other;
-				Marker.bTurnIn = bTurnIn;
-				NpcMarkers.Add(Marker);
 			}
 		}
 	}

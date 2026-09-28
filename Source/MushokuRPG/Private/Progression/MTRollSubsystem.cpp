@@ -172,7 +172,8 @@ void UMTRollSubsystem::BuildPool(EMTRollCategory Category, TArray<FMTRollPoolEnt
 				continue;
 			}
 			FMTRollPoolEntry Entry;
-			Entry.Id = Progression ? Progression->RaceKey(Pair.Key) : Pair.Value.RaceID;
+			// Result id is the race row's RaceID (falls back to the enum name).
+			Entry.Id = !Pair.Value.RaceID.IsNone() ? Pair.Value.RaceID : (Progression ? Progression->RaceKey(Pair.Key) : FName(TEXT("Race")));
 			Entry.Race = Pair.Key;
 			Entry.Rarity = Pair.Value.Rarity;
 			Entry.Weight = Pair.Value.RollWeight;
@@ -226,7 +227,12 @@ void UMTRollSubsystem::GrantEntry(EMTRollCategory Category, const FMTRollPoolEnt
 
 FName UMTRollSubsystem::MasteryKeyFor(EMTRollCategory Category, const FMTRollPoolEntry& Entry) const
 {
-	// Pool ids already use the mastery key convention (character id / element name / race id).
+	// Character id / element name / race enum name - the keys UMTAbilityComponent reports mastery with.
+	if (Category == EMTRollCategory::Race)
+	{
+		const UMTProgressionSubsystem* Progression = GetProgression();
+		return Progression ? Progression->RaceKey(Entry.Race) : Entry.Id;
+	}
 	return Entry.Id;
 }
 
