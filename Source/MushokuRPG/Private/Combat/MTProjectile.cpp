@@ -127,6 +127,15 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 		ApplyPlaceholderLook();
 	}
 	MTCombat::PlaySound(this, Data.FX.TravelSound, GetActorLocation(), 0.7f);
+
+	// Hostiles already inside the sphere at spawn (point-blank casts) are hit now that the caster is known.
+	bInitialized = true;
+	TArray<AActor*> Overlapping;
+	Collision->GetOverlappingActors(Overlapping, AMTCharacterBase::StaticClass());
+	for (AActor* Other : Overlapping)
+	{
+		TryHitActor(Other, GetActorLocation());
+	}
 }
 
 void AMTProjectile::ApplyPlaceholderLook()
@@ -262,7 +271,14 @@ float AMTProjectile::EstimateTimeToReach(const FVector& Location, float Toleranc
 
 void AMTProjectile::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (bFinished || !OtherActor || OtherActor == OwnerCharacter.Get())
+	TryHitActor(OtherActor, bFromSweep ? FVector(SweepResult.ImpactPoint) : GetActorLocation());
+}
+
+void AMTProjectile::TryHitActor(AActor* OtherActor, const FVector& Location)
+{
+	// The spawn overlap test runs inside SpawnActor, before InitProjectile names the caster: without these checks the
+	// spell hit whoever cast it and burst in their hand.
+	if (bFinished || !bInitialized || !OtherActor || OtherActor == OwnerCharacter.Get() || OtherActor == GetInstigator() || OtherActor == GetOwner())
 	{
 		return;
 	}
@@ -271,11 +287,10 @@ void AMTProjectile::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* Other
 	{
 		return;
 	}
-	if (OwnerCharacter.IsValid() && !OwnerCharacter->IsHostileTo(Target))
+	if (!OwnerCharacter.IsValid() || !OwnerCharacter->IsHostileTo(Target))
 	{
 		return;
 	}
-	const FVector Location = bFromSweep ? FVector(SweepResult.ImpactPoint) : GetActorLocation();
 	HitCharacter(Target, Location);
 }
 

@@ -171,6 +171,18 @@ bool AMTEnemySpawner::FindValidSpawnLocation(UWorld* World, const FVector& Cente
 	const FCollisionShape Capsule = FCollisionShape::MakeCapsule(CapsuleRadius, CapsuleHalfHeight);
 	FCollisionQueryParams Params(SCENE_QUERY_STAT(MTSpawnTest), false);
 
+	// A navigation system with no NavMesh built around here (a map before its navigation is generated) cannot project
+	// anything: fall back to finding the floor with traces instead of refusing to spawn.
+	if (NavSystem)
+	{
+		FNavLocation Probe;
+		const FVector ProbeExtent(FMath::Max(1000.f, Radius), FMath::Max(1000.f, Radius), 5000.f);
+		if (!NavSystem->ProjectPointToNavigation(Center, Probe, ProbeExtent))
+		{
+			NavSystem = nullptr;
+		}
+	}
+
 	for (int32 Attempt = 0; Attempt < FMath::Max(1, MaxAttempts); ++Attempt)
 	{
 		FVector Candidate = Center;
@@ -193,9 +205,11 @@ bool AMTEnemySpawner::FindValidSpawnLocation(UWorld* World, const FVector& Cente
 		}
 		else
 		{
-			// No navigation (test maps): find the floor with a trace.
+			// No navigation: find the floor with a trace, near the point first, then through the whole column (the
+			// point can sit far above or below the ground, e.g. data heights before the landscape is final).
 			FHitResult Hit;
-			if (!World->LineTraceSingleByChannel(Hit, Candidate + FVector(0.f, 0.f, 500.f), Candidate - FVector(0.f, 0.f, 2000.f), ECC_Visibility, Params))
+			if (!World->LineTraceSingleByChannel(Hit, Candidate + FVector(0.f, 0.f, 500.f), Candidate - FVector(0.f, 0.f, 2000.f), ECC_Visibility, Params)
+				&& !World->LineTraceSingleByChannel(Hit, Candidate + FVector(0.f, 0.f, 50000.f), Candidate - FVector(0.f, 0.f, 200000.f), ECC_Visibility, Params))
 			{
 				continue;
 			}

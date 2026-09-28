@@ -50,6 +50,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Mushoku|Arena") AMTEnemyCharacter* GetOpponent() const;
 
 protected:
+	/** Reads ?PlayAs=Orsted|Rudeus from the travel URL (the launcher's character choice). */
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 

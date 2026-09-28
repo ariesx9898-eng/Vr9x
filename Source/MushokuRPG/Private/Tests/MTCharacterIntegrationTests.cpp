@@ -499,4 +499,35 @@ bool FMTPresentationFallbackTest::RunTest(const FString& Parameters)
 	return true;
 }
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTSpellLeavesCasterTest, "MushokuRPG.Combat.SpellsLeaveTheCaster", MTTest::Flags)
+bool FMTSpellLeavesCasterTest::RunTest(const FString& Parameters)
+{
+	// Cast through the real ability path (hand socket inside the caster's capsule). The spawn overlap used to run
+	// before the projectile knew its caster, so every bolt hit the player for 10 and burst in their hand.
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Rudeus = Game.SpawnPlayer(TEXT("Rudeus"), FVector::ZeroVector, 0.f);
+	AMTEnemyCharacter* Target = Game.SpawnOpponent(TEXT("Arena_Orsted"), FVector(900.f, 0.f, 0.f));
+	if (!TestNotNull(TEXT("Rudeus"), Rudeus) || !TestNotNull(TEXT("target"), Target))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	Rudeus->SetLockTarget(Target);
+	const float CasterBefore = Rudeus->GetAttributes()->GetHealth();
+	const float TargetBefore = Target->GetAttributes()->GetHealth();
+	TestTrue(TEXT("stone bullet activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Rudeus_Basic")));
+	Rudeus->GetAbilities()->ReleaseAbilityById(TEXT("Rudeus_Basic"));
+	Game.Tick(2.f);
+	const float CasterAfter = Rudeus->GetAttributes()->GetHealth();
+	const float TargetAfter = Target->GetAttributes()->GetHealth();
+	TestEqual(TEXT("the caster takes no damage from their own spell"), CasterAfter, CasterBefore);
+	TestTrue(TEXT("the bolt reaches the target 9 m away"), TargetAfter < TargetBefore);
+	AddInfo(FString::Printf(TEXT("caster %.0f -> %.0f, target %.0f -> %.0f"), CasterBefore, CasterAfter, TargetBefore, TargetAfter));
+	return true;
+}
+
 #endif // WITH_DEV_AUTOMATION_TESTS

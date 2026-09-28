@@ -48,6 +48,8 @@ protected:
 	UFUNCTION() void OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION() void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	/** Hits Other when it is a live hostile character; ignores the caster and anything touched before InitProjectile. */
+	void TryHitActor(AActor* Other, const FVector& Location);
 	void HitCharacter(AMTCharacterBase* Target, const FVector& Location);
 	void Explode(const FVector& Location, const FVector& Normal);
 	void Dissipate(bool bSpawnFX);
@@ -69,4 +71,6 @@ protected:
 	FVector WaveAxis = FVector::ZeroVector;
 	TSet<TWeakObjectPtr<AActor>> AlreadyHit;
 	bool bFinished = false;
+	/** False between spawn and InitProjectile: the sphere already overlaps the caster's hand there. */
+	bool bInitialized = false;
 };

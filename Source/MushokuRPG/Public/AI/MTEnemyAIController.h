@@ -118,6 +118,8 @@ protected:
 
 	// Helpers
 	bool ProjectToNav(const FVector& Point, FVector& OutPoint) const;
+	/** True when a NavMesh exists around the pawn; without one, moves go straight at the goal instead of failing. */
+	bool CanPathfind() const;
 	FVector ComputeDodgeDirection(AMTCharacterBase* Me, const FVector& ThreatDirection, const FVector& ThreatCenter, float ThreatRadius) const;
 	static bool ComputeTimeToImpact(AMTProjectile* Spell, const AMTCharacterBase* Me, float& OutTimeToImpact);
 	void SetAction(EMTAIAction NewAction) { CurrentAction = NewAction; }

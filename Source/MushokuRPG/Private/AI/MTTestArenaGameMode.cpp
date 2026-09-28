@@ -22,6 +22,16 @@ AMTTestArenaGameMode::AMTTestArenaGameMode()
 	OpponentClass = AMTEnemyCharacter::StaticClass();
 }
 
+void AMTTestArenaGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	const FString PlayAs = UGameplayStatics::ParseOption(Options, TEXT("PlayAs"));
+	if (!PlayAs.IsEmpty())
+	{
+		PlayerLineageOverride = PlayAs.Contains(OrstedLineageId.ToString()) ? OrstedLineageId : RudeusLineageId;
+	}
+}
+
 void AMTTestArenaGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -109,12 +119,20 @@ void AMTTestArenaGameMode::SpawnOpponent()
 	{
 		return;
 	}
-	BindPlayer(GetPlayerCharacter());
+	AMTCharacterBase* Player = GetPlayerCharacter();
+	BindPlayer(Player);
+	// The launcher's character choice: the save starts everyone as Rudeus.
+	if (Player && !PlayerLineageOverride.IsNone() && Player->GetCharacterId() != PlayerLineageOverride)
+	{
+		Player->ApplyCharacterLineage(PlayerLineageOverride);
+	}
 
 	const bool bPlayerIsOrsted = GetPlayerLineage().ToString().Contains(OrstedLineageId.ToString());
 	const FName OpponentId = bPlayerIsOrsted ? RudeusOpponentId : OrstedOpponentId;
 
-	const FTransform Start = GetArenaStartTransform();
+	// In front of the player where they stand now: the start spot can be far away after a respawn, or above the
+	// ground while the landscape is still a stand-in.
+	const FTransform Start = Player ? Player->GetActorTransform() : GetArenaStartTransform();
 	FVector Forward = Start.GetRotation().GetForwardVector();
 	Forward.Z = 0.f;
 	Forward = Forward.GetSafeNormal();

@@ -248,7 +248,7 @@ void AMTEnemyAIController::Evaluate()
 		if (FVector::Dist2D(Me->GetActorLocation(), Center) > 250.f && (CurrentAction != EMTAIAction::ReturnToArena || GetMoveStatus() != EPathFollowingStatus::Moving))
 		{
 			Me->SetWalking(false);
-			MoveToLocation(Center, 150.f);
+			MoveToLocation(Center, 150.f, true, CanPathfind());
 			LastMoveGoalActor = nullptr;
 		}
 		SetAction(EMTAIAction::ReturnToArena);
@@ -607,7 +607,7 @@ void AMTEnemyAIController::ApproachTarget(AMTCharacterBase* Me, AActor* Target, 
 		return;
 	}
 	Me->SetWalking(false);
-	MoveToActor(Target, AcceptanceRadius, true, true, true);
+	MoveToActor(Target, AcceptanceRadius, true, CanPathfind(), true);
 	LastMoveGoalActor = Target;
 	SetAction(EMTAIAction::Approach);
 }
@@ -684,7 +684,7 @@ void AMTEnemyAIController::EvaluateRudeus(AMTCharacterBase* Me, AMTCharacterBase
 		if (ProjectToNav(MyLocation + Diagonal * (RudeusMinRange - Dist + 300.f), NavPoint))
 		{
 			Me->SetWalking(false);
-			MoveToLocation(NavPoint, 60.f, true, true, false, true);
+			MoveToLocation(NavPoint, 60.f, true, CanPathfind(), false, true);
 			LastMoveGoalActor = nullptr;
 			SetAction(EMTAIAction::Retreat);
 			return;
@@ -988,12 +988,24 @@ void AMTEnemyAIController::ReactionTick()
 // Movement behaviours
 // ---------------------------------------------------------------------------------------------
 
+bool AMTEnemyAIController::CanPathfind() const
+{
+	const APawn* MyPawn = GetPawn();
+	const UNavigationSystemV1* NavSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+	if (!MyPawn || !NavSystem)
+	{
+		return false;
+	}
+	FNavLocation Unused;
+	return NavSystem->ProjectPointToNavigation(MyPawn->GetNavAgentLocation(), Unused, FVector(300.f, 300.f, 500.f));
+}
+
 bool AMTEnemyAIController::ProjectToNav(const FVector& Point, FVector& OutPoint) const
 {
 	UNavigationSystemV1* NavSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-	if (!NavSystem)
+	if (!NavSystem || !CanPathfind())
 	{
-		OutPoint = Point; // no navmesh (test maps): trust the point
+		OutPoint = Point; // no navmesh here (test maps, or navigation not built yet): trust the point
 		return true;
 	}
 	FNavLocation NavLocation;
@@ -1065,7 +1077,7 @@ void AMTEnemyAIController::DoStrafe(AMTCharacterBase* Me, AActor* Target, float 
 	if (ProjectToNav(Desired, NavPoint))
 	{
 		Me->SetWalking(true);
-		MoveToLocation(NavPoint, 40.f, true, true, false, true);
+		MoveToLocation(NavPoint, 40.f, true, CanPathfind(), false, true);
 		LastMoveGoalActor = nullptr;
 		NextStrafeMoveTime = Now + 0.75f;
 		SetAction(EMTAIAction::Strafe);
@@ -1091,7 +1103,7 @@ bool AMTEnemyAIController::MoveToFlank(AMTCharacterBase* Me, AActor* Target)
 		if (ProjectToNav(Target->GetActorLocation() + Rotated, NavPoint))
 		{
 			Me->SetWalking(false);
-			MoveToLocation(NavPoint, 50.f, true, true, false, true);
+			MoveToLocation(NavPoint, 50.f, true, CanPathfind(), false, true);
 			LastMoveGoalActor = nullptr;
 			return true;
 		}
@@ -1140,7 +1152,7 @@ bool AMTEnemyAIController::StartRetreat(AMTCharacterBase* Me, AActor* Target, fl
 	ReleaseEngageToken();
 	Me->SetWalking(false);
 	Me->SetSprinting(true);
-	MoveToLocation(NavPoint, 80.f);
+	MoveToLocation(NavPoint, 80.f, true, CanPathfind());
 	LastMoveGoalActor = nullptr;
 	bRetreating = true;
 	RetreatUntil = Now + 2.5f;
