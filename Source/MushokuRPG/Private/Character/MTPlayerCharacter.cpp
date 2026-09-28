@@ -476,7 +476,21 @@ void AMTPlayerCharacter::UpdateCamera(float DeltaSeconds)
 	const bool bMovingFast = IsSprinting() && GetVelocity().Size2D() > 300.f;
 	const float TargetFOV = BaseFOV + (bMovingFast ? SprintFOVBonus : 0.f);
 	CurrentFOV = FMath::FInterpTo(CurrentFOV, TargetFOV, DeltaSeconds, 4.f);
-	FollowCamera->SetFieldOfView(CurrentFOV);
+	float Kick = 0.f;
+	if (FOVKickDuration > 0.f)
+	{
+		// Punch out over the first 12% (never a snap), then ease back in: a single breath, not a wobble.
+		FOVKickTime += DeltaSeconds;
+		const float T = FMath::Clamp(FOVKickTime / FOVKickDuration, 0.f, 1.f);
+		Kick = FOVKickDegrees * (T < 0.12f ? FMath::SmoothStep(0.f, 1.f, T / 0.12f) : FMath::Square(1.f - (T - 0.12f) / 0.88f));
+		if (T >= 1.f)
+		{
+			FOVKickDuration = 0.f;
+			FOVKickDegrees = 0.f;
+			Kick = 0.f;
+		}
+	}
+	FollowCamera->SetFieldOfView(CurrentFOV + Kick);
 
 	float TargetArm = DefaultArmLength;
 	if (GetStateTags().HasTag(MTTags::State_Transforming))
@@ -507,6 +521,29 @@ void AMTPlayerCharacter::AddCameraShake(float Strength, float Duration)
 	ShakeStrength = Strength;
 	ShakeDuration = FMath::Max(0.05f, Duration);
 	ShakeTime = 0.f;
+}
+
+void AMTPlayerCharacter::AddFOVKick(float Degrees, float Duration)
+{
+	float Setting = 1.f;
+	if (const UMTProgressionSubsystem* Progression = UMTProgressionSubsystem::Get(this))
+	{
+		Setting = Progression->GetSettings().CameraShakeScale;
+	}
+	Degrees = FMath::Clamp(Degrees, 0.f, 10.f) * FMath::Clamp(Setting, 0.f, 1.f);
+	// Keep the stronger of the kick in flight and the new one.
+	float Remaining = 0.f;
+	if (FOVKickDuration > 0.f)
+	{
+		Remaining = FOVKickDegrees * (1.f - FMath::Clamp(FOVKickTime / FOVKickDuration, 0.f, 1.f));
+	}
+	if (Degrees <= KINDA_SMALL_NUMBER || Degrees < Remaining)
+	{
+		return;
+	}
+	FOVKickDegrees = Degrees;
+	FOVKickDuration = FMath::Max(0.1f, Duration);
+	FOVKickTime = 0.f;
 }
 
 void AMTPlayerCharacter::UpdateCameraShake(float DeltaSeconds)
