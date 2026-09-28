@@ -5,6 +5,7 @@
 #include "UI/MTHUD.h"
 #include "UI/LaPlace/MTFrontEndSubsystem.h"
 #include "Dev/MTWorldTourSubsystem.h"
+#include "UI/LaPlace/MTAdminSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
 AMTGameMode::AMTGameMode()
@@ -54,6 +55,16 @@ AMTPlayerController::AMTPlayerController()
 void AMTPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	// Admin popup: 1 and 0 pressed together (works in game and on the menus, which pass these keys through).
+	const bool bAdminCombo = IsInputKeyDown(EKeys::One) && IsInputKeyDown(EKeys::Zero);
+	if (bAdminCombo && !bAdminComboHeld)
+	{
+		if (UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(this))
+		{
+			Admin->Toggle(this);
+		}
+	}
+	bAdminComboHeld = bAdminCombo;
 	const AMTHUD* MTHUD = Cast<AMTHUD>(GetHUD());
 	const bool bWantMenu = MTHUD && MTHUD->IsMenuOpen();
 	if (bWantMenu == bMenuMode)

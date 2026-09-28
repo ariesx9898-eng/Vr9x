@@ -101,6 +101,12 @@ if [[ $DO_SETUP -eq 1 ]]; then
       gen SourceArt/Kit/VFX/SM_VFX_Ring.glb Tools/kit/build_architecture_kit.py
       gen SourceArt/Kit/Trees/SM_Tree_Oak_A.glb Tools/kit/build_nature_kit.py
       [[ -f "$REPO_ROOT/Tools/world/generate_world.py" ]] && gen SourceArt/World/Height.r16 Tools/world/generate_world.py
+      # World content after the terrain: city layouts (streets, buildings), the final paint layers + macro maps, the
+      # nature scatter, and the terrain / kit textures (from the committed Higgsfield originals).
+      [[ -f "$REPO_ROOT/Tools/world/generate_cities.py" ]] && gen SourceArt/World/Scatter/Cities.json Tools/world/generate_cities.py
+      gen SourceArt/World/Macro/GrassMix.png Tools/world/finalize_world.py
+      gen SourceArt/World/Scatter/Foliage.json Tools/world/scatter_foliage.py
+      [[ -f "$REPO_ROOT/Tools/textures/build_textures.py" ]] && gen SourceArt/Textures/Terrain/T_Ground_Grass_D.png Tools/textures/build_textures.py
     else
       echo "== generate: skipped (no Blender/numpy venv at $BPY; see README)"
     fi
@@ -113,7 +119,7 @@ if [[ $DO_SETUP -eq 1 ]]; then
     else
       echo "== orsted: skipped (no SourceArt/Characters/Orsted/Orsted_Animated.glb yet; see Tools/anim/make_orsted.sh)"
     fi
-    STEPS="$STEPS world:mt_world_setup.py"
+    STEPS="$STEPS world:mt_world_setup.py kit:mt_setup_kit.py"
     for step in $STEPS; do
       name="${step%%:*}"
       script="$REPO_ROOT/Content/Python/${step#*:}"
@@ -128,6 +134,19 @@ if [[ $DO_SETUP -eq 1 ]]; then
       run_logged "$log" "$UE_EDITOR" "$UPROJECT" -run=pythonscript -script="$script" \
         -unattended -nosplash -nullrhi -nocrashreports -stdout -FullStdOutLogOutput || fail_step "$name"
     done
+
+    # LA PLACE world map (landscape import needs the GPU: the landscape edit layers are merged by the renderer).
+    if [[ -f "$REPO_ROOT/SourceArt/World/Height.r16" ]]; then
+      log="$LOG_DIR/mt_laplace_world.log"
+      echo "== laplace world: mt_build_world.py (log: Saved/Logs/mt_laplace_world.log)"
+      fresh=0
+      [[ -f "$REPO_ROOT/Content/Maps/L_LaPlace.umap" ]] || fresh=1
+      MT_WORLD_FRESH=$fresh run_logged "$log" "$UE_EDITOR" "$UPROJECT" -run=pythonscript -script="$REPO_ROOT/Content/Python/mt_build_world.py" \
+        -unattended -nosplash -AllowCommandletRendering -nocrashreports -stdout -FullStdOutLogOutput || fail_step "laplace-world"
+      echo "== laplace HLODs: Tools/mac/build_hlods.sh (log: Saved/Logs/mt_hlods.log)"
+      add_log "$LOG_DIR/mt_hlods.log"
+      "$SCRIPT_DIR/build_hlods.sh" || fail_step "laplace-hlods"
+    fi
 
     # World validation on the saved map with every World Partition actor loaded (overlaps, duplicates, coplanar
     # geometry, broken references). The in-editor mt_validate_world.py only sees whatever level is open.

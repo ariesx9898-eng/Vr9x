@@ -513,6 +513,19 @@ def _font(size, bold=False):
         return ImageFont.load_default()
 
 
+# review-map label anchors (u, v), placed by hand so labels do not collide with sites / rivers
+REGION_LABEL_UV = {1: (0.098, 0.455), 2: (0.100, 0.190), 3: (0.300, 0.262), 4: (0.315, 0.118), 5: (0.300, 0.420),
+                   6: (0.372, 0.745), 7: (0.575, 0.062), 8: (0.880, 0.450), 9: (0.905, 0.262), 10: (0.905, 0.705),
+                   11: (0.705, 0.852), 12: (0.872, 0.840), 13: (0.215, 0.955), 14: (0.080, 0.700)}
+SHORT_NAME = {"KingDragon": "King Dragon", "Labyrinth_1": "Labyrinth 1 (Ring)", "Labyrinth_2": "Labyrinth 2 (Mesa)",
+              "Labyrinth_3": "Labyrinth 3 (Canyon)", "Labyrinth_4": "Labyrinth 4 (Butte)",
+              "Labyrinth_5": "Labyrinth 5 (South Butte)"}
+SITE_LABEL_OFFSET = {"EastPort": (14, 10), "KingDragon": (-40, -52), "WestPort": (14, 4), "Labyrinth_3": (10, -24),
+                     "Millishion": (-150, -60), "Buena": (16, 4)}
+RIVER_LABEL_AT = {"LakeInflow": 0.2, "NicolasRiver": 0.65, "ForestRiver": 0.35, "ArsRiver": 0.35,
+                  "FittoaRiver": 0.72}
+
+
 def preview(D, h0, Hy, sites, roads, P, path, log=print):
     PW, PH = 3048, 2286
     s = (PW - 1) / C.WORLD_W_M
@@ -551,18 +564,14 @@ def preview(D, h0, Hy, sites, roads, P, path, log=print):
     # region labels at region centroids
     region = D.region
     f_reg_s = _font(24, True)
-    offsets = {9: (0, 70), 12: (60, 40), 3: (0, -30), 2: (-40, 30)}
     for rid, (key, name, cont, biome) in C.REGIONS.items():
-        if rid in (0, 15):
+        if rid in (0, 15) or rid not in REGION_LABEL_UV:
             continue
         m = region == rid
         if m.sum() < 50:
             continue
-        ys, xs = np.nonzero(m[::4, ::4])
-        cy, cx = np.median(ys) * 4, np.median(xs) * 4
-        x, y = cx * G.L1.cell * s, cy * G.L1.cell * s
-        ox, oy = offsets.get(rid, (0, 0))
-        x, y = x + ox, y + oy
+        u, v = REGION_LABEL_UV[rid]
+        x, y = u * (PW - 1), v * (PH - 1)
         f = f_reg if m.sum() > 40000 else f_reg_s
         tw = d.textlength(name.upper(), font=f)
         d.text((x - tw / 2 + 2, y + 2), name.upper(), font=f, fill=(0, 0, 0, 120))
@@ -572,10 +581,12 @@ def preview(D, h0, Hy, sites, roads, P, path, log=print):
         r = max(5.0, st.r * s)
         d.ellipse((x - r, y - r, x + r, y + r), outline=(255, 230, 80, 255), width=3)
         d.ellipse((x - 4, y - 4, x + 4, y + 4), fill=(255, 60, 40, 255))
-        label = st.name if len(st.name) < 22 else st.id
-        d.text((x + r + 5, y - 14), label, font=f_site, fill=(0, 0, 0, 255), stroke_width=3, stroke_fill=(255, 255, 255, 220))
+        label = SHORT_NAME.get(st.id, st.name)
+        ox, oy = SITE_LABEL_OFFSET.get(st.id, (r + 5, -14))
+        d.text((x + ox, y + oy), label, font=f_site, fill=(0, 0, 0, 255), stroke_width=3, stroke_fill=(255, 255, 255, 220))
     for rv in Hy.rivers[:]:
-        p = rv["pts"][len(rv["pts"]) // 2] * s
+        k = int(len(rv["pts"]) * RIVER_LABEL_AT.get(rv["key"], 0.5))
+        p = rv["pts"][min(k, len(rv["pts"]) - 1)] * s
         d.text((p[0] + 6, p[1]), rv["name"], font=f_small, fill=(20, 60, 140, 255), stroke_width=2,
                stroke_fill=(255, 255, 255, 180))
     for key, P_ in GEO.PASSES.items():

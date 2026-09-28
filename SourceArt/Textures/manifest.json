@@ -1,0 +1,2301 @@
+{
+ "spec": "Docs/LaPlace/Spec.md section 8",
+ "generator": "Tools/textures/build_textures.py",
+ "conventions": {
+  "D": "albedo, sRGB; RGB (+ A = alpha mask for cards)",
+  "N": "tangent-space normal, DirectX / Unreal: R = -dh/du, G = -dh/dv with v pointing down the image",
+  "M": "linear: R = ambient occlusion, G = roughness, B = height 0..1",
+  "E": "emissive mask, linear (Crystal only)",
+  "tile_m": "physical size of one texture repeat in metres; with 1 UV = 1 m meshes scale UVs by 1 / tile_m",
+  "mean_albedo": "average albedo in linear RGB (alpha-weighted for cards), for far-distance colour"
+ },
+ "entries": [
+  {
+   "name": "Ground_Grass",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Grass_D.png",
+    "N": "Terrain/T_Ground_Grass_N.png",
+    "M": "Terrain/T_Ground_Grass_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Grass_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.753,
+    0.888
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.008,
+   "mean_albedo": [
+    0.0975,
+    0.1747,
+    0.0295
+   ],
+   "layer": "Grass",
+   "job": "Terrain/Grass"
+  },
+  {
+   "name": "Ground_Farmland",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Farmland_D.png",
+    "N": "Terrain/T_Ground_Farmland_N.png",
+    "M": "Terrain/T_Ground_Farmland_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Farmland_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.855,
+    0.936
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0228,
+   "mean_albedo": [
+    0.1384,
+    0.0762,
+    0.0396
+   ],
+   "layer": "Farmland",
+   "job": "Terrain/Farmland"
+  },
+  {
+   "name": "Ground_ForestFloor",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_ForestFloor_D.png",
+    "N": "Terrain/T_Ground_ForestFloor_N.png",
+    "M": "Terrain/T_Ground_ForestFloor_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_ForestFloor_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.709,
+    0.967
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0114,
+   "mean_albedo": [
+    0.1119,
+    0.063,
+    0.0284
+   ],
+   "layer": "ForestFloor",
+   "job": "Terrain/ForestFloor"
+  },
+  {
+   "name": "Ground_Moss",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Moss_D.png",
+    "N": "Terrain/T_Ground_Moss_N.png",
+    "M": "Terrain/T_Ground_Moss_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Moss_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.903,
+    0.952
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0118,
+   "mean_albedo": [
+    0.0513,
+    0.0931,
+    0.0144
+   ],
+   "layer": "Moss",
+   "job": "Terrain/Moss"
+  },
+  {
+   "name": "Ground_Snow",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Snow_D.png",
+    "N": "Terrain/T_Ground_Snow_N.png",
+    "M": "Terrain/T_Ground_Snow_M.png"
+   },
+   "tile_m": 6.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Snow_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.48,
+    0.76
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0299,
+   "mean_albedo": [
+    0.7466,
+    0.8012,
+    0.8451
+   ],
+   "layer": "Snow",
+   "job": "Terrain/Snow"
+  },
+  {
+   "name": "Ground_Sand",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Sand_D.png",
+    "N": "Terrain/T_Ground_Sand_N.png",
+    "M": "Terrain/T_Ground_Sand_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Sand_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.857,
+    0.961
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.004,
+   "mean_albedo": [
+    0.6023,
+    0.491,
+    0.3139
+   ],
+   "layer": "Sand",
+   "job": "Terrain/Sand"
+  },
+  {
+   "name": "Ground_Desert",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Desert_D.png",
+    "N": "Terrain/T_Ground_Desert_N.png",
+    "M": "Terrain/T_Ground_Desert_M.png"
+   },
+   "tile_m": 8.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Desert_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.863,
+    0.974
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0188,
+   "mean_albedo": [
+    0.661,
+    0.3798,
+    0.1437
+   ],
+   "layer": "Desert",
+   "job": "Terrain/Desert"
+  },
+  {
+   "name": "Ground_DemonSoil",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_DemonSoil_D.png",
+    "N": "Terrain/T_Ground_DemonSoil_N.png",
+    "M": "Terrain/T_Ground_DemonSoil_M.png"
+   },
+   "tile_m": 6.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_DemonSoil_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.874,
+    0.931
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0174,
+   "mean_albedo": [
+    0.0685,
+    0.0262,
+    0.0185
+   ],
+   "layer": "DemonSoil",
+   "job": "Terrain/DemonSoil"
+  },
+  {
+   "name": "Ground_Rock",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Rock_D.png",
+    "N": "Terrain/T_Ground_Rock_N.png",
+    "M": "Terrain/T_Ground_Rock_M.png"
+   },
+   "tile_m": 8.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Rock_C.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.816,
+    0.868
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0577,
+   "mean_albedo": [
+    0.2016,
+    0.1878,
+    0.1651
+   ],
+   "layer": "Rock",
+   "job": "Terrain/Rock"
+  },
+  {
+   "name": "Ground_Road",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Road_D.png",
+    "N": "Terrain/T_Ground_Road_N.png",
+    "M": "Terrain/T_Ground_Road_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Road_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.756,
+    0.986
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0063,
+   "mean_albedo": [
+    0.2962,
+    0.1878,
+    0.1022
+   ],
+   "layer": "Road",
+   "job": "Terrain/Road"
+  },
+  {
+   "name": "Ground_Mud",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Ground_Mud_D.png",
+    "N": "Terrain/T_Ground_Mud_N.png",
+    "M": "Terrain/T_Ground_Mud_M.png"
+   },
+   "tile_m": 4.0,
+   "size": 2048,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Mud_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.06,
+    0.697
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0084,
+   "mean_albedo": [
+    0.0648,
+    0.0382,
+    0.0222
+   ],
+   "layer": "Mud",
+   "job": "Terrain/Mud"
+  },
+  {
+   "name": "Plaster",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Plaster_D.png",
+    "N": "Palette/T_Plaster_N.png",
+    "M": "Palette/T_Plaster_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Plaster_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.802,
+    0.98
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0029,
+   "mean_albedo": [
+    0.7305,
+    0.6585,
+    0.5149
+   ],
+   "seam": [
+    1.06,
+    1.2
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/Plaster"
+  },
+  {
+   "name": "PlasterTan",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_PlasterTan_D.png",
+    "N": "Palette/T_PlasterTan_N.png",
+    "M": "Palette/T_PlasterTan_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_PlasterTan_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.878,
+    0.985
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0036,
+   "mean_albedo": [
+    0.6038,
+    0.3916,
+    0.1946
+   ],
+   "seam": [
+    0.92,
+    1.04
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/PlasterTan"
+  },
+  {
+   "name": "Timber",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Timber_D.png",
+    "N": "Palette/T_Timber_N.png",
+    "M": "Palette/T_Timber_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Timber_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.614,
+    0.9
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0044,
+   "mean_albedo": [
+    0.0802,
+    0.0395,
+    0.0194
+   ],
+   "seam": [
+    1.0,
+    1.03
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "grain along V (vertical on box-projected walls / posts)",
+   "job": "Palette/Timber"
+  },
+  {
+   "name": "WoodPlanks",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_WoodPlanks_D.png",
+    "N": "Palette/T_WoodPlanks_N.png",
+    "M": "Palette/T_WoodPlanks_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_WoodPlanks_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.708,
+    0.95
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0079,
+   "mean_albedo": [
+    0.2623,
+    0.1356,
+    0.0545
+   ],
+   "seam": [
+    1.06,
+    2.34
+   ],
+   "repeats_x": null,
+   "repeats_y": 8,
+   "wrap_on_joint": true,
+   "orientation": "boards along U (horizontal on box-projected walls)",
+   "job": "Palette/WoodPlanks"
+  },
+  {
+   "name": "Stone",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Stone_D.png",
+    "N": "Palette/T_Stone_N.png",
+    "M": "Palette/T_Stone_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Stone_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.785,
+    0.901
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.017,
+   "mean_albedo": [
+    0.2462,
+    0.2384,
+    0.2122
+   ],
+   "seam": [
+    0.87,
+    1.9
+   ],
+   "repeats_x": null,
+   "repeats_y": 7,
+   "wrap_on_joint": true,
+   "orientation": "courses along U",
+   "job": "Palette/Stone"
+  },
+  {
+   "name": "StoneWhite",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_StoneWhite_D.png",
+    "N": "Palette/T_StoneWhite_N.png",
+    "M": "Palette/T_StoneWhite_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_StoneWhite_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.565,
+    0.634
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.006,
+   "mean_albedo": [
+    0.7758,
+    0.7529,
+    0.6795
+   ],
+   "seam": [
+    0.75,
+    0.4
+   ],
+   "repeats_x": null,
+   "repeats_y": 4,
+   "wrap_on_joint": true,
+   "orientation": "courses along U",
+   "job": "Palette/StoneWhite"
+  },
+  {
+   "name": "Cobble",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Cobble_D.png",
+    "N": "Palette/T_Cobble_N.png",
+    "M": "Palette/T_Cobble_M.png"
+   },
+   "tile_m": 1.5,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Cobble_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.765,
+    0.855
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0113,
+   "mean_albedo": [
+    0.1878,
+    0.1714,
+    0.147
+   ],
+   "seam": [
+    0.91,
+    0.93
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/Cobble"
+  },
+  {
+   "name": "Sandstone",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Sandstone_D.png",
+    "N": "Palette/T_Sandstone_N.png",
+    "M": "Palette/T_Sandstone_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Sandstone_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.869,
+    0.994
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0107,
+   "mean_albedo": [
+    0.658,
+    0.4452,
+    0.2159
+   ],
+   "seam": [
+    0.84,
+    1.17
+   ],
+   "repeats_x": null,
+   "repeats_y": 5,
+   "wrap_on_joint": true,
+   "orientation": "courses along U",
+   "job": "Palette/Sandstone"
+  },
+  {
+   "name": "DemonRock",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_DemonRock_D.png",
+    "N": "Palette/T_DemonRock_N.png",
+    "M": "Palette/T_DemonRock_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_DemonRock_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.835,
+    0.884
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0121,
+   "mean_albedo": [
+    0.107,
+    0.0319,
+    0.0212
+   ],
+   "seam": [
+    0.93,
+    1.14
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/DemonRock"
+  },
+  {
+   "name": "RoofRed",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_RoofRed_D.png",
+    "N": "Palette/T_RoofRed_N.png",
+    "M": "Palette/T_RoofRed_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RoofRed_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.625,
+    0.893
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0431,
+   "mean_albedo": [
+    0.4342,
+    0.0931,
+    0.0369
+   ],
+   "seam": [
+    1.2,
+    0.96
+   ],
+   "repeats_x": 10,
+   "repeats_y": 6,
+   "wrap_on_joint": false,
+   "orientation": "roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge side at the top, each row overlapping the row below",
+   "job": "Palette/RoofRed"
+  },
+  {
+   "name": "RoofBlue",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_RoofBlue_D.png",
+    "N": "Palette/T_RoofBlue_N.png",
+    "M": "Palette/T_RoofBlue_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RoofBlue_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.534,
+    0.597
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0156,
+   "mean_albedo": [
+    0.0931,
+    0.1329,
+    0.2159
+   ],
+   "seam": [
+    0.95,
+    0.64
+   ],
+   "repeats_x": 5,
+   "repeats_y": 4,
+   "wrap_on_joint": false,
+   "orientation": "roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge side at the top, each row overlapping the row below",
+   "job": "Palette/RoofBlue"
+  },
+  {
+   "name": "RoofDark",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_RoofDark_D.png",
+    "N": "Palette/T_RoofDark_N.png",
+    "M": "Palette/T_RoofDark_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RoofDark_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.596,
+    0.669
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0141,
+   "mean_albedo": [
+    0.0369,
+    0.0409,
+    0.0545
+   ],
+   "seam": [
+    0.86,
+    1.32
+   ],
+   "repeats_x": null,
+   "repeats_y": 6,
+   "wrap_on_joint": true,
+   "orientation": "roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge side at the top, each row overlapping the row below",
+   "job": "Palette/RoofDark"
+  },
+  {
+   "name": "RoofThatch",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_RoofThatch_D.png",
+    "N": "Palette/T_RoofThatch_N.png",
+    "M": "Palette/T_RoofThatch_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RoofThatch_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.897,
+    0.986
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0141,
+   "mean_albedo": [
+    0.3794,
+    0.2462,
+    0.0887
+   ],
+   "seam": [
+    0.8,
+    2.87
+   ],
+   "repeats_x": null,
+   "repeats_y": 5,
+   "wrap_on_joint": true,
+   "orientation": "roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge side at the top, each row overlapping the row below",
+   "job": "Palette/RoofThatch"
+  },
+  {
+   "name": "RoofSilver",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_RoofSilver_D.png",
+    "N": "Palette/T_RoofSilver_N.png",
+    "M": "Palette/T_RoofSilver_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RoofSilver_A.png"
+   ],
+   "metallic": 1,
+   "roughness_range": [
+    0.202,
+    0.5
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0308,
+   "mean_albedo": [
+    0.5518,
+    0.6034,
+    0.6854
+   ],
+   "seam": [
+    0.65,
+    0.71
+   ],
+   "repeats_x": 7,
+   "repeats_y": 5,
+   "wrap_on_joint": false,
+   "orientation": "roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge side at the top, each row overlapping the row below",
+   "job": "Palette/RoofSilver"
+  },
+  {
+   "name": "RoofGreen",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_RoofGreen_D.png",
+    "N": "Palette/T_RoofGreen_N.png",
+    "M": "Palette/T_RoofGreen_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RoofGreen_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.564,
+    0.651
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0096,
+   "mean_albedo": [
+    0.117,
+    0.3515,
+    0.2542
+   ],
+   "seam": [
+    1.27,
+    1.1
+   ],
+   "repeats_x": 6,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge side at the top, each row overlapping the row below; standing seams run along V (down the slope)",
+   "job": "Palette/RoofGreen"
+  },
+  {
+   "name": "Snow",
+   "group": "Palette",
+   "files": {
+    "D": "Palette/T_Snow_D.png",
+    "N": "Palette/T_Snow_N.png",
+    "M": "Palette/T_Snow_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Terrain_Snow_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.459,
+    0.742
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.017,
+   "mean_albedo": [
+    0.7916,
+    0.8296,
+    0.9053
+   ],
+   "kind": "Architecture",
+   "job": "Palette/Snow"
+  },
+  {
+   "name": "ClothRed",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_ClothRed_D.png",
+    "N": "Palette/T_ClothRed_N.png",
+    "M": "Palette/T_ClothRed_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Cloth_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.843,
+    0.928
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.002,
+   "mean_albedo": [
+    0.3813,
+    0.0273,
+    0.0194
+   ],
+   "seam": [
+    1.23,
+    0.75
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "note": "dyed from the shared neutral woven source",
+   "job": "Palette/ClothRed"
+  },
+  {
+   "name": "ClothBlue",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_ClothBlue_D.png",
+    "N": "Palette/T_ClothBlue_N.png",
+    "M": "Palette/T_ClothBlue_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Cloth_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.843,
+    0.928
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.002,
+   "mean_albedo": [
+    0.0296,
+    0.0723,
+    0.2623
+   ],
+   "seam": [
+    1.23,
+    0.75
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "note": "dyed from the shared neutral woven source",
+   "job": "Palette/ClothBlue"
+  },
+  {
+   "name": "ClothGreen",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_ClothGreen_D.png",
+    "N": "Palette/T_ClothGreen_N.png",
+    "M": "Palette/T_ClothGreen_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Cloth_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.843,
+    0.928
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.002,
+   "mean_albedo": [
+    0.0482,
+    0.162,
+    0.0513
+   ],
+   "seam": [
+    1.23,
+    0.75
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "note": "dyed from the shared neutral woven source",
+   "job": "Palette/ClothGreen"
+  },
+  {
+   "name": "ClothTan",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_ClothTan_D.png",
+    "N": "Palette/T_ClothTan_N.png",
+    "M": "Palette/T_ClothTan_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Cloth_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.843,
+    0.928
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.002,
+   "mean_albedo": [
+    0.5906,
+    0.4342,
+    0.2159
+   ],
+   "seam": [
+    1.23,
+    0.75
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "note": "dyed from the shared neutral woven source",
+   "job": "Palette/ClothTan"
+  },
+  {
+   "name": "Hide",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Hide_D.png",
+    "N": "Palette/T_Hide_N.png",
+    "M": "Palette/T_Hide_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Hide_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.573,
+    0.849
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0016,
+   "mean_albedo": [
+    0.2961,
+    0.162,
+    0.0802
+   ],
+   "seam": [
+    0.91,
+    1.08
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/Hide"
+  },
+  {
+   "name": "Iron",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Iron_D.png",
+    "N": "Palette/T_Iron_N.png",
+    "M": "Palette/T_Iron_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "Procedural",
+   "metallic": 1,
+   "roughness_range": [
+    0.413,
+    0.649
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0033,
+   "mean_albedo": [
+    0.1572,
+    0.1572,
+    0.1645
+   ],
+   "job": "Palette/Iron"
+  },
+  {
+   "name": "Gold",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Gold_D.png",
+    "N": "Palette/T_Gold_N.png",
+    "M": "Palette/T_Gold_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "Procedural",
+   "metallic": 1,
+   "roughness_range": [
+    0.14,
+    0.356
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.002,
+   "mean_albedo": [
+    0.9199,
+    0.6862,
+    0.2867
+   ],
+   "job": "Palette/Gold"
+  },
+  {
+   "name": "Glass",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Glass_D.png",
+    "N": "Palette/T_Glass_N.png",
+    "M": "Palette/T_Glass_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "Procedural",
+   "metallic": 0,
+   "translucent": true,
+   "opacity_hint": 0.35,
+   "roughness_range": [
+    0.05,
+    0.35
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.005,
+   "mean_albedo": [
+    0.075,
+    0.1305,
+    0.1729
+   ],
+   "job": "Palette/Glass"
+  },
+  {
+   "name": "Crystal",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Crystal_D.png",
+    "N": "Palette/T_Crystal_N.png",
+    "M": "Palette/T_Crystal_M.png",
+    "E": "Palette/T_Crystal_E.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "Procedural",
+   "metallic": 0,
+   "roughness_range": [
+    0.04,
+    0.229
+   ],
+   "normal_strength": 1.0,
+   "emissive_color": [
+    0.1329,
+    0.477,
+    1.0
+   ],
+   "emissive_strength": 2.0,
+   "emissive_note": "emissive = emissive_color * emissive_strength * T_Crystal_E (linear mask)",
+   "mean_albedo": [
+    0.1407,
+    0.3965,
+    0.7401
+   ],
+   "job": "Palette/Crystal"
+  },
+  {
+   "name": "Bone",
+   "group": "Palette",
+   "kind": "Architecture",
+   "files": {
+    "D": "Palette/T_Bone_D.png",
+    "N": "Palette/T_Bone_N.png",
+    "M": "Palette/T_Bone_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Bone_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.547,
+    0.8
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0032,
+   "mean_albedo": [
+    0.7011,
+    0.6172,
+    0.4233
+   ],
+   "seam": [
+    1.04,
+    1.04
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/Bone"
+  },
+  {
+   "name": "BarkOak",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_BarkOak_D.png",
+    "N": "Palette/T_BarkOak_N.png",
+    "M": "Palette/T_BarkOak_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_BarkOak_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.856,
+    0.951
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0092,
+   "mean_albedo": [
+    0.107,
+    0.0685,
+    0.0423
+   ],
+   "seam": [
+    0.86,
+    1.26
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "grain along V (branch axis); U wraps whole 1 m tiles",
+   "job": "Palette/BarkOak"
+  },
+  {
+   "name": "BarkBirch",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_BarkBirch_D.png",
+    "N": "Palette/T_BarkBirch_N.png",
+    "M": "Palette/T_BarkBirch_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_BarkBirch_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.783,
+    0.86
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0071,
+   "mean_albedo": [
+    0.6725,
+    0.6446,
+    0.5647
+   ],
+   "seam": [
+    1.07,
+    0.92
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "V = branch axis",
+   "job": "Palette/BarkBirch"
+  },
+  {
+   "name": "BarkPine",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_BarkPine_D.png",
+    "N": "Palette/T_BarkPine_N.png",
+    "M": "Palette/T_BarkPine_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_BarkPine_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.842,
+    0.938
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0102,
+   "mean_albedo": [
+    0.1746,
+    0.0723,
+    0.0343
+   ],
+   "seam": [
+    1.43,
+    1.03
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "V = branch axis",
+   "job": "Palette/BarkPine"
+  },
+  {
+   "name": "BarkDead",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_BarkDead_D.png",
+    "N": "Palette/T_BarkDead_N.png",
+    "M": "Palette/T_BarkDead_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_BarkDead_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.832,
+    0.958
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0082,
+   "mean_albedo": [
+    0.2705,
+    0.2307,
+    0.1812
+   ],
+   "seam": [
+    0.9,
+    0.93
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "V = branch axis",
+   "job": "Palette/BarkDead"
+  },
+  {
+   "name": "BarkGiant",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_BarkGiant_D.png",
+    "N": "Palette/T_BarkGiant_N.png",
+    "M": "Palette/T_BarkGiant_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_BarkGiant_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.851,
+    0.949
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0097,
+   "mean_albedo": [
+    0.107,
+    0.0931,
+    0.0452
+   ],
+   "seam": [
+    1.12,
+    1.01
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "V = branch axis",
+   "job": "Palette/BarkGiant"
+  },
+  {
+   "name": "BarkDemon",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_BarkDemon_D.png",
+    "N": "Palette/T_BarkDemon_N.png",
+    "M": "Palette/T_BarkDemon_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_BarkDemon_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.58,
+    0.848
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0081,
+   "mean_albedo": [
+    0.0482,
+    0.0194,
+    0.0319
+   ],
+   "seam": [
+    1.04,
+    0.96
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "V = branch axis",
+   "job": "Palette/BarkDemon"
+  },
+  {
+   "name": "MushroomCap",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_MushroomCap_D.png",
+    "N": "Palette/T_MushroomCap_N.png",
+    "M": "Palette/T_MushroomCap_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_MushroomCap_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.548,
+    0.611
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.021,
+   "mean_albedo": [
+    0.3381,
+    0.0647,
+    0.0508
+   ],
+   "seam": [
+    1.25,
+    1.15
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/MushroomCap"
+  },
+  {
+   "name": "MushroomStem",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_MushroomStem_D.png",
+    "N": "Palette/T_MushroomStem_N.png",
+    "M": "Palette/T_MushroomStem_M.png"
+   },
+   "tile_m": 1.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_MushroomStem_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.657,
+    0.759
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0031,
+   "mean_albedo": [
+    0.7011,
+    0.6172,
+    0.4452
+   ],
+   "seam": [
+    0.97,
+    0.94
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "orientation": "fibres along V",
+   "job": "Palette/MushroomStem"
+  },
+  {
+   "name": "Rock",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_Rock_D.png",
+    "N": "Palette/T_Rock_N.png",
+    "M": "Palette/T_Rock_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_Rock_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.838,
+    0.884
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0144,
+   "mean_albedo": [
+    0.1946,
+    0.1812,
+    0.162
+   ],
+   "seam": [
+    0.89,
+    1.04
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/Rock"
+  },
+  {
+   "name": "RockMossy",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_RockMossy_D.png",
+    "N": "Palette/T_RockMossy_N.png",
+    "M": "Palette/T_RockMossy_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RockMossy_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.849,
+    0.939
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0164,
+   "mean_albedo": [
+    0.1221,
+    0.162,
+    0.0646
+   ],
+   "seam": [
+    1.02,
+    1.13
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/RockMossy"
+  },
+  {
+   "name": "RockSnow",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_RockSnow_D.png",
+    "N": "Palette/T_RockSnow_N.png",
+    "M": "Palette/T_RockSnow_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RockSnow_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.625,
+    0.932
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0246,
+   "mean_albedo": [
+    0.1379,
+    0.1498,
+    0.1745
+   ],
+   "seam": [
+    1.11,
+    0.98
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/RockSnow"
+  },
+  {
+   "name": "RockDesert",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_RockDesert_D.png",
+    "N": "Palette/T_RockDesert_N.png",
+    "M": "Palette/T_RockDesert_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RockDesert_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.863,
+    0.954
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0194,
+   "mean_albedo": [
+    0.5149,
+    0.2874,
+    0.1384
+   ],
+   "seam": [
+    1.01,
+    0.92
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/RockDesert"
+  },
+  {
+   "name": "RockDemon",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_RockDemon_D.png",
+    "N": "Palette/T_RockDemon_N.png",
+    "M": "Palette/T_RockDemon_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RockDemon_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.343,
+    0.384
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0205,
+   "mean_albedo": [
+    0.0395,
+    0.0194,
+    0.0212
+   ],
+   "seam": [
+    0.85,
+    0.86
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/RockDemon"
+  },
+  {
+   "name": "RockPale",
+   "group": "Palette",
+   "kind": "Nature",
+   "files": {
+    "D": "Palette/T_RockPale_D.png",
+    "N": "Palette/T_RockPale_N.png",
+    "M": "Palette/T_RockPale_M.png"
+   },
+   "tile_m": 2.0,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Palette_RockPale_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.807,
+    0.911
+   ],
+   "normal_strength": 1.0,
+   "height_m": 0.0165,
+   "mean_albedo": [
+    0.5776,
+    0.552,
+    0.491
+   ],
+   "seam": [
+    0.97,
+    1.01
+   ],
+   "repeats_x": null,
+   "repeats_y": null,
+   "wrap_on_joint": false,
+   "job": "Palette/RockPale"
+  },
+  {
+   "name": "LeavesOak",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_LeavesOak_D.png",
+    "N": "Palette/T_LeavesOak_N.png",
+    "M": "Palette/T_LeavesOak_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_LeavesOak_B.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.436,
+    0.811
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "cluster",
+   "card_aspect": 1.0,
+   "coverage": 0.658,
+   "soft_edge_fraction": 0.0039,
+   "note": "leaf-cluster card, twig from the bottom centre (oak crowns, bushes)",
+   "mean_albedo": [
+    0.0873,
+    0.1674,
+    0.0248
+   ],
+   "job": "Cards/LeavesOak"
+  },
+  {
+   "name": "LeavesBirch",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_LeavesBirch_D.png",
+    "N": "Palette/T_LeavesBirch_N.png",
+    "M": "Palette/T_LeavesBirch_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_LeavesBirch_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.41,
+    0.789
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "cluster",
+   "card_aspect": 1.0,
+   "coverage": 0.379,
+   "soft_edge_fraction": 0.0073,
+   "note": "airy drooping twig spray, small leaves (birch crowns, bush B)",
+   "mean_albedo": [
+    0.1969,
+    0.3111,
+    0.0276
+   ],
+   "job": "Cards/LeavesBirch"
+  },
+  {
+   "name": "NeedlesPine",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_NeedlesPine_D.png",
+    "N": "Palette/T_NeedlesPine_N.png",
+    "M": "Palette/T_NeedlesPine_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_NeedlesPine_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.535,
+    0.907
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "cluster",
+   "card_aspect": 1.0,
+   "coverage": 0.52,
+   "soft_edge_fraction": 0.0038,
+   "note": "bough spray, stem up the centre line (conifer bough strips, leader, pads)",
+   "mean_albedo": [
+    0.0323,
+    0.0787,
+    0.0281
+   ],
+   "job": "Cards/NeedlesPine"
+  },
+  {
+   "name": "NeedlesSnow",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_NeedlesSnow_D.png",
+    "N": "Palette/T_NeedlesSnow_N.png",
+    "M": "Palette/T_NeedlesSnow_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_NeedlesSnow_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.491,
+    0.867
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "cluster",
+   "card_aspect": 1.0,
+   "coverage": 0.516,
+   "soft_edge_fraction": 0.0027,
+   "note": "snow-laden bough spray (snow pines, snowy bush)",
+   "mean_albedo": [
+    0.4348,
+    0.4958,
+    0.511
+   ],
+   "job": "Cards/NeedlesSnow"
+  },
+  {
+   "name": "LeavesGiant",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_LeavesGiant_D.png",
+    "N": "Palette/T_LeavesGiant_N.png",
+    "M": "Palette/T_LeavesGiant_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_LeavesGiant_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.332,
+    0.709
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "cluster",
+   "card_aspect": 1.0,
+   "coverage": 0.698,
+   "soft_edge_fraction": 0.0019,
+   "note": "broad-leaf cluster (Great Forest giants, jungle trees; 3-4.5 m cards)",
+   "mean_albedo": [
+    0.0411,
+    0.1245,
+    0.0273
+   ],
+   "job": "Cards/LeavesGiant"
+  },
+  {
+   "name": "LeavesDemon",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_LeavesDemon_D.png",
+    "N": "Palette/T_LeavesDemon_N.png",
+    "M": "Palette/T_LeavesDemon_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_LeavesDemon_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.317,
+    0.689
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "cluster",
+   "card_aspect": 1.0,
+   "coverage": 0.402,
+   "soft_edge_fraction": 0.0044,
+   "note": "purple spray with a central stem; also stretched along frond strips and hung upside down as tassels",
+   "mean_albedo": [
+    0.1242,
+    0.0252,
+    0.1798
+   ],
+   "job": "Cards/LeavesDemon"
+  },
+  {
+   "name": "LeavesPalm",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_LeavesPalm_D.png",
+    "N": "Palette/T_LeavesPalm_N.png",
+    "M": "Palette/T_LeavesPalm_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_LeavesPalm_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.416,
+    0.796
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "frond",
+   "card_aspect": 2.7,
+   "coverage": 0.392,
+   "soft_edge_fraction": 0.0097,
+   "note": "single frond, rib up the centre, base at the bottom (palm frond strips)",
+   "mean_albedo": [
+    0.1184,
+    0.2287,
+    0.0272
+   ],
+   "job": "Cards/LeavesPalm"
+  },
+  {
+   "name": "Grass",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_Grass_D.png",
+    "N": "Palette/T_Grass_N.png",
+    "M": "Palette/T_Grass_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_Grass_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.534,
+    0.91
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "tuft",
+   "card_aspect": 1.25,
+   "coverage": 0.503,
+   "soft_edge_fraction": 0.0064,
+   "note": "blades rooted along the bottom edge (grass / flower clumps)",
+   "mean_albedo": [
+    0.1045,
+    0.2282,
+    0.0211
+   ],
+   "job": "Cards/Grass"
+  },
+  {
+   "name": "GrassDry",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_GrassDry_D.png",
+    "N": "Palette/T_GrassDry_N.png",
+    "M": "Palette/T_GrassDry_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_GrassDry_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.664,
+    0.95
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "tuft",
+   "card_aspect": 1.25,
+   "coverage": 0.383,
+   "soft_edge_fraction": 0.0092,
+   "note": "dry blades rooted along the bottom edge (dry tufts, desert scrub, palm skirt)",
+   "mean_albedo": [
+    0.4981,
+    0.3367,
+    0.1309
+   ],
+   "job": "Cards/GrassDry"
+  },
+  {
+   "name": "Wheat",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_Wheat_D.png",
+    "N": "Palette/T_Wheat_N.png",
+    "M": "Palette/T_Wheat_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_Wheat_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.594,
+    0.95
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "tuft",
+   "card_aspect": 1.6,
+   "coverage": 0.288,
+   "soft_edge_fraction": 0.0076,
+   "note": "ripe stalks with ears near the top, rooted along the bottom edge (2 x 2 m wheat patches)",
+   "mean_albedo": [
+    0.6062,
+    0.3328,
+    0.055
+   ],
+   "job": "Cards/Wheat"
+  },
+  {
+   "name": "Flowers",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_Flowers_D.png",
+    "N": "Palette/T_Flowers_N.png",
+    "M": "Palette/T_Flowers_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_Flowers_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.513,
+    0.886
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "tuft",
+   "card_aspect": 1.15,
+   "coverage": 0.373,
+   "soft_edge_fraction": 0.0121,
+   "note": "mixed wildflowers on stems rooted along the bottom edge (flower clumps, bush C)",
+   "mean_albedo": [
+    0.2948,
+    0.2426,
+    0.2
+   ],
+   "job": "Cards/Flowers"
+  },
+  {
+   "name": "Fern",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_Fern_D.png",
+    "N": "Palette/T_Fern_N.png",
+    "M": "Palette/T_Fern_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_Fern_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.509,
+    0.886
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "frond",
+   "card_aspect": 2.4,
+   "coverage": 0.376,
+   "soft_edge_fraction": 0.0057,
+   "note": "single frond, stem up the centre, base at the bottom (fern frond strips)",
+   "mean_albedo": [
+    0.0722,
+    0.1931,
+    0.0225
+   ],
+   "job": "Cards/Fern"
+  },
+  {
+   "name": "Reeds",
+   "group": "Palette",
+   "kind": "Card",
+   "files": {
+    "D": "Palette/T_Reeds_D.png",
+    "N": "Palette/T_Reeds_N.png",
+    "M": "Palette/T_Reeds_M.png"
+   },
+   "tile_m": null,
+   "size": 1024,
+   "source": "AI",
+   "ai_sources": [
+    "SourceArt/AI/Textures/Card_Reeds_A.png"
+   ],
+   "metallic": 0,
+   "roughness_range": [
+    0.54,
+    0.912
+   ],
+   "normal_strength": 1.0,
+   "masked": true,
+   "two_sided": true,
+   "opacity_clip": 0.5,
+   "layout": "tuft",
+   "card_aspect": 2.8,
+   "coverage": 0.489,
+   "soft_edge_fraction": 0.0083,
+   "note": "tall blades and cattails rooted along the bottom edge (reed clumps, 1.8-2.4 m cards)",
+   "mean_albedo": [
+    0.1736,
+    0.1947,
+    0.045
+   ],
+   "job": "Cards/Reeds"
+  },
+  {
+   "name": "Macro_Noise",
+   "group": "Terrain",
+   "files": {
+    "D": "Terrain/T_Macro_Noise.png"
+   },
+   "size": 1024,
+   "source": "Procedural",
+   "linear": true,
+   "tile_m": [
+    150.0,
+    40.0,
+    12.0
+   ],
+   "channels": {
+    "R": "broad smooth noise, ~2 cycles per repeat (e.g. sampled at ~150 m)",
+    "G": "medium smooth noise, ~4 cycles per repeat (e.g. sampled at ~40 m)",
+    "B": "fine smooth noise, ~8 cycles per repeat (e.g. sampled at ~12 m)"
+   },
+   "note": "import as linear (sRGB off); each channel is histogram-equalised (uniform 0..1)",
+   "channel_correlation": [
+    -0.101,
+    0.032,
+    0.015
+   ],
+   "seam": [
+    0.97,
+    0.9
+   ],
+   "job": "Extras/Macro_Noise"
+  },
+  {
+   "name": "Ocean",
+   "group": "Water",
+   "files": {
+    "N": "Water/T_Ocean_N.png"
+   },
+   "tile_m": 12.0,
+   "size": 1024,
+   "source": "Procedural",
+   "normal_strength": 1.0,
+   "mean_tilt_deg": 11.6,
+   "wind_direction_uv": [
+    0.939,
+    0.343
+   ],
+   "note": "pan two copies in different directions / scales for motion; height_rms_m 0.096 at the stated tile size",
+   "seam": [
+    1.08,
+    0.98
+   ],
+   "job": "Extras/Ocean"
+  },
+  {
+   "name": "Foam",
+   "group": "Water",
+   "files": {
+    "D": "Water/T_Foam_D.png"
+   },
+   "tile_m": 6.0,
+   "size": 1024,
+   "source": "Procedural",
+   "translucent": true,
+   "coverage": 0.214,
+   "note": "RGB = foam colour (sRGB), A = foam opacity; scale A by a shoreline / wave-crest mask",
+   "mean_albedo": [
+    0.7558,
+    0.7915,
+    0.8192
+   ],
+   "seam": [
+    0.98,
+    0.99
+   ],
+   "job": "Extras/Foam"
+  }
+ ]
+}

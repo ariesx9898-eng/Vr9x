@@ -125,7 +125,9 @@ def maps(albedo, h01, tile_m, tilt_deg, ao_radii_m, ao_strength, rough, normal_b
     y = T.luma(albedo)
     yn = (y - y.mean()) / max(float(y.std()), 1e-6)
     hc = (h01 - h01.mean()) / max(float(h01.std()), 1e-6)
-    g = rough["base"] + rough.get("h", 0.0) * hc * 0.1 + rough.get("lum", 0.0) * yn * 0.1
+    # default: exposed crests a little smoother (worn / polished), cavities a little rougher (dust, grit);
+    # brighter-than-average texels a touch rougher (dry, powdery) unless a material says otherwise
+    g = rough["base"] + rough.get("h", -0.3) * hc * 0.1 + rough.get("lum", 0.1) * yn * 0.1
     if rough.get("noise"):
         a, cyc = rough["noise"]
         g = g + a * T.fbm_periodic(h01.shape, np.random.default_rng(rough.get("seed", 7)), cyc, 4)

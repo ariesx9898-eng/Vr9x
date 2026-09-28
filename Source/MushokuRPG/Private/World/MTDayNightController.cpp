@@ -1,4 +1,5 @@
 #include "World/MTDayNightController.h"
+#include "World/MTRegionSubsystem.h"
 
 #include "World/MTTimeOfDaySubsystem.h"
 #include "Core/MTTypes.h"
@@ -245,8 +246,20 @@ void AMTDayNightController::ApplyTimeOfDay(float Hours, bool bAllowRecapture)
 	if (UExponentialHeightFogComponent* FogComp = HeightFog ? HeightFog->GetComponent() : nullptr)
 	{
 		const float NightAlpha = MTDayNight::SmoothStep01(2.f, -8.f, Elevation);
-		FogComp->SetFogDensity(FMath::Lerp(FogDensityDay, FogDensityNight, NightAlpha));
-		FogComp->SetFogInscatteringColor(FMath::Lerp(FogColorDay, FogColorNight, NightAlpha));
+		// Region atmosphere (LA PLACE world): thicker fog in the north and the Great Forest, red haze on the Demon
+		// Continent, warm dust over Begaritt.
+		float RegionDensity = 1.f;
+		FLinearColor RegionTint = FLinearColor::White;
+		if (const UMTRegionSubsystem* Regions = UMTRegionSubsystem::Get(this))
+		{
+			if (Regions->IsActive())
+			{
+				RegionDensity = Regions->GetAtmosphere().FogDensityScale;
+				RegionTint = Regions->GetAtmosphere().FogTint;
+			}
+		}
+		FogComp->SetFogDensity(FMath::Lerp(FogDensityDay, FogDensityNight, NightAlpha) * RegionDensity);
+		FogComp->SetFogInscatteringColor(FMath::Lerp(FogColorDay, FogColorNight, NightAlpha) * RegionTint);
 	}
 
 	if (bAllowRecapture)
