@@ -208,8 +208,10 @@ def main():
     ok &= names == src_names
     V = sc.skin({})
     h = V[:, 1].max() - V[:, 1].min()
-    print("bind pose height m: %.4f  min y: %.4f" % (h, V[:, 1].min()))
-    ok &= abs(h - 1.617) < 0.01 and abs(V[:, 1].min()) < 0.01
+    Vs = Scene(src).skin({})
+    h_src = Vs[:, 1].max() - Vs[:, 1].min()
+    print("bind pose height m: %.4f (source %.4f)  min y: %.4f" % (h, h_src, V[:, 1].min()))
+    ok &= abs(h - h_src) < 0.01 and abs(V[:, 1].min()) < 0.01
     # facing: the nose/face region should be at +Z (toes also at +Z of ankles)
     foot = [i for i in sc.joints if g.j["nodes"][i]["name"] == "leg_L0_3_jnt_011"][0]
     ankle = [i for i in sc.joints if g.j["nodes"][i]["name"] == "leg_L0_2_jnt_010"][0]
