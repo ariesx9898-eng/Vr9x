@@ -171,9 +171,9 @@ void AMTEnemyCharacter::BuildAttacksFromLineage()
 		{
 			continue;
 		}
-		// Counters, buffs and structures are situational; the AI controller uses them reactively.
-		if (Ability->Behavior == EMTAbilityBehavior::Counter || Ability->Behavior == EMTAbilityBehavior::Buff
-			|| Ability->Behavior == EMTAbilityBehavior::Structure)
+		// Counters (Disturb Magic included), buffs and structures are situational; the AI controller uses them reactively.
+		if (Ability->Behavior == EMTAbilityBehavior::Counter || Ability->Behavior == EMTAbilityBehavior::Disrupt
+			|| Ability->Behavior == EMTAbilityBehavior::Buff || Ability->Behavior == EMTAbilityBehavior::Structure)
 		{
 			continue;
 		}
@@ -182,6 +182,7 @@ void AMTEnemyCharacter::BuildAttacksFromLineage()
 		Attack.AbilityId = AbilityId;
 		switch (Ability->Behavior)
 		{
+		case EMTAbilityBehavior::Strike: // Dragon Crush lunges the last few metres itself
 		case EMTAbilityBehavior::Melee:
 			Attack.MinRange = 0.f;
 			Attack.MaxRange = FMath::Clamp(Ability->Range, 150.f, 400.f);

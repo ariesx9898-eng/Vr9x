@@ -61,6 +61,10 @@ namespace
 		case EMTAbilityBehavior::Buff: return TEXT("Empowerment");
 		case EMTAbilityBehavior::Structure: return TEXT("Barrier");
 		case EMTAbilityBehavior::Melee: return TEXT("Martial");
+		case EMTAbilityBehavior::Barrage: return TEXT("Barrage");
+		case EMTAbilityBehavior::Disrupt: return TEXT("Counter");
+		case EMTAbilityBehavior::Strike: return TEXT("Martial");
+		case EMTAbilityBehavior::Serpent: return TEXT("Summon");
 		}
 		return TEXT("");
 	}
