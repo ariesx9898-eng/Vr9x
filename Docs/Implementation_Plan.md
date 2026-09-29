@@ -52,7 +52,7 @@ Adding a character later means adding one row to `Characters.json` plus its abil
 | 10 Fittoa | Terrain generated; Buena generator and validation done; setup script ready | Real meshes (currently blockout), foliage, landscape material, lighting pass |
 | 11 Quests | Framework and a variety of quests done | Dialogue presentation polish, quest content in world |
 | 12 AI | Utility enemy AI, boss phases, NPC schedules with LOD | Tuning, animation content |
-| 13 UI | LA PLACE Slate UI: front end, hotbar and vitals, journal (all ten pages), roll screen and NPC dialog; the canvas still draws the quest tracker, minimap, prompts and toasts | In-engine review of the journal (`?UITour=1` shots 08-18), restyle the remaining canvas pieces |
+| 13 UI | LA PLACE Slate UI: front end, hotbar and vitals, journal (all ten pages), roll screen and NPC dialog; the canvas still draws the quest tracker, minimap, prompts and toasts | In-engine review of the journal (`?UITour=1` shots 10-20), restyle the remaining canvas pieces |
 | 14 Save | Versioned save with autosave | In-engine save/load round-trip test |
 | 15 Polish | Not started | Everything above, in-engine |
 
