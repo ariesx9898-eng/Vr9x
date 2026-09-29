@@ -43,6 +43,9 @@ public:
 	/** Short camera shake (spell impacts). Strength 0..1; overlapping shakes keep the strongest. Scaled by the
 	 *  camera-shake setting. */
 	void AddCameraShake(float Strength, float Duration);
+	/** Brief field-of-view punch for ultimate-scale impacts: widens by Degrees almost at once, then eases back over
+	 *  Duration. Overlapping kicks keep the strongest; scaled by the camera-shake setting (0 turns it off). */
+	void AddFOVKick(float Degrees, float Duration);
 
 	/** Optional authored assets; if null, equivalents are created at runtime. */
 	UPROPERTY(EditDefaultsOnly, Category = "Mushoku|Input") TObjectPtr<UInputMappingContext> DefaultMappingContext;
@@ -95,6 +98,10 @@ protected:
 	float ShakeStrength = 0.f;
 	float ShakeTime = 0.f;
 	float ShakeDuration = 0.f;
+	/** FOV kick in flight (degrees at its peak, seconds elapsed, total seconds). */
+	float FOVKickDegrees = 0.f;
+	float FOVKickTime = 0.f;
+	float FOVKickDuration = 0.f;
 	AActor* FindBestLockTarget(AActor* Exclude) const;
 
 	UFUNCTION() void HandleTelegraph(const FMTAttackTelegraph& Telegraph);
