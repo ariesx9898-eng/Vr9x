@@ -502,6 +502,163 @@ def check_anim_sets(anim_sets, characters, abilities):
             warn(f"{ctx}: chargeable without ChargeLoopAnim: the pose drops back to locomotion while charging")
 
 
+# Behaviour-specific numbers each behaviour reads from Params (Docs/Ability_Overhaul.md section 3).
+KNOWN_PARAMS = {
+    "Barrage": {"BarrageTime", "ShotInterval", "CollapseTime", "Spread", "Sway"},
+    "Disrupt": {"PulseSpeed", "PathRadius", "SearchRange", "SearchAngle", "SealSeconds", "Refund", "EndRadius"},
+    "Dash": {"TargetRange", "ArriveOffset", "TargetDuration", "FreeDistance", "FreeDuration", "ComboWindow"},
+    "Strike": {"PrimaryDamage", "PrimaryKnockback", "PrimaryLaunch", "PrimaryRange", "ConeRange", "ConeHalfAngle",
+               "LungeRange", "HitStop", "ComboCastScale", "ComboDamageScale"},
+    "Serpent": {"Segments", "Length", "HeadRadius", "CircleTime", "HuntTime", "Speed", "TurnRate"},
+    "Structure": {"ArcRadius", "RiseStep", "Tilt", "HeightJitter"},
+    "Projectile": {"SplashScale"},
+    "Zone": {"TransformTime", "EdgeDepth", "SpeedLoss", "AccelLoss", "JumpLoss", "DodgeLoss", "SinkDepth", "HeavySink",
+             "HeavyPenalty", "MomentumLoss", "ArcDegrees", "StartRadius", "EndRadius", "TravelTime", "Band", "Segments",
+             "PillarsPerPulse", "EnemyBias", "AreaBurnDps", "Width", "Distance", "CarrySpeed", "TrailSpacing", "Spike1",
+             "Spike2", "Spike3", "Final", "FinalRadius", "FinalDamage", "FinalLaunch", "CrumbleAfter", "GrowTo",
+             "FormTime", "PullScale", "PullSpeed", "HeavyPullSpeed", "LiftTime", "LiftHeight", "OrbitSpeed", "HeavySlow",
+             "Invulnerable", "DeflectRadius"},
+}
+AUDIO_PATH_RE = re.compile(r"^/Game/LaPlace/Audio/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)$")
+SOUND_FIELDS = ("CastSound", "ReleaseSound", "TravelSound", "ImpactSound", "AccentSound")
+MAX_FLIGHT_CM = 2500.0  # knockback x airtime: thrown far, but still in the fight
+
+
+def load_anim_events(character):
+    path = os.path.join(ROOT, "SourceArt", "Characters", character, character + "_Animated.anim.json")
+    try:
+        return json.load(open(path, encoding="utf-8")).get("events")
+    except (OSError, json.JSONDecodeError, AttributeError):
+        return None
+
+
+def check_overhaul(abilities, characters, anim_sets):
+    """LA PLACE ability overhaul: honest hitboxes, frame-accurate release, behaviour params, loadouts, sounds."""
+    rudeus_events = load_anim_events("Rudeus")
+    if rudeus_events is None:
+        warn("Rudeus_Animated.anim.json has no \"events\": CastTime vs Release frame not checked")
+    manifest_path = os.path.join(ROOT, "SourceArt", "Audio", "manifest.json")
+    audio = None
+    if os.path.exists(manifest_path):
+        try:
+            m = json.load(open(manifest_path, encoding="utf-8"))
+            entries = m if isinstance(m, list) else m.get("files", m.get("sounds", []))
+            audio = set()
+            for e in entries:
+                f = (e.get("file") or "").replace("\\", "/")
+                parts = f.split("/")
+                if len(parts) >= 2:
+                    audio.add((parts[-2], os.path.splitext(parts[-1])[0]))
+        except (json.JSONDecodeError, AttributeError) as e:
+            warn(f"SourceArt/Audio/manifest.json unreadable ({e}): sound paths not checked")
+    for aid, a in abilities.items():
+        ctx = f"Abilities[{aid}]"
+        b = a.get("Behavior", "Projectile")
+        g = lambda k, d=0: a.get(k, d)
+        hf = g("HitForgiveness", 1.12)
+        if not 1.0 <= hf <= 1.15:
+            err(f"{ctx}: HitForgiveness {hf} outside the honest 1.0-1.15 range")
+        for k in ("PierceCount", "PierceMaxHealth", "ProjectileWidth", "Launch", "BurnSeconds", "BurnDamagePerSecond"):
+            if is_number(g(k)) and g(k) < 0:
+                err(f"{ctx}: {k} must be >= 0")
+        for k in ("ChargeSizeScale", "ChargeRadiusScale", "ChargeKnockbackScale"):
+            if g("bChargeable", False) and g(k, 1.0) < 1.0:
+                err(f"{ctx}: {k} should be >= 1")
+        params = g("Params", {}) or {}
+        known = KNOWN_PARAMS.get(b, set())
+        for k in sorted(params):
+            if k not in known:
+                warn(f"{ctx}.Params.{k}: not read by the {b} behaviour")
+            elif not is_number(params[k]):
+                err(f"{ctx}.Params.{k}: must be a number")
+        if g("ComboFollowUp", "") and g("ComboFollowUp") not in abilities:
+            err(f"{ctx}: ComboFollowUp '{g('ComboFollowUp')}' is not an ability")
+        # Flights stay readable: horizontal speed x airtime.
+        if g("Launch") > 0:
+            flight = g("Knockback") * 2.0 * g("Launch") / 980.0
+            if flight > MAX_FLIGHT_CM:
+                warn(f"{ctx}: knockback {g('Knockback')} + launch {g('Launch')} throws targets {flight / 100:.0f} m")
+        # New behaviours.
+        if b == "Barrage":
+            seq = g("Sequence", [])
+            finales = [s for s in seq if s.get("MontageSection") == "Finale"]
+            shots = [s for s in seq if s.get("MontageSection") != "Finale"]
+            if len(finales) != 1 or not shots:
+                err(f"{ctx}: a barrage needs shot steps and exactly one Finale step")
+            for i, step in enumerate(seq):
+                row = abilities.get(step.get("AbilityId"))
+                if row is None:
+                    err(f"{ctx}.Sequence[{i}]: missing ability '{step.get('AbilityId')}'")
+                elif row.get("Behavior", "Projectile") != "Projectile":
+                    err(f"{ctx}.Sequence[{i}]: '{step.get('AbilityId')}' must be a Projectile row")
+            if params.get("ShotInterval", 0.2) <= 0 or params.get("BarrageTime", 3.0) <= 0:
+                err(f"{ctx}: BarrageTime and ShotInterval must be > 0")
+        elif b == "Disrupt":
+            if params.get("PulseSpeed", 6500) <= 0 or params.get("SealSeconds", 3) <= 0:
+                err(f"{ctx}: Disrupt needs PulseSpeed > 0 and SealSeconds > 0")
+            if params.get("SealSeconds", 3) > 5:
+                err(f"{ctx}: SealSeconds {params['SealSeconds']} is a silence, not a brief disruption (keep <= 5)")
+            if g("Damage") > 0:
+                err(f"{ctx}: Disturb Magic never deals damage")
+        elif b == "Strike":
+            if g("AOERadius") <= 0:
+                err(f"{ctx}: Strike needs AOERadius (the shockwave's visual radius)")
+            if not 0 <= params.get("HitStop", 0) <= 0.12:
+                err(f"{ctx}: HitStop {params.get('HitStop')} s: keep hit-stop subtle (<= 0.12 s)")
+        elif b == "Serpent":
+            if g("AOERadius") <= 0 or params.get("Speed", 2800) <= 0:
+                err(f"{ctx}: Serpent needs AOERadius > 0 and Speed > 0")
+        elif b == "Zone":
+            kind = g("ZoneKind", "Mire")
+            if kind == "Arc" and params.get("EndRadius", g("AOERadius")) <= params.get("StartRadius", 150):
+                err(f"{ctx}: Arc EndRadius must exceed StartRadius")
+            if kind == "Vortex" and params.get("GrowTo", g("AOERadius")) < g("AOERadius"):
+                err(f"{ctx}: Vortex GrowTo must be >= AOERadius")
+            if kind == "LineEruptions" and "Final" in params:
+                d = [params.get("Spike1", 0), params.get("Spike2", 0), params.get("Spike3", 0), params["Final"]]
+                if d != sorted(d) or len(set(d)) != 4:
+                    err(f"{ctx}: spike distances must increase (Spike1 < Spike2 < Spike3 < Final)")
+                if g("PulseCount", 1) != 4:
+                    err(f"{ctx}: fixed spikes need PulseCount 4 (three spikes and the final)")
+            if kind == "Mire" and "SpeedLoss" in params:
+                if not 0 < params.get("EdgeDepth", 1) <= 1 or not 0 < params["SpeedLoss"] < 1:
+                    err(f"{ctx}: Quagmire EdgeDepth must be in (0,1] and SpeedLoss in (0,1): it slows, never roots")
+        # Release frame: the data CastTime is Rudeus's Release event (non-chargeable abilities).
+        m = ANIM_PATH_RE.match(g("Montage", "") or "")
+        if rudeus_events is not None and m and m.group(2) == "Rudeus" and not g("bChargeable", False) and g("CastTime") > 0:
+            release = (rudeus_events.get(m.group(3)) or {}).get("Release")
+            if release is None:
+                warn(f"{ctx}: A_Rudeus_{m.group(3)} has no Release event (CastTime alone times the spell)")
+            elif abs(release - g("CastTime")) > 1.0 / 30.0 + 1e-6:
+                err(f"{ctx}: CastTime {g('CastTime')} s != A_Rudeus_{m.group(3)} Release {release} s")
+        # Sounds must be ones the audio pipeline makes.
+        for field in SOUND_FIELDS:
+            path = (g("FX", {}) or {}).get(field, "")
+            if not path:
+                continue
+            sm = AUDIO_PATH_RE.match(path)
+            if not sm or sm.group(2) != sm.group(3):
+                if path.startswith("/Game/LaPlace/Audio/"):
+                    err(f"{ctx}.FX.{field}: malformed sound path '{path}'")
+                continue
+            if audio is not None and (sm.group(1), sm.group(2)) not in audio:
+                err(f"{ctx}.FX.{field}: '{sm.group(1)}/{sm.group(2)}' is not in SourceArt/Audio/manifest.json")
+
+    # Default loadouts (hotbar 1-4): every entry exists and the character may use it.
+    for cid, c in characters.items():
+        loadout = c.get("DefaultLoadout", [])
+        if len(loadout) != 4:
+            err(f"Characters[{cid}]: DefaultLoadout must fill all four keys (1-4), has {len(loadout)}")
+        for aid in loadout:
+            row = abilities.get(aid)
+            if row is None:
+                err(f"Characters[{cid}].DefaultLoadout: missing ability '{aid}'")
+            elif row.get("CharacterRequirement") not in ("", None, cid):
+                err(f"Characters[{cid}].DefaultLoadout: '{aid}' belongs to {row.get('CharacterRequirement')}")
+            elif not (row.get("FX", {}) or {}).get("Preset"):
+                err(f"Characters[{cid}].DefaultLoadout: '{aid}' has no FX.Preset (it would have no visuals)")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=os.path.join(ROOT, "Content", "Data"))
@@ -566,6 +723,7 @@ def main():
 
     check_abilities(abilities, schema, set(characters), set(quests))
     check_anim_sets(anim_sets, characters, abilities)
+    check_overhaul(abilities, characters, anim_sets)
 
     # ---- characters: pool is exactly Rudeus + Orsted
     if set(characters) != ALLOWED_CHARACTERS:

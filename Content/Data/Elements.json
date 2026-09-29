@@ -2,7 +2,7 @@
   {
     "Element": "Fire",
     "DisplayName": "Fire",
-    "Description": "Fire magic at its most violent: a compressed fireball, a rolling wall of flame and the Inferno that turns a battlefield into a furnace.",
+    "Description": "Fire at its most violent: a compressed fireball that burns white when charged, a curved wall of flame that rolls across the field, and the Inferno, whose circles and pillars turn a battlefield into a furnace.",
     "Rarity": "Common",
     "RollWeight": 1.0,
     "Abilities": [
@@ -14,7 +14,7 @@
   {
     "Element": "Water",
     "DisplayName": "Water",
-    "Description": "Real water, not blue light: a pressurised bullet, a dragon that hunts its target and a flood that sweeps the field clean.",
+    "Description": "Real water under pressure: a lance that punches through its first target, a dragon of moving water that hunts its prey, and a flood that carries enemies away.",
     "Rarity": "Common",
     "RollWeight": 1.0,
     "Abilities": [
@@ -26,7 +26,7 @@
   {
     "Element": "Earth",
     "DisplayName": "Earth",
-    "Description": "Earth magic reshapes the ground itself: a spinning stone cannon, walls that stop attacks and spikes that erupt toward the target.",
+    "Description": "Earth that reshapes the ground: a spinning stone cannon, a fractured wall that cracks before it falls, and spikes that march to an enormous final lance.",
     "Rarity": "Uncommon",
     "RollWeight": 1.0,
     "Abilities": [
@@ -38,7 +38,7 @@
   {
     "Element": "Wind",
     "DisplayName": "Wind",
-    "Description": "Wind is seen through what it moves: blades of compressed air, a tornado that drags enemies in and bursts that throw them away.",
+    "Description": "Wind seen through what it moves: a giant blade of compressed air, a tornado that lifts small enemies into its funnel, and a burst that throws everything back.",
     "Rarity": "Uncommon",
     "RollWeight": 1.0,
     "Abilities": [

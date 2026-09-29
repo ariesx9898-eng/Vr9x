@@ -154,6 +154,72 @@ void UMTAbilityComponent::StartCooldown(FName AbilityId, float Seconds)
 	}
 }
 
+void UMTAbilityComponent::HandleAnimEvent(FName EventName, const UAnimSequenceBase* Animation)
+{
+	if (UMTAbility* Active = ActiveAbility.Get())
+	{
+		Active->HandleAnimEvent(EventName, Animation);
+	}
+}
+
+void UMTAbilityComponent::LockAbility(FName AbilityId, float Seconds)
+{
+	const UWorld* World = GetWorld();
+	if (!World || AbilityId.IsNone() || Seconds <= 0.f)
+	{
+		return;
+	}
+	const float Until = World->GetTimeSeconds() + Seconds;
+	float& Entry = LockedUntil.FindOrAdd(AbilityId, 0.f);
+	Entry = FMath::Max(Entry, Until);
+	// The hotbar already draws cooldowns, so the seal shows as one (the admin no-cooldown switch does not lift it).
+	const float* End = CooldownEnd.Find(AbilityId);
+	if (!End || *End < Until)
+	{
+		CooldownEnd.Add(AbilityId, Until);
+		CooldownDuration.Add(AbilityId, Seconds);
+	}
+}
+
+bool UMTAbilityComponent::IsAbilityLocked(FName AbilityId) const
+{
+	const float* Until = LockedUntil.Find(AbilityId);
+	const UWorld* World = GetWorld();
+	return Until && World && World->GetTimeSeconds() < *Until;
+}
+
+void UMTAbilityComponent::OpenComboWindow(FName AbilityId, float Seconds, AActor* Target)
+{
+	const UWorld* World = GetWorld();
+	if (!World || AbilityId.IsNone())
+	{
+		return;
+	}
+	ComboAbilityId = AbilityId;
+	ComboUntil = World->GetTimeSeconds() + FMath::Max(0.f, Seconds);
+	ComboTarget = Target;
+}
+
+bool UMTAbilityComponent::IsComboWindowOpen(FName AbilityId) const
+{
+	const UWorld* World = GetWorld();
+	return World && !AbilityId.IsNone() && AbilityId == ComboAbilityId && World->GetTimeSeconds() <= ComboUntil;
+}
+
+bool UMTAbilityComponent::ConsumeComboWindow(FName AbilityId, AActor*& OutTarget)
+{
+	OutTarget = nullptr;
+	if (!IsComboWindowOpen(AbilityId))
+	{
+		return false;
+	}
+	OutTarget = ComboTarget.Get();
+	ComboAbilityId = NAME_None;
+	ComboUntil = -1.f;
+	ComboTarget.Reset();
+	return true;
+}
+
 void UMTAbilityComponent::PressSlot(EMTAbilitySlot Slot)
 {
 	if (Slot == EMTAbilitySlot::MAX)

@@ -31,6 +31,11 @@ struct FMTSpellFX
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<USoundBase> CastSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<USoundBase> TravelSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<USoundBase> ImpactSound;
+	/** Played at the hand on the release frame (sonic boom, pressure crack, slash). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<USoundBase> ReleaseSound;
+	/** A second beat some spells have: Earth Wall cracking / crumbling, the final Earth Spike, Dragon Step's arrival,
+	 *  Disturb Magic's seal. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<USoundBase> AccentSound;
 	/** Mesh used for the physical body of the spell (stone slug, ice shard). Optional. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UStaticMesh> BodyMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TSoftObjectPtr<UMaterialInterface> BodyMaterial;
@@ -103,6 +108,33 @@ struct FMTAbilityData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ChargeDamageScale = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ChargeStaggerScale = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ChargeManaScale = 1.f;
+	/** Projectile size (visual and hit), area radius (impact / zone) and knockback at full charge. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ChargeSizeScale = 1.35f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ChargeRadiusScale = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ChargeKnockbackScale = 1.5f;
+
+	// --- Hit shape and reactions ---
+	/** Effective hit size = visual size (AOERadius, ProjectileRadius, ProjectileWidth) x this, clamped to 1.0-1.15:
+	 *  forgiving, but never an invisible hit. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float HitForgiveness = 1.12f;
+	/** Vertical launch in cm/s added to this ability's hits (airtime ~ 2 * Launch / 980 s). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float Launch = 0.f;
+	/** Projectiles: characters passed through before the spell detonates on the next one (0 = none). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) int32 PierceCount = 0;
+	/** Only targets with at most this max health that are not crowd-control immune are pierced (0 = any target). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float PierceMaxHealth = 0.f;
+	/** Crescent projectiles (Wind Blade): full visual width in cm, hit by a box sweep across it. 0 = a sphere. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float ProjectileWidth = 0.f;
+	/** Burning left by fire hits (0 = the old default: 3 s at 8% of the damage per second). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float BurnSeconds = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float BurnDamagePerSecond = 0.f;
+	/** Stops the caster's movement through anticipation and release (ultimates, Dragon Crush). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bFullBodyCommit = false;
+	/** Ability that flows out of this one (Dragon Step -> Dragon Crush): started inside Params.ComboWindow seconds it
+	 *  winds up x Params.ComboCastScale and hits x Params.ComboDamageScale (both read from the follow-up's row). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName ComboFollowUp;
+	/** Behaviour-specific numbers; Docs/Ability_Overhaul.md lists the names each behaviour reads. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TMap<FName, float> Params;
 
 	// --- Projectile ---
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) EMTProjectileMotion Motion = EMTProjectileMotion::Straight;
@@ -198,6 +230,18 @@ struct FMTAbilityData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) EMTMagicRank RankRequirement = EMTMagicRank::Beginner;
 	/** Tags applied to the owner while the ability runs. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FGameplayTagContainer ActivationTags;
+
+	/** Params[Name], or Default when the row does not set it. */
+	float GetParam(FName Name, float Default) const
+	{
+		const float* Found = Params.Find(Name);
+		return Found ? *Found : Default;
+	}
+	/** Hit radius for a visual radius (HitForgiveness, clamped to the honest 1.0-1.15 range). */
+	float HitRadius(float VisualRadius) const
+	{
+		return VisualRadius * FMath::Clamp(HitForgiveness, 1.f, 1.15f);
+	}
 };
 
 /** Character lineage (the "bloodline" analogue). */

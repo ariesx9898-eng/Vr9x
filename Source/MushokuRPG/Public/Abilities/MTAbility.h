@@ -59,6 +59,14 @@ public:
 	/** Can the ability be started right now (mana, cooldown handled by component)? */
 	virtual bool CanActivate(FText* OutReason = nullptr) const;
 
+	/**
+	 * A frame event from the playing clip (UMTAnimNotify_Event). "Release" fires a non-chargeable spell on that frame
+	 * (never before 40% of CastTime; CastTime stays the fallback); other names go to OnAnimEvent.
+	 */
+	void HandleAnimEvent(FName EventName, const UAnimSequenceBase* Animation);
+	/** True while this activation was started inside a combo window (Dragon Step -> Dragon Crush). */
+	bool IsComboActivation() const { return bComboActive; }
+
 protected:
 	/** Override: perform the effect. Called once when Anticipation ends. */
 	virtual void ExecuteAction() {}
@@ -68,6 +76,12 @@ protected:
 	virtual void OnEnded(bool bWasCancelled) {}
 	/** Whether Action ends immediately after ExecuteAction (instant abilities). */
 	virtual bool IsInstantAction() const { return true; }
+	/** Per-frame hook while in Anticipation (telegraphs, aim lines, orbiting formations). */
+	virtual void TickAnticipation(float DeltaTime) {}
+	/** Named frame events other than "Release" (the Barrage "Finale"). */
+	virtual void OnAnimEvent(FName EventName) {}
+	/** Fades the cast sound if it is still playing (charge build-ups end when the spell fires or is cancelled). */
+	void FadeCastAudio(float Seconds);
 
 	void EnterPhase(EMTAbilityPhase NewPhase);
 	void FinishAction();
@@ -123,4 +137,11 @@ protected:
 	bool bChargeLoopStarted = false;
 	/** Formation effect in the hand; a looping one (charge) is stopped when the spell fires or is cancelled. */
 	TWeakObjectPtr<class AMTSpellVFX> FormationVFX;
+	/** The cast sound while it can still be cut. */
+	TWeakObjectPtr<class UAudioComponent> CastAudio;
+	/** The clip's Release frame has passed in this activation. */
+	bool bReleaseEventReceived = false;
+	/** Started inside a combo window, and the enemy that opened it. */
+	bool bComboActive = false;
+	TWeakObjectPtr<AActor> ComboTarget;
 };

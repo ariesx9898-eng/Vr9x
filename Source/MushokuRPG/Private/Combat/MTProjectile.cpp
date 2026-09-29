@@ -4,7 +4,10 @@
 #include "Combat/MTTelegraphSubsystem.h"
 #include "Combat/MTEarthWall.h"
 #include "Character/MTCharacterBase.h"
+#include "Character/MTAttributeComponent.h"
 #include "Abilities/MTAbilityComponent.h"
+#include "Core/MTGameplayTags.h"
+#include "CollisionQueryParams.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
@@ -92,7 +95,8 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 	DamageScale = FMath::Lerp(1.f, Data.ChargeDamageScale, ChargeAlpha) * DamageMultiplier;
 	StaggerScale = FMath::Lerp(1.f, Data.ChargeStaggerScale, ChargeAlpha);
 
-	Collision->SetSphereRadius(FMath::Max(4.f, Data.ProjectileRadius * (1.f + 0.35f * ChargeAlpha)));
+	// ProjectileRadius is the visible body; the hit sphere is that x HitForgiveness (forgiving, never invisible).
+	Collision->SetSphereRadius(FMath::Max(4.f, Data.HitRadius(Data.ProjectileRadius * GetSizeScale())));
 	if (InOwner)
 	{
 		Collision->IgnoreActorWhenMoving(InOwner, true);
@@ -129,7 +133,7 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 	else
 	{
 		TravelVFX = MTCombat::SpawnPresetPhase(this, Data.FX.Preset, TEXT("Travel"), GetActorTransform(),
-			FMath::Max(0.05f, Data.FX.PresetScale) * (1.f + 0.45f * ChargeAlpha), Collision, NAME_None, InOwner);
+			FMath::Max(0.05f, Data.FX.PresetScale) * GetSizeScale(), Collision, NAME_None, InOwner);
 	}
 	// The authored body when it exists; the runtime travel effect draws the body itself; otherwise the blockout look,
 	// never an invisible spell.
@@ -154,6 +158,7 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 
 	// Hostiles already inside the sphere at spawn (point-blank casts) are hit now that the caster is known.
 	bInitialized = true;
+	LastSweepLocation = GetActorLocation();
 	TArray<AActor*> Overlapping;
 	Collision->GetOverlappingActors(Overlapping, AMTCharacterBase::StaticClass());
 	for (AActor* Other : Overlapping)
@@ -231,6 +236,14 @@ void AMTProjectile::Tick(float DeltaSeconds)
 		const float Drift = FMath::Cos(Age * 14.f) * 14.f * 8.f * DeltaSeconds;
 		AddActorWorldOffset(WaveAxis * Drift, true);
 	}
+	if (Data.ProjectileWidth > 0.f)
+	{
+		SweepCrescent();
+		if (bFinished)
+		{
+			return;
+		}
+	}
 	if (!TravelVFX.IsValid())
 	{
 		if (Data.Element == EMTElement::Earth && Body)
@@ -260,7 +273,8 @@ FMTDamageSpec AMTProjectile::GetDamageSpec() const
 	FMTDamageSpec Spec;
 	Spec.Damage = Data.Damage * DamageScale;
 	Spec.Stagger = Data.Stagger * StaggerScale;
-	Spec.Knockback = Data.Knockback * FMath::Lerp(1.f, 1.5f, ChargeAlpha);
+	Spec.Knockback = Data.Knockback * FMath::Lerp(1.f, Data.ChargeKnockbackScale, ChargeAlpha);
+	Spec.Launch = Data.Launch;
 	Spec.Element = Data.Element;
 	Spec.bIsMagic = Data.Element != EMTElement::None;
 	Spec.SourceAbility = Data.AbilityID;
@@ -337,19 +351,113 @@ void AMTProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPri
 void AMTProjectile::HitCharacter(AMTCharacterBase* Target, const FVector& Location)
 {
 	AlreadyHit.Add(Target);
+	// Decide before the hit lands: the knockback may move the target, and a kill must not change the rule.
+	const bool bPassThrough = CanPierce(Target);
 	FMTDamageSpec Spec = GetDamageSpec();
 	Spec.HitLocation = Location;
 	MTCombat::ApplyElementInteractions(Spec, Target);
 	const FMTDamageResult Result = Target->ReceiveCombatHit(Spec);
-	if (OwnerCharacter.IsValid() && OwnerCharacter->GetAbilities() && Result.DamageDealt > 0.f)
+	if (Result.DamageDealt > 0.f)
 	{
-		OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
+		ApplyBurn(Target);
+		if (OwnerCharacter.IsValid() && OwnerCharacter->GetAbilities())
+		{
+			OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
+		}
 	}
 
-	const bool bPierce = Data.Motion == EMTProjectileMotion::Piercing || Data.Motion == EMTProjectileMotion::Wave;
-	if (!bPierce || AlreadyHit.Num() >= 3)
+	if (!bPassThrough)
 	{
 		Explode(Location, -GetProjectileVelocity().GetSafeNormal());
+		return;
+	}
+	++Pierced;
+	// Punching through: fragments burst out of the far side and the spell keeps its speed.
+	const FVector Velocity = GetProjectileVelocity();
+	MTCombat::SpawnPresetPhase(this, Data.FX.Preset, TEXT("Pierce"), FTransform(Velocity.IsNearlyZero() ? GetActorRotation() : Velocity.Rotation(), Location),
+		FMath::Max(0.05f, Data.FX.PresetScale) * GetSizeScale(), nullptr, NAME_None, OwnerCharacter.Get());
+	MTCombat::PlaySound(this, Data.FX.ImpactSound, Location, 0.6f);
+}
+
+bool AMTProjectile::CanPierce(const AMTCharacterBase* Target) const
+{
+	// Explicit budget from the row; the older Piercing / Wave rows pass through two and stop on the third.
+	const bool bLegacyPierce = Data.Motion == EMTProjectileMotion::Piercing || Data.Motion == EMTProjectileMotion::Wave;
+	const int32 Budget = Data.PierceCount > 0 ? Data.PierceCount : (bLegacyPierce ? 2 : 0);
+	if (Pierced >= Budget || !Target)
+	{
+		return false;
+	}
+	if (Data.PierceMaxHealth > 0.f)
+	{
+		// Heavy targets (bosses, anything crowd-control immune or tougher than the limit) stop the spell.
+		const UMTAttributeComponent* Attr = Target->GetAttributes();
+		if (!Attr || Attr->bCrowdControlImmune || Attr->GetMaxHealth() > Data.PierceMaxHealth)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void AMTProjectile::ApplyBurn(AMTCharacterBase* Target) const
+{
+	if (!Target || Data.Element != EMTElement::Fire || Data.BurnSeconds <= 0.f || !Target->IsAlive() || !Target->GetAttributes())
+	{
+		return;
+	}
+	FMTStatusEffect Burn;
+	Burn.Id = TEXT("Burning");
+	Burn.Duration = Data.BurnSeconds;
+	Burn.HealthPerSecond = -FMath::Max(0.f, Data.BurnDamagePerSecond);
+	Burn.GrantedTags.AddTag(MTTags::State_Burning);
+	Burn.Instigator = OwnerCharacter.Get();
+	Target->GetAttributes()->AddStatusEffect(Burn);
+}
+
+float AMTProjectile::GetSizeScale() const
+{
+	return FMath::Lerp(1.f, FMath::Max(0.1f, Data.ChargeSizeScale), ChargeAlpha);
+}
+
+float AMTProjectile::GetImpactRadius() const
+{
+	return Data.AOERadius * FMath::Lerp(1.f, FMath::Max(0.1f, Data.ChargeRadiusScale), ChargeAlpha);
+}
+
+void AMTProjectile::SweepCrescent()
+{
+	const FVector To = GetActorLocation();
+	UWorld* World = GetWorld();
+	if (!World || !bInitialized || bFinished)
+	{
+		LastSweepLocation = To;
+		return;
+	}
+	const FVector Velocity = GetProjectileVelocity();
+	const FQuat Facing = (Velocity.IsNearlyZero() ? GetActorForwardVector() : Velocity).Rotation().Quaternion();
+	// The blade's hit box: its thickness, the forgiving half-width, and tall enough for a standing body.
+	const FVector HalfExtent(FMath::Max(10.f, Data.ProjectileRadius), Data.HitRadius(Data.ProjectileWidth * 0.5f), 90.f);
+	TArray<FHitResult> Hits;
+	FCollisionQueryParams Params(SCENE_QUERY_STAT(MTCrescentSweep), false, this);
+	if (AMTCharacterBase* Caster = OwnerCharacter.Get())
+	{
+		Params.AddIgnoredActor(Caster);
+	}
+	const FVector From = LastSweepLocation;
+	LastSweepLocation = To;
+	World->SweepMultiByObjectType(Hits, From, To, Facing, FCollisionObjectQueryParams(ECC_Pawn), FCollisionShape::MakeBox(HalfExtent), Params);
+	for (const FHitResult& Hit : Hits)
+	{
+		AActor* Other = Hit.GetActor();
+		if (Other)
+		{
+			TryHitActor(Other, Other->GetActorLocation());
+		}
+		if (bFinished)
+		{
+			break;
+		}
 	}
 }
 
@@ -361,30 +469,39 @@ void AMTProjectile::Explode(const FVector& Location, const FVector& Normal)
 	}
 	bFinished = true;
 
-	if (Data.AOERadius > 0.f && OwnerCharacter.IsValid())
+	const float ImpactRadius = GetImpactRadius();
+	if (ImpactRadius > 0.f && OwnerCharacter.IsValid())
 	{
-		for (AMTCharacterBase* Target : MTCombat::GetHostilesInRadius(OwnerCharacter.Get(), Location, Data.AOERadius))
+		// Splash (60% unless the row says otherwise; the Barrage finale hits everyone for full damage).
+		const float SplashScale = FMath::Clamp(Data.GetParam(TEXT("SplashScale"), 0.6f), 0.f, 1.f);
+		for (AMTCharacterBase* Target : MTCombat::GetHostilesInRadius(OwnerCharacter.Get(), Location, Data.HitRadius(ImpactRadius)))
 		{
 			if (AlreadyHit.Contains(Target))
 			{
 				continue;
 			}
 			FMTDamageSpec Spec = GetDamageSpec();
-			Spec.Damage *= 0.6f; // splash
-			Spec.Stagger *= 0.6f;
+			Spec.Damage *= SplashScale;
+			Spec.Stagger *= SplashScale;
 			Spec.HitLocation = Location;
 			Spec.HitDirection = (Target->GetActorLocation() - Location).GetSafeNormal2D();
 			MTCombat::ApplyElementInteractions(Spec, Target);
 			const FMTDamageResult Result = Target->ReceiveCombatHit(Spec);
-			if (OwnerCharacter->GetAbilities() && Result.DamageDealt > 0.f)
+			if (Result.DamageDealt > 0.f)
 			{
-				OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
+				ApplyBurn(Target);
+				if (OwnerCharacter->GetAbilities())
+				{
+					OwnerCharacter->GetAbilities()->NotifyAbilityHit(Data.AbilityID, Result.DamageDealt);
+				}
 			}
 		}
 	}
 
+	// The impact preset is authored at the row's AOERadius: it grows with the charged radius.
+	const float ImpactScale = Data.AOERadius > 0.f ? ImpactRadius / Data.AOERadius : 1.f;
 	MTCombat::SpawnSpellFX(this, Data.FX, Data.FX.Impact, TEXT("Impact"), FTransform(Normal.IsNearlyZero() ? FRotator::ZeroRotator : (-Normal).Rotation(), Location),
-		1.f + ChargeAlpha * 0.5f, nullptr, NAME_None, OwnerCharacter.Get());
+		ImpactScale, nullptr, NAME_None, OwnerCharacter.Get());
 	MTCombat::PlaySound(this, Data.FX.ImpactSound, Location);
 	Dissipate(false);
 }

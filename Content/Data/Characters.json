@@ -49,8 +49,8 @@
     "DefaultLoadout": [
       "Rudeus_StoneCannon",
       "Rudeus_Quagmire",
-      "Fire_Fireball",
-      "Water_WaterDragon"
+      "Rudeus_ElementalBarrage",
+      "Fire_Fireball"
     ]
   },
   {
@@ -98,8 +98,8 @@
     },
     "Portrait": "/Game/UI/Icons/T_Portrait_Orsted.T_Portrait_Orsted",
     "DefaultLoadout": [
-      "Orsted_DragonStep",
       "Orsted_DisturbMagic",
+      "Orsted_DragonStep",
       "Orsted_DragonCrush",
       "Wind_WindBurst"
     ]

@@ -126,6 +126,13 @@ public:
 	/** Extra movement multiplier while an ability runs (Elemental Barrage reposition). */
 	void SetAbilityMoveMultiplier(float Multiplier) { AbilityMoveMultiplier = Multiplier; }
 
+	/**
+	 * Quagmire: how deep the body sits in the mud (cm). The mesh eases down toward it over about EaseSeconds and rises
+	 * back out on its own once State.InQuagmire is gone. Visual only: the capsule never moves.
+	 */
+	void SetMudSink(float DepthCm, float EaseSeconds);
+	float GetMudSink() const { return MudSink; }
+
 	/** Id used by quests/kill events (enemy row id or character id). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Character") FName GameplayId;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mushoku|Character") FGameplayTagContainer IdentityTags;
@@ -191,6 +198,13 @@ protected:
 	FVector DodgeVelocity = FVector::ZeroVector;
 	float StaggerUntil = -1.f;
 	float AbilityMoveMultiplier = 1.f;
+
+	/** Quagmire sinking: current and wanted depth (cm), ease speed (cm/s) and the mesh height it started from. */
+	void UpdateMudSink(float DeltaSeconds);
+	float MudSink = 0.f;
+	float MudSinkTarget = 0.f;
+	float MudSinkRate = 20.f;
+	float MudSinkMeshZ = 0.f;
 
 	// Cached lineage locomotion values.
 	float BaseWalkSpeed = 200.f;

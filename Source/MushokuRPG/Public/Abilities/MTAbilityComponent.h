@@ -95,6 +95,19 @@ public:
 	/** Called when an ability's effect connects (for mastery XP / awakening meter). */
 	void NotifyAbilityHit(FName AbilityId, float DamageDealt);
 
+	/** Frame events from the playing clip (UMTAnimNotify_Event), forwarded to the ability that is casting. */
+	void HandleAnimEvent(FName EventName, const class UAnimSequenceBase* Animation);
+
+	/** Disturb Magic's seal: AbilityId cannot start for Seconds (its hotbar slot shows the wait as a cooldown). */
+	void LockAbility(FName AbilityId, float Seconds);
+	bool IsAbilityLocked(FName AbilityId) const;
+
+	/** Follow-up window (Dragon Step -> Dragon Crush): the next start of AbilityId within Seconds gets its combo bonus. */
+	void OpenComboWindow(FName AbilityId, float Seconds, AActor* Target);
+	/** True (and the window closes) when AbilityId starts inside an open window; OutTarget is the enemy that opened it. */
+	bool ConsumeComboWindow(FName AbilityId, AActor*& OutTarget);
+	bool IsComboWindowOpen(FName AbilityId) const;
+
 	/** Awakening overrides: while active, pressing X actually fires Y. */
 	void PushAbilityOverrides(const TMap<FName, FName>& Overrides);
 	void PopAbilityOverrides(const TMap<FName, FName>& Overrides);
@@ -128,6 +141,12 @@ private:
 	TWeakObjectPtr<UMTAbility> ActiveAbility;
 	/** Abilities that keep running in the background (buffs, zones) are not "active". */
 	UPROPERTY() TArray<TObjectPtr<UMTAbility>> Running;
+
+	/** Sealed abilities and the world time their seal ends. */
+	TMap<FName, float> LockedUntil;
+	FName ComboAbilityId;
+	float ComboUntil = -1.f;
+	TWeakObjectPtr<AActor> ComboTarget;
 
 	EMTAbilitySlot BufferedSlot = EMTAbilitySlot::MAX;
 	float BufferedAt = -1.f;
