@@ -384,7 +384,7 @@
       ]
     },
     "Mesh": "/Game/Characters/Orsted/SK_Orsted.SK_Orsted",
-    "AnimClass": "/Game/Characters/Orsted/ABP_Orsted.ABP_Orsted_C",
+    "AnimClass": "",
     "MaxHealth": 1500,
     "MaxPoise": 180,
     "MoveSpeed": 470,
@@ -442,7 +442,7 @@
       ]
     },
     "Mesh": "/Game/Characters/Rudeus/SK_Rudeus.SK_Rudeus",
-    "AnimClass": "/Game/Characters/Rudeus/ABP_Rudeus.ABP_Rudeus_C",
+    "AnimClass": "",
     "MaxHealth": 900,
     "MaxPoise": 70,
     "MoveSpeed": 430,

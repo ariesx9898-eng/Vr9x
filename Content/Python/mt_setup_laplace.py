@@ -384,7 +384,19 @@ def slot_material(slot_name):
 
 
 def import_mesh(glb, dest_dir, name):
-    return import_glb_mesh(glb, dest_dir, name, slot_material)
+    """Effect meshes stay plain static meshes: their materials are additive / translucent, which Nanite cannot draw
+    (the game would swap in the default material). One rebuild for the materials and the Nanite switch."""
+    mesh = import_glb_mesh(glb, dest_dir, name, None)
+    if mesh is None:
+        return None
+    slots = {}
+    for entry in mesh.get_editor_property("static_materials"):
+        slot = str(entry.get_editor_property("material_slot_name"))
+        material = slot_material(slot)
+        if material:
+            slots[slot] = material
+    unreal.MTWorldBuildLibrary.configure_kit_mesh(mesh, slots, False, False)
+    return mesh
 
 
 def setup_kit(categories=None):

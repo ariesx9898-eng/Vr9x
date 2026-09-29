@@ -7,6 +7,7 @@
 #include "Progression/MTRollSubsystem.h"
 #include "Quests/MTQuestSubsystem.h"
 #include "Save/MTSaveSubsystem.h"
+#include "UI/LaPlace/MTFrontEndSubsystem.h"
 #include "Engine/Canvas.h"
 #include "Engine/Engine.h"
 #include "GameFramework/Pawn.h"
@@ -1232,7 +1233,14 @@ void AMTHUD::FastTravelTo(FName LocationId)
 	{
 		return;
 	}
-	const FVector Destination = Loc->WorldLocation + FVector(0.f, 0.f, 200.f);
+	// Only onto ground this map has: a location from another world would drop the player into empty space.
+	FVector Destination;
+	if (!UMTFrontEndSubsystem::FindSpawnGround(GetWorld(), Loc->WorldLocation, Pawn->GetSimpleCollisionHalfHeight(), Destination))
+	{
+		ShowCenterMessage(FText::Format(LOCTEXT("NotOnThisMap", "{0} is not part of this map"),
+			Loc->DisplayName.IsEmpty() ? FText::FromName(LocationId) : Loc->DisplayName), 2.f);
+		return;
+	}
 	if (!Pawn->TeleportTo(Destination, Pawn->GetActorRotation()))
 	{
 		Pawn->SetActorLocation(Destination, false, nullptr, ETeleportType::TeleportPhysics);

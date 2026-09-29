@@ -21,6 +21,14 @@ import unreal
 MAP_PATH = "/Game/Maps/L_Fittoa"
 TEMPLATE = "/Engine/Maps/Templates/OpenWorld"
 LABEL_PREFIX = "MT_"
+# L_Fittoa is a 2 km test map around Buena in its own local coordinates. Content/Data/Locations.json now holds the
+# LA PLACE world's coordinates (Buena lies ~6.5 km from this map's origin there), so the three Buena spots this
+# map needs keep their Fittoa-local positions here (the values Locations.json had before the LA PLACE world).
+FITTOA_LOCAL = {
+    "Buena_Square": {"X": -36800.0, "Y": 29200.0, "Z": 2945.4},
+    "Buena_Greyrat_House": {"X": -44800.0, "Y": 20700.0, "Z": 3043.8},
+    "Buena_Hill_Tree": {"X": -55300.0, "Y": 9700.0, "Z": 4451.0},
+}
 
 
 def log(msg):
@@ -101,6 +109,12 @@ def spawn(cls, label, location, rotation=unreal.Rotator(0, 0, 0)):
     actor = actor_subsystem().spawn_actor_from_class(cls, location, rotation)
     if actor:
         actor.set_actor_label(label)
+        # One-per-map actors stay loaded (World Partition): the day-night controller drives the sun wherever the player
+        # is, and a re-run of this script only finds (and reuses) loaded actors instead of spawning duplicates.
+        try:
+            actor.set_editor_property("is_spatially_loaded", False)
+        except Exception:  # noqa: BLE001 - a map without World Partition
+            pass
         log("spawned %s at %s" % (label, location))
     else:
         warn("failed to spawn " + label)
@@ -264,7 +278,7 @@ def try_create_data_layers():
 def main():
     if not open_or_create_map():
         return
-    locations = load_json(os.path.join(content_dir(), "Data", "Locations.json"))
+    locations = [{"LocationID": k, "WorldLocation": v} for k, v in FITTOA_LOCAL.items()]
     roads = load_json(os.path.join(content_dir(), "Data", "Fittoa_Roads.json"))
     layout = load_json(os.path.join(project_dir(), "SourceArt", "Terrain", "Fittoa", "fittoa_layout.json"))
     setup_day_night()

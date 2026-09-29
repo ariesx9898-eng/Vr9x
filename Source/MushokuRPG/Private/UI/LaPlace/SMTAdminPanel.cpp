@@ -332,7 +332,9 @@ void SMTAdminPanel::Run(FName Action, FName Param)
 		Toast = Result;
 		ToastAt = Now;
 	}
-	if (Action == MTAdminUI::ActTeleport)
+	// A teleport that worked closes the panel (the player is somewhere new); one to a place this map does not have keeps
+	// it open, showing why.
+	if (Action == MTAdminUI::ActTeleport && Result.StartsWith(TEXT("Teleported")))
 	{
 		Admin->Close(); // removes this widget: nothing may touch members after this
 	}
@@ -380,7 +382,7 @@ FReply SMTAdminPanel::OnKeyDown(const FGeometry& MyGeometry, const FKeyEvent& In
 		return FReply::Handled();
 	}
 	const bool bLocked = Admin && !Admin->IsUnlocked();
-	if (bLocked && (Key == EKeys::Enter || Key == EKeys::Virtual_Accept))
+	if (bLocked && (Key == EKeys::Enter || Key == EKeys::Virtual_Gamepad_Accept.GetVirtualKey()))
 	{
 		Submit();
 		return FReply::Handled();

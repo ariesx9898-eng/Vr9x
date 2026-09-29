@@ -12,10 +12,12 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/WorldSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/DateTime.h"
 #include "Scalability.h"
 #include "Templates/UnrealTemplate.h"
+#include "WorldPartition/WorldPartition.h"
 
 #define LOCTEXT_NAMESPACE "MTSave"
 
@@ -23,6 +25,31 @@ namespace MTSavePrivate
 {
 	static const FLinearColor ColorSave(0.65f, 0.85f, 0.65f);
 	static const FLinearColor ColorError(1.f, 0.45f, 0.4f);
+
+	/** A saved position must lie inside the map it is restored into. An older save can hold coordinates from another
+	 *  world (a LA PLACE teleport made on the Fittoa map): outside the World Partition runtime bounds or below KillZ
+	 *  the player keeps the spawn point instead of falling through empty space. */
+	static bool IsInsideWorld(const UWorld* World, const FVector& Location)
+	{
+		if (!World)
+		{
+			return false;
+		}
+		const AWorldSettings* Settings = World->GetWorldSettings();
+		if (Settings && Settings->bEnableWorldBoundsChecks && Location.Z < Settings->KillZ)
+		{
+			return false;
+		}
+		if (const UWorldPartition* Partition = World->GetWorldPartition())
+		{
+			const FBox Bounds = Partition->GetRuntimeWorldBounds();
+			if (Bounds.IsValid)
+			{
+				return Bounds.ExpandBy(FVector(5000.f, 5000.f, 20000.f)).IsInsideOrOn(Location);
+			}
+		}
+		return true;
+	}
 }
 
 // ============================================================================ Lifecycle
@@ -155,19 +182,24 @@ void UMTSaveSubsystem::ApplyToPawn(APawn* Pawn)
 		bPendingTransform = false;
 		UWorld* World = Pawn->GetWorld();
 		const FName CurrentMap = World ? FName(*UGameplayStatics::GetCurrentLevelName(World, true)) : NAME_None;
-		if (PendingMapName.IsNone() || PendingMapName == CurrentMap)
+		if (!PendingMapName.IsNone() && PendingMapName != CurrentMap)
+		{
+			// Cross-map restore is not automatic (no level travel from the save system); the pawn keeps its spawn.
+			UE_LOG(LogMushoku, Warning, TEXT("Save: saved map '%s' differs from current '%s'; player transform not restored."),
+				*PendingMapName.ToString(), *CurrentMap.ToString());
+		}
+		else if (!MTSavePrivate::IsInsideWorld(World, PendingLocation))
+		{
+			UE_LOG(LogMushoku, Warning, TEXT("Save: saved position %s lies outside '%s'; the player keeps its spawn."),
+				*PendingLocation.ToCompactString(), *CurrentMap.ToString());
+		}
+		else
 		{
 			Pawn->TeleportTo(PendingLocation, FRotator(0.f, PendingRotation.Yaw, 0.f), false, true);
 			if (AController* Controller = Pawn->GetController())
 			{
 				Controller->SetControlRotation(PendingRotation);
 			}
-		}
-		else
-		{
-			// Cross-map restore is not automatic (no level travel from the save system); the pawn keeps its spawn.
-			UE_LOG(LogMushoku, Warning, TEXT("Save: saved map '%s' differs from current '%s'; player transform not restored."),
-				*PendingMapName.ToString(), *CurrentMap.ToString());
 		}
 	}
 
