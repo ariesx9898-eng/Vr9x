@@ -334,8 +334,8 @@ FString UMTAdminSubsystem::DoAction(FName Action, FName Param)
 		if (Loc && FrontEnd)
 		{
 			FrontEnd->SetController(PC);
-			FrontEnd->TeleportTo(Param);
-			return FString::Printf(TEXT("Teleported to %s"), *Loc->DisplayName.ToString());
+			return FrontEnd->TeleportTo(Param) ? FString::Printf(TEXT("Teleported to %s"), *Loc->DisplayName.ToString())
+				: FString::Printf(TEXT("%s is not part of this map"), *Loc->DisplayName.ToString());
 		}
 		return TEXT("Unknown location");
 	}

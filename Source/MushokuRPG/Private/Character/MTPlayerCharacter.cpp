@@ -26,6 +26,7 @@
 #include "Engine/World.h"
 #include "Engine/OverlapResult.h"
 #include "EngineUtils.h"
+#include "VFX/MTVFXPreloadSubsystem.h"
 
 AMTPlayerCharacter::AMTPlayerCharacter(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -59,6 +60,8 @@ void AMTPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	CurrentFOV = BaseFOV;
+	// Ground-decal materials compile their GPU pipelines now, not under the first spell impact.
+	UMTVFXPreloadSubsystem::WarmUpDecals(this);
 
 	// Build the character from saved progression (or the new-game default: Rudeus).
 	UMTSaveSubsystem* Save = UMTSaveSubsystem::Get(this);

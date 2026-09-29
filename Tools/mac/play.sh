@@ -69,9 +69,48 @@ if [ ! -d "$EDITOR_APP" ]; then
 	echo "Unreal Engine 5.8 was not found at $UE_ROOT (set UE_ROOT)." >&2
 	exit 1
 fi
-if [ ! -f "$ROOT/Binaries/Mac/libUnrealEditor-MushokuRPG.dylib" ] || [ ! -f "$ROOT/Content/Maps/L_Fittoa.umap" ]; then
+
+notify() { osascript -e "display notification \"$1\" with title \"LA PLACE\"" >/dev/null 2>&1 || true; }
+alert() { osascript -e "display dialog \"$1\" with title \"LA PLACE\" buttons {\"OK\"} default button 1" >/dev/null 2>&1 || true; }
+# A build or content import changes the files the game loads: never start the game (or a second build) meanwhile.
+busy() {
+	echo "$(date '+%F %T') not starting: $1 is running"
+	alert "LA PLACE is being built or set up right now ($1). Try again when it has finished."
+	exit 0
+}
+# shellcheck source=mt_lock.sh
+. "$ROOT/Tools/mac/mt_lock.sh"
+HOLDER="$(mt_lock_holder)"
+if [ -n "$HOLDER" ]; then
+	busy "$HOLDER"
+fi
+# Runs build_and_setup.sh. Problems it reports stay in Saved/Logs; whatever was built still starts.
+setup() {
+	local code=0
+	"$ROOT/Tools/mac/build_and_setup.sh" "$@" || code=$?
+	if [ "$code" = 3 ]; then
+		busy "another build"
+	fi
+	if [ "$code" != 0 ]; then
+		echo "$(date '+%F %T') build_and_setup.sh $* exited with $code (see $ROOT/Saved/Logs)"
+	fi
+}
+DYLIB="$ROOT/Binaries/Mac/libUnrealEditor-MushokuRPG.dylib"
+STAMP="$ROOT/Binaries/Mac/.mt_build_stamp"
+if [ ! -f "$ROOT/Content/Maps/L_Fittoa.umap" ]; then
 	echo "First run: building the game and importing its content with Tools/mac/build_and_setup.sh. This takes a while."
-	"$ROOT/Tools/mac/build_and_setup.sh"
+	notify "First run: building the game and importing its content. This takes a while - the game opens by itself when it is done."
+	setup
+elif [ ! -f "$DYLIB" ] || [ ! -f "$STAMP" ] || [ -n "$(find "$ROOT/Source" "$ROOT/MushokuRPG.uproject" -newer "$STAMP" \
+		\( -name '*.h' -o -name '*.cpp' -o -name '*.cs' -o -name '*.uproject' \) -print 2>/dev/null | head -n 1)" ]; then
+	# The code changed since the last build (or a build was interrupted): compile only, the content is already imported.
+	echo "Compiling the latest code with Tools/mac/build_and_setup.sh --build-only."
+	notify "Compiling the latest LA PLACE code..."
+	setup --build-only
+fi
+if [ ! -f "$DYLIB" ] || [ ! -f "$ROOT/Content/Maps/L_Fittoa.umap" ]; then
+	alert "LA PLACE could not be built. The logs are in $ROOT/Saved/Logs (start with mt_build.log)."
+	exit 1
 fi
 
 case "$MODE" in

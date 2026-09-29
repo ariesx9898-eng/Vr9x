@@ -2,7 +2,7 @@
 # Photographs the world (UMTWorldTourSubsystem) and waits for the game to quit. Screenshots land in
 # Saved/Screenshots/WorldTour (cleared first).
 #   Tools/mac/world_tour.sh                                  every spawn location + aerial views of L_LaPlace
-#   Tools/mac/world_tour.sh /Game/Maps/Test/L_WorldTest      another map
+#   Tools/mac/world_tour.sh /Game/Maps/L_Fittoa              another map
 #   TOUR_OPTS="?TourOnly=Buena,Roa?TourAerial=0" Tools/mac/world_tour.sh
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"

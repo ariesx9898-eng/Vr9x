@@ -15,6 +15,7 @@
 #include "Save/MTSaveSubsystem.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Pawn.h"
+#include "InputKeyEventArgs.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/GameViewportClient.h"
@@ -164,20 +165,23 @@ bool UMTFrontEndSubsystem::TickTour(float DeltaTime)
 		TourClock = 0.f;
 		return true;
 	}
-	// Admin popup: the code prompt, a wrong code, then the unlocked panel.
+	// Admin popup through the real shortcut (1 and 0 held together, seen by AMTPlayerController::PlayerTick): the code
+	// prompt, a wrong code, then the unlocked panel.
 	if (TourStep == NumPages + 4 && TourClock > 1.5f)
 	{
 		HandleResume();
-		if (UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(PC))
-		{
-			Admin->Toggle(PC);
-		}
+		PC->InputKey(FInputKeyEventArgs::CreateSimulated(EKeys::One, IE_Pressed, 1.f));
+		PC->InputKey(FInputKeyEventArgs::CreateSimulated(EKeys::Zero, IE_Pressed, 1.f));
 		++TourStep;
 		TourClock = 0.f;
 		return true;
 	}
 	if (TourStep == NumPages + 5 && TourClock > 1.5f)
 	{
+		PC->InputKey(FInputKeyEventArgs::CreateSimulated(EKeys::One, IE_Released, 0.f));
+		PC->InputKey(FInputKeyEventArgs::CreateSimulated(EKeys::Zero, IE_Released, 0.f));
+		const UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(PC);
+		UE_LOG(LogMushoku, Log, TEXT("[UITour] admin: 1+0 shortcut opened the popup=%d"), Admin && Admin->IsOpen() ? 1 : 0);
 		Shot(TEXT("08_Admin_Code"));
 		++TourStep;
 		TourClock = 0.f;
@@ -416,39 +420,55 @@ bool UMTFrontEndSubsystem::SpawnAt(FName LocationId)
 		Progression->ApplyBuildTo(Cast<AMTCharacterBase>(Pawn));
 		Progression->DiscoverLocation(LocationId);
 	}
-	// Ground under the location (static geometry only), searching well above and below the data height.
-	FHitResult Hit;
-	FCollisionObjectQueryParams Ground(ECC_WorldStatic);
-	const FVector From = Loc->WorldLocation + FVector(0.f, 0.f, 20000.f);
-	const FVector To = Loc->WorldLocation - FVector(0.f, 0.f, 60000.f);
-	const float HalfHeight = Pawn->GetSimpleCollisionHalfHeight();
-	if (Pawn->GetWorld()->LineTraceSingleByObjectType(Hit, From, To, Ground))
+	FVector StandAt;
+	const bool bPlaced = FindSpawnGround(Pawn->GetWorld(), Loc->WorldLocation, Pawn->GetSimpleCollisionHalfHeight(), StandAt);
+	if (bPlaced)
 	{
 		const FRotator Facing(0.f, Loc->SpawnYaw, 0.f);
-		Pawn->SetActorLocationAndRotation(Hit.ImpactPoint + FVector(0.f, 0.f, HalfHeight + 5.f), Facing, false, nullptr, ETeleportType::TeleportPhysics);
+		Pawn->SetActorLocationAndRotation(StandAt, Facing, false, nullptr, ETeleportType::TeleportPhysics);
 		PC->SetControlRotation(FRotator(-12.f, Loc->SpawnYaw, 0.f));
 	}
 	else
 	{
-		UE_LOG(LogMushoku, Warning, TEXT("[FrontEnd] no ground under %s at %s: staying at the player start"), *LocationId.ToString(), *Loc->WorldLocation.ToCompactString());
+		UE_LOG(LogMushoku, Warning, TEXT("[FrontEnd] no ground under %s at %s: the player stays where it is"), *LocationId.ToString(), *Loc->WorldLocation.ToCompactString());
 	}
 	UE_LOG(LogMushoku, Log, TEXT("[FrontEnd] spawned at %s (%s)"), *LocationId.ToString(), *Pawn->GetActorLocation().ToCompactString());
 	if (UMTSaveSubsystem* Save = UMTSaveSubsystem::Get(PC))
 	{
 		Save->SaveGame(TEXT("Slot0"));
 	}
+	return bPlaced;
+}
+
+bool UMTFrontEndSubsystem::FindSpawnGround(const UWorld* World, const FVector& Location, float HalfHeight, FVector& OutStandAt)
+{
+	FHitResult Hit;
+	const FVector From = Location + FVector(0.f, 0.f, 20000.f);
+	const FVector To = Location - FVector(0.f, 0.f, 60000.f);
+	if (!World || !World->LineTraceSingleByObjectType(Hit, From, To, FCollisionObjectQueryParams(ECC_WorldStatic)))
+	{
+		return false;
+	}
+	OutStandAt = Hit.ImpactPoint + FVector(0.f, 0.f, HalfHeight + 5.f);
 	return true;
 }
 
-void UMTFrontEndSubsystem::TeleportTo(FName LocationId)
+bool UMTFrontEndSubsystem::TeleportTo(FName LocationId)
 {
 	if (IsOpen())
 	{
+		// HandleSpawn falls back to the current position like the SPAWN button; report whether the place exists here.
+		const APlayerController* PC = Controller.Get();
+		const APawn* Pawn = PC ? PC->GetPawn() : nullptr;
+		const UMTDataRegistry* Registry = UMTDataRegistry::Get(PC);
+		const FMTLocationData* Loc = Registry ? Registry->FindLocation(LocationId) : nullptr;
+		FVector StandAt;
+		const bool bExists = Pawn && Loc && FindSpawnGround(Pawn->GetWorld(), Loc->WorldLocation, Pawn->GetSimpleCollisionHalfHeight(), StandAt);
 		HandleSpawn(LocationId);
 		Close();
-		return;
+		return bExists;
 	}
-	SpawnAt(LocationId);
+	return SpawnAt(LocationId);
 }
 
 void UMTFrontEndSubsystem::HandleSpawn(FName LocationId)

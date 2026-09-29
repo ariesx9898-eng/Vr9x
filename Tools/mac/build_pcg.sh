@@ -4,8 +4,14 @@
 #   Tools/mac/build_pcg.sh [/Game/Maps/L_LaPlace]
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+# One content-changing tool at a time (see mt_lock.sh); play.sh waits for it too.
+# shellcheck source=mt_lock.sh
+. "$ROOT/Tools/mac/mt_lock.sh"
+mt_lock_acquire "build_pcg.sh ${1:-/Game/Maps/L_LaPlace}" || exit 3
 UE_ROOT="${UE_ROOT:-/Users/Shared/Epic Games/UE_5.8}"
-EDITOR="$UE_ROOT/Engine/Binaries/Mac/UnrealEditor.app/Contents/MacOS/UnrealEditor"
+# The console build of the editor: a commandlet started from the UnrealEditor app opens a log window, and closing
+# that window kills the run.
+EDITOR="$UE_ROOT/Engine/Binaries/Mac/UnrealEditor-Cmd"
 MAP="${1:-/Game/Maps/L_LaPlace}"
 LOG="$ROOT/Saved/Logs/mt_pcg.log"
 mkdir -p "$ROOT/Saved/Logs"

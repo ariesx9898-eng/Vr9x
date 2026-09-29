@@ -7,7 +7,8 @@
 #
 # Environment:
 #   UE_ROOT    engine install (default "/Users/Shared/Epic Games/UE_5.8")
-#   UE_EDITOR  editor binary override (default $UE_ROOT/Engine/Binaries/Mac/UnrealEditor.app/Contents/MacOS/UnrealEditor)
+#   UE_EDITOR  editor binary override (default $UE_ROOT/Engine/Binaries/Mac/UnrealEditor-Cmd: the console build, because a
+#              commandlet started from the UnrealEditor app opens a log window and closing that window kills the step)
 #   PYTHON     python3 used for the offline data check (default python3)
 #
 # Logs: Saved/Logs/mt_build.log, mt_data.log and mt_<step>.log. The summary at the end greps error / FAIL / PASS lines.
@@ -20,7 +21,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 UPROJECT="$REPO_ROOT/MushokuRPG.uproject"
 UE_ROOT="${UE_ROOT:-/Users/Shared/Epic Games/UE_5.8}"
 BUILD_SH="$UE_ROOT/Engine/Build/BatchFiles/Mac/Build.sh"
-UE_EDITOR="${UE_EDITOR:-$UE_ROOT/Engine/Binaries/Mac/UnrealEditor.app/Contents/MacOS/UnrealEditor}"
+UE_EDITOR="${UE_EDITOR:-$UE_ROOT/Engine/Binaries/Mac/UnrealEditor-Cmd}"
 PYTHON="${PYTHON:-python3}"
 LOG_DIR="$REPO_ROOT/Saved/Logs"
 
@@ -59,6 +60,11 @@ if [[ ! -f "$UPROJECT" ]]; then
   exit 2
 fi
 
+# One build at a time: two runs overwrite each other's imports. play.sh does not start the game while this is held.
+# shellcheck source=mt_lock.sh
+. "$SCRIPT_DIR/mt_lock.sh"
+mt_lock_acquire "build_and_setup.sh" || exit 3
+
 # ---------------------------------------------------------------------------------------------------- build
 if [[ $DO_BUILD -eq 1 ]]; then
   if [[ ! -x "$BUILD_SH" ]]; then
@@ -71,6 +77,9 @@ if [[ $DO_BUILD -eq 1 ]]; then
     fail_step "build"
     echo "== build FAILED: editor steps skipped. Fix the errors in the summary below and re-run."
     DO_SETUP=0
+  else
+    # play.sh recompiles when a source file is newer than this stamp.
+    touch "$REPO_ROOT/Binaries/Mac/.mt_build_stamp"
   fi
 fi
 

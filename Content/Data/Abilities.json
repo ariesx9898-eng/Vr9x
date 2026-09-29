@@ -236,7 +236,7 @@
     "Behavior": "Projectile",
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Barrage_Stone.T_Icon_Barrage_Stone",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_StoneCannon.T_Icon_Earth_StoneCannon",
     "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
@@ -269,7 +269,7 @@
     "Behavior": "Projectile",
     "Element": "Wind",
     "CharacterRequirement": "Rudeus",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Barrage_WindBlade.T_Icon_Barrage_WindBlade",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_WindBlade.T_Icon_Wind_WindBlade",
     "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
@@ -301,7 +301,7 @@
     "Behavior": "Projectile",
     "Element": "Water",
     "CharacterRequirement": "Rudeus",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Barrage_WaterCannon.T_Icon_Barrage_WaterCannon",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_WaterBullet.T_Icon_Water_WaterBullet",
     "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
@@ -332,7 +332,7 @@
     "Behavior": "Projectile",
     "Element": "Fire",
     "CharacterRequirement": "Rudeus",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Barrage_FireBurst.T_Icon_Barrage_FireBurst",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_Fireball.T_Icon_Fire_Fireball",
     "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
@@ -449,7 +449,7 @@
     "Behavior": "Projectile",
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_StoneCannon_Awakened.T_Icon_Rudeus_StoneCannon_Awakened",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_StoneCannon.T_Icon_Rudeus_StoneCannon",
     "MasteryXP": 6,
     "ManaCost": 50,
     "Cooldown": 1.4,
@@ -511,7 +511,7 @@
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
     "ElementRequirement": "None",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Quagmire_Awakened.T_Icon_Rudeus_Quagmire_Awakened",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Quagmire.T_Icon_Rudeus_Quagmire",
     "MasteryXP": 6,
     "ManaCost": 100,
     "Cooldown": 12,
@@ -690,7 +690,7 @@
     "Behavior": "Dash",
     "Element": "Arcane",
     "CharacterRequirement": "Orsted",
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonStep_Awakened.T_Icon_Orsted_DragonStep_Awakened",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonStep.T_Icon_Orsted_DragonStep",
     "MasteryXP": 4,
     "ManaCost": 0,
     "StaminaCost": 20,
@@ -1655,7 +1655,7 @@
       "PresetScale": 0.8,
       "ImpactSound": "/Game/LaPlace/Audio/Earth/rock_impact.rock_impact"
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Goblin_RockThrow.T_Icon_Goblin_RockThrow",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Basic.T_Icon_Rudeus_Basic",
     "MasteryXP": 0
   },
   {
@@ -1710,7 +1710,7 @@
       "TravelSound": "/Game/LaPlace/Audio/Fire/fireball_launch.fireball_launch",
       "ImpactSound": "/Game/LaPlace/Audio/Fire/fire_explosion.fire_explosion"
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_BanditMage_FireBolt.T_Icon_BanditMage_FireBolt",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_Fireball.T_Icon_Fire_Fireball",
     "MasteryXP": 0
   },
   {
@@ -2518,7 +2518,6 @@
     "Behavior": "Projectile",
     "Element": "Arcane",
     "CharacterRequirement": "Rudeus",
-    "MasteryXP": 2,
     "ManaCost": 0,
     "Cooldown": 0,
     "CastTime": 0,
@@ -2537,6 +2536,7 @@
     "Params": {
       "SplashScale": 1.0
     },
+    "MasteryXP": 2,
     "FX": {
       "Preset": "BarrageFinale",
       "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",

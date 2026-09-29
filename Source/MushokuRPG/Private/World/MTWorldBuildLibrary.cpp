@@ -396,7 +396,9 @@ int32 UMTWorldBuildLibrary::RegisterHLODLayers(const TArray<UHLODLayer*>& Layers
 		FRuntimePartitionHLODSetup& Setup = Desc.HLODSetups.AddDefaulted_GetRef();
 		Setup.Name = Layer->GetFName();
 		Setup.HLODLayers = { Layer };
-		Setup.bIsSpatiallyLoaded = Layer->IsSpatiallyLoaded();
+		// Always loaded: distant cities and forests stay visible across the whole world. (5.8 takes this from the
+		// partition's setup; UHLODLayer::IsSpatiallyLoaded is deprecated.)
+		Setup.bIsSpatiallyLoaded = false;
 		UObject* Grid = NewObject<UObject>(Hash, GridClass, NAME_None, RF_Transactional);
 		MTWorldBuild::SetNumber(GridClass, Grid, TEXT("CellSize"), CellSizeCm);
 		MTWorldBuild::SetNumber(GridClass, Grid, TEXT("LoadingRange"), LoadingRangeCm);
@@ -679,7 +681,7 @@ bool UMTWorldBuildLibrary::SetTrunkCollision(UStaticMesh* Mesh, float Radius, fl
 	Body->DefaultInstance.SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName);
 	Body->InvalidatePhysicsData();
 	Body->CreatePhysicsMeshes();
-	Mesh->bCustomizedCollision = true;
+	Mesh->SetCustomizedCollision(true);
 	Mesh->MarkPackageDirty();
 	return true;
 #else
@@ -733,7 +735,7 @@ bool UMTWorldBuildLibrary::SetComplexCollision(UStaticMesh* Mesh, bool bEnable)
 	Body->DefaultInstance.SetCollisionProfileName(bEnable ? UCollisionProfile::BlockAll_ProfileName : UCollisionProfile::NoCollision_ProfileName);
 	Body->InvalidatePhysicsData();
 	Body->CreatePhysicsMeshes();
-	Mesh->bCustomizedCollision = true;
+	Mesh->SetCustomizedCollision(true);
 	Mesh->MarkPackageDirty();
 	return true;
 #else

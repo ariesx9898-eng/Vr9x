@@ -27,10 +27,15 @@ public:
 	void OpenPage(APlayerController* PC, EMTFrontPage Page);
 	void Close();
 	bool IsOpen() const { return Widget.IsValid(); }
-	/** Places the player at a spawn location (Locations.json) and hands control back. */
+	/** Places the player at a spawn location (Locations.json) and hands control back. False when the current map has
+	 *  no ground there (the player then stays where it is). */
 	bool SpawnAt(FName LocationId);
-	/** Admin / debug teleport: spawns there like the map's SPAWN button, closing the menus first if they are open. */
-	void TeleportTo(FName LocationId);
+	/** Admin / debug teleport: spawns there like the map's SPAWN button, closing the menus first if they are open.
+	 *  False when the location is not part of the current map. */
+	bool TeleportTo(FName LocationId);
+	/** Standing position for a capsule of HalfHeight on the ground under Location (static geometry, searched from 200 m
+	 *  above to 600 m below). False when the map has nothing there: a location from another world. */
+	static bool FindSpawnGround(const UWorld* World, const FVector& Location, float HalfHeight, FVector& OutStandAt);
 	/** The player the front end acts on (set by the pages; tools that skip the menus set it directly). */
 	void SetController(APlayerController* PC) { Controller = PC; }
 

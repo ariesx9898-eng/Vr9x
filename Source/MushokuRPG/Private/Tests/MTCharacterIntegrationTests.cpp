@@ -21,7 +21,6 @@
 #include "Combat/MTProjectile.h"
 #include "Combat/MTWaterSerpent.h"
 #include "Combat/MTZoneActor.h"
-#include "VFX/MTSpellVFX.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -39,6 +38,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/WorldSettings.h"
 #include "UObject/UObjectGlobals.h"
+#include "VFX/MTSpellVFX.h"
 
 namespace MTTest
 {
@@ -481,9 +481,16 @@ bool FMTPresentationFallbackTest::RunTest(const FString& Parameters)
 		Target->GetActorLocation(), 0.f) : nullptr;
 	if (TestNotNull(TEXT("stone bullet fired"), Spell))
 	{
+		// The runtime travel effect (attached to the projectile) draws the bullet and hides the body mesh; without one
+		// the authored mesh or the blockout must show.
 		const UStaticMeshComponent* Body = Spell->FindComponentByClass<UStaticMeshComponent>();
-		TestTrue(TEXT("the stone bullet is visible (authored mesh or blockout)"), Body && Body->GetStaticMesh() != nullptr && Body->IsVisible());
-		AddInfo(FString::Printf(TEXT("stone bullet body: %s"), Body ? *GetNameSafe(Body->GetStaticMesh()) : TEXT("none")));
+		const bool bBodyVisible = Body && Body->GetStaticMesh() != nullptr && Body->IsVisible();
+		TArray<AActor*> Attached;
+		Spell->GetAttachedActors(Attached);
+		const bool bTravelEffect = Attached.ContainsByPredicate([](const AActor* Actor) { return Actor && Actor->IsA<AMTSpellVFX>(); });
+		TestTrue(TEXT("the stone bullet is visible (runtime travel effect, authored mesh or blockout)"), bTravelEffect || bBodyVisible);
+		AddInfo(FString::Printf(TEXT("stone bullet: travel effect %s, body %s"), bTravelEffect ? TEXT("attached") : TEXT("none"),
+			bBodyVisible ? *GetNameSafe(Body->GetStaticMesh()) : TEXT("hidden")));
 	}
 
 	Rudeus->SetLockTarget(Target);
@@ -952,6 +959,130 @@ bool FMTEveryLoadoutAbilityTest::RunTest(const FString& Parameters)
 		Passed += (bStarted && (bCooldown || !bSupportOnly)) ? 1 : 0;
 	}
 	AddInfo(FString::Printf(TEXT("%d of %d hotbar casts started and executed"), Passed, Casts.Num()));
+	return true;
+}
+
+// ---------------------------------------------------------------------------------------------------- required set
+
+namespace MTTest
+{
+	/** Abilities that must stay in the game: Rudeus's and Orsted's signatures and the shared element spells. */
+	struct FRequiredAbility
+	{
+		const TCHAR* Id;
+		const TCHAR* Caster;
+	};
+	const FRequiredAbility RequiredAbilities[] = {
+		{ TEXT("Rudeus_StoneCannon"), TEXT("Rudeus") }, { TEXT("Rudeus_Quagmire"), TEXT("Rudeus") },
+		{ TEXT("Rudeus_ElementalBarrage"), TEXT("Rudeus") }, { TEXT("Orsted_DisturbMagic"), TEXT("Orsted") },
+		{ TEXT("Orsted_DragonStep"), TEXT("Orsted") }, { TEXT("Orsted_DragonCrush"), TEXT("Orsted") },
+		{ TEXT("Fire_Fireball"), TEXT("Rudeus") }, { TEXT("Fire_FlameWave"), TEXT("Rudeus") }, { TEXT("Fire_Inferno"), TEXT("Rudeus") },
+		{ TEXT("Water_WaterBullet"), TEXT("Rudeus") }, { TEXT("Water_WaterDragon"), TEXT("Rudeus") }, { TEXT("Water_Flood"), TEXT("Rudeus") },
+		{ TEXT("Earth_EarthWall"), TEXT("Rudeus") }, { TEXT("Earth_EarthSpikes"), TEXT("Rudeus") },
+		{ TEXT("Wind_WindBlade"), TEXT("Rudeus") }, { TEXT("Wind_Tornado"), TEXT("Rudeus") }, { TEXT("Wind_WindBurst"), TEXT("Rudeus") },
+	};
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTRequiredAbilitiesTest, "MushokuRPG.Abilities.RequiredSet", MTTest::Flags)
+bool FMTRequiredAbilitiesTest::RunTest(const FString& Parameters)
+{
+	// Every must-keep ability: its data, icon, animation and sounds load, and cast for real at an opponent it
+	// activates, shows a runtime effect (never an invisible spell) and does its job: damage, a zone, a wall or a dash.
+	for (const MTTest::FRequiredAbility& Required : MTTest::RequiredAbilities)
+	{
+		const FName Id(Required.Id);
+		MTTest::FGameWorld Game;
+		if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+		{
+			return false;
+		}
+		const FMTAbilityData* Data = UMTDataRegistry::Get(Game.World)->FindAbility(Id);
+		if (!TestNotNull(*FString::Printf(TEXT("%s: data row"), Required.Id), Data))
+		{
+			continue;
+		}
+		const FString Name = FString::Printf(TEXT("%s (%s)"), *Data->DisplayName.ToString(), Required.Id);
+		TestNotNull(*FString::Printf(TEXT("%s: icon"), *Name), Data->Icon.LoadSynchronous());
+		TestNotNull(*FString::Printf(TEXT("%s: animation"), *Name), Data->Montage.LoadSynchronous());
+		for (const TSoftObjectPtr<USoundBase>* Sound : { &Data->FX.CastSound, &Data->FX.TravelSound, &Data->FX.ImpactSound })
+		{
+			if (!Sound->IsNull())
+			{
+				TestNotNull(*FString::Printf(TEXT("%s: sound %s"), *Name, *Sound->ToString()), Sound->LoadSynchronous());
+			}
+		}
+
+		// Melee needs arm's length, a dash a gap to close, spells a proper distance.
+		const float Distance = Data->Behavior == EMTAbilityBehavior::Melee ? 200.f : Data->Behavior == EMTAbilityBehavior::Dash ? 650.f : 900.f;
+		const bool bOrsted = FCString::Strcmp(Required.Caster, TEXT("Orsted")) == 0;
+		AMTPlayerCharacter* Caster = Game.SpawnPlayer(Required.Caster, FVector::ZeroVector, 0.f);
+		AMTEnemyCharacter* Target = Game.SpawnOpponent(bOrsted ? TEXT("Arena_Rudeus") : TEXT("Arena_Orsted"), FVector(Distance, 0.f, 0.f));
+		if (!TestNotNull(*FString::Printf(TEXT("%s: caster"), *Name), Caster) || !TestNotNull(*FString::Printf(TEXT("%s: target"), *Name), Target))
+		{
+			continue;
+		}
+		Game.Tick(0.4f);
+		Caster->GetAttributes()->bInfiniteMana = true;
+		if (Data->Element != EMTElement::None && Data->CharacterRequirement.IsNone())
+		{
+			Caster->ApplyElementSlot(0, Data->Element);
+		}
+		Caster->SetLockTarget(Target);
+
+		TMap<UClass*, int32> Spawned;
+		const FDelegateHandle Handle = Game.World->AddOnActorSpawnedHandler(FOnActorSpawned::FDelegate::CreateLambda(
+			[&Spawned](AActor* Actor) { ++Spawned.FindOrAdd(Actor->GetClass()); }));
+		const FVector Start = Caster->GetActorLocation();
+		const float HealthBefore = Target->GetAttributes()->GetHealth();
+		const bool bActivated = Caster->GetAbilities()->ActivateAbilityById(Id);
+		TestTrue(FString::Printf(TEXT("%s activates"), *Name), bActivated);
+		Game.Tick(Data->bChargeable ? FMath::Clamp(Data->MaxChargeTime, 0.3f, 1.f) : 0.3f);
+		Caster->GetAbilities()->ReleaseAbilityById(Id);
+		Game.Tick(3.5f);
+		Game.World->RemoveOnActorSpawnedHandler(Handle);
+
+		auto Count = [&Spawned](const UClass* Class)
+		{
+			int32 N = 0;
+			for (const TPair<UClass*, int32>& Pair : Spawned)
+			{
+				N += Pair.Key->IsChildOf(Class) ? Pair.Value : 0;
+			}
+			return N;
+		};
+		const int32 Effects = Count(AMTSpellVFX::StaticClass());
+		const int32 Projectiles = Count(AMTProjectile::StaticClass());
+		const int32 Zones = Count(AMTZoneActor::StaticClass());
+		const int32 Walls = Count(AMTEarthWall::StaticClass());
+		const float Damage = HealthBefore - Target->GetAttributes()->GetHealth();
+		const float Moved = FVector::Dist2D(Start, Caster->GetActorLocation());
+		TestTrue(FString::Printf(TEXT("%s shows a runtime effect (%d spawned)"), *Name, Effects), Effects > 0);
+
+		bool bDidSomething = bActivated;
+		switch (Data->Behavior)
+		{
+		case EMTAbilityBehavior::Projectile:
+		case EMTAbilityBehavior::Sequence:
+		case EMTAbilityBehavior::Melee:
+			bDidSomething = Damage > 0.f;
+			break;
+		case EMTAbilityBehavior::Zone:
+			bDidSomething = Zones > 0 || Damage > 0.f;
+			break;
+		case EMTAbilityBehavior::Structure:
+			bDidSomething = Walls > 0;
+			break;
+		case EMTAbilityBehavior::Dash:
+			bDidSomething = Moved > 150.f;
+			break;
+		default:
+			// Counter: nothing to disturb here, a whiff still runs (the effect above) and goes on cooldown.
+			break;
+		}
+		TestTrue(FString::Printf(TEXT("%s does its job"), *Name), bDidSomething);
+		AddInfo(FString::Printf(TEXT("%s %s: %d effects, %d projectiles, %d zones, %d walls, target -%.1f health, caster moved %.0f cm"),
+			*Name, bDidSomething ? TEXT("OK") : TEXT("NO EFFECT"), Effects, Projectiles, Zones, Walls, Damage, Moved));
+	}
 	return true;
 }
 

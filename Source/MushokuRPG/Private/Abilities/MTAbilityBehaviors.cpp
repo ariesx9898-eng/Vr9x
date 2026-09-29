@@ -13,6 +13,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/RootMotionSource.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "MotionWarpingComponent.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
@@ -436,6 +437,12 @@ void UMTAbility_Counter::ExecuteAction()
 	if (Owner)
 	{
 		Owner->GetStateTags().AddTag(MTTags::State_Countering);
+		// The raised palm (DisturbMagic.Cast: a spinning gold ring and a silver glow) marks the counter window, so the
+		// stance reads even when there is nothing to disturb; each collapsed spell adds its Impact burst below.
+		USkeletalMeshComponent* Mesh = Owner->GetMesh();
+		const bool bPalm = Mesh && !Data.CastSocket.IsNone() && Mesh->DoesSocketExist(Data.CastSocket);
+		SpawnPhaseFX(TEXT("Cast"), FTransform(Owner->GetActorRotation(), GetCastLocation()), 1.f, bPalm ? Mesh : nullptr,
+			bPalm ? Data.CastSocket : NAME_None);
 	}
 }
 
