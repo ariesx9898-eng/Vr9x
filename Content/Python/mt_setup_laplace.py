@@ -177,25 +177,33 @@ return normalize(float3(a.xy * 2.0, 1.0));
 
 
 def build_rock():
-    """Conjured stone (bullets, cannon shells, spikes, debris), with optional glowing mana seams."""
+    """Conjured stone (bullets, cannon shells, spikes, debris), with optional glowing mana seams. "Crack" (0..1) reveals
+    a fracture network (T_VFX_CrackNet: main fractures first, then branches, then hairlines); the cracks are dark, and
+    glow in Color when Glow > 0."""
     g = Graph("M_VFX_Rock", FX_DIR)
     m = g.mat
     m.set_editor_property("used_with_instanced_static_meshes", True)
     i = common_inputs(g)
     i["Noise"] = g.texture_object("NoiseTex", TEX + "T_VFX_Noise.T_VFX_Noise")
+    i["CrackTex"] = g.texture_object("CrackTex", TEX + "T_VFX_CrackNet.T_VFX_CrackNet")
     i["RockColor"] = g.vector("RockColor", (0.3, 0.25, 0.2))
     i["Glow"] = g.scalar("Glow", 0.0)
+    i["Crack"] = g.scalar("Crack", 0.0)
     i["WP"] = g.node(unreal.MaterialExpressionWorldPosition)
     base = g.custom("""
 float n = Texture2DSample(Noise, NoiseSampler, UV * 2.0).r;
 float s = Texture2DSample(Noise, NoiseSampler, UV * 6.0).a;
-return RockColor * float3(CDR, CDG, CDB) * lerp(0.55, 1.25, n) * lerp(0.85, 1.1, s);
-""", {k: i[k] for k in ("Noise", "UV", "RockColor", "CDR", "CDG", "CDB")})
+float c = Texture2DSample(CrackTex, CrackTexSampler, UV * 0.7).r;
+float vis = saturate((c - (1.0 - Crack)) / 0.12);
+return RockColor * float3(CDR, CDG, CDB) * lerp(0.55, 1.25, n) * lerp(0.85, 1.1, s) * (1.0 - 0.85 * vis);
+""", {k: i[k] for k in ("Noise", "CrackTex", "UV", "RockColor", "Crack", "CDR", "CDG", "CDB")})
     glow = g.custom("""
 float w = Texture2DSample(Noise, NoiseSampler, UV * 1.5).g;
 float seam = pow(saturate(w), 10.0);
-return Color * Glow * seam * (0.75 + 0.25 * sin(Time * 9.0));
-""", {k: i[k] for k in ("Noise", "UV", "Color", "Glow", "Time")})
+float c = Texture2DSample(CrackTex, CrackTexSampler, UV * 0.7).r;
+float vis = saturate((c - (1.0 - Crack)) / 0.12);
+return Color * Glow * (seam + vis * 1.5) * (0.75 + 0.25 * sin(Time * 9.0));
+""", {k: i[k] for k in ("Noise", "CrackTex", "UV", "Color", "Glow", "Crack", "Time")})
     g.out(base, unreal.MaterialProperty.MP_BASE_COLOR)
     g.out(glow, unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     g.out(g.const(0.85), unreal.MaterialProperty.MP_ROUGHNESS)
@@ -294,11 +302,134 @@ return Texture2DSample(T, TSampler, r).a;
     g.finish()
 
 
+# Shared by the M_Decal_Mud nodes: where the zone is (inside), and how far each stage has spread from the centre by Age
+# (seconds since the decal appeared): cracks 0-0.35 s, water pushed up 0.35-0.8 s, liquefied mud from 0.8 s.
+MUD_STAGES = """
+float2 p = UV - 0.5;
+float d = length(p) * 2.0;
+float edgeN = Texture2DSample(M, MSampler, UV * 1.7).a;
+float inside = saturate((0.93 + (edgeN - 0.5) * 0.14 - d) / 0.07);
+float crackFront = saturate((saturate(Age / 0.35) * 1.08 - d) / 0.1);
+float wet = saturate((saturate((Age - 0.35) / 0.45) * 1.12 - d) / 0.12);
+float mud = saturate((saturate((Age - 0.8) / 0.4) * 1.15 - d) / 0.15);
+float crack = saturate((Texture2DSample(C, CSampler, UV * 3.2).r - 0.25) / 0.3) * crackFront * (1.0 - mud);
+"""
+
+
+def build_decals_overhaul():
+    """Decals for the ability overhaul: Quagmire's mud, crater bowls and the Earth Spikes aim line."""
+    # Mud (Quagmire zone, held until the zone ends): the ground cracks, water wells up through it, then it is liquid
+    # mud that slowly churns (Flow) with bubbles swelling and popping. Age must advance (a held decal: bUntilStop).
+    g = decal_graph("M_Decal_Mud")
+    i = {
+        "M": g.texture_object("MudTex", TEX + "T_VFX_Mud.T_VFX_Mud"),
+        "C": g.texture_object("CrackTex", TEX + "T_VFX_CrackNet.T_VFX_CrackNet"),
+        "WN": g.texture_object("FlowNormal", TEX + "T_VFX_WaterN.T_VFX_WaterN"),
+        "UV": g.node(unreal.MaterialExpressionTextureCoordinate),
+        "Time": g.node(unreal.MaterialExpressionTime),
+        "Life": g.node(unreal.MaterialExpressionDecalLifetimeOpacity),
+        "Color": g.vector("Color", (0.22, 0.15, 0.09)),
+        "Opacity": g.scalar("Opacity", 1.0),
+        "Age": g.scalar("Age", 2.0),
+        "Flow": g.scalar("Flow", 1.0),
+    }
+    base = g.custom(MUD_STAGES + """
+float albedo = Texture2DSample(M, MSampler, UV * 4.0).r;
+float3 c = lerp(float3(0.05, 0.042, 0.034), float3(0.02, 0.018, 0.015), crack * (1.0 - wet * 0.5));
+return lerp(c, Color * lerp(0.6, 1.2, albedo), mud);
+""", i)
+    op = g.custom(MUD_STAGES + """
+return saturate(max(crack * 0.95, max(wet * 0.72, mud * 0.96))) * inside * Opacity * Life;
+""", i, "float")
+    normal = g.custom(MUD_STAGES + """
+float ang = Time * 0.12 * Flow * saturate(1.0 - d);
+float2 q = float2(p.x * cos(ang) - p.y * sin(ang), p.x * sin(ang) + p.y * cos(ang));
+float2 fa = Texture2DSample(WN, WNSampler, q * 3.0 + 0.5 + Time * Flow * float2(0.021, 0.013)).xy * 2.0 - 1.0;
+float2 fb = Texture2DSample(WN, WNSampler, q * 5.3 - Time * Flow * float2(0.011, 0.027)).xy * 2.0 - 1.0;
+float2 fl = (fa + fb) * 0.5;
+float2 muv = UV * 4.0;
+float e = 1.5 / 512.0;
+float4 s0 = Texture2DSample(M, MSampler, muv);
+float4 sx = Texture2DSample(M, MSampler, muv + float2(e, 0.0));
+float4 sy = Texture2DSample(M, MSampler, muv + float2(0.0, e));
+float ph0 = frac(Time * 0.45 + s0.b);
+float phx = frac(Time * 0.45 + sx.b);
+float phy = frac(Time * 0.45 + sy.b);
+float h0 = s0.g * smoothstep(0.0, 0.75, ph0) * (1.0 - smoothstep(0.82, 0.9, ph0));
+float hx = sx.g * smoothstep(0.0, 0.75, phx) * (1.0 - smoothstep(0.82, 0.9, phx));
+float hy = sy.g * smoothstep(0.0, 0.75, phy) * (1.0 - smoothstep(0.82, 0.9, phy));
+float2 bub = -float2(hx - h0, hy - h0) * 5.0;
+return normalize(float3(fl * (0.55 * mud + 0.12 * wet) + bub * mud, 1.0));
+""", i)
+    rough = g.custom(MUD_STAGES + "return lerp(0.9, 0.1, saturate(max(wet, mud)));", i, "float")
+    g.out(base, unreal.MaterialProperty.MP_BASE_COLOR)
+    g.out(op, unreal.MaterialProperty.MP_OPACITY)
+    g.out(normal, unreal.MaterialProperty.MP_NORMAL)
+    g.out(rough, unreal.MaterialProperty.MP_ROUGHNESS)
+    g.finish()
+
+    # Crater: a dug bowl with a raised rim of fresh soil and thrown dirt (big earth impacts), under the cracks decal.
+    # NormalStrength -1 flips the relief if the bowl ever reads as a dome.
+    g = decal_graph("M_Decal_Crater")
+    i = {
+        "T": g.texture_object("Texture", TEX + "T_VFX_Crater.T_VFX_Crater"),
+        "TN": g.texture_object("NormalTex", TEX + "T_VFX_CraterN.T_VFX_CraterN"),
+        "UV": g.node(unreal.MaterialExpressionTextureCoordinate),
+        "Life": g.node(unreal.MaterialExpressionDecalLifetimeOpacity),
+        "Color": g.vector("Color", (0.3, 0.25, 0.2)),
+        "Opacity": g.scalar("Opacity", 1.0),
+        "NormalStrength": g.scalar("NormalStrength", 1.0),
+    }
+    base = g.custom("return Color * lerp(0.35, 1.35, Texture2DSample(T, TSampler, UV).r);", i)
+    normal = g.custom("""
+float2 n = (Texture2DSample(TN, TNSampler, UV).xy * 2.0 - 1.0) * NormalStrength;
+return normalize(float3(n, sqrt(saturate(1.0 - dot(n, n))) + 0.001));
+""", i)
+    op = g.custom("return Texture2DSample(T, TSampler, UV).a * Opacity * Life;", i, "float")
+    g.out(base, unreal.MaterialProperty.MP_BASE_COLOR)
+    g.out(normal, unreal.MaterialProperty.MP_NORMAL)
+    g.out(op, unreal.MaterialProperty.MP_OPACITY)
+    g.out(g.const(0.95), unreal.MaterialProperty.MP_ROUGHNESS)
+    g.finish()
+
+    # Aim line (Earth Spikes, held while aiming): a glowing fault line from the caster (U = 0) to the far end (U = 1),
+    # chevrons flowing outward, diamond marks where the spikes will rise. The C++ lays the strip so U runs along the
+    # effect's X; AlongV = 1 swaps the texture axes should a platform map decal UVs the other way round.
+    g = decal_graph("M_Decal_AimLine")
+    i = {
+        "T": g.texture_object("Texture", TEX + "T_VFX_AimLine.T_VFX_AimLine"),
+        "UV": g.node(unreal.MaterialExpressionTextureCoordinate),
+        "Time": g.node(unreal.MaterialExpressionTime),
+        "Life": g.node(unreal.MaterialExpressionDecalLifetimeOpacity),
+        "Color": g.vector("Color", (1.0, 0.6, 0.2)),
+        "Intensity": g.scalar("Intensity", 2.5),
+        "Opacity": g.scalar("Opacity", 1.0),
+        "Scroll": g.scalar("ScrollSpeed", 0.6),
+        "AlongV": g.scalar("AlongV", 0.0),
+    }
+    line = """
+float2 uv = lerp(UV, UV.yx, AlongV);
+float4 t = Texture2DSample(T, TSampler, uv);
+float g = Texture2DSample(T, TSampler, float2(uv.x - Time * Scroll, uv.y)).g;
+"""
+    em = g.custom(line + """
+float pulse = 0.8 + 0.2 * sin(Time * 7.0 - uv.x * 14.0);
+return Color * Intensity * (t.r * 1.3 + g * 0.6 * pulse + t.b * 0.35) * t.a * Opacity * Life;
+""", i)
+    op = g.custom(line + "return saturate(t.r + g * 0.55 + t.b * 0.5) * t.a * Opacity * Life;", i, "float")
+    g.out(g.custom("return Color * 0.12;", {"Color": i["Color"]}), unreal.MaterialProperty.MP_BASE_COLOR)
+    g.out(op, unreal.MaterialProperty.MP_OPACITY)
+    g.out(em, unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    g.finish()
+
+
 def setup_vfx():
     src = os.path.join(PROJECT, "SourceArt", "VFX", "Textures")
-    kinds = {"T_VFX_Noise": "mask", "T_VFX_WaterN": "normal"}
+    kinds = {"T_VFX_Noise": "mask", "T_VFX_WaterN": "normal", "T_VFX_Mud": "mask", "T_VFX_CrackNet": "mask",
+             "T_VFX_Crater": "mask", "T_VFX_CraterN": "normal", "T_VFX_AimLine": "mask"}
     import_folder(src, ROOT + "/VFX/Textures", lambda n: kinds.get(n, "vfx"))
-    for build in (build_glow, build_sprite, build_smoke, build_water, build_air, build_rock, build_ghost, build_decals):
+    for build in (build_glow, build_sprite, build_smoke, build_water, build_air, build_rock, build_ghost, build_decals,
+                  build_decals_overhaul):
         try:
             build()
         except Exception as exc:  # keep going: one broken material must not block the rest

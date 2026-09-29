@@ -11,6 +11,7 @@ class UStaticMeshComponent;
 class UProjectileMovementComponent;
 class UNiagaraComponent;
 class UPointLightComponent;
+class UAudioComponent;
 class AMTCharacterBase;
 
 UCLASS()
@@ -54,12 +55,24 @@ protected:
 	void Explode(const FVector& Location, const FVector& Normal);
 	void Dissipate(bool bSpawnFX);
 	void ApplyPlaceholderLook();
+	/** True when the spell may continue through Target: pierce budget left and Target light enough. */
+	bool CanPierce(const AMTCharacterBase* Target) const;
+	/** Fire rows with BurnSeconds leave the target burning. */
+	void ApplyBurn(AMTCharacterBase* Target) const;
+	/** Crescent spells (ProjectileWidth > 0): box sweep across the blade from the last position to this one. */
+	void SweepCrescent();
+	/** Visual impact radius at this charge (AOERadius x ChargeRadiusScale). */
+	float GetImpactRadius() const;
+	/** Visual size multiplier at this charge (ChargeSizeScale). */
+	float GetSizeScale() const;
 
 	UPROPERTY(VisibleAnywhere) TObjectPtr<USphereComponent> Collision;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UStaticMeshComponent> Body;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UProjectileMovementComponent> Movement;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UNiagaraComponent> TravelFX;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UPointLightComponent> Light;
+	/** A looping TravelSound riding with the projectile (fireball roar, cannon-slug whirr). */
+	UPROPERTY(VisibleAnywhere) TObjectPtr<UAudioComponent> TravelAudio;
 
 	FMTAbilityData Data;
 	TWeakObjectPtr<AMTCharacterBase> OwnerCharacter;
@@ -73,6 +86,10 @@ protected:
 	bool bFinished = false;
 	/** False between spawn and InitProjectile: the sphere already overlaps the caster's hand there. */
 	bool bInitialized = false;
+	/** Characters this spell has passed through. */
+	int32 Pierced = 0;
+	/** Where the last crescent sweep ended. */
+	FVector LastSweepLocation = FVector::ZeroVector;
 	/** Runtime travel effect riding on the projectile (stopped and left to fade when it ends). */
 	TWeakObjectPtr<class AMTSpellVFX> TravelVFX;
 };

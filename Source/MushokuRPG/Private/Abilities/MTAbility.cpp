@@ -12,7 +12,26 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundBase.h"
 #include "Engine/World.h"
+
+namespace
+{
+	const FName MTEvent_Release(TEXT("Release"));
+
+	/** "A_Orsted_Cast_Fireball" -> "Cast_Fireball" (character ids contain no '_', so the key follows the second one). */
+	FString AnimKeyOf(const FString& AssetName)
+	{
+		int32 Separator = INDEX_NONE;
+		if (AssetName.StartsWith(TEXT("A_")) && AssetName.RightChop(2).FindChar(TEXT('_'), Separator))
+		{
+			return AssetName.RightChop(2 + Separator + 1);
+		}
+		return AssetName;
+	}
+}
 
 void UMTAbility::Initialize(UMTAbilityComponent* InComponent, const FMTAbilityData& InData)
 {
@@ -32,6 +51,11 @@ float UMTAbility::GetEffectiveCastTime() const
 	if (Owner && Owner->GetAttributes())
 	{
 		Mult = Owner->GetAttributes()->GetStatModifier().CastTimeMultiplier;
+	}
+	// Out of a combo (Dragon Step -> Dragon Crush) the follow-up winds up much faster.
+	if (bComboActive)
+	{
+		Mult *= FMath::Clamp(Data.GetParam(TEXT("ComboCastScale"), 1.f), 0.1f, 1.f);
 	}
 	// Chantless casting shortens startup but big spells keep a readable minimum wind-up.
 	const float MinReadable = Data.CastTime >= 0.6f ? Data.CastTime * 0.45f : 0.04f;
@@ -71,6 +95,12 @@ bool UMTAbility::CanActivate(FText* OutReason) const
 	if (Owner->IsStaggered())
 	{
 		if (OutReason) { *OutReason = NSLOCTEXT("MT", "Staggered", "Staggered"); }
+		return false;
+	}
+	if (Component.IsValid() && Component->IsAbilityLocked(Data.AbilityID))
+	{
+		// Disturb Magic sealed this spell: the other hand still works, this one does not (yet).
+		if (OutReason) { *OutReason = NSLOCTEXT("MT", "Sealed", "Sealed"); }
 		return false;
 	}
 	UMTAttributeComponent* Attr = Owner->GetAttributes();
@@ -124,8 +154,20 @@ bool UMTAbility::TryActivate()
 
 	bInputHeld = true;
 	bReleasedDuringAnticipation = false;
+	bReleaseEventReceived = false;
+	bHoldAudioTried = false;
 	ChargeTime = 0.f;
 	ReleasedChargeAlpha = 0.f;
+	{
+		AActor* FromCombo = nullptr;
+		bComboActive = Component->ConsumeComboWindow(Data.AbilityID, FromCombo);
+		ComboTarget = FromCombo;
+	}
+	if (Data.bFullBodyCommit)
+	{
+		// Ultimates and Dragon Crush plant the caster through anticipation and release.
+		Owner->SetAbilityMoveMultiplier(0.f);
+	}
 	Owner->GetStateTags().AppendTags(Data.ActivationTags);
 	Owner->GetStateTags().AddTag(MTTags::State_Casting);
 	if (Data.bChargeable)
@@ -144,9 +186,74 @@ bool UMTAbility::TryActivate()
 		FormationVFX = MTCombat::SpawnSpellFX(Owner, Data.FX, Data.FX.Formation, TEXT("Formation"), FTransform(GetAimRotation(), GetCastLocation()),
 			1.f, bSocket ? OwnerMesh : nullptr, bSocket ? Data.CastSocket : NAME_None, Owner);
 	}
-	PlaySound(Data.FX.CastSound, GetCastLocation());
+	FadeCastAudio(0.05f); // a previous activation's build-up never overlaps this one
+	if (USoundBase* CastSound = MTCombat::LoadOptional(Data.FX.CastSound))
+	{
+		CastAudio = UGameplayStatics::SpawnSoundAtLocation(Owner, CastSound, GetCastLocation());
+	}
 	Component->NotifyAbilityStarted(this);
 	return true;
+}
+
+void UMTAbility::HandleAnimEvent(FName EventName, const UAnimSequenceBase* Animation)
+{
+	if (!IsActive())
+	{
+		return;
+	}
+	if (EventName == MTEvent_Release)
+	{
+		// Chargeable spells release on input; others on this frame, but only from this ability's own clip (not a
+		// previous clip still blending out).
+		if (Phase == EMTAbilityPhase::Anticipation && !Data.bChargeable)
+		{
+			const bool bOwnClip = !Animation || Data.Montage.IsNull()
+				|| AnimKeyOf(Animation->GetName()) == AnimKeyOf(Data.Montage.ToSoftObjectPath().GetAssetName());
+			if (bOwnClip)
+			{
+				bReleaseEventReceived = true;
+			}
+		}
+		return;
+	}
+	OnAnimEvent(EventName);
+}
+
+void UMTAbility::FadeCastAudio(float Seconds)
+{
+	for (TWeakObjectPtr<UAudioComponent>* Slot : { &CastAudio, &HoldAudio })
+	{
+		if (UAudioComponent* Audio = Slot->Get())
+		{
+			if (Audio->IsPlaying())
+			{
+				Audio->FadeOut(FMath::Max(0.01f, Seconds), 0.f);
+			}
+		}
+		Slot->Reset();
+	}
+}
+
+void UMTAbility::StartHoldAudio()
+{
+	// The build-up sound is authored to settle at full charge; a charge held past it would go silent. The formed spell
+	// hums instead with the loop it will travel with (the cannon slug's spin, the fireball's roar).
+	if (bHoldAudioTried || Data.Behavior != EMTAbilityBehavior::Projectile)
+	{
+		return;
+	}
+	bHoldAudioTried = true;
+	USoundBase* Loop = MTCombat::LoadOptional(Data.FX.TravelSound);
+	AMTCharacterBase* Caster = GetOwnerCharacter();
+	if (!Loop || !Loop->IsLooping() || !Caster)
+	{
+		return;
+	}
+	if (UAudioComponent* Audio = UGameplayStatics::SpawnSoundAtLocation(Caster, Loop, GetCastLocation()))
+	{
+		Audio->FadeIn(0.4f, 0.55f);
+		HoldAudio = Audio;
+	}
 }
 
 void UMTAbility::InputReleased()
@@ -195,18 +302,31 @@ void UMTAbility::Tick(float DeltaTime)
 	case EMTAbilityPhase::Anticipation:
 	{
 		const float CastTime = GetEffectiveCastTime();
+		TickAnticipation(DeltaTime);
+		if (!IsActive() || Phase != EMTAbilityPhase::Anticipation)
+		{
+			break; // the hook cancelled the ability
+		}
 		if (Data.bChargeable)
 		{
 			// Anticipation clip -> seamless hold loop for as long as the ability stays in its charge phase.
 			UpdateChargeAnimation();
+			if (AMTSpellVFX* Formation = FormationVFX.Get())
+			{
+				Formation->SetCharge(GetChargeAlpha());
+			}
 			// Hold to charge. Charging can never exceed MaxChargeTime: at full charge the
 			// spell is held (stable stance) until release or a 1.5 s overhold, then fires.
 			if (bInputHeld && !bReleasedDuringAnticipation)
 			{
 				ChargeTime = FMath::Min(ChargeTime + DeltaTime, Data.MaxChargeTime);
-				if (ChargeTime >= Data.MaxChargeTime && PhaseTime > Data.MaxChargeTime + 1.5f)
+				if (ChargeTime >= Data.MaxChargeTime)
 				{
-					bReleasedDuringAnticipation = true;
+					StartHoldAudio();
+					if (PhaseTime > Data.MaxChargeTime + 1.5f)
+					{
+						bReleasedDuringAnticipation = true;
+					}
 				}
 				break;
 			}
@@ -227,10 +347,11 @@ void UMTAbility::Tick(float DeltaTime)
 			}
 			Owner->GetStateTags().RemoveTag(MTTags::State_Charging);
 			PlayReleaseAnimation();
+			FadeCastAudio(0.15f);
 		}
-		else if (PhaseTime < CastTime)
+		else if (PhaseTime < CastTime && !(bReleaseEventReceived && PhaseTime >= CastTime * 0.4f))
 		{
-			break;
+			break; // the clip's Release frame (or CastTime) fires the spell
 		}
 
 		EnterPhase(EMTAbilityPhase::Action);
@@ -239,6 +360,10 @@ void UMTAbility::Tick(float DeltaTime)
 		{
 			MTCombat::StopSpellFX(Formation);
 		}
+		// Muzzle beat at the hand (pressure cone, shockwave, sonic boom...), bigger with the charge. Presets without a
+		// Release phase spawn nothing.
+		SpawnPhaseFX(TEXT("Release"), FTransform(GetAimRotation(), GetCastLocation()), 1.f + 0.5f * ReleasedChargeAlpha);
+		PlaySound(Data.FX.ReleaseSound, GetCastLocation());
 		ExecuteAction();
 		if (IsInstantAction())
 		{
@@ -252,6 +377,8 @@ void UMTAbility::Tick(float DeltaTime)
 	case EMTAbilityPhase::Recovery:
 		if (PhaseTime >= Data.RecoveryTime)
 		{
+			bComboActive = false;
+			ComboTarget.Reset();
 			EnterPhase(EMTAbilityPhase::Finished);
 			Owner->GetStateTags().RemoveTags(Data.ActivationTags);
 			OnEnded(false);
@@ -294,6 +421,8 @@ void UMTAbility::Cancel()
 	// Cancelled during wind-up: no cooldown, but the mana spent on formation is lost.
 	StopMontage(0.15f);
 	MTCombat::StopSpellFX(FormationVFX.Get());
+	FadeCastAudio(0.1f);
+	bComboActive = false;
 	OnEnded(true);
 	EnterPhase(EMTAbilityPhase::Idle);
 	if (Component.IsValid())
@@ -347,8 +476,8 @@ float UMTAbility::PlayMontage(FName Section, float PlayRate)
 	{
 		return 0.f;
 	}
-	// Faster casting plays the anticipation faster instead of cutting it.
-	const float CastScale = Data.CastTime > 0.f ? FMath::Clamp(Data.CastTime / FMath::Max(0.05f, GetEffectiveCastTime()), 0.75f, 2.f) : 1.f;
+	// Faster casting plays the anticipation faster instead of cutting it (a combo follow-up up to 3x).
+	const float CastScale = Data.CastTime > 0.f ? FMath::Clamp(Data.CastTime / FMath::Max(0.05f, GetEffectiveCastTime()), 0.75f, 3.f) : 1.f;
 	return PlayAbilityAnim(Data.Montage, PlayRate * CastScale, Section);
 }
 

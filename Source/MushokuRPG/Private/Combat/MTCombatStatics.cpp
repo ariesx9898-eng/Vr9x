@@ -11,6 +11,7 @@
 #include "Materials/MaterialInterface.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
+#include "TimerManager.h"
 #include "Engine/OverlapResult.h"
 #include "CollisionQueryParams.h"
 #include "Components/CapsuleComponent.h"
@@ -194,5 +195,94 @@ namespace MTCombat
 	{
 		const FString Path = FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"), ShapeName, ShapeName);
 		return Cast<UStaticMesh>(StaticLoadObject(UStaticMesh::StaticClass(), nullptr, *Path, nullptr, LOAD_NoWarn | LOAD_Quiet));
+	}
+
+	void HitStop(const TArray<AActor*>& Actors, float Seconds)
+	{
+		if (Seconds <= 0.f)
+		{
+			return;
+		}
+		UWorld* StopWorld = nullptr;
+		TArray<TWeakObjectPtr<AActor>> Frozen;
+		for (AActor* Each : Actors)
+		{
+			if (IsValid(Each) && !Frozen.Contains(Each))
+			{
+				StopWorld = StopWorld ? StopWorld : Each->GetWorld();
+				// Not a full stop: a sliver of motion keeps it from reading as a hitch.
+				Each->CustomTimeDilation = 0.03f;
+				Frozen.Add(Each);
+			}
+		}
+		if (!StopWorld || Frozen.Num() == 0)
+		{
+			return;
+		}
+		// World timers run on world time, so the freeze lasts Seconds no matter how slow the actors are.
+		FTimerHandle Handle;
+		StopWorld->GetTimerManager().SetTimer(Handle, FTimerDelegate::CreateLambda([Frozen]()
+		{
+			for (const TWeakObjectPtr<AActor>& Weak : Frozen)
+			{
+				if (AActor* Resumed = Weak.Get())
+				{
+					Resumed->CustomTimeDilation = 1.f;
+				}
+			}
+		}), Seconds, false);
+	}
+
+	FVector GroundBelow(const UObject* WorldContext, const FVector& Point)
+	{
+		const UWorld* World = WorldContext ? WorldContext->GetWorld() : nullptr;
+		if (!World)
+		{
+			return Point;
+		}
+		FHitResult Hit;
+		FCollisionObjectQueryParams Objects(ECC_WorldStatic);
+		FCollisionQueryParams Params(SCENE_QUERY_STAT(MTGroundBelow), false);
+		if (World->LineTraceSingleByObjectType(Hit, Point + FVector(0.f, 0.f, 400.f), Point - FVector(0.f, 0.f, 3000.f), Objects, Params))
+		{
+			return Hit.ImpactPoint;
+		}
+		return Point;
+	}
+
+	FMTDamageSpec MakeAbilityHit(const FMTAbilityData& Row, AActor* Instigator, const FVector& HitLocation, const FVector& Direction, float DamageScale)
+	{
+		FMTDamageSpec Spec;
+		Spec.Damage = Row.Damage * DamageScale;
+		Spec.Stagger = Row.Stagger;
+		Spec.Knockback = Row.Knockback;
+		Spec.Launch = Row.Launch;
+		Spec.Element = Row.Element;
+		Spec.bIsMagic = Row.Element != EMTElement::None;
+		Spec.SourceAbility = Row.AbilityID;
+		Spec.Instigator = Instigator;
+		Spec.HitLocation = HitLocation;
+		Spec.HitDirection = Direction.IsNearlyZero() ? FVector::ForwardVector : Direction.GetSafeNormal();
+		return Spec;
+	}
+
+	void ApplyBurn(const FMTAbilityData& Row, AMTCharacterBase* Target, AActor* Instigator, bool bDefaultBurn)
+	{
+		if (!Target || !Target->IsAlive() || !Target->GetAttributes() || Row.Element != EMTElement::Fire)
+		{
+			return;
+		}
+		const bool bFromRow = Row.BurnSeconds > 0.f;
+		if (!bFromRow && !bDefaultBurn)
+		{
+			return;
+		}
+		FMTStatusEffect Burn;
+		Burn.Id = TEXT("Burning");
+		Burn.Duration = bFromRow ? Row.BurnSeconds : 3.f;
+		Burn.HealthPerSecond = -(bFromRow ? FMath::Max(0.f, Row.BurnDamagePerSecond) : Row.Damage * 0.08f);
+		Burn.GrantedTags.AddTag(MTTags::State_Burning);
+		Burn.Instigator = Instigator;
+		Target->GetAttributes()->AddStatusEffect(Burn);
 	}
 }

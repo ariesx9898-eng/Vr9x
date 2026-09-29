@@ -88,8 +88,12 @@ enum class EMTAbilityBehavior : uint8
 	Dash,         // Dragon Step, Gale Step
 	Counter,      // Disturb Magic
 	Buff,         // Saint Dragon Aura, Demon Eye, awakenings, race transformations
-	Structure,    // Earth Fortress
-	Melee         // Orsted palm strikes, enemy claws
+	Structure,    // Earth Wall
+	Melee,        // Orsted palm strikes, enemy claws
+	Barrage,      // Elemental Barrage: four orbiting formations, a volley, a combined finale
+	Disrupt,      // Disturb Magic: a pulse that cancels and seals spells still forming
+	Strike,       // Dragon Crush: one committed blow with a primary target and a shockwave
+	Serpent       // Water Dragon: a segmented water body that circles, hunts and collapses
 };
 
 /** Projectile flight model. */
@@ -116,7 +120,8 @@ enum class EMTZoneKind : uint8
 	Burst,       // Wind Burst: one outward blast from the caster, then gone
 	LineEruptions, // Earth Spikes: eruptions one after another from the caster toward the target
 	Vortex,      // Tornado: pulls enemies in, lifts and damages them, drifts toward the target
-	Wave         // Flood: rolls forward, sweeping enemies along once each
+	Wave,        // Flood: rolls forward, sweeping enemies along once each
+	Arc          // Flame Wave: a curved wall that expands outward from the caster, hitting each enemy once
 };
 
 /** Behaviour-agnostic hit reaction classes. */
@@ -239,6 +244,8 @@ struct FMTDamageSpec
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float Stagger = 0.f;
 	/** Horizontal impulse in cm/s applied via LaunchCharacter. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) float Knockback = 0.f;
+	/** Vertical impulse in cm/s (airtime ~ 2 * Launch / 980 s). Launches any target that is not crowd-control immune. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) float Launch = 0.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) EMTElement Element = EMTElement::None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bIsMagic = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName SourceAbility;

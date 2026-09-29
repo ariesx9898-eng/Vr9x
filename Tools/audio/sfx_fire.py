@@ -5,11 +5,11 @@ from __future__ import annotations
 
 import numpy as np
 
-from dsp import (SR, TAU, db2lin, early_reflections, env, eq, noise, norm_peak, norm_rms, periodic_lfo,
-                 perc, saturate, slap_echoes, smooth_random, transient_shape, tvec)
-from layers import (burst, click, crack, crackle, debris, drone, fpath, mix, moving_noise, roar, rumble,
-                    shimmer, space, sub_boom, thump, turbulence, whoosh)
-from reg import LOOP_MED, LOOP_SMALL, MP, XL, L, M, S, sound
+from dsp import (SR, TAU, db2lin, early_reflections, env, eq, formant_filter, noise, norm_peak, norm_rms, ns,
+                 periodic_lfo, perc, saturate, saw, slap_echoes, smooth_random, sweep, transient_shape, tvec)
+from layers import (bell_hits, burst, click, crack, crackle, debris, drone, fpath, mix, moving_noise, place_reversed,
+                    roar, rumble, shimmer, space, sub_boom, thump, turbulence, whoosh)
+from reg import LOOP_MED, LOOP_SMALL, MP, XL, XS, L, M, S, sound
 
 G = lambda d: float(db2lin(d))  # noqa: E731
 
@@ -172,3 +172,118 @@ def inferno_eruption(rng, n):
     y = early_reflections(y, rng, level_db=-9)
     y = slap_echoes(y, (0.14, 0.29, 0.47), (-15, -19, -24), lp=1600)
     return space(y, rng, rt60=1.8, wet_db=-15, hf_ratio=0.35)
+
+
+# ============================================================================================ ability overhaul
+# Docs/Ability_Overhaul.md section 6 (Fire).
+@sound("Fire", 1.4, target=M, use="Fire_Fireball charge (CastSound; full charge at 1.2 s, faded by the game on release): fire swirls inward and compresses, a rising roar that brightens toward a white-hot core")
+def fireball_charge(rng, n):
+    T = n / SR
+    t = tvec(n)
+    tf = 1.2  # full charge; after it the sphere holds, then settles so an over-held charge ends cleanly
+    settle = np.exp(-np.maximum(t - (tf + 0.02), 0.0) / 0.04)
+    e_main = env([(0.0, 0.0), (0.06, 0.3), (tf, 1.0)], n, [-1.0, 1.4]) * settle
+    # a rising roar whose brightness climbs from orange to an almost white core
+    rr = roar(rng, n, e_main, lp=fpath([(0.0, 550.0), (0.6, 1800.0), (tf, 6500.0)]),
+              turb=((7.0, 0.15), (13.0, 0.3), (26.0, 0.25)), drive_db=8, mid_band=(300.0, 3500.0), mid_db=-5, air_db=-20)
+    # the swirl turns inward: its band orbits faster and climbs
+    sw = moving_noise(rng, n, e_main, "bp", _swirl_fc(n, T, 500, 3400, tf, 3, 17, 0.32), 2.4, "pink")
+    # suction: flame puffs played backwards converge on the palm, closer and closer together
+    suck = np.zeros(n)
+    for te in (0.3, 0.52, 0.7, 0.84, 0.95, 1.04, 1.11, 1.17, 1.21):
+        m = ns(rng.uniform(0.16, 0.28))
+        puff = eq(noise(m, rng, "pink") * np.exp(-tvec(m) / rng.uniform(0.04, 0.08)), ("bp", rng.uniform(900.0, 2600.0), 1.2))
+        place_reversed(suck, norm_peak(puff) * (0.4 + 0.6 * te / tf), te)
+    suck = suck * settle
+    # the crackle tightens and brightens as the fire condenses
+    crk = crackle(rng, n, lambda x: 20.0 + 280.0 * np.clip(x / tf, 0, 1) ** 2, 0.0, tf + 0.1,
+                  amp_fn=lambda x: 0.3 + 0.7 * np.clip(x / tf, 0, 1), band=(1600.0, 10000.0), tick_ms=(0.1, 0.6), pop_prob=0.12)
+    # the white-hot core: a blowtorch hiss that takes over near full charge
+    e_jet = env([(0.45, 0.0), (tf, 1.0)], n, [2.5]) * settle
+    jet = moving_noise(rng, n, e_jet * turbulence(rng, n, ((40.0, 0.25),)), "bp", fpath([(0.45, 2200.0), (tf, 4300.0)]), 0.9, "white")
+    # the sphere breathes faster as it condenses (a low pulsing whump)
+    br = 3.0 + 9.0 * np.clip(t / tf, 0, 1) ** 1.3
+    breath = eq(noise(n, rng, "brown"), ("lp", 260.0), ("hp", 45.0))
+    breath = norm_peak(norm_rms(breath) * (0.35 + 0.65 * (0.5 + 0.5 * np.sin(TAU * np.cumsum(br) / SR)) ** 2) * e_main)
+    y = mix(rr, sw * G(-4), norm_peak(suck) * G(-7), norm_peak(crk) * G(-11), jet * G(-3), breath * G(-11))
+    # compressing into a small, hot sphere: the low roar thins out while the top end grows
+    y = sweep(y, "hp", fpath([(0.0, 60.0), (0.5, 110.0), (tf, 420.0)]), 0.7)
+    return early_reflections(y, rng, level_db=-12)
+
+
+@sound("Fire", 1.4, target=L, use="Fire_FlameWave travelling wall (FlameWave.Segment; pairs with flamewave_cast): a wide rolling wall of fire sweeps forward 150-1300 cm in 0.9 s")
+def flamewave_roar(rng, n):
+    T = n / SR
+    t = tvec(n)
+    t0 = 0.004
+    whomp = burst(rng, n, t0, 8.0, 130.0, "brown", (("lp", 260.0), ("hp", 35.0)), amp=1.0)
+    th = thump(n, t0, 95, 40, 45, 150, amp=1.0, drive_db=5, attack_ms=6.0)
+    # the wall tumbles forward in irregular rolls (~2.5 Hz) as it sweeps away
+    roll = np.maximum(1.0 + 0.35 * np.sin(TAU * np.cumsum(2.3 + 0.8 * t) / SR + 0.5) + 0.2 * smooth_random(n, rng, 3.0), 0.2)
+    e_w = env([(0.0, 0.0), (0.07, 1.0), (0.5, 0.85), (0.95, 0.6), (T - 0.03, 0.0)], n, [-2.0, 0.0, -0.5, -2.0]) * roll
+    # a wall, not a jet: three roar voices with their own turbulence and brightness, stacked
+    walls = mix(*[roar(rng, n, e_w, lp=fpath([(0.0, 1800.0 * k), (0.25, 3600.0 * k), (0.9, 1500.0 * k), (T, 700.0 * k)]),
+                       turb=((2.0 * k, 0.3), (7.0 * k, 0.35), (19.0 * k, 0.25)), drive_db=9, mid_db=-2, air_db=-20, amp=1.0)
+                  for k in (0.85, 1.0, 1.2)])
+    # sweeping away: a broad whoosh whose band falls as the front recedes
+    front = whoosh(rng, n, 0.01, 1.2, [(0.0, 2800.0), (0.3, 1800.0), (1.1, 420.0)], q=0.8, peak_at=0.18, rise_curve=-1.0,
+                   flutter=0.35, flutter_rate=12.0)
+    lick = moving_noise(rng, n, e_w * turbulence(rng, n, ((9.0, 0.6), (21.0, 0.4))), "bp", fpath([(0.0, 900.0), (T, 600.0)]), 0.9, "pink")
+    crk = crackle(rng, n, lambda x: 160.0 * np.exp(-x / 0.7) + 25.0, 0.01, T - 0.05, amp_fn=lambda x: np.interp(x, t, e_w),
+                  band=(1200.0, 8000.0), pop_prob=0.3)
+    rum = rumble(rng, n, e_w, lp=110, amp=1.0)
+    y = mix(whomp * G(-5), th * G(-11), walls, front * G(-5), lick * G(-7), norm_peak(crk) * G(-13), rum * G(-10))
+    y = early_reflections(y, rng, level_db=-10)
+    y = slap_echoes(y, (0.14, 0.29), (-16.0, -21.0), lp=1600.0)
+    return space(y, rng, rt60=1.2, wet_db=-18, hf_ratio=0.4)
+
+
+@sound("Fire", 1.2, target=MP, use="Fire_Inferno formation (Inferno.Zone / Inferno.Vortex): magic circles ignite around the target area, fire answering a rising ominous hum")
+def inferno_circle(rng, n):
+    T = n / SR
+    t = tvec(n)
+    # three circles ignite in turn: burner puffs chase round each ring, accelerating
+    ring = np.zeros(n)
+    for ts_, dur, f in ((0.02, 0.36, 1.0), (0.24, 0.34, 0.8), (0.46, 0.32, 0.64)):
+        k = 9
+        for j, tp in enumerate(ts_ + dur * (np.arange(k) / k) ** 0.7):
+            ph = j / k
+            ring += burst(rng, n, float(tp), 2.0, 18.0, "pink", (("bp", 900.0 * f * 2.0 ** (0.8 * ph), 1.6),),
+                          amp=float(0.55 + 0.45 * ph), drive_db=6)
+            ring += thump(n, float(tp), 150.0 * f, 70.0 * f, 8.0, 25.0, amp=0.35 * float(0.55 + 0.45 * ph), drive_db=2)
+    # the flames run round the circles: a whirling band whose orbit speeds up
+    whirl = moving_noise(rng, n, env([(0.0, 0.0), (0.1, 1.0), (0.95, 0.8), (1.08, 0.0)], n, [-1.0, 0.0, -2.0]), "bp",
+                         _swirl_fc(n, T, 700, 1600, 0.9, 4, 11, 0.35), 1.8, "pink")
+    # each circle's sigil answers with a dark struck tone (a muted low FM bell)
+    sig = bell_hits(rng, n, [(0.02, 146.83, 1.0), (0.2, 155.56, 0.85), (0.4, 207.65, 0.8)], ratio=1.41, index=2.2,
+                    amp_tau=0.4, index_tau=0.1, octave_mix=0.2)
+    sig = eq(sig, ("lp", 2200.0))
+    # rising ominous hum: a low D / G# tritone drone and a formant 'oom', swelling up a minor third, slowly beating
+    gl = 2.0 ** ((3.0 / 12.0) * np.clip(t / 1.05, 0, 1) ** 1.3)
+    e_h = env([(0.0, 0.0), (0.92, 1.0), (0.98, 0.9), (1.07, 0.0)], n, [1.5, 0.0, -2.0])
+    beat = 1.0 + 0.25 * np.sin(TAU * 2.2 * t)
+    hum = drone(rng, n, [36.71 * gl, 51.91 * gl, 73.42 * gl], e_h * beat, detune_cents=10, lp=fpath([(0.0, 220.0), (1.0, 1300.0)]))
+    oom = formant_filter(saw(73.42 * gl, n, 0.3) + 0.3 * noise(n, rng, "pink"), [(300.0, 5.0, 0.0), (870.0, 6.0, -6.0)], floor=0.02)
+    oom = norm_peak(oom * e_h)
+    # the fire itself rising with the hum
+    rr = roar(rng, n, env([(0.0, 0.0), (0.1, 0.25), (0.95, 1.0), (1.07, 0.0)], n, [-1.0, 1.5, -2.5]),
+              lp=fpath([(0.0, 900.0), (1.0, 2600.0)]), drive_db=7, amp=1.0)
+    crk = crackle(rng, n, lambda x: 15.0 + 120.0 * np.clip(x / 1.0, 0, 1), 0.0, 1.1, band=(1500.0, 8000.0), pop_prob=0.25)
+    y = mix(norm_peak(ring) * G(-2), whirl * G(-10), sig * G(-7), hum * G(-4), oom * G(-8), rr * G(-8), norm_peak(crk) * G(-15))
+    return space(y, rng, rt60=1.0, wet_db=-16, hf_ratio=0.4)
+
+
+@sound("Fire", 1.1, target=XS, use="Inferno.Eruption (30 per cast, 3 every 0.35 s): one fire pillar erupts - a short soft-edged whoomp and roar that stays easy on the ear when repeated. Tier XS per pillar so the whole overlapping sequence lands at XL (randomise pitch +-2 semitones)")
+def inferno_pillar(rng, n):
+    t0 = 0.012
+    whomp = burst(rng, n, t0, 6.0, 110.0, "brown", (("lp", 240.0), ("hp", 35.0)), amp=1.0)
+    th = thump(n, t0, 105, 44, 40, 120, amp=1.0, drive_db=4, attack_ms=4.0)
+    e_p = env([(t0, 0.0), (t0 + 0.035, 1.0), (0.3, 0.7), (0.95, 0.0)], n, [-2.0, -0.5, -2.2])
+    pillar = roar(rng, n, e_p, lp=fpath([(0.0, 2300.0), (0.4, 1500.0), (1.0, 700.0)]), turb=((3.0, 0.3), (9.0, 0.3), (18.0, 0.2)),
+                  drive_db=7, mid_band=(220.0, 2200.0), mid_db=-1, air_db=-28)
+    up = whoosh(rng, n, t0, 0.5, [(0.0, 260.0), (0.35, 1400.0)], q=1.1, peak_at=0.3, rise_curve=0.5)
+    crk = crackle(rng, n, lambda x: 70.0 * np.exp(-(x - 0.05) / 0.35) + 4.0, 0.03, 0.95, band=(900.0, 4500.0), pop_prob=0.35,
+                  pop_band=(250.0, 900.0))
+    y = mix(whomp * G(-4), th * G(-12), pillar, up * G(-9), norm_peak(crk) * G(-17))
+    y = eq(y, ("hs", 4000.0, 0.7, -4.0))  # no hiss or click: it repeats thirty times per cast
+    return early_reflections(y, rng, level_db=-12)

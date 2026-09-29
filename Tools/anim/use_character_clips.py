@@ -1,14 +1,16 @@
 """Point a lineage's data at its own exported clips (run after its <C>_Animated.glb is built).
 
-    python3 Tools/anim/use_character_clips.py Orsted [--dry-run]
+    python3 Tools/anim/use_character_clips.py Orsted [--dry-run] [--write-abilities]
 
 Reads SourceArt/Characters/<C>/<C>_Animated.anim.json (written by build_rudeus_anims.py) and updates:
   * Content/Data/AnimSets.json, the <C> row: every key the character has authored points at
-    /Game/Characters/<C>/Animations/A_<C>_<Key>; reference speeds come from the authored gaits.
-    Keys it has not authored keep their current value (and are reported).
-  * Content/Data/Abilities.json: the lineage's signature abilities use their dedicated clips (ABILITY_CLIPS).
-    Every other ability keeps its canonical A_Rudeus_<Key> path; AMTCharacterBase::ResolveLineageAnim plays
-    the caster's own A_<C>_<Key> at runtime.
+    /Game/Characters/<C>/Animations/A_<C>_<Key> (keys the row does not list yet are added, so a new clip such as
+    Cast_Fireball reaches both rows); reference speeds come from the authored gaits. Keys it has not authored keep
+    their current value (and are reported): that is how a lineage without a clip falls back to another of its own.
+  * Content/Data/Abilities.json, only with --write-abilities: the lineage's signature abilities use their dedicated
+    clips (ABILITY_CLIPS). Without the flag the remaps are only printed (the ability rows belong to gameplay data).
+    Every other ability keeps its canonical A_Rudeus_<Key> path; AMTCharacterBase::ResolveLineageAnim plays the
+    caster's own A_<C>_<Key> at runtime whenever the caster's AnimSet row has that key.
 The files keep their formatting (2-space JSON). Run Tools/validate_data.py afterwards.
 """
 import argparse
@@ -31,6 +33,7 @@ ABILITY_CLIPS = {
         "Orsted_DisturbMagic": "DisturbMagic",
         "Orsted_DragonStep": "DragonStep",
         "Orsted_DragonStep_Awakened": "DragonStep",
+        "Orsted_DragonCrush": "DragonCrush",
         "Orsted_SaintDragonAura": "Aura",
         "Orsted_Awakening_DragonGod": "Awakening",
     },
@@ -61,6 +64,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("character")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--write-abilities", action="store_true", help="also write the signature remaps into Abilities.json")
     a = ap.parse_args()
     c = a.character
     sidecar_path = os.path.join(ROOT, "SourceArt", "Characters", c, c + "_Animated.anim.json")
@@ -74,7 +78,7 @@ def main():
         row = {"CharacterID": c, "Anims": {}}
         anim_sets.append(row)
     anims = row.setdefault("Anims", {})
-    changed, kept = [], []
+    changed, kept, added = [], [], []
     for key in list(anims.keys()):
         if key in clips:
             if anims[key] != clip_path(c, key):
@@ -82,11 +86,28 @@ def main():
                 changed.append(key)
         else:
             kept.append(key)
-    signature = set(ABILITY_CLIPS.get(c, {}).values())
-    for key in sorted(signature):  # lineage-only keys (DisturbMagic, DragonStep, Aura ...)
-        if key in clips and anims.get(key) != clip_path(c, key):
+    for key in clips:  # authored clips the row does not list yet (new casts, lineage-only keys)
+        if key not in anims:
             anims[key] = clip_path(c, key)
-            changed.append(key)
+            added.append(key)
+    if added:  # keep a charge set together: <Key>, <Key>_Hold, <Key>_Release (and after an existing <Key>)
+        def base(k):
+            for suffix, rank in (("_Hold", 1), ("_Release", 2)):
+                if k.endswith(suffix):
+                    return k[:-len(suffix)], rank
+            return k, 0
+        order = [k for k in anims if k not in added] + sorted(added, key=lambda k: (base(k)[0] not in anims, list(clips).index(k)))
+        placed, result = set(), {}
+        for k in order:
+            if k in placed:
+                continue
+            result[k] = anims[k]
+            placed.add(k)
+            for extra in sorted((a for a in added if base(a)[0] == k and a not in placed), key=lambda a: base(a)[1]):
+                result[extra] = anims[extra]
+                placed.add(extra)
+        anims.clear()
+        anims.update(result)
     for field, gait in SPEED_FIELDS.items():
         speed = clips.get(gait, {}).get("ref_speed_cm_s")
         if speed is not None:
@@ -100,7 +121,9 @@ def main():
             ab["Montage"] = clip_path(c, key)
             remapped.append("%s -> A_%s_%s" % (ab["AbilityID"], c, key))
 
-    print("%s: %d AnimSet keys now use A_%s_* clips" % (c, len(changed), c))
+    print("%s: %d AnimSet keys now use A_%s_* clips, %d added" % (c, len(changed), c, len(added)))
+    if added:
+        print("  added: " + ", ".join(added))
     if kept:
         print("  kept (not authored for %s): %s" % (c, ", ".join(kept)))
     print("  reference speeds: " + ", ".join("%s=%s" % (f, row.get(f)) for f in SPEED_FIELDS))
@@ -110,8 +133,13 @@ def main():
         print("dry run: nothing written")
         return
     save("AnimSets.json", anim_sets)
-    save("Abilities.json", abilities)
-    print("wrote Content/Data/AnimSets.json and Content/Data/Abilities.json; now run python3 Tools/validate_data.py")
+    written = ["Content/Data/AnimSets.json"]
+    if remapped and a.write_abilities:
+        save("Abilities.json", abilities)
+        written.append("Content/Data/Abilities.json")
+    elif remapped:
+        print("  (Abilities.json not written: pass --write-abilities to apply the remaps above)")
+    print("wrote %s; now run python3 Tools/validate_data.py" % " and ".join(written))
 
 
 if __name__ == "__main__":

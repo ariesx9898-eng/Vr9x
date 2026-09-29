@@ -61,4 +61,19 @@ namespace MTCombat
 
 	MUSHOKURPG_API UMaterialInterface* LoadMaterial(const TCHAR* Path);
 	MUSHOKURPG_API UStaticMesh* LoadEngineShape(const TCHAR* ShapeName);
+
+	/**
+	 * Hit-stop: freezes these actors (their animation, movement and abilities) for Seconds of game time, then restores
+	 * them. Reserved for the heaviest close-range impacts (Dragon Crush).
+	 */
+	MUSHOKURPG_API void HitStop(const TArray<AActor*>& Actors, float Seconds);
+	/** Static ground under Point (landscape, floors), or Point itself when there is none within 30 m. */
+	MUSHOKURPG_API FVector GroundBelow(const UObject* WorldContext, const FVector& Point);
+	/** A hit from an ability row: damage x DamageScale, the row's stagger, knockback, launch and element. */
+	MUSHOKURPG_API FMTDamageSpec MakeAbilityHit(const FMTAbilityData& Row, AActor* Instigator, const FVector& HitLocation, const FVector& Direction, float DamageScale = 1.f);
+	/**
+	 * Burning from a fire row: the row's BurnSeconds / BurnDamagePerSecond, else (when bDefaultBurn) the older zone
+	 * default of 3 s at 8% of the row's damage per second. Non-fire rows do nothing.
+	 */
+	MUSHOKURPG_API void ApplyBurn(const FMTAbilityData& Row, AMTCharacterBase* Target, AActor* Instigator, bool bDefaultBurn);
 }

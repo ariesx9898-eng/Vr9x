@@ -11,8 +11,12 @@ Steps (each logs PASS / FAIL, so problems are greppable in the log)
   2. Move/rename every imported AnimSequence to /Game/Characters/Rudeus/Animations/A_Rudeus_<Key> (matched on the
      "A_Rudeus_<Key>" part of its name) and PASS/FAIL every key Content/Data/AnimSets.json expects. Loop clips get
      their Loop flag; lengths are checked against the exporter sidecar Rudeus_Animated.anim.json when present.
-  3. Toon material instance and gameplay sockets (hand_r / hand_l / foot_l / foot_r).
-  4. Optional: IK Rig + Retargeter + batch retarget of Mixamo clips. Not needed any more (the clips are authored on
+  3. Gameplay events: the sidecar's "events" ({"<Key>": {"Release": s, "Finale": s}}) are added to each A_<C>_<Key>
+     as UMTAnimNotify_Event notifies (EventName = the event) on a notify track named MT, replacing what that track
+     held (idempotent). The ability fires on the clip's Release notify, frame-accurately per character. Skipped with a
+     warning when the C++ class is not compiled into the editor yet.
+  4. Toon material instance and gameplay sockets (hand_r / hand_l / foot_l / foot_r).
+  5. Optional: IK Rig + Retargeter + batch retarget of Mixamo clips. Not needed any more (the clips are authored on
      Rudeus's own skeleton); only runs when a Mixamo Y Bot has been imported, and every call is guarded because the
      IK Rig / Retargeter Python API changed in UE 5.6+.
 """
@@ -49,7 +53,12 @@ REQUIRED_KEYS = ["Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "Strafe
                  "Awakening", "CastTwoHand", "CastGround"]
 OPTIONAL_KEYS = ["TurnLeft90", "TurnRight90"]
 LOOP_KEYS = {"Idle", "CombatIdle", "Walk", "WalkBack", "StrafeLeft", "StrafeRight", "Run", "Sprint", "RunStrafeLeft",
-             "RunStrafeRight", "RunBack", "Rise", "Fall", "StoneCannon_Hold"}
+             "RunStrafeRight", "RunBack", "Rise", "Fall", "StoneCannon_Hold", "Quagmire_Hold", "Cast_Fireball_Hold",
+             "Cast_StoneCannon_Hold"}
+# Gameplay events on the clips (sidecar "events": {"<Key>": {"Release": s, "Finale": s}}) become UMTAnimNotify_Event
+# notifies on this notify track; re-runs replace whatever the track held.
+NOTIFY_TRACK = "MT"
+NOTIFY_CLASS = "MTAnimNotify_Event"
 
 asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
 eal = unreal.EditorAssetLibrary
@@ -383,6 +392,99 @@ def organize_animations(imported, mesh):
                                                 ": " + "; ".join(problems) if problems else ""))
 
 
+# ------------------------------------------------------------------------------------------------- gameplay events
+def load_events():
+    """{"<Key>": {"<Event>": seconds}} from the exporter sidecar (written by Tools/anim/build_rudeus_anims.py)."""
+    if not os.path.exists(SIDECAR):
+        return {}
+    try:
+        events = json.load(open(SIDECAR, encoding="utf-8")).get("events", {}) or {}
+    except Exception as exc:
+        unreal.log_warning(TAG + " %s unreadable (%s): no clip events" % (SIDECAR, exc))
+        return {}
+    return {key: {str(name): float(t) for name, t in (ev or {}).items()} for key, ev in events.items()}
+
+
+def notify_track_names(anim):
+    try:
+        return [str(n) for n in unreal.AnimationLibrary.get_animation_notify_track_names(anim)]
+    except Exception:
+        return []
+
+
+def notifies_on_track(anim, track):
+    """(event name, trigger time) of every UMTAnimNotify_Event on one notify track, read back from the asset; None when
+    this engine's Python cannot read notifies back (the check is then skipped)."""
+    lib = unreal.AnimationLibrary
+    try:
+        events = lib.get_animation_notify_events_for_track(anim, track)
+    except Exception:
+        return None
+    out = []
+    for ev in events or []:
+        try:
+            notify = ev.get_editor_property("notify")
+            if notify is None or notify.get_class().get_name() != NOTIFY_CLASS:
+                continue
+            out.append((str(notify.get_editor_property("event_name")), float(lib.get_anim_notify_event_trigger_time(ev))))
+        except Exception:
+            return None
+    return out
+
+
+def add_clip_events():
+    """Sidecar events -> UMTAnimNotify_Event notifies on the MT track of each imported clip (replacing earlier ones)."""
+    events = load_events()
+    if not events:
+        note("no clip events in %s (nothing to add)" % SIDECAR)
+        return
+    notify_class = getattr(unreal, NOTIFY_CLASS, None)
+    if notify_class is None:
+        unreal.log_warning("MANUAL %s unreal.%s does not exist yet (the C++ module with UMTAnimNotify_Event is not "
+                           "compiled into this editor): skipped the gameplay events of %d clips. Build the module "
+                           "(Tools/mac/build_and_setup.sh) and re-run this script." % (TAG, NOTIFY_CLASS, len(events)))
+        return
+    lib = unreal.AnimationLibrary
+    for key in sorted(events):
+        path = ANIM_DEST + "/" + CLIP_PREFIX + key
+        wanted = events[key]
+        if not wanted:
+            continue
+        if not eal.does_asset_exist(path):
+            log(False, "events for %s%s: clip missing (expected at %s)" % (CLIP_PREFIX, key, path))
+            continue
+        anim = eal.load_asset(path)
+        length = play_length(anim)
+        try:
+            if NOTIFY_TRACK in notify_track_names(anim):
+                lib.remove_animation_notify_events_by_track(anim, NOTIFY_TRACK)  # re-runs replace, never duplicate
+            else:
+                lib.add_animation_notify_track(anim, NOTIFY_TRACK)
+            placed = []
+            for name, t in sorted(wanted.items(), key=lambda kv: kv[1]):
+                if length is not None and t > length:
+                    t = length  # the exporter checks events against whole frames; guard float rounding only
+                notify = lib.add_animation_notify_event(anim, NOTIFY_TRACK, t, notify_class)
+                if notify is None:
+                    raise RuntimeError("add_animation_notify_event returned nothing at %.3f s" % t)
+                notify.set_editor_property("event_name", name)
+                placed.append("%s@%.3f" % (name, t))
+            eal.save_loaded_asset(anim)
+        except Exception as exc:
+            log(False, "events for %s%s: %s" % (CLIP_PREFIX, key, exc))
+            continue
+        # read back: exactly the wanted events, on the MT track, as UMTAnimNotify_Event, within one 30 fps frame
+        found = notifies_on_track(anim, NOTIFY_TRACK)
+        ok = True
+        if found is not None:
+            got = sorted(found)
+            ok = [n for n, _ in got] == sorted(wanted) and all(
+                t is not None and abs(t - wanted[n]) <= 0.034 for n, t in got)
+        log(ok, "events %s%s: %s on track %s%s" % (
+            CLIP_PREFIX, key, ", ".join(placed), NOTIFY_TRACK,
+            "" if ok else " (read back %s)" % ", ".join("%s@%.3f" % (n, t) for n, t in sorted(found))))
+
+
 # ----------------------------------------------------------------------------------------------- material / sockets
 def make_materials(mesh):
     tex_paths = assets_of_class(DEST, "Texture2D")
@@ -550,6 +652,7 @@ def main():
     if not mesh:
         return
     organize_animations(imported, mesh)
+    add_clip_events()
     make_materials(mesh)
     add_sockets(mesh)
     optional_retargeting(mesh)

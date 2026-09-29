@@ -546,3 +546,326 @@ def vfx_crystal(g, rng):
                 j = (i + 1) % sides
                 g.face([A[i], A[j], Bn[j], Bn[i]], "MT_Rock", "box", False)
         g.face(list(reversed(rings[0])), "MT_Rock", "box", False)
+
+
+# ============================================================================ ability overhaul (Docs/Ability_Overhaul.md 6)
+
+def _flat_ribbon(g, pts, hw, ht, mat, closed=False):
+    """A thin closed ribbon along a 2D polyline in the XY plane: half-width hw (mitred at corners), half-thickness ht.
+    UV: u = distance along the line (m), v = 0..1 across it."""
+    P = [Vector((p[0], p[1], 0.0)) for p in pts]
+    n = len(P)
+    seg = n if closed else n - 1
+
+    def seg_normal(k):
+        d = P[(k + 1) % n] - P[k]
+        d.z = 0.0
+        d.normalize()
+        return Vector((-d.y, d.x, 0.0))
+
+    left, right = [], []
+    for k in range(n):
+        if closed:
+            n_in, n_out = seg_normal((k - 1) % n), seg_normal(k)
+        else:
+            n_in = seg_normal(max(k - 1, 0)) if k > 0 else seg_normal(0)
+            n_out = seg_normal(min(k, n - 2))
+        m = n_in + n_out
+        m = m.normalized() if m.length > 1e-9 else n_in
+        s = hw / max(0.35, m.dot(n_in))
+        left.append(P[k] + m * s)
+        right.append(P[k] - m * s)
+    us = [0.0]
+    for k in range(1, n + (1 if closed else 0)):
+        us.append(us[-1] + (P[k % n] - P[k - 1]).length)
+    top = Vector((0.0, 0.0, ht))
+    with g.part():
+        for k in range(seg):
+            k1 = (k + 1) % n
+            u0, u1 = us[k], us[k + 1]
+            g.face([right[k] + top, right[k1] + top, left[k1] + top, left[k] + top], mat,
+                   uv=("uv", [(u0, 0.0), (u1, 0.0), (u1, 1.0), (u0, 1.0)]), smooth=False)
+            g.face([left[k] - top, left[k1] - top, right[k1] - top, right[k] - top], mat,
+                   uv=("uv", [(u0, 1.0), (u1, 1.0), (u1, 0.0), (u0, 0.0)]), smooth=False)
+            g.face([right[k] - top, right[k1] - top, right[k1] + top, right[k] + top], mat,
+                   uv=("uv", [(u0, 0.0), (u1, 0.0), (u1, 0.02), (u0, 0.02)]), smooth=False)
+            g.face([left[k1] - top, left[k] - top, left[k] + top, left[k1] + top], mat,
+                   uv=("uv", [(u1, 1.0), (u0, 1.0), (u0, 0.98), (u1, 0.98)]), smooth=False)
+        if not closed:
+            g.face([left[0] - top, right[0] - top, right[0] + top, left[0] + top], mat,
+                   uv=("uv", [(0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 1.0)]), smooth=False)
+            e = n - 1
+            g.face([right[e] - top, left[e] - top, left[e] + top, right[e] + top], mat,
+                   uv=("uv", [(us[-1], 0.0), (us[-1], 1.0), (us[-1], 1.0), (us[-1], 0.0)]), smooth=False)
+
+
+@asset("SM_VFX_Slug", "VFX", "VFX", kind="vfx", pivot="center", foundation=0.0, ground=False, view=(-35, 20),
+       notes="Stone Cannon drill slug: 0.6 m long along +X (pointed ogive nose at +X), radius 0.15 m, five narrow "
+             "rifling grooves twisting about a third of a turn from tail to nose, a bevelled flat tail; bounding-box "
+             "centre on the origin; slot MT_Rock. UV: u = 0..2 around, v = 0..3 from tail to nose.")
+def vfx_slug(g, rng):
+    L, R = 0.6, 0.15
+    segs, nl = 40, 26
+    grooves, depth, turns = 5, 0.2, 1.5
+
+    def radius(t):
+        if t < 0.06:  # bevelled tail
+            return R * (0.72 + 0.28 * math.sin(0.5 * math.pi * t / 0.06))
+        if t < 0.55:  # body, very slightly tapering
+            return R * (1.0 - 0.04 * (t - 0.06) / 0.49)
+        s = (t - 0.55) / 0.45  # ogive nose
+        return R * 0.96 * math.sqrt(max(0.0, 1.0 - s * s))
+
+    ts = [1.0 - (1.0 - k / nl) ** 1.25 for k in range(nl)]  # denser toward the nose; the tip closes the last ring
+    rings = []
+    for t in ts:
+        x = -L / 2 + L * t
+        r0 = radius(t)
+        fade = min(1.0, t / 0.08) * (1.0 if t < 0.85 else max(0.0, (0.99 - t) / 0.14))
+        ring = []
+        for i in range(segs):
+            a = TAU * i / segs - TAU * turns * t / grooves  # vertex columns follow the grooves (no staircase)
+            flute = (0.5 + 0.5 * math.cos(grooves * a + TAU * turns * t)) ** 3  # narrow, cut-looking grooves
+            r = r0 * (1.0 - depth * flute * fade)
+            ring.append((x, r * math.cos(a), r * math.sin(a)))
+        rings.append(ring)
+    P = [[rings[k][i] for k in range(nl)] for i in range(segs)]
+    UV = [[(2.0 * i / segs, 3.0 * ts[k]) for k in range(nl)] for i in range(segs + 1)]
+    uvr = [(0.5 + 0.5 * math.cos(TAU * i / segs), 0.5 + 0.5 * math.sin(TAU * i / segs)) for i in range(segs + 1)]
+    with g.part():
+        surf(g, P, UV, segs, nl - 1, "MT_Rock", wrap=True, smooth=True)
+        fan(g, (-L / 2, 0.0, 0.0), rings[0], (0.5, 0.5), uvr, "MT_Rock", flip=True)
+        fan(g, (L / 2, 0.0, 0.0), rings[-1], (1.0, 3.0), [(2.0 * i / segs, 3.0 * ts[-1]) for i in range(segs + 1)],
+            "MT_Rock", flip=False, smooth=True)
+
+
+@asset("SM_VFX_Spiral", "VFX", "VFX", kind="vfx", pivot="center", foundation=0.0, ground=False, view=(-20, 25),
+       notes="Helix ribbon along +X: 3 turns over 1.0 m at a radius of 0.3 m, the ribbon 0.12 m wide (tapering at "
+             "both ends) and 1.2 cm thick, lying on the cylinder like a spring band; bounding-box centre on the origin. "
+             "UV: u = 0..1 across the ribbon, v = 0..3 along it (one unit per turn).")
+def vfx_spiral(g, rng):
+    turns, L, R = 3, 1.0, 0.3
+    n = 144
+    hw0, ht = 0.06, 0.006
+    rails = [[], [], [], []]
+    vs = []
+    for k in range(n + 1):
+        t = k / n
+        phi = TAU * turns * t
+        c = Vector((-L / 2 + L * t, R * math.cos(phi), R * math.sin(phi)))
+        T = Vector((L, -R * TAU * turns * math.sin(phi), R * TAU * turns * math.cos(phi))).normalized()
+        nrm = Vector((0.0, math.cos(phi), math.sin(phi)))
+        w = nrm.cross(T).normalized()
+        taper = max(0.0, min(1.0, t / 0.12, (1.0 - t) / 0.12))
+        hw = hw0 * (0.25 + 0.75 * math.sin(0.5 * math.pi * taper))
+        rails[0].append(c + w * hw + nrm * ht)
+        rails[1].append(c - w * hw + nrm * ht)
+        rails[2].append(c - w * hw - nrm * ht)
+        rails[3].append(c + w * hw - nrm * ht)
+        vs.append(turns * t)
+    P = [rails[i] for i in range(4)]
+    us = [0.0, 1.0, 1.0, 0.0, 0.0]
+    UV = [[(us[i], vs[k]) for k in range(n + 1)] for i in range(5)]
+    with g.part():
+        surf(g, P, UV, 4, n, "VFX", wrap=True, smooth=True)
+        g.face([rails[3][0], rails[2][0], rails[1][0], rails[0][0]], "VFX",
+               uv=("uv", [(0.0, 0.0), (1.0, 0.0), (1.0, 0.0), (0.0, 0.0)]), smooth=False)
+        g.face([rails[0][n], rails[1][n], rails[2][n], rails[3][n]], "VFX",
+               uv=("uv", [(0.0, 3.0), (1.0, 3.0), (1.0, 3.0), (0.0, 3.0)]), smooth=False)
+
+
+@asset("SM_VFX_WaveSheet", "VFX", "VFX", kind="vfx", pivot="base", foundation=0.0, ground=False, view=(150, 16),
+       notes="Wave face: a breaking wall of water 2.0 m wide (Y) and 1.0 m tall whose lip curls forward (+X) over a "
+             "concave front, a closed body about 0.9 m deep with a sloping back, the crest rolling gently along its "
+             "width; base at z = 0. UV: u = 0..1 across (Y); v = 0 at the back foot, over the crest and the lip, to 1 at "
+             "the front foot (the underside continues past 1).")
+def vfx_wave_sheet(g, rng):
+    prof = [(-0.45, 0.0), (-0.34, 0.2), (-0.2, 0.45), (-0.06, 0.7), (0.06, 0.88), (0.18, 0.98), (0.32, 0.99),
+            (0.43, 0.93), (0.47, 0.84), (0.4, 0.8), (0.28, 0.8), (0.18, 0.7), (0.12, 0.52), (0.13, 0.32),
+            (0.2, 0.14), (0.3, 0.0)]
+    m = len(prof)
+    lengths = [0.0]
+    for i in range(1, m):
+        lengths.append(lengths[-1] + math.hypot(prof[i][0] - prof[i - 1][0], prof[i][1] - prof[i - 1][1]))
+    top_len = lengths[-1]
+    bottom_len = math.hypot(prof[0][0] - prof[-1][0], prof[0][1] - prof[-1][1])
+    vcol = [lv / top_len for lv in lengths] + [1.0 + bottom_len / top_len]
+    ny = 32
+    secs = []
+    for k in range(ny + 1):
+        y = -1.0 + 2.0 * k / ny
+        roll = math.sin(TAU * 0.75 * y + 0.7)
+        lean = math.sin(TAU * 0.5 * y + 1.3)
+        sec = []
+        for (x, z) in prof:
+            zz = z * (1.0 + 0.035 * roll) if z > 0 else 0.0
+            xx = x + 0.03 * lean * z
+            sec.append((xx, y, min(zz, 1.0)))
+        secs.append(sec)  # back foot, over the crest, down the front: clockwise in (x, z) seen from -Y
+    with g.part():
+        for k in range(ny):
+            A, B = secs[k], secs[k + 1]
+            u0, u1 = k / ny, (k + 1) / ny
+            for i in range(m):
+                i1 = (i + 1) % m
+                v0, v1 = vcol[i], vcol[i + 1]  # vcol has m + 1 entries: the last one closes along the bottom
+                g.face([A[i], A[i1], B[i1], B[i]], "VFX", uv=("uv", [(u0, v0), (u0, v1), (u1, v1), (u1, v0)]),
+                       smooth=True)
+        g.face(list(reversed(secs[0])), "VFX", uv=("planar", (0.0, -1.0, 0.0), (1, 0, 0), (0, 0, 1)), smooth=False)
+        g.face(list(secs[-1]), "VFX", uv=("planar", (0.0, 1.0, 0.0), (1, 0, 0), (0, 0, 1)), smooth=False)
+
+
+def _column(g, rng, x0, x1, T, h, lean):
+    """One broken stone column (closed): an irregular hexagonal prism from z = 0 to about h, leaning, with a faceted
+    broken top."""
+    def ring(z, shrink, dx, dy, jit):
+        xm = 0.5 * (x0 + x1) + rng.uniform(-0.08, 0.08) * (x1 - x0)
+        pts = [(x0 + shrink, -T / 2 + shrink), (xm, -T / 2 + shrink * 0.4), (x1 - shrink, -T / 2 + shrink),
+               (x1 - shrink, T / 2 - shrink), (xm, T / 2 - shrink * 0.4), (x0 + shrink, T / 2 - shrink)]
+        return [(px + dx + rng.uniform(-jit, jit), py + dy + rng.uniform(-jit, jit), z) for (px, py) in pts]
+
+    base = ring(0.0, 0.0, 0.0, 0.0, 0.0)
+    mid = ring(0.5 * h, 0.05, lean[0] * 0.5, lean[1] * 0.5, 0.03)
+    top = ring(h * rng.uniform(0.9, 0.96), 0.1, lean[0], lean[1], 0.04)
+    slope = rng.uniform(-0.25, 0.25)
+    top = [(x, y, z + slope * (x - 0.5 * (x0 + x1)) + rng.uniform(-0.06, 0.06)) for (x, y, z) in top]
+    top = [(x, y, min(z, h)) for (x, y, z) in top]
+    cx = sum(p[0] for p in top) / 6 + rng.uniform(-0.05, 0.05)
+    cy = sum(p[1] for p in top) / 6 + rng.uniform(-0.05, 0.05)
+    peak = (cx, cy, h)
+    with g.part():
+        g.loft([base, mid, top], "MT_Rock", closed=True, cap0=True, cap1=False, uv="box", smooth=False)
+        for i in range(6):
+            g.face([peak, top[i], top[(i + 1) % 6]], "MT_Rock", "box", False)
+
+
+@asset("SM_VFX_EarthWall_B", "VFX", "VFX", kind="vfx", pivot="base", foundation=0.0, ground=False, view=(-30, 18),
+       notes="Earth wall variant B on the SM_VFX_EarthWall footprint (6.0 m x 1.5 m x 4.0 m, base at z = 0, faces -Y): "
+             "four leaning stone columns with broken, faceted tops and narrow cracks between them; slot MT_Rock, "
+             "faceted, box-projected UVs.")
+def vfx_earth_wall_b(g, rng):
+    W, T, H = 6.0, 1.5, 4.0
+    cols = 4
+    gap = 0.035
+    heights = [3.55, 4.0, 3.3, 3.8]
+    leans = [(-0.06, 0.03), (0.02, -0.04), (0.05, 0.02), (0.08, -0.02)]
+    for c in range(cols):
+        x0 = -W / 2 + W * c / cols + (gap / 2 if c > 0 else 0.0)
+        x1 = -W / 2 + W * (c + 1) / cols - (gap / 2 if c < cols - 1 else 0.0)
+        _column(g, rng, x0, x1, T, heights[c], leans[c])
+
+
+def _slab_section(profile, y, jit, rng):
+    return [(x + rng.uniform(-jit, jit), y, z + (rng.uniform(-jit, jit) if 0.0 < z < 3.99 else 0.0)) for (x, z) in profile]
+
+
+@asset("SM_VFX_EarthWall_C", "VFX", "VFX", kind="vfx", pivot="base", foundation=0.0, ground=False, view=(-30, 18),
+       notes="Earth wall variant C on the SM_VFX_EarthWall footprint (6.0 m x 1.5 m x 4.0 m, base at z = 0, faces -Y): "
+             "two slabs split by a jagged diagonal fracture, jagged tops, and a chunk broken off the top of the right "
+             "slab; slot MT_Rock, faceted, box-projected UVs.")
+def vfx_earth_wall_c(g, rng):
+    W, T, H = 6.0, 1.5, 4.0
+    gap = 0.04
+    crack = [(-0.35, 0.0), (-0.2, 0.7), (-0.3, 1.3), (0.0, 2.0), (-0.05, 2.6), (0.25, 3.2), (0.4, 3.75)]
+    left_top = [(0.3, 3.62), (-0.4, 3.9), (-1.0, 3.7), (-1.6, 4.0), (-2.2, 3.72), (-2.7, 3.85), (-3.0, 3.55)]
+    right_top = [(3.0, 3.4), (2.5, 3.72), (1.9, 3.55), (1.4, 3.86), (0.95, 3.6)]
+    # Profiles counter-clockwise in (x, z), then reversed (the loft runs along +Y).
+    left = [(-W / 2, 0.0)] + [(x - gap / 2, z) for (x, z) in crack] + left_top
+    right = [(x + gap / 2, z) for (x, z) in reversed(crack)] + [(W / 2, 0.0)] + right_top
+    right = right[:1] + right[1:]
+    for prof in (left, right):
+        # ensure a single start at the foot and counter-clockwise order in (x, z)
+        area = 0.0
+        for i in range(len(prof)):
+            a, b = prof[i - 1], prof[i]
+            area += a[0] * b[1] - b[0] * a[1]
+        ccw = prof if area > 0 else list(reversed(prof))
+        cw = list(reversed(ccw))
+        secs = [_slab_section(cw, -T / 2, 0.0, rng), _slab_section(cw, 0.0, 0.035, rng), _slab_section(cw, T / 2, 0.0, rng)]
+        # keep the wall inside its footprint: the middle section only bulges inward
+        secs[1] = [(max(-W / 2, min(W / 2, x)), y, max(0.0, min(H, z))) for (x, y, z) in secs[1]]
+        g.loft(secs, "MT_Rock", closed=True, cap0=True, cap1=True, uv="box", smooth=False)
+    hull_rock(g, rng, (1.55, -0.12, 3.7), (0.4, 0.46, 0.26), 18, "MT_Rock", jitter=0.2)  # top stays under 4.0 m
+
+
+@asset("SM_VFX_Slab", "VFX", "VFX", kind="vfx", pivot="base", foundation=0.0, ground=False, view=(-35, 30),
+       notes="Raised ground slab (Dragon Crush, crater rims): an irregular broken plate of earth about 1.0 m x 1.0 m x "
+             "0.25 m with a faceted, slightly domed top and sides tapering to a smaller base; base at z = 0; slot "
+             "MT_Rock, box-projected UVs.")
+def vfx_slab(g, rng):
+    bm = bmesh.new()
+    n = 9
+    for i in range(n):
+        a = TAU * i / n + rng.uniform(-0.2, 0.2)
+        r = 0.5 * rng.uniform(0.84, 1.0)
+        bm.verts.new((r * math.cos(a), r * math.sin(a), 0.22 - rng.uniform(0.0, 0.04)))
+        r2 = r * rng.uniform(0.7, 0.85)
+        bm.verts.new((r2 * math.cos(a + 0.12), r2 * math.sin(a + 0.12), 0.0))
+    for _ in range(4):
+        a = rng.uniform(0.0, TAU)
+        r = rng.uniform(0.0, 0.22)
+        bm.verts.new((r * math.cos(a), r * math.sin(a), 0.235 + rng.uniform(0.0, 0.015)))
+    bmesh.ops.convex_hull(bm, input=list(bm.verts))
+    for v in [v for v in bm.verts if not v.link_faces]:
+        bm.verts.remove(v)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    g.add_bmesh(bm, "MT_Rock", uv="box", smooth=False)
+    bm.free()
+
+
+@asset("SM_VFX_Glyph", "VFX", "VFX", kind="vfx", pivot="center", foundation=0.0, ground=False, view=(-10, 75),
+       notes="Disturb Magic glyph: a flat dragon-line sigil 1.0 m across in the XY plane, about 1.5 cm thick: a broken "
+             "outer ring of four arcs with twelve ticks inside it, a thin inner ring, and an angular serpentine dragon "
+             "line with a chevron head and two whiskers; every line is a thin closed ribbon; centred on the origin. "
+             "UV: u = distance along each line (m), v = 0..1 across it.")
+def vfx_glyph(g, rng):
+    # Outer ring: four arcs with gaps.
+    for q in range(4):
+        c = math.radians(45 + 90 * q)
+        pts = [(0.47 * math.cos(c + math.radians(a)), 0.47 * math.sin(c + math.radians(a))) for a in range(-35, 36, 5)]
+        _flat_ribbon(g, pts, 0.012, 0.005, "VFX")
+    # Ticks just inside it.
+    for k in range(12):
+        a = math.radians(15 + 30 * k)
+        _flat_ribbon(g, [(0.395 * math.cos(a), 0.395 * math.sin(a)), (0.435 * math.cos(a), 0.435 * math.sin(a))],
+                     0.006, 0.005, "VFX")
+    # Inner ring.
+    _flat_ribbon(g, [(0.33 * math.cos(TAU * i / 64), 0.33 * math.sin(TAU * i / 64)) for i in range(64)], 0.006, 0.005,
+                 "VFX", closed=True)
+    # The dragon: an angular serpentine spine from tail (-X) to head (+X).
+    spine = [(-0.27, -0.03), (-0.22, 0.07), (-0.15, 0.1), (-0.09, -0.02), (-0.03, -0.1), (0.04, -0.04), (0.09, 0.07),
+             (0.15, 0.1), (0.2, 0.03), (0.25, 0.01)]
+    _flat_ribbon(g, spine, 0.011, 0.006, "VFX")
+    # Chevron head (a separate, slightly thicker part so it never shares a plane with the spine).
+    _flat_ribbon(g, [(0.2, 0.1), (0.285, 0.015), (0.2, -0.07)], 0.009, 0.0075, "VFX")
+    # Whiskers trailing back from the head.
+    _flat_ribbon(g, [(0.235, 0.075), (0.2, 0.17), (0.1, 0.22), (-0.02, 0.21)], 0.005, 0.0045, "VFX")
+    _flat_ribbon(g, [(0.235, -0.045), (0.21, -0.14), (0.12, -0.2), (0.0, -0.21)], 0.005, 0.0045, "VFX")
+
+
+@asset("SM_VFX_Cone", "VFX", "VFX", kind="vfx", pivot="base_point", foundation=0.0, ground=False, view=(-35, 20),
+       notes="Pressure cone: an open cone 1.0 m long with its apex at the origin, opening along +Z to a 0.5 m radius "
+             "mouth; a 1 cm double wall so both sides render. UV: u = 0..1 around, v = 0 at the apex to 1 at the mouth "
+             "(outer and inner surfaces).")
+def vfx_cone(g, rng):
+    segs, nl = 32, 8
+    L, R, wall = 1.0, 0.5, 0.01
+    half = math.atan2(R, L)
+    dr, dz = wall * math.cos(half), wall * math.sin(half)
+    outer = [[((R * k / nl) * math.cos(TAU * i / segs), (R * k / nl) * math.sin(TAU * i / segs), L * k / nl)
+              for k in range(1, nl + 1)] for i in range(segs)]
+    inner = [[((R * k / nl - dr) * math.cos(TAU * i / segs), (R * k / nl - dr) * math.sin(TAU * i / segs), L * k / nl + dz)
+              for k in range(1, nl + 1)] for i in range(segs)]
+    UV = [[(i / segs, k / nl) for k in range(1, nl + 1)] for i in range(segs + 1)]
+    uvr = [(i / segs, 1.0 / nl) for i in range(segs + 1)]
+    apex_in = (0.0, 0.0, wall / math.sin(half))
+    with g.part():
+        surf(g, outer, UV, segs, nl - 1, "VFX", wrap=True, smooth=True)
+        surf(g, inner, UV, segs, nl - 1, "VFX", wrap=True, flip=True, smooth=True)
+        fan(g, (0.0, 0.0, 0.0), [outer[i][0] for i in range(segs)], (0.5, 0.0), uvr, "VFX", flip=True, smooth=True)
+        fan(g, apex_in, [inner[i][0] for i in range(segs)], (0.5, 0.0), uvr, "VFX", flip=False, smooth=True)
+        for i in range(segs):
+            j = (i + 1) % segs
+            u0, u1 = i / segs, (i + 1) / segs
+            g.face([outer[j][nl - 1], inner[j][nl - 1], inner[i][nl - 1], outer[i][nl - 1]], "VFX",
+                   uv=("uv", [(u1, 1.0), (u1, 0.996), (u0, 0.996), (u0, 1.0)]), smooth=False)

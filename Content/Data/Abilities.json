@@ -44,42 +44,39 @@
     "Behavior": "Projectile",
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_StoneCannon.T_Icon_Rudeus_StoneCannon",
+    "MasteryXP": 6,
     "ManaCost": 45,
     "Cooldown": 1.6,
     "CastTime": 0.35,
     "RecoveryTime": 0.35,
-    "Range": 4000,
-    "Damage": 85,
-    "Stagger": 45,
-    "Knockback": 350,
+    "Range": 4500,
+    "AOERadius": 260,
+    "Damage": 90,
+    "Stagger": 50,
+    "Knockback": 1100,
+    "Launch": 300,
+    "HitForgiveness": 1.12,
     "bChargeable": true,
     "MaxChargeTime": 1.6,
-    "ChargeSpeedScale": 1.8,
-    "ChargeDamageScale": 2.2,
+    "ChargeSpeedScale": 1.6,
+    "ChargeDamageScale": 2.4,
     "ChargeStaggerScale": 2.5,
     "ChargeManaScale": 2.0,
+    "ChargeSizeScale": 1.7,
+    "ChargeRadiusScale": 1.6,
+    "ChargeKnockbackScale": 1.45,
     "Motion": "Straight",
-    "ProjectileSpeed": 3200,
-    "ProjectileRadius": 18,
+    "ProjectileSpeed": 9000,
+    "ProjectileRadius": 36,
     "ProjectileGravity": 0,
     "bDisruptable": true,
+    "PierceCount": 3,
+    "PierceMaxHealth": 600,
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
-    "MontageStartSection": "Charge",
-    "MontageReleaseSection": "Release",
     "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
     "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
     "CastSocket": "hand_r",
-    "FX": {
-      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
-      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
-      "CameraShakeScale": 0.15,
-      "Preset": "RudeusCannon",
-      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
-      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
-      "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_StoneCannon.T_Icon_Rudeus_StoneCannon",
-    "MasteryXP": 6,
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -89,6 +86,15 @@
           "TagName": "State.Charging"
         }
       ]
+    },
+    "FX": {
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
+      "Preset": "RudeusCannon",
+      "CastSound": "/Game/LaPlace/Audio/Earth/stone_compress.stone_compress",
+      "ReleaseSound": "/Game/LaPlace/Audio/Earth/sonic_boom.sonic_boom",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_spin_loop.stone_spin_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact"
     }
   },
   {
@@ -99,58 +105,82 @@
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
     "ElementRequirement": "None",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Quagmire.T_Icon_Rudeus_Quagmire",
+    "MasteryXP": 6,
     "ManaCost": 90,
     "Cooldown": 14,
     "CastTime": 0.45,
     "RecoveryTime": 0.4,
-    "Range": 1800,
-    "AOERadius": 650,
+    "Range": 2400,
+    "AOERadius": 900,
     "Damage": 0,
     "Stagger": 0,
-    "Duration": 8,
+    "Duration": 9,
+    "HitForgiveness": 1.1,
+    "bChargeable": true,
+    "MaxChargeTime": 1.8,
+    "ChargeManaScale": 1.8,
+    "ChargeRadiusScale": 2.2,
     "bDisruptable": true,
     "ZoneKind": "Mire",
     "ZoneMovement": {
-      "SpeedMultiplier": 0.55,
-      "AccelerationMultiplier": 0.4,
-      "JumpMultiplier": 0.5,
-      "DodgeDistanceMultiplier": 0.5,
+      "SpeedMultiplier": 0.4,
+      "AccelerationMultiplier": 0.5,
+      "JumpMultiplier": 0.35,
+      "DodgeDistanceMultiplier": 0.45,
       "bRooted": false
     },
-    "ActivationDelay": 0.25,
-    "PulseCount": 1,
-    "PulseInterval": 0.5,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire.A_Rudeus_Quagmire",
-    "CastSocket": "hand_l",
-    "FX": {
-      "Preset": "Quagmire",
-      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
-      "TravelSound": "/Game/LaPlace/Audio/Earth/quagmire_loop.quagmire_loop"
+    "Params": {
+      "TransformTime": 1.2,
+      "EdgeDepth": 0.35,
+      "SpeedLoss": 0.72,
+      "AccelLoss": 0.5,
+      "JumpLoss": 0.7,
+      "DodgeLoss": 0.6,
+      "SinkDepth": 30,
+      "HeavySink": 0.35,
+      "HeavyPenalty": 0.6,
+      "MomentumLoss": 0.6
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Quagmire.T_Icon_Rudeus_Quagmire",
-    "MasteryXP": 6,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire.A_Rudeus_Quagmire",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire_Hold.A_Rudeus_Quagmire_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire_Release.A_Rudeus_Quagmire_Release",
+    "CastSocket": "hand_l",
     "ActivationTags": {
       "GameplayTags": [
         {
           "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
         }
       ]
+    },
+    "FX": {
+      "Preset": "Quagmire",
+      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/quagmire_loop.quagmire_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/mud_squelch.mud_squelch",
+      "AccentSound": "/Game/LaPlace/Audio/Earth/quagmire_transform.quagmire_transform"
     }
   },
   {
     "AbilityID": "Rudeus_ElementalBarrage",
     "DisplayName": "Elemental Barrage",
     "Description": "Four chantless spells in under a second - stone, wind blade, water cannon, fire burst - each with a different flight and hit profile. Rudeus can drift at 35% speed while casting. Gameplay-original showcase of his multi-element versatility.",
-    "Behavior": "Sequence",
+    "Behavior": "Barrage",
     "Element": "None",
     "CharacterRequirement": "Rudeus",
-    "ManaCost": 110,
-    "Cooldown": 12,
-    "CastTime": 0.3,
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_ElementalBarrage.T_Icon_Rudeus_ElementalBarrage",
+    "MasteryXP": 8,
+    "ManaCost": 140,
+    "Cooldown": 16,
+    "CastTime": 0.6,
     "RecoveryTime": 0.6,
     "Range": 3000,
     "Damage": 0,
     "Stagger": 0,
+    "MoveSpeedWhileActive": 0.35,
     "Sequence": [
       {
         "AbilityId": "Barrage_Stone",
@@ -158,35 +188,45 @@
         "MontageSection": "Stone"
       },
       {
-        "AbilityId": "Barrage_WindBlade",
-        "Delay": 0.22,
-        "MontageSection": "Wind"
-      },
-      {
         "AbilityId": "Barrage_WaterCannon",
-        "Delay": 0.24,
+        "Delay": 0.0,
         "MontageSection": "Water"
       },
       {
+        "AbilityId": "Barrage_WindBlade",
+        "Delay": 0.0,
+        "MontageSection": "Wind"
+      },
+      {
         "AbilityId": "Barrage_FireBurst",
-        "Delay": 0.26,
+        "Delay": 0.0,
         "MontageSection": "Fire"
+      },
+      {
+        "AbilityId": "Barrage_Finale",
+        "Delay": 0.0,
+        "MontageSection": "Finale"
       }
     ],
-    "MoveSpeedWhileActive": 0.35,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Barrage.A_Rudeus_Barrage",
-    "FX": {
-      "Preset": "Barrage",
-      "CastSound": "/Game/LaPlace/Audio/Rudeus/cast_small.cast_small"
+    "Params": {
+      "BarrageTime": 3.0,
+      "ShotInterval": 0.2,
+      "CollapseTime": 0.35,
+      "Spread": 4,
+      "Sway": 12
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_ElementalBarrage.T_Icon_Rudeus_ElementalBarrage",
-    "MasteryXP": 8,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Barrage.A_Rudeus_Barrage",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
           "TagName": "State.Casting"
         }
       ]
+    },
+    "FX": {
+      "Preset": "Barrage",
+      "CastSound": "/Game/LaPlace/Audio/Rudeus/barrage_orbs.barrage_orbs"
     }
   },
   {
@@ -196,28 +236,31 @@
     "Behavior": "Projectile",
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_StoneCannon.T_Icon_Earth_StoneCannon",
+    "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
     "CastTime": 0,
     "RecoveryTime": 0,
     "Range": 3000,
+    "AOERadius": 120,
     "Damage": 34,
     "Stagger": 40,
-    "Knockback": 200,
+    "Knockback": 400,
+    "Launch": 120,
     "Motion": "Straight",
-    "ProjectileSpeed": 2600,
-    "ProjectileRadius": 16,
+    "ProjectileSpeed": 7000,
+    "ProjectileRadius": 20,
     "ProjectileGravity": 0,
     "bDisruptable": true,
     "FX": {
       "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneBullet.SM_StoneBullet",
       "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneBullet.MI_StoneBullet",
-      "Preset": "StoneBullet",
+      "Preset": "StoneCannon",
+      "PresetScale": 0.7,
       "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
       "ImpactSound": "/Game/LaPlace/Audio/Earth/rock_impact.rock_impact"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_StoneCannon.T_Icon_Earth_StoneCannon",
-    "MasteryXP": 1
+    }
   },
   {
     "AbilityID": "Barrage_WindBlade",
@@ -226,76 +269,86 @@
     "Behavior": "Projectile",
     "Element": "Wind",
     "CharacterRequirement": "Rudeus",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_WindBlade.T_Icon_Wind_WindBlade",
+    "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
     "CastTime": 0,
     "RecoveryTime": 0,
     "Range": 2600,
-    "Damage": 14,
-    "Stagger": 8,
-    "Knockback": 0,
+    "AOERadius": 0,
+    "Damage": 22,
+    "Stagger": 14,
+    "Knockback": 250,
     "Motion": "Wave",
-    "ProjectileSpeed": 4200,
-    "ProjectileRadius": 40,
+    "ProjectileSpeed": 8000,
+    "ProjectileRadius": 25,
+    "ProjectileWidth": 260,
     "ProjectileGravity": 0,
     "bDisruptable": true,
+    "PierceCount": 99,
     "FX": {
       "Preset": "WindBlade",
-      "PresetScale": 0.8,
+      "PresetScale": 0.5,
       "TravelSound": "/Game/LaPlace/Audio/Wind/wind_blade_swish.wind_blade_swish",
       "ImpactSound": "/Game/LaPlace/Audio/Wind/wind_blade_impact.wind_blade_impact"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_WindBlade.T_Icon_Wind_WindBlade",
-    "MasteryXP": 1
+    }
   },
   {
     "AbilityID": "Barrage_WaterCannon",
-    "DisplayName": "Barrage: Water Cannon",
+    "DisplayName": "Barrage: Water Lance",
     "Description": "Barrage step 3. Fast, pressurised water jet with strong knockback (900) and moderate damage - resets spacing.",
     "Behavior": "Projectile",
     "Element": "Water",
     "CharacterRequirement": "Rudeus",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_WaterBullet.T_Icon_Water_WaterBullet",
+    "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
     "CastTime": 0,
     "RecoveryTime": 0,
-    "Range": 2800,
+    "Range": 3000,
+    "AOERadius": 110,
     "Damage": 30,
     "Stagger": 22,
-    "Knockback": 900,
-    "Motion": "Straight",
-    "ProjectileSpeed": 3600,
-    "ProjectileRadius": 26,
+    "Knockback": 400,
+    "Motion": "Piercing",
+    "ProjectileSpeed": 7500,
+    "ProjectileRadius": 18,
     "ProjectileGravity": 0,
     "bDisruptable": true,
+    "PierceCount": 1,
     "FX": {
       "Preset": "WaterBullet",
       "PresetScale": 0.8,
-      "TravelSound": "/Game/LaPlace/Audio/Water/water_bullet_launch.water_bullet_launch",
+      "TravelSound": "/Game/LaPlace/Audio/Water/water_lance.water_lance",
       "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_WaterBullet.T_Icon_Water_WaterBullet",
-    "MasteryXP": 1
+    }
   },
   {
     "AbilityID": "Barrage_FireBurst",
-    "DisplayName": "Barrage: Fire Burst",
+    "DisplayName": "Barrage: Fireball",
     "Description": "Barrage step 4. Fast fire bolt that bursts in a small 220 cm explosion on impact.",
     "Behavior": "Projectile",
     "Element": "Fire",
     "CharacterRequirement": "Rudeus",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_Fireball.T_Icon_Fire_Fireball",
+    "MasteryXP": 1,
     "ManaCost": 0,
     "Cooldown": 0,
     "CastTime": 0,
     "RecoveryTime": 0,
-    "Range": 2800,
-    "AOERadius": 220,
+    "Range": 3000,
+    "AOERadius": 160,
     "Damage": 32,
     "Stagger": 18,
-    "Knockback": 150,
+    "Knockback": 350,
+    "Launch": 120,
+    "BurnSeconds": 2,
+    "BurnDamagePerSecond": 6,
     "Motion": "Straight",
-    "ProjectileSpeed": 3400,
-    "ProjectileRadius": 20,
+    "ProjectileSpeed": 5000,
+    "ProjectileRadius": 24,
     "ProjectileGravity": 0,
     "bDisruptable": true,
     "FX": {
@@ -303,9 +356,7 @@
       "PresetScale": 0.75,
       "TravelSound": "/Game/LaPlace/Audio/Fire/fireball_launch.fireball_launch",
       "ImpactSound": "/Game/LaPlace/Audio/Fire/fire_explosion.fire_explosion"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_Fireball.T_Icon_Fire_Fireball",
-    "MasteryXP": 1
+    }
   },
   {
     "AbilityID": "Rudeus_DemonEye",
@@ -398,43 +449,39 @@
     "Behavior": "Projectile",
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_StoneCannon.T_Icon_Rudeus_StoneCannon",
+    "MasteryXP": 6,
     "ManaCost": 50,
     "Cooldown": 1.4,
     "CastTime": 0.3,
-    "RecoveryTime": 0.3,
+    "RecoveryTime": 0.35,
     "Range": 4500,
-    "Damage": 105,
-    "Stagger": 60,
-    "Knockback": 450,
+    "AOERadius": 260,
+    "Damage": 110,
+    "Stagger": 50,
+    "Knockback": 1100,
+    "Launch": 300,
+    "HitForgiveness": 1.12,
     "bChargeable": true,
-    "MaxChargeTime": 1.4,
-    "ChargeSpeedScale": 1.8,
-    "ChargeDamageScale": 2.3,
-    "ChargeStaggerScale": 2.6,
+    "MaxChargeTime": 1.6,
+    "ChargeSpeedScale": 1.6,
+    "ChargeDamageScale": 2.4,
+    "ChargeStaggerScale": 2.5,
     "ChargeManaScale": 2.0,
+    "ChargeSizeScale": 1.7,
+    "ChargeRadiusScale": 1.6,
+    "ChargeKnockbackScale": 1.45,
     "Motion": "Straight",
-    "ProjectileSpeed": 3600,
-    "ProjectileRadius": 22,
+    "ProjectileSpeed": 10000,
+    "ProjectileRadius": 36,
     "ProjectileGravity": 0,
     "bDisruptable": true,
+    "PierceCount": 4,
+    "PierceMaxHealth": 900,
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
-    "MontageStartSection": "Charge",
-    "MontageReleaseSection": "Release",
     "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
     "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
     "CastSocket": "hand_r",
-    "FX": {
-      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
-      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
-      "CameraShakeScale": 0.2,
-      "Preset": "RudeusCannon",
-      "PresetScale": 1.25,
-      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
-      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
-      "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_StoneCannon.T_Icon_Rudeus_StoneCannon",
-    "MasteryXP": 6,
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -444,6 +491,16 @@
           "TagName": "State.Charging"
         }
       ]
+    },
+    "FX": {
+      "BodyMesh": "/Game/VFX/Earth/Meshes/SM_StoneCannon.SM_StoneCannon",
+      "BodyMaterial": "/Game/VFX/Earth/Materials/MI_StoneCannon.MI_StoneCannon",
+      "Preset": "RudeusCannon",
+      "CastSound": "/Game/LaPlace/Audio/Earth/stone_compress.stone_compress",
+      "ReleaseSound": "/Game/LaPlace/Audio/Earth/sonic_boom.sonic_boom",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_spin_loop.stone_spin_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact",
+      "PresetScale": 1.25
     }
   },
   {
@@ -454,42 +511,63 @@
     "Element": "Earth",
     "CharacterRequirement": "Rudeus",
     "ElementRequirement": "None",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Quagmire.T_Icon_Rudeus_Quagmire",
+    "MasteryXP": 6,
     "ManaCost": 100,
     "Cooldown": 12,
     "CastTime": 0.4,
-    "RecoveryTime": 0.35,
-    "Range": 2000,
-    "AOERadius": 650,
+    "RecoveryTime": 0.4,
+    "Range": 2400,
+    "AOERadius": 1100,
     "Damage": 0,
     "Stagger": 0,
-    "Duration": 10,
+    "Duration": 11,
+    "HitForgiveness": 1.1,
+    "bChargeable": true,
+    "MaxChargeTime": 1.8,
+    "ChargeManaScale": 1.8,
+    "ChargeRadiusScale": 2.2,
     "bDisruptable": true,
     "ZoneKind": "Mire",
     "ZoneMovement": {
-      "SpeedMultiplier": 0.45,
-      "AccelerationMultiplier": 0.3,
+      "SpeedMultiplier": 0.4,
+      "AccelerationMultiplier": 0.5,
       "JumpMultiplier": 0.35,
-      "DodgeDistanceMultiplier": 0.4,
+      "DodgeDistanceMultiplier": 0.45,
       "bRooted": false
     },
-    "ActivationDelay": 0.2,
-    "PulseCount": 1,
-    "PulseInterval": 0.5,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire.A_Rudeus_Quagmire",
-    "CastSocket": "hand_l",
-    "FX": {
-      "Preset": "Quagmire",
-      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
-      "TravelSound": "/Game/LaPlace/Audio/Earth/quagmire_loop.quagmire_loop"
+    "Params": {
+      "TransformTime": 1.2,
+      "EdgeDepth": 0.35,
+      "SpeedLoss": 0.72,
+      "AccelLoss": 0.5,
+      "JumpLoss": 0.7,
+      "DodgeLoss": 0.6,
+      "SinkDepth": 30,
+      "HeavySink": 0.35,
+      "HeavyPenalty": 0.6,
+      "MomentumLoss": 0.6
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Rudeus_Quagmire.T_Icon_Rudeus_Quagmire",
-    "MasteryXP": 6,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire.A_Rudeus_Quagmire",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire_Hold.A_Rudeus_Quagmire_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Quagmire_Release.A_Rudeus_Quagmire_Release",
+    "CastSocket": "hand_l",
     "ActivationTags": {
       "GameplayTags": [
         {
           "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
         }
       ]
+    },
+    "FX": {
+      "Preset": "Quagmire",
+      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/quagmire_loop.quagmire_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/mud_squelch.mud_squelch",
+      "AccentSound": "/Game/LaPlace/Audio/Earth/quagmire_transform.quagmire_transform"
     }
   },
   {
@@ -522,33 +600,44 @@
     "AbilityID": "Orsted_DisturbMagic",
     "DisplayName": "Disturb Magic",
     "Description": "A counter-spell of the Dragon God Style (devised by the former Dragon God Urupen): Orsted sends out mana tuned to interfere with an enemy spell so it scatters before it can form. Timing-based - a 0.35 s window within 450 cm. If nothing arrives he is left open for 0.45 s. Not permanent immunity.",
-    "Behavior": "Counter",
+    "Behavior": "Disrupt",
     "Element": "Arcane",
     "CharacterRequirement": "Orsted",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DisturbMagic.T_Icon_Orsted_DisturbMagic",
+    "MasteryXP": 5,
     "ManaCost": 45,
     "Cooldown": 6,
-    "CastTime": 0.05,
-    "RecoveryTime": 0.45,
-    "Range": 450,
+    "CastTime": 0.06,
+    "RecoveryTime": 0.35,
+    "Range": 1800,
     "Damage": 0,
     "Stagger": 0,
     "bDisruptable": false,
     "CounterWindow": 0.35,
     "CounterRadius": 450,
-    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DisturbMagic.A_Orsted_DisturbMagic",
-    "FX": {
-      "Preset": "DisturbMagic",
-      "CastSound": "/Game/LaPlace/Audio/Orsted/disturb_magic.disturb_magic",
-      "ImpactSound": "/Game/LaPlace/Audio/Orsted/disturb_magic.disturb_magic"
+    "Params": {
+      "PulseSpeed": 6500,
+      "PathRadius": 220,
+      "SearchRange": 1800,
+      "SearchAngle": 35,
+      "SealSeconds": 3,
+      "Refund": 0.6,
+      "EndRadius": 450
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DisturbMagic.T_Icon_Orsted_DisturbMagic",
-    "MasteryXP": 5,
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DisturbMagic.A_Orsted_DisturbMagic",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
           "TagName": "State.Countering"
         }
       ]
+    },
+    "FX": {
+      "Preset": "DisturbMagic",
+      "CastSound": "/Game/LaPlace/Audio/Orsted/disturb_pulse.disturb_pulse",
+      "ImpactSound": "/Game/LaPlace/Audio/Orsted/disturb_collapse.disturb_collapse",
+      "AccentSound": "/Game/LaPlace/Audio/Orsted/seal.seal"
     }
   },
   {
@@ -558,31 +647,41 @@
     "Behavior": "Dash",
     "Element": "Arcane",
     "CharacterRequirement": "Orsted",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonStep.T_Icon_Orsted_DragonStep",
+    "MasteryXP": 4,
     "ManaCost": 0,
-    "StaminaCost": 15,
+    "StaminaCost": 20,
     "Cooldown": 3.5,
     "CastTime": 0.08,
     "RecoveryTime": 0.3,
-    "Range": 900,
-    "AOERadius": 140,
-    "Damage": 18,
+    "Range": 2600,
+    "AOERadius": 220,
+    "Damage": 10,
     "Stagger": 25,
-    "Knockback": 100,
+    "Knockback": 0,
     "bDisruptable": false,
-    "DashDistance": 900,
-    "DashDuration": 0.18,
+    "DashDistance": 1700,
+    "DashDuration": 0.2,
     "bDashTowardTarget": true,
-    "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonStep.A_Orsted_DragonStep",
+    "bDashInvulnerable": true,
     "WarpTargetName": "DragonStepTarget",
+    "ComboFollowUp": "Orsted_DragonCrush",
+    "Params": {
+      "TargetRange": 2600,
+      "ArriveOffset": 115,
+      "TargetDuration": 0.12,
+      "FreeDistance": 1700,
+      "FreeDuration": 0.2,
+      "ComboWindow": 0.9
+    },
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonStep.A_Orsted_DragonStep",
     "CastSocket": "foot_r",
     "FX": {
       "Preset": "DragonStep",
       "CastSound": "/Game/LaPlace/Audio/Orsted/dragon_step.dragon_step",
-      "ImpactSound": "/Game/LaPlace/Audio/Orsted/shockwave_boom.shockwave_boom"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonStep.T_Icon_Orsted_DragonStep",
-    "MasteryXP": 4
+      "ImpactSound": "/Game/LaPlace/Audio/Orsted/shockwave_boom.shockwave_boom",
+      "AccentSound": "/Game/LaPlace/Audio/Orsted/dragon_step_arrive.dragon_step_arrive"
+    }
   },
   {
     "AbilityID": "Orsted_DragonStep_Awakened",
@@ -591,32 +690,42 @@
     "Behavior": "Dash",
     "Element": "Arcane",
     "CharacterRequirement": "Orsted",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonStep.T_Icon_Orsted_DragonStep",
+    "MasteryXP": 4,
     "ManaCost": 0,
-    "StaminaCost": 12,
+    "StaminaCost": 20,
     "Cooldown": 2.2,
     "CastTime": 0.06,
-    "RecoveryTime": 0.25,
-    "Range": 1100,
-    "AOERadius": 160,
+    "RecoveryTime": 0.3,
+    "Range": 2600,
+    "AOERadius": 220,
     "Damage": 26,
-    "Stagger": 35,
-    "Knockback": 150,
+    "Stagger": 40,
+    "Knockback": 0,
     "bDisruptable": false,
-    "DashDistance": 1100,
-    "DashDuration": 0.16,
+    "DashDistance": 1700,
+    "DashDuration": 0.2,
     "bDashTowardTarget": true,
-    "bDashInvulnerable": false,
-    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonStep.A_Orsted_DragonStep",
+    "bDashInvulnerable": true,
     "WarpTargetName": "DragonStepTarget",
+    "ComboFollowUp": "Orsted_DragonCrush",
+    "Params": {
+      "TargetRange": 2600,
+      "ArriveOffset": 115,
+      "TargetDuration": 0.12,
+      "FreeDistance": 1700,
+      "FreeDuration": 0.2,
+      "ComboWindow": 0.9
+    },
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonStep.A_Orsted_DragonStep",
     "CastSocket": "foot_r",
     "FX": {
       "Preset": "DragonStep",
-      "PresetScale": 1.2,
       "CastSound": "/Game/LaPlace/Audio/Orsted/dragon_step.dragon_step",
-      "ImpactSound": "/Game/LaPlace/Audio/Orsted/shockwave_boom.shockwave_boom"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonStep.T_Icon_Orsted_DragonStep",
-    "MasteryXP": 4
+      "ImpactSound": "/Game/LaPlace/Audio/Orsted/shockwave_boom.shockwave_boom",
+      "AccentSound": "/Game/LaPlace/Audio/Orsted/dragon_step_arrive.dragon_step_arrive",
+      "PresetScale": 1.2
+    }
   },
   {
     "AbilityID": "Orsted_SaintDragonAura",
@@ -1784,29 +1893,44 @@
     "AbilityID": "Orsted_DragonCrush",
     "DisplayName": "Dragon God Style: Dragon Crush",
     "Description": "A single downward strike with the full weight of the Dragon God behind it. The ground splits, a shockwave rolls outward and rubble is thrown into the air. No light, no colour: just force.",
-    "Behavior": "Melee",
+    "Behavior": "Strike",
     "Element": "Arcane",
     "CharacterRequirement": "Orsted",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonCrush.T_Icon_Orsted_DragonCrush",
+    "MasteryXP": 4,
     "ManaCost": 0,
-    "StaminaCost": 25,
-    "Cooldown": 9,
+    "StaminaCost": 35,
+    "Cooldown": 7,
     "CastTime": 0.4,
     "RecoveryTime": 0.5,
-    "Range": 260,
-    "AOERadius": 400,
-    "Damage": 70,
-    "Stagger": 85,
-    "Knockback": 720,
+    "Range": 450,
+    "AOERadius": 650,
+    "Damage": 160,
+    "Stagger": 90,
+    "Knockback": 800,
+    "Launch": 420,
     "bDisruptable": false,
-    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_CastGround.A_Orsted_CastGround",
+    "bFullBodyCommit": true,
+    "Params": {
+      "PrimaryDamage": 320,
+      "PrimaryKnockback": 1300,
+      "PrimaryLaunch": 700,
+      "PrimaryRange": 350,
+      "ConeRange": 300,
+      "ConeHalfAngle": 35,
+      "LungeRange": 450,
+      "HitStop": 0.085,
+      "ComboCastScale": 0.35,
+      "ComboDamageScale": 1.2
+    },
+    "Montage": "/Game/Characters/Orsted/Animations/A_Orsted_DragonCrush.A_Orsted_DragonCrush",
+    "CastSocket": "hand_r",
     "FX": {
       "Preset": "DragonCrush",
       "bImpactOnGround": true,
-      "CastSound": "/Game/LaPlace/Audio/Orsted/shockwave_boom.shockwave_boom",
-      "ImpactSound": "/Game/LaPlace/Audio/Orsted/ground_crack.ground_crack"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Orsted_DragonCrush.T_Icon_Orsted_DragonCrush",
-    "MasteryXP": 4
+      "CastSound": "/Game/LaPlace/Audio/Orsted/dragon_crush_charge.dragon_crush_charge",
+      "ImpactSound": "/Game/LaPlace/Audio/Orsted/dragon_crush_impact.dragon_crush_impact"
+    }
   },
   {
     "AbilityID": "Fire_Fireball",
@@ -1814,37 +1938,56 @@
     "Description": "Flames spiral together above the palm into a compressed, white-hot sphere that bursts on impact and scorches the ground.",
     "Behavior": "Projectile",
     "Element": "Fire",
-    "ManaCost": 22,
-    "Cooldown": 1.3,
-    "CastTime": 0.3,
-    "RecoveryTime": 0.3,
-    "Range": 3000,
-    "AOERadius": 190,
-    "Damage": 40,
-    "Stagger": 18,
-    "Knockback": 180,
-    "Motion": "Straight",
-    "ProjectileSpeed": 2700,
-    "ProjectileRadius": 22,
-    "ProjectileGravity": 0,
-    "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
-    "FX": {
-      "Preset": "Fireball",
-      "CastSound": "/Game/LaPlace/Audio/Fire/fire_gather.fire_gather",
-      "TravelSound": "/Game/LaPlace/Audio/Fire/fireball_travel_loop.fireball_travel_loop",
-      "ImpactSound": "/Game/LaPlace/Audio/Fire/fire_explosion.fire_explosion"
-    },
+    "ElementRequirement": "Fire",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_Fireball.T_Icon_Fire_Fireball",
     "MasteryXP": 4,
+    "ManaCost": 24,
+    "Cooldown": 1.6,
+    "CastTime": 0.3,
+    "RecoveryTime": 0.3,
+    "Range": 3500,
+    "AOERadius": 320,
+    "Damage": 60,
+    "Stagger": 25,
+    "Knockback": 600,
+    "Launch": 250,
+    "BurnSeconds": 4,
+    "BurnDamagePerSecond": 8,
+    "bChargeable": true,
+    "MaxChargeTime": 1.2,
+    "ChargeSpeedScale": 1.25,
+    "ChargeDamageScale": 2.5,
+    "ChargeStaggerScale": 2.0,
+    "ChargeManaScale": 1.6,
+    "ChargeSizeScale": 1.5,
+    "ChargeRadiusScale": 1.75,
+    "ChargeKnockbackScale": 1.5,
+    "Motion": "Straight",
+    "ProjectileSpeed": 5500,
+    "ProjectileRadius": 30,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Fireball.A_Rudeus_Cast_Fireball",
+    "CastSocket": "hand_r",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Fireball_Hold.A_Rudeus_Cast_Fireball_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Fireball_Release.A_Rudeus_Cast_Fireball_Release",
     "ActivationTags": {
       "GameplayTags": [
         {
           "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
         }
       ]
     },
-    "ElementRequirement": "Fire"
+    "FX": {
+      "Preset": "Fireball",
+      "CastSound": "/Game/LaPlace/Audio/Fire/fireball_charge.fireball_charge",
+      "ReleaseSound": "/Game/LaPlace/Audio/Fire/fireball_launch.fireball_launch",
+      "TravelSound": "/Game/LaPlace/Audio/Fire/fireball_travel_loop.fireball_travel_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Fire/fire_explosion.fire_explosion"
+    }
   },
   {
     "AbilityID": "Fire_FlameWave",
@@ -1852,26 +1995,34 @@
     "Description": "A sweep of the arm sends a wide wall of fire rolling across the ground, burning everything it passes through and leaving the grass scorched.",
     "Behavior": "Zone",
     "Element": "Fire",
-    "ManaCost": 50,
-    "Cooldown": 7,
-    "CastTime": 0.35,
-    "RecoveryTime": 0.35,
-    "Range": 600,
-    "AOERadius": 320,
-    "Damage": 22,
-    "Stagger": 12,
-    "Duration": 2.0,
-    "bDisruptable": true,
-    "ZoneKind": "DamageField",
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
-    "FX": {
-      "Preset": "FlameWave",
-      "CastSound": "/Game/LaPlace/Audio/Fire/flamewave_cast.flamewave_cast",
-      "TravelSound": "/Game/LaPlace/Audio/Fire/flame_burn_loop.flame_burn_loop",
-      "ImpactSound": "/Game/LaPlace/Audio/Fire/fire_explosion.fire_explosion"
-    },
+    "ElementRequirement": "Fire",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_FlameWave.T_Icon_Fire_FlameWave",
     "MasteryXP": 6,
+    "ManaCost": 55,
+    "Cooldown": 8,
+    "CastTime": 0.42,
+    "RecoveryTime": 0.35,
+    "Range": 1300,
+    "AOERadius": 1300,
+    "Damage": 75,
+    "Stagger": 30,
+    "Knockback": 450,
+    "Launch": 150,
+    "BurnSeconds": 4,
+    "BurnDamagePerSecond": 8,
+    "Duration": 1.3,
+    "bDisruptable": true,
+    "ZoneKind": "Arc",
+    "Params": {
+      "ArcDegrees": 120,
+      "StartRadius": 150,
+      "EndRadius": 1300,
+      "TravelTime": 0.9,
+      "Band": 180,
+      "Segments": 11
+    },
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_FlameWave.A_Rudeus_Cast_FlameWave",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -1879,10 +2030,11 @@
         }
       ]
     },
-    "Knockback": 0,
-    "ZoneMoveSpeed": 950,
-    "PulseInterval": 0.35,
-    "ElementRequirement": "Fire"
+    "FX": {
+      "Preset": "FlameWave",
+      "CastSound": "/Game/LaPlace/Audio/Fire/flamewave_cast.flamewave_cast",
+      "AccentSound": "/Game/LaPlace/Audio/Fire/flamewave_roar.flamewave_roar"
+    }
   },
   {
     "AbilityID": "Fire_Inferno",
@@ -1890,38 +2042,36 @@
     "Description": "A burning magic circle blooms under the target. After a heartbeat of warning, pillars of fire erupt through it and a flame vortex climbs into the sky.",
     "Behavior": "Zone",
     "Element": "Fire",
-    "ManaCost": 140,
-    "Cooldown": 18,
-    "CastTime": 0.6,
-    "RecoveryTime": 0.5,
-    "Range": 2200,
-    "AOERadius": 520,
-    "Damage": 55,
-    "Stagger": 40,
-    "Knockback": 320,
-    "bChargeable": true,
-    "MaxChargeTime": 1.2,
-    "ChargeSpeedScale": 1.2,
-    "ChargeDamageScale": 1.5,
-    "ChargeStaggerScale": 1.4,
-    "ChargeManaScale": 1.3,
-    "Motion": "Straight",
-    "ProjectileSpeed": 1800,
-    "ProjectileRadius": 45,
-    "ProjectileGravity": 0,
-    "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
-    "MontageStartSection": "Charge",
-    "MontageReleaseSection": "Release",
-    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
-    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
-    "FX": {
-      "Preset": "Inferno",
-      "CastSound": "/Game/LaPlace/Audio/Fire/inferno_charge.inferno_charge",
-      "ImpactSound": "/Game/LaPlace/Audio/Fire/inferno_eruption.inferno_eruption"
-    },
+    "ElementRequirement": "Fire",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Fire_Inferno.T_Icon_Fire_Inferno",
     "MasteryXP": 10,
+    "ManaCost": 220,
+    "Cooldown": 30,
+    "CastTime": 0.9,
+    "RecoveryTime": 0.5,
+    "Range": 2600,
+    "AOERadius": 1100,
+    "InnerRadius": 190,
+    "Damage": 70,
+    "Stagger": 40,
+    "Knockback": 150,
+    "Launch": 380,
+    "BurnSeconds": 3,
+    "BurnDamagePerSecond": 10,
+    "Duration": 4.3,
+    "bDisruptable": true,
+    "bFullBodyCommit": true,
+    "ZoneKind": "Eruptions",
+    "ActivationDelay": 0.6,
+    "PulseCount": 10,
+    "PulseInterval": 0.35,
+    "Params": {
+      "PillarsPerPulse": 3,
+      "EnemyBias": 0.67,
+      "AreaBurnDps": 15
+    },
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Inferno.A_Rudeus_Cast_Inferno",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -1929,12 +2079,13 @@
         }
       ]
     },
-    "Duration": 3.4,
-    "ZoneKind": "Eruptions",
-    "ActivationDelay": 1.0,
-    "PulseCount": 4,
-    "PulseInterval": 0.35,
-    "ElementRequirement": "Fire"
+    "FX": {
+      "Preset": "Inferno",
+      "CastSound": "/Game/LaPlace/Audio/Fire/inferno_charge.inferno_charge",
+      "TravelSound": "/Game/LaPlace/Audio/Fire/flame_burn_loop.flame_burn_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Fire/inferno_pillar.inferno_pillar",
+      "AccentSound": "/Game/LaPlace/Audio/Fire/inferno_circle.inferno_circle"
+    }
   },
   {
     "AbilityID": "Water_WaterBullet",
@@ -1942,28 +2093,27 @@
     "Description": "Water gathers in front of the caster, compresses into a dense sphere and fires with enough force to knock a grown man flat.",
     "Behavior": "Projectile",
     "Element": "Water",
+    "ElementRequirement": "Water",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_WaterBullet.T_Icon_Water_WaterBullet",
+    "MasteryXP": 4,
     "ManaCost": 20,
     "Cooldown": 1.2,
-    "CastTime": 0.25,
+    "CastTime": 0.22,
     "RecoveryTime": 0.3,
-    "Range": 3000,
-    "Damage": 32,
-    "Stagger": 22,
-    "Knockback": 320,
-    "Motion": "Straight",
-    "ProjectileSpeed": 3600,
+    "Range": 3500,
+    "AOERadius": 150,
+    "Damage": 48,
+    "Stagger": 30,
+    "Knockback": 750,
+    "Launch": 150,
+    "Motion": "Piercing",
+    "ProjectileSpeed": 8000,
     "ProjectileRadius": 20,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
-    "FX": {
-      "Preset": "WaterBullet",
-      "CastSound": "/Game/LaPlace/Audio/Water/water_gather.water_gather",
-      "TravelSound": "/Game/LaPlace/Audio/Water/water_bullet_launch.water_bullet_launch",
-      "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_WaterBullet.T_Icon_Water_WaterBullet",
-    "MasteryXP": 4,
+    "PierceCount": 1,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_WaterBullet.A_Rudeus_Cast_WaterBullet",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -1971,34 +2121,44 @@
         }
       ]
     },
-    "AOERadius": 120,
-    "ElementRequirement": "Water"
+    "FX": {
+      "Preset": "WaterBullet",
+      "CastSound": "/Game/LaPlace/Audio/Water/water_gather.water_gather",
+      "ReleaseSound": "/Game/LaPlace/Audio/Water/water_lance.water_lance",
+      "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash"
+    }
   },
   {
     "AbilityID": "Water_WaterDragon",
     "DisplayName": "Water Dragon",
     "Description": "Water spirals upward into the shape of a dragon that hunts the target down and crashes into it in a huge splash and shockwave.",
-    "Behavior": "Projectile",
+    "Behavior": "Serpent",
     "Element": "Water",
-    "ManaCost": 110,
-    "Cooldown": 12,
-    "CastTime": 0.7,
-    "RecoveryTime": 0.45,
-    "Range": 4000,
-    "AOERadius": 380,
-    "Damage": 110,
-    "Stagger": 90,
-    "Duration": 2.5,
-    "bDisruptable": true,
-    "ZoneKind": "Freeze",
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
-    "FX": {
-      "Preset": "WaterDragon",
-      "CastSound": "/Game/LaPlace/Audio/Water/water_dragon_rise.water_dragon_rise",
-      "ImpactSound": "/Game/LaPlace/Audio/Water/water_dragon_impact.water_dragon_impact"
-    },
+    "ElementRequirement": "Water",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_WaterDragon.T_Icon_Water_WaterDragon",
     "MasteryXP": 6,
+    "ManaCost": 160,
+    "Cooldown": 22,
+    "CastTime": 0.75,
+    "RecoveryTime": 0.45,
+    "Range": 4000,
+    "AOERadius": 780,
+    "Damage": 220,
+    "Stagger": 90,
+    "Knockback": 1200,
+    "Launch": 500,
+    "bDisruptable": true,
+    "bFullBodyCommit": true,
+    "Params": {
+      "Segments": 16,
+      "Length": 1700,
+      "HeadRadius": 110,
+      "CircleTime": 0.5,
+      "HuntTime": 2.4,
+      "Speed": 2800,
+      "TurnRate": 160
+    },
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_WaterDragon.A_Rudeus_Cast_WaterDragon",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2006,14 +2166,12 @@
         }
       ]
     },
-    "Knockback": 650,
-    "Motion": "Straight",
-    "ProjectileSpeed": 1500,
-    "ProjectileRadius": 70,
-    "ProjectileGravity": 0,
-    "bHoming": true,
-    "HomingStrength": 2600,
-    "ElementRequirement": "Water"
+    "FX": {
+      "Preset": "WaterDragon",
+      "CastSound": "/Game/LaPlace/Audio/Water/water_dragon_rise.water_dragon_rise",
+      "TravelSound": "/Game/LaPlace/Audio/Water/water_dragon_roar.water_dragon_roar",
+      "ImpactSound": "/Game/LaPlace/Audio/Water/water_dragon_impact.water_dragon_impact"
+    }
   },
   {
     "AbilityID": "Water_Flood",
@@ -2021,29 +2179,32 @@
     "Description": "Water wells up across a wide front and breaks into a wave that rolls forward, sweeping enemies away and soaking the ground.",
     "Behavior": "Zone",
     "Element": "Water",
-    "ManaCost": 120,
-    "Cooldown": 16,
-    "CastTime": 0.55,
-    "RecoveryTime": 0.45,
-    "Range": 600,
-    "AOERadius": 430,
-    "Damage": 45,
-    "Stagger": 60,
-    "Duration": 2.2,
-    "bDisruptable": false,
-    "ZoneKind": "Wave",
-    "BuffStats": {
-      "ManaCostMultiplier": 0.7
-    },
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
-    "FX": {
-      "Preset": "Flood",
-      "CastSound": "/Game/LaPlace/Audio/Water/flood_crash.flood_crash",
-      "TravelSound": "/Game/LaPlace/Audio/Water/flood_wave_loop.flood_wave_loop",
-      "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash"
-    },
+    "ElementRequirement": "Water",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Water_Flood.T_Icon_Water_Flood",
     "MasteryXP": 10,
+    "ManaCost": 170,
+    "Cooldown": 26,
+    "CastTime": 0.7,
+    "RecoveryTime": 0.5,
+    "Range": 600,
+    "AOERadius": 1200,
+    "Damage": 90,
+    "Stagger": 60,
+    "Knockback": 900,
+    "Launch": 250,
+    "Duration": 2.1,
+    "bDisruptable": true,
+    "bFullBodyCommit": true,
+    "ZoneKind": "Wave",
+    "ZoneMoveSpeed": 1500,
+    "Params": {
+      "Width": 2400,
+      "Distance": 2600,
+      "CarrySpeed": 1300,
+      "Band": 300,
+      "TrailSpacing": 300
+    },
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Flood.A_Rudeus_Cast_Flood",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2051,9 +2212,13 @@
         }
       ]
     },
-    "Knockback": 0,
-    "ZoneMoveSpeed": 820,
-    "ElementRequirement": "Water"
+    "FX": {
+      "Preset": "Flood",
+      "CastSound": "/Game/LaPlace/Audio/Water/flood_gather.flood_gather",
+      "ReleaseSound": "/Game/LaPlace/Audio/Water/flood_crash.flood_crash",
+      "TravelSound": "/Game/LaPlace/Audio/Water/flood_wave_loop.flood_wave_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash"
+    }
   },
   {
     "AbilityID": "Wind_WindBlade",
@@ -2061,28 +2226,28 @@
     "Description": "A swing of the hand releases a thin blade of compressed air: almost invisible, betrayed only by the dust it drags and the distortion at its edge.",
     "Behavior": "Projectile",
     "Element": "Wind",
-    "ManaCost": 18,
-    "Cooldown": 1.0,
-    "CastTime": 0.2,
-    "RecoveryTime": 0.25,
-    "Range": 3000,
-    "Damage": 28,
-    "Stagger": 14,
-    "Knockback": 120,
-    "Motion": "Wave",
-    "ProjectileSpeed": 3800,
-    "ProjectileRadius": 60,
-    "ProjectileGravity": 0,
-    "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastBasic.A_Rudeus_CastBasic",
-    "FX": {
-      "Preset": "WindBlade",
-      "CastSound": "/Game/LaPlace/Audio/Wind/wind_gather.wind_gather",
-      "TravelSound": "/Game/LaPlace/Audio/Wind/wind_blade_swish.wind_blade_swish",
-      "ImpactSound": "/Game/LaPlace/Audio/Wind/wind_blade_impact.wind_blade_impact"
-    },
+    "ElementRequirement": "Wind",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_WindBlade.T_Icon_Wind_WindBlade",
     "MasteryXP": 4,
+    "ManaCost": 22,
+    "Cooldown": 1.4,
+    "CastTime": 0.25,
+    "RecoveryTime": 0.25,
+    "Range": 2600,
+    "AOERadius": 0,
+    "Damage": 50,
+    "Stagger": 30,
+    "Knockback": 650,
+    "Launch": 120,
+    "Motion": "Wave",
+    "ProjectileSpeed": 9000,
+    "ProjectileRadius": 30,
+    "ProjectileWidth": 520,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "PierceCount": 99,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_WindBlade.A_Rudeus_Cast_WindBlade",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2090,8 +2255,12 @@
         }
       ]
     },
-    "AOERadius": 0,
-    "ElementRequirement": "Wind"
+    "FX": {
+      "Preset": "WindBlade",
+      "CastSound": "/Game/LaPlace/Audio/Wind/wind_gather.wind_gather",
+      "ReleaseSound": "/Game/LaPlace/Audio/Wind/wind_slash.wind_slash",
+      "ImpactSound": "/Game/LaPlace/Audio/Wind/wind_blade_impact.wind_blade_impact"
+    }
   },
   {
     "AbilityID": "Wind_Tornado",
@@ -2099,26 +2268,36 @@
     "Description": "The air starts turning around a single point, then tears upward into a tornado that drags dust, leaves and enemies in and hurls them around.",
     "Behavior": "Zone",
     "Element": "Wind",
-    "ManaCost": 110,
-    "Cooldown": 18,
-    "CastTime": 0.6,
-    "RecoveryTime": 0.5,
-    "Range": 1400,
-    "AOERadius": 340,
-    "Damage": 14,
-    "Stagger": 12,
-    "Knockback": 0,
-    "Duration": 5.0,
-    "bDisruptable": false,
-    "ZoneKind": "Vortex",
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
-    "FX": {
-      "Preset": "Tornado",
-      "CastSound": "/Game/LaPlace/Audio/Wind/tornado_start.tornado_start",
-      "TravelSound": "/Game/LaPlace/Audio/Wind/tornado_loop.tornado_loop"
-    },
+    "ElementRequirement": "Wind",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_Tornado.T_Icon_Wind_Tornado",
     "MasteryXP": 10,
+    "ManaCost": 110,
+    "Cooldown": 22,
+    "CastTime": 0.55,
+    "RecoveryTime": 0.45,
+    "Range": 1600,
+    "AOERadius": 360,
+    "Damage": 12,
+    "Stagger": 6,
+    "Knockback": 0,
+    "Duration": 6,
+    "bDisruptable": true,
+    "ZoneKind": "Vortex",
+    "ZoneMoveSpeed": 220,
+    "PulseInterval": 0.25,
+    "Params": {
+      "GrowTo": 560,
+      "FormTime": 0.4,
+      "PullScale": 2.2,
+      "PullSpeed": 650,
+      "HeavyPullSpeed": 250,
+      "LiftTime": 1.2,
+      "LiftHeight": 320,
+      "OrbitSpeed": 300,
+      "HeavySlow": 0.5
+    },
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Tornado.A_Rudeus_Cast_Tornado",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2126,9 +2305,12 @@
         }
       ]
     },
-    "ZoneMoveSpeed": 260,
-    "PulseInterval": 0.4,
-    "ElementRequirement": "Wind"
+    "FX": {
+      "Preset": "Tornado",
+      "CastSound": "/Game/LaPlace/Audio/Wind/wind_gather.wind_gather",
+      "TravelSound": "/Game/LaPlace/Audio/Wind/tornado_loop.tornado_loop",
+      "AccentSound": "/Game/LaPlace/Audio/Wind/tornado_form.tornado_form"
+    }
   },
   {
     "AbilityID": "Wind_WindBurst",
@@ -2136,26 +2318,27 @@
     "Description": "Compressed air bursts out of the caster in rings, flattening the grass and throwing nearby enemies back.",
     "Behavior": "Zone",
     "Element": "Wind",
-    "ManaCost": 45,
-    "Cooldown": 8,
-    "CastTime": 0.25,
-    "RecoveryTime": 0.35,
+    "ElementRequirement": "Wind",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_WindBurst.T_Icon_Wind_WindBurst",
+    "MasteryXP": 5,
+    "ManaCost": 35,
+    "Cooldown": 7,
+    "CastTime": 0.12,
+    "RecoveryTime": 0.3,
     "Range": 0,
-    "AOERadius": 650,
-    "Damage": 20,
-    "Stagger": 60,
-    "Knockback": 900,
+    "AOERadius": 620,
+    "Damage": 30,
+    "Stagger": 50,
+    "Knockback": 1500,
+    "Launch": 350,
     "Duration": 0.5,
     "bDisruptable": false,
     "ZoneKind": "Burst",
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastTwoHand.A_Rudeus_CastTwoHand",
-    "FX": {
-      "Preset": "WindBurst",
-      "CastSound": "/Game/LaPlace/Audio/Wind/wind_gather.wind_gather",
-      "ImpactSound": "/Game/LaPlace/Audio/Wind/wind_burst.wind_burst"
+    "Params": {
+      "Invulnerable": 0.25,
+      "DeflectRadius": 700
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Wind_WindBurst.T_Icon_Wind_WindBurst",
-    "MasteryXP": 5,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_WindBurst.A_Rudeus_Cast_WindBurst",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2163,7 +2346,11 @@
         }
       ]
     },
-    "ElementRequirement": "Wind"
+    "FX": {
+      "Preset": "WindBurst",
+      "CastSound": "/Game/LaPlace/Audio/Wind/wind_compress.wind_compress",
+      "ImpactSound": "/Game/LaPlace/Audio/Wind/wind_burst.wind_burst"
+    }
   },
   {
     "AbilityID": "Earth_StoneCannon",
@@ -2171,47 +2358,56 @@
     "Description": "Rock forms above the hand, compresses and spins up before launching at tremendous speed. Hold to compress it further.",
     "Behavior": "Projectile",
     "Element": "Earth",
-    "ManaCost": 35,
+    "ElementRequirement": "Earth",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_StoneCannon.T_Icon_Earth_StoneCannon",
+    "MasteryXP": 4,
+    "ManaCost": 32,
     "Cooldown": 2.0,
     "CastTime": 0.35,
     "RecoveryTime": 0.3,
-    "Range": 3200,
+    "Range": 3500,
+    "AOERadius": 170,
     "Damage": 60,
     "Stagger": 45,
-    "Knockback": 260,
+    "Knockback": 700,
+    "Launch": 200,
     "bChargeable": true,
     "MaxChargeTime": 1.2,
-    "ChargeSpeedScale": 1.5,
-    "ChargeDamageScale": 1.8,
+    "ChargeSpeedScale": 1.4,
+    "ChargeDamageScale": 2.0,
     "ChargeStaggerScale": 1.6,
     "ChargeManaScale": 1.4,
+    "ChargeSizeScale": 1.3,
+    "ChargeRadiusScale": 1.4,
+    "ChargeKnockbackScale": 1.4,
     "Motion": "Straight",
-    "ProjectileSpeed": 3800,
-    "ProjectileRadius": 20,
+    "ProjectileSpeed": 6500,
+    "ProjectileRadius": 22,
     "ProjectileGravity": 0,
     "bDisruptable": true,
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Charge.A_Rudeus_StoneCannon_Charge",
-    "MontageStartSection": "Charge",
-    "MontageReleaseSection": "Release",
-    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Hold.A_Rudeus_StoneCannon_Hold",
-    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_StoneCannon_Release.A_Rudeus_StoneCannon_Release",
-    "FX": {
-      "Preset": "StoneCannon",
-      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
-      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
-      "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact"
-    },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_StoneCannon.T_Icon_Earth_StoneCannon",
-    "MasteryXP": 4,
+    "PierceCount": 1,
+    "PierceMaxHealth": 400,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_StoneCannon.A_Rudeus_Cast_StoneCannon",
+    "CastSocket": "hand_r",
+    "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_StoneCannon_Hold.A_Rudeus_Cast_StoneCannon_Hold",
+    "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_StoneCannon_Release.A_Rudeus_Cast_StoneCannon_Release",
     "ActivationTags": {
       "GameplayTags": [
         {
           "TagName": "State.Casting"
+        },
+        {
+          "TagName": "State.Charging"
         }
       ]
     },
-    "AOERadius": 150,
-    "ElementRequirement": "Earth"
+    "FX": {
+      "Preset": "StoneCannon",
+      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
+      "ReleaseSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_spin_loop.stone_spin_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/rock_impact.rock_impact"
+    }
   },
   {
     "AbilityID": "Earth_EarthWall",
@@ -2219,32 +2415,33 @@
     "Description": "The ground cracks and thick slabs of stone burst upward, shedding dirt and rubble. The walls physically block attacks.",
     "Behavior": "Structure",
     "Element": "Earth",
-    "ManaCost": 70,
-    "Cooldown": 16,
-    "CastTime": 0.45,
-    "RecoveryTime": 0.4,
-    "Range": 500,
-    "Damage": 10,
-    "Stagger": 25,
-    "Duration": 14,
-    "bDisruptable": true,
-    "StructureCount": 3,
-    "StructureHealth": 380,
-    "StructureExtent": {
-      "X": 70,
-      "Y": 170,
-      "Z": 170
-    },
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
-    "FX": {
-      "Preset": "EarthWall",
-      "CastSound": "/Game/LaPlace/Audio/Earth/ground_rumble_loop.ground_rumble_loop",
-      "ImpactSound": "/Game/LaPlace/Audio/Earth/earth_wall_rise.earth_wall_rise",
-      "BodyMesh": "/Game/LaPlace/Kit/VFX/SM_VFX_EarthWall.SM_VFX_EarthWall",
-      "BodyMaterial": "/Game/LaPlace/VFX/Materials/M_VFX_Rock.M_VFX_Rock"
-    },
+    "ElementRequirement": "Earth",
     "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_EarthWall.T_Icon_Earth_EarthWall",
     "MasteryXP": 8,
+    "ManaCost": 70,
+    "Cooldown": 18,
+    "CastTime": 0.4,
+    "RecoveryTime": 0.4,
+    "Range": 550,
+    "Damage": 10,
+    "Stagger": 25,
+    "Duration": 15,
+    "bDisruptable": true,
+    "StructureCount": 7,
+    "StructureHealth": 450,
+    "StructureExtent": {
+      "X": 45,
+      "Y": 85,
+      "Z": 150
+    },
+    "Params": {
+      "ArcRadius": 550,
+      "RiseStep": 0.06,
+      "Tilt": 6,
+      "HeightJitter": 0.15
+    },
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_EarthWall.A_Rudeus_Cast_EarthWall",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2252,7 +2449,15 @@
         }
       ]
     },
-    "ElementRequirement": "Earth"
+    "FX": {
+      "BodyMesh": "/Game/LaPlace/Kit/VFX/SM_VFX_EarthWall.SM_VFX_EarthWall",
+      "BodyMaterial": "/Game/LaPlace/VFX/Materials/M_VFX_Rock.M_VFX_Rock",
+      "Preset": "EarthWall",
+      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/earth_wall_crack.earth_wall_crack",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/earth_wall_rise.earth_wall_rise",
+      "AccentSound": "/Game/LaPlace/Audio/Earth/earth_wall_crumble.earth_wall_crumble"
+    }
   },
   {
     "AbilityID": "Earth_EarthSpikes",
@@ -2260,25 +2465,38 @@
     "Description": "Cracks race across the ground toward the target and stone spikes erupt one after another in their wake.",
     "Behavior": "Zone",
     "Element": "Earth",
+    "ElementRequirement": "Earth",
+    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_EarthSpikes.T_Icon_Earth_EarthSpikes",
+    "MasteryXP": 6,
     "ManaCost": 60,
     "Cooldown": 9,
     "CastTime": 0.4,
     "RecoveryTime": 0.35,
-    "Range": 1500,
-    "AOERadius": 200,
-    "Damage": 45,
-    "Stagger": 70,
-    "Duration": 1.4,
+    "Range": 1300,
+    "AOERadius": 300,
+    "InnerRadius": 150,
+    "Damage": 55,
+    "Stagger": 50,
+    "Knockback": 300,
+    "Launch": 450,
+    "Duration": 2.0,
     "bDisruptable": false,
     "ZoneKind": "LineEruptions",
-    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_CastGround.A_Rudeus_CastGround",
-    "FX": {
-      "Preset": "EarthSpikes",
-      "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
-      "ImpactSound": "/Game/LaPlace/Audio/Earth/earth_spike.earth_spike"
+    "ActivationDelay": 0.05,
+    "PulseCount": 4,
+    "PulseInterval": 0.12,
+    "Params": {
+      "Spike1": 320,
+      "Spike2": 640,
+      "Spike3": 960,
+      "Final": 1300,
+      "FinalRadius": 300,
+      "FinalDamage": 140,
+      "FinalLaunch": 950,
+      "CrumbleAfter": 1.2
     },
-    "Icon": "/Game/LaPlace/UI/Icons/T_Icon_Earth_EarthSpikes.T_Icon_Earth_EarthSpikes",
-    "MasteryXP": 6,
+    "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_EarthSpikes.A_Rudeus_Cast_EarthSpikes",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2286,11 +2504,43 @@
         }
       ]
     },
-    "Knockback": 380,
-    "InnerRadius": 150,
-    "ActivationDelay": 0.15,
-    "PulseCount": 7,
-    "PulseInterval": 0.07,
-    "ElementRequirement": "Earth"
+    "FX": {
+      "Preset": "EarthSpikes",
+      "CastSound": "/Game/LaPlace/Audio/Earth/ground_crack_run.ground_crack_run",
+      "ImpactSound": "/Game/LaPlace/Audio/Earth/earth_spike.earth_spike",
+      "AccentSound": "/Game/LaPlace/Audio/Earth/spike_final.spike_final"
+    }
+  },
+  {
+    "AbilityID": "Barrage_Finale",
+    "DisplayName": "Barrage: Four-Element Finale",
+    "Description": "The four formations collapse into one orb of earth, water, fire and wind that bursts in every element at once.",
+    "Behavior": "Projectile",
+    "Element": "Arcane",
+    "CharacterRequirement": "Rudeus",
+    "ManaCost": 0,
+    "Cooldown": 0,
+    "CastTime": 0,
+    "RecoveryTime": 0,
+    "Range": 3000,
+    "AOERadius": 900,
+    "Damage": 260,
+    "Stagger": 120,
+    "Knockback": 1100,
+    "Launch": 550,
+    "Motion": "Straight",
+    "ProjectileSpeed": 7000,
+    "ProjectileRadius": 60,
+    "ProjectileGravity": 0,
+    "bDisruptable": true,
+    "Params": {
+      "SplashScale": 1.0
+    },
+    "MasteryXP": 2,
+    "FX": {
+      "Preset": "BarrageFinale",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
+      "ImpactSound": "/Game/LaPlace/Audio/Rudeus/barrage_finale.barrage_finale"
+    }
   }
 ]

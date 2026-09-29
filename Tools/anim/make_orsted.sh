@@ -26,7 +26,7 @@ echo "== 3/5 independent verification"
   --clips A_Orsted_Walk A_Orsted_DisturbMagic A_Orsted_DragonStep --sheet "$IMG_DIR/Verify_Orsted.png"
 echo "== 4/5 motion quality on the skinned mesh, every frame"
 "$PY" "$ROOT/Tools/anim/qa_animation_quality.py" --character Orsted --json "$ROOT/Docs/QA_Animation_Metrics_Orsted.json"
-echo "== 5/5 point Orsted's data at his own clips, then validate"
+echo "== 5/5 point Orsted's AnimSet row at his own clips (new keys are added; Abilities.json only with --write-abilities), then validate"
 "$PY" "$ROOT/Tools/anim/use_character_clips.py" Orsted
 "$PY" "$ROOT/Tools/validate_data.py"
 echo "Done. Next, in Unreal: Tools/mac/build_and_setup.sh (imports Orsted_Animated.glb via mt_setup_orsted.py)."

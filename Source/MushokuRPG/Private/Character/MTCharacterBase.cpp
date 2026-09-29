@@ -327,6 +327,7 @@ void AMTCharacterBase::Tick(float DeltaSeconds)
 		StateTags.RemoveTag(MTTags::State_Staggered);
 	}
 
+	UpdateMudSink(DeltaSeconds);
 	UpdateMovementFromModifiers();
 }
 
@@ -449,10 +450,54 @@ void AMTCharacterBase::HandleDamaged(const FMTDamageSpec& Spec, const FMTDamageR
 	}
 	PlayHitReaction(Result.Reaction, Spec.HitDirection);
 
-	if (Spec.Knockback > 0.f && (Result.Reaction == EMTHitReaction::Knockback || Result.Reaction == EMTHitReaction::Knockdown))
+	if (Spec.Launch > 0.f)
+	{
+		// Launching hits throw the body whatever the poise reaction: heavy (crowd-control immune) targets take 35%.
+		const float Weight = (Attributes && Attributes->bCrowdControlImmune) ? 0.35f : 1.f;
+		const FVector Push = Spec.HitDirection.GetSafeNormal2D() * Spec.Knockback * Weight + FVector(0.f, 0.f, Spec.Launch * Weight);
+		LaunchCharacter(Push, true, true);
+	}
+	else if (Spec.Knockback > 0.f && (Result.Reaction == EMTHitReaction::Knockback || Result.Reaction == EMTHitReaction::Knockdown))
 	{
 		const FVector Push = Spec.HitDirection.GetSafeNormal2D() * Spec.Knockback + FVector(0.f, 0.f, Result.Reaction == EMTHitReaction::Knockdown ? 250.f : 60.f);
 		LaunchCharacter(Push, true, true);
+	}
+}
+
+void AMTCharacterBase::SetMudSink(float DepthCm, float EaseSeconds)
+{
+	MudSinkTarget = FMath::Clamp(DepthCm, 0.f, 60.f);
+	MudSinkRate = FMath::Max(5.f, FMath::Max(MudSinkTarget, MudSink) / FMath::Max(0.05f, EaseSeconds));
+}
+
+void AMTCharacterBase::UpdateMudSink(float DeltaSeconds)
+{
+	USkeletalMeshComponent* Body = GetMesh();
+	if (!Body)
+	{
+		return;
+	}
+	if (!StateTags.HasTag(MTTags::State_InQuagmire) || !IsAlive())
+	{
+		// Out of the mud (or the mud dried): climb back out a little faster than it swallowed.
+		MudSinkTarget = 0.f;
+		MudSinkRate = FMath::Max(MudSinkRate, 50.f);
+	}
+	if (MudSink <= 0.f && MudSinkTarget <= 0.f)
+	{
+		return;
+	}
+	if (MudSink <= 0.f)
+	{
+		MudSinkMeshZ = Body->GetRelativeLocation().Z; // the height the lineage set up
+	}
+	MudSink = FMath::FInterpConstantTo(MudSink, MudSinkTarget, DeltaSeconds, MudSinkRate);
+	FVector Relative = Body->GetRelativeLocation();
+	Relative.Z = MudSinkMeshZ - MudSink;
+	Body->SetRelativeLocation(Relative);
+	if (MudSink <= KINDA_SMALL_NUMBER)
+	{
+		MudSink = 0.f; // back at the exact original height
 	}
 }
 

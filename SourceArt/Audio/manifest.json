@@ -156,6 +156,78 @@
       }
     },
     {
+      "file": "Fire/fireball_charge.wav",
+      "name": "fireball_charge",
+      "category": "Fire",
+      "duration": 1.4,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_Fireball charge (CastSound; full charge at 1.2 s, faded by the game on release): fire swirls inward and compresses, a rising roar that brightens toward a white-hot core",
+      "peak_dbfs": -2.18,
+      "true_peak_dbtp": -1.85,
+      "lufs_integrated": -16.84,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Fire/flamewave_roar.wav",
+      "name": "flamewave_roar",
+      "category": "Fire",
+      "duration": 1.4,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_FlameWave travelling wall (FlameWave.Segment; pairs with flamewave_cast): a wide rolling wall of fire sweeps forward 150-1300 cm in 0.9 s",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -14.32,
+      "lufs_momentary_max": -12.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Fire/inferno_circle.wav",
+      "name": "inferno_circle",
+      "category": "Fire",
+      "duration": 1.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Fire_Inferno formation (Inferno.Zone / Inferno.Vortex): magic circles ignite around the target area, fire answering a rising ominous hum",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -14.16,
+      "lufs_momentary_max": -13.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Fire/inferno_pillar.wav",
+      "name": "inferno_pillar",
+      "category": "Fire",
+      "duration": 1.1,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Inferno.Eruption (30 per cast, 3 every 0.35 s): one fire pillar erupts - a short soft-edged whoomp and roar that stays easy on the ear when repeated. Tier XS per pillar so the whole overlapping sequence lands at XL (randomise pitch +-2 semitones)",
+      "peak_dbfs": -6.57,
+      "true_peak_dbtp": -6.57,
+      "lufs_integrated": -21.57,
+      "lufs_momentary_max": -18.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -18.0
+      }
+    },
+    {
       "file": "Water/water_gather.wav",
       "name": "water_gather",
       "category": "Water",
@@ -282,6 +354,60 @@
       }
     },
     {
+      "file": "Water/water_lance.wav",
+      "name": "water_lance",
+      "category": "Water",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_WaterBullet as the Water Lance (WaterBullet.Release) / Barrage_WaterCannon: a high-pressure water jet fires with a hard hiss-crack",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.79,
+      "lufs_momentary_max": -13.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Water/water_dragon_roar.wav",
+      "name": "water_dragon_roar",
+      "category": "Water",
+      "duration": 2.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_WaterDragon hunting (WaterDragon.Travel, after water_dragon_rise): the water serpent surges and roars as it hunts its target",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -14.16,
+      "lufs_momentary_max": -12.03,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Water/flood_gather.wav",
+      "name": "flood_gather",
+      "category": "Water",
+      "duration": 1.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Water_Flood formation (Flood.Formation, behind the caster; flood_crash / flood_wave_loop follow): water rapidly piles up and swells",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.11,
+      "lufs_momentary_max": -13.09,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
       "file": "Wind/wind_gather.wav",
       "name": "wind_gather",
       "category": "Wind",
@@ -384,6 +510,60 @@
       "true_peak_dbtp": -1.03,
       "lufs_integrated": -17.66,
       "lufs_momentary_max": -13.03,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Wind/wind_slash.wav",
+      "name": "wind_slash",
+      "category": "Wind",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_WindBlade release (WindBlade.Release) / Barrage_WindBlade: a giant crescent of compressed air cuts out and tears away",
+      "peak_dbfs": -1.15,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.17,
+      "lufs_momentary_max": -13.06,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Wind/wind_compress.wav",
+      "name": "wind_compress",
+      "category": "Wind",
+      "duration": 0.3,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_WindBurst formation (WindBurst.Formation, cast 0.12 s; wind_burst follows): air is sucked inward just before the blast",
+      "peak_dbfs": -1.11,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.06,
+      "lufs_momentary_max": -16.06,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Wind/tornado_form.wav",
+      "name": "tornado_form",
+      "category": "Wind",
+      "duration": 1.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Wind_Tornado forming (Tornado.Formation, 0.4 s form time; tornado_loop carries on): a vortex spins up, touches down and tears upward",
+      "peak_dbfs": -2.1,
+      "true_peak_dbtp": -2.1,
+      "lufs_integrated": -15.14,
+      "lufs_momentary_max": -13.0,
       "loudness_target": {
         "metric": "momentary_max",
         "lufs": -13.0
@@ -552,6 +732,150 @@
       }
     },
     {
+      "file": "Earth/stone_compress.wav",
+      "name": "stone_compress",
+      "category": "Earth",
+      "duration": 1.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_StoneCannon charge (CastSound; full charge at 1.6 s, faded by the game on release, so every moment of the build works as an ending): rock fragments grind together, compress, spin up into a rising whine and a tight high vibration",
+      "peak_dbfs": -1.1,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.48,
+      "lufs_momentary_max": -14.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Earth/sonic_boom.wav",
+      "name": "sonic_boom",
+      "category": "Earth",
+      "duration": 1.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_StoneCannon release (RudeusCannon.Release, after stone_compress): a supersonic double crack, a pressure thump, and tearing air as the spinning slug leaves",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.14,
+      "lufs_momentary_max": -12.06,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Earth/quagmire_transform.wav",
+      "name": "quagmire_transform",
+      "category": "Earth",
+      "duration": 1.4,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_Quagmire transformation (Quagmire.Zone, 0-1.2 s; quagmire_loop carries on): the ground cracks, water seeps and gurgles up through the cracks, then thick mud churns",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -14.59,
+      "lufs_momentary_max": -13.04,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Earth/mud_squelch.wav",
+      "name": "mud_squelch",
+      "category": "Earth",
+      "duration": 0.45,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Quagmire.Splash / Quagmire.Ripple: a foot or body plunging into deep mud (randomise pitch +-2 semitones)",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.01,
+      "lufs_momentary_max": -16.01,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Earth/earth_wall_crack.wav",
+      "name": "earth_wall_crack",
+      "category": "Earth",
+      "duration": 0.7,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "EarthWall.Crack (a wall segment passes 66 % / 33 % health): the stone slab fractures under a hit",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.34,
+      "lufs_momentary_max": -13.03,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Earth/earth_wall_crumble.wav",
+      "name": "earth_wall_crumble",
+      "category": "Earth",
+      "duration": 1.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "EarthWall.Crumble (a wall segment breaks at 0 health or expires): a stone slab collapses into rubble",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -14.92,
+      "lufs_momentary_max": -12.08,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -12.0
+      }
+    },
+    {
+      "file": "Earth/spike_final.wav",
+      "name": "spike_final",
+      "category": "Earth",
+      "duration": 1.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "EarthSpikes.Final: the enormous final spike (VR 300, 7 m tall) bursts up through the ground - deep and huge",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -16.52,
+      "lufs_momentary_max": -11.07,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
+      "file": "Earth/ground_crack_run.wav",
+      "name": "ground_crack_run",
+      "category": "Earth",
+      "duration": 0.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Earth_EarthSpikes cast and ground-splitting strikes: cracks race away along the ground (before earth_spike / spike_final)",
+      "peak_dbfs": -2.45,
+      "true_peak_dbtp": -2.44,
+      "lufs_integrated": -16.63,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
       "file": "Orsted/palm_strike.wav",
       "name": "palm_strike",
       "category": "Orsted",
@@ -696,6 +1020,114 @@
       }
     },
     {
+      "file": "Orsted/disturb_pulse.wav",
+      "name": "disturb_pulse",
+      "category": "Orsted",
+      "duration": 0.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DisturbMagic cast and pulse (DisturbMagic.Cast / DisturbMagic.Pulse): a thin, fast, almost silent warped pulse",
+      "peak_dbfs": -3.43,
+      "true_peak_dbtp": -3.17,
+      "lufs_integrated": -20.77,
+      "lufs_momentary_max": -18.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -18.0
+      }
+    },
+    {
+      "file": "Orsted/disturb_collapse.wav",
+      "name": "disturb_collapse",
+      "category": "Orsted",
+      "duration": 0.9,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "DisturbMagic.Collapse<Element> (a forming spell or flying projectile is broken): the construct fails with a glassy crumble and its energy deflates",
+      "peak_dbfs": -2.02,
+      "true_peak_dbtp": -2.02,
+      "lufs_integrated": -17.65,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Orsted/seal.wav",
+      "name": "seal",
+      "category": "Orsted",
+      "duration": 0.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "DisturbMagic.Seal (the broken ability is sealed on that hand for 3 s): a muted magical lock clamping shut",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -18.37,
+      "lufs_momentary_max": -16.04,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -16.0
+      }
+    },
+    {
+      "file": "Orsted/dragon_step_arrive.wav",
+      "name": "dragon_step_arrive",
+      "category": "Orsted",
+      "duration": 0.6,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DragonStep arrival (DragonStep.Arrive, VR 220 pressure ring beside the target): a dry pressure thump",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -17.28,
+      "lufs_momentary_max": -14.04,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Orsted/dragon_crush_charge.wav",
+      "name": "dragon_crush_charge",
+      "category": "Orsted",
+      "duration": 0.5,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DragonCrush wind-up (DragonCrush.Formation, 0.40 s; 0.14 s out of Dragon Step): the Dragon God aura compresses and tightens around the arm",
+      "peak_dbfs": -1.32,
+      "true_peak_dbtp": -1.31,
+      "lufs_integrated": -14.36,
+      "lufs_momentary_max": -14.0,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -14.0
+      }
+    },
+    {
+      "file": "Orsted/dragon_crush_impact.wav",
+      "name": "dragon_crush_impact",
+      "category": "Orsted",
+      "duration": 2.2,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Orsted_DragonCrush impact (DragonCrush.Impact, VR 650; the 0.085 s hit-stop sits between the blow and the ground breaking): the heaviest close-range hit - bass impact, broken ground, a debris rumble tail",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -19.08,
+      "lufs_momentary_max": -11.1,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
+      }
+    },
+    {
       "file": "Rudeus/demon_eye.wav",
       "name": "demon_eye",
       "category": "Rudeus",
@@ -747,6 +1179,42 @@
       "loudness_target": {
         "metric": "momentary_max",
         "lufs": -16.0
+      }
+    },
+    {
+      "file": "Rudeus/barrage_orbs.wav",
+      "name": "barrage_orbs",
+      "category": "Rudeus",
+      "duration": 0.8,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "Rudeus_ElementalBarrage formation (Barrage.Formation / Barrage.Orb*; the barrage starts at 0.6 s): fire, water, earth and wind ignite around Rudeus one after another",
+      "peak_dbfs": -1.04,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -15.21,
+      "lufs_momentary_max": -13.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -13.0
+      }
+    },
+    {
+      "file": "Rudeus/barrage_finale.wav",
+      "name": "barrage_finale",
+      "category": "Rudeus",
+      "duration": 3.0,
+      "loop": false,
+      "channels": 1,
+      "spatial": "3D",
+      "use": "BarrageFinale.Impact (Rudeus_ElementalBarrage finale, VR 900): one huge multi-element blast - earth erupts outward, water spirals up, fire expands through the centre, wind drives it all out",
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.03,
+      "lufs_integrated": -14.61,
+      "lufs_momentary_max": -11.05,
+      "loudness_target": {
+        "metric": "momentary_max",
+        "lufs": -11.0
       }
     },
     {

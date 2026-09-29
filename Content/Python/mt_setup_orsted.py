@@ -1,6 +1,7 @@
 """Editor automation for Orsted: the same steps as mt_setup_rudeus.py, for
 SourceArt/Characters/Orsted/Orsted_Animated.glb (made by Tools/anim/make_orsted.sh), imported into
-/Game/Characters/Orsted as SK_Orsted with every A_Orsted_<Key> clip in /Game/Characters/Orsted/Animations.
+/Game/Characters/Orsted as SK_Orsted with every A_Orsted_<Key> clip in /Game/Characters/Orsted/Animations, and each clip's
+gameplay events (Orsted_Animated.anim.json "events": his earlier Release times) added as MTAnimNotify_Event notifies.
 
 Run headless (Tools/mac/build_and_setup.sh does this when the GLB exists):
     UnrealEditor MushokuRPG.uproject -run=pythonscript -script=<abs path to this file> -unattended -nullrhi

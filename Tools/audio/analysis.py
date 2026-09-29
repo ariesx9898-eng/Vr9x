@@ -232,7 +232,8 @@ def font(size: int, mono: bool = True):
     key = (size, mono)
     if key in _FONT_CACHE:
         return _FONT_CACHE[key]
-    cands = (["/System/Library/Fonts/Menlo.ttc", "/System/Library/Fonts/Monaco.ttf"] if mono else []) + [
+    cands = (["/System/Library/Fonts/Menlo.ttc", "/System/Library/Fonts/Monaco.ttf",
+              "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"] if mono else []) + [
         "/System/Library/Fonts/Helvetica.ttc", "/System/Library/Fonts/Supplemental/Arial.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"]
     f = None

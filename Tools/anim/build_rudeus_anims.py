@@ -142,17 +142,29 @@ def author_clip(rig, mesh, name, duration, loop, fn):
     return act
 
 
-def contact_sheet(rig, mesh, name, duration, loop, fn, views=("side", "front"), count=6):
+SHEET_BOX = ((-0.95, -0.05), (0.95, 1.85))  # Rudeus's framing; taller lineages get a taller box (main)
+
+
+def contact_sheet(rig, mesh, name, duration, loop, fn, views=("side", "front"), count=6, events=None):
+    times = [duration * k / count if loop else duration * k / max(1, count - 1) for k in range(count)]
+    tags = [""] * count
+    for event, te in sorted((events or {}).items(), key=lambda kv: kv[1]):
+        # show the event frame itself: it replaces the nearest free sample (the first/last stay when possible)
+        free = [k for k in range(count) if not tags[k]] or list(range(count))
+        inner = [k for k in free if 0 < k < count - 1] or free
+        k = min(inner, key=lambda k: abs(times[k] - te))
+        times[k], tags[k] = te, event
+    order = sorted(range(count), key=lambda k: times[k])
     imgs, labels = [], []
     for view in views:
-        for k in range(count):
-            t = duration * k / count if loop else duration * k / max(1, count - 1)
+        for k in order:
+            t = times[k]
             D, pel = ground_corrected(rig, mesh, name, fn(t))
             rig.apply(D, pel)
             bpy.context.view_layer.update()
             co, tri, uv = preview.evaluate(rig.obj, mesh)
-            imgs.append(preview.draw(co, tri, uv, view, size=300, frame_box=((-0.95, -0.05), (0.95, 1.85))))
-            labels.append("%s %s t=%.2f" % (name, view, t))
+            imgs.append(preview.draw(co, tri, uv, view, size=300, frame_box=SHEET_BOX))
+            labels.append("%s %s t=%.2f%s" % (name, view, t, " " + tags[k] if tags[k] else ""))
     return preview.sheet(imgs, count, labels)
 
 
@@ -200,6 +212,12 @@ def main():
     scn = bpy.context.scene
     scn.render.fps, scn.render.fps_base = C.FPS, 1.0   # keys are authored at 30 fps; exporter converts frames->seconds with this
     rig = L.Rig(arm)
+    global SHEET_BOX
+    bpy.context.view_layer.update()
+    top = float(preview.evaluate(arm, mesh)[0][:, 2].max())  # bind-pose height: a 1.95 m lineage keeps its head in frame
+    if top * 1.04 > SHEET_BOX[1][1]:
+        k = top * 1.04 / SHEET_BOX[1][1]
+        SHEET_BOX = ((SHEET_BOX[0][0] * k, SHEET_BOX[0][1]), (SHEET_BOX[1][0] * k, SHEET_BOX[1][1] * k))
     names = args.clips or list(C.CLIPS.keys())
     report = []
     if args.sheets:
@@ -223,7 +241,8 @@ def main():
         report.append(q)
         print(json.dumps(q))
         if args.sheets:
-            contact_sheet(rig, mesh, name, duration, loop, fn).save(os.path.join(QA_DIR, "%s%s.png" % (PREFIX, name)))
+            contact_sheet(rig, mesh, name, duration, loop, fn, events=getattr(C, "EVENTS", {}).get(name)).save(
+                os.path.join(QA_DIR, "%s%s.png" % (PREFIX, name)))
     if not args.no_export:
         for name in names:
             duration, loop, fn = C.CLIPS[name]
@@ -234,10 +253,27 @@ def main():
         for name, G in C.GAITS.items():
             if name in meta:
                 meta[name]["ref_speed_cm_s"] = round(G["speed"] * 100, 1)
+        events = clip_events(names)
         os.makedirs(os.path.dirname(OUT_GLB), exist_ok=True)
         with open(OUT_GLB.replace(".glb", ".anim.json"), "w") as f:
-            json.dump({"clips": meta, "qa": report}, f, indent=1)
-        print("exported", OUT_GLB)
+            json.dump({"clips": meta, "events": events, "qa": report}, f, indent=1)
+        print("exported", OUT_GLB, "(%d clips, events on %d)" % (len(names), len(events)))
+
+
+def clip_events(names):
+    """Gameplay events per clip (C.EVENTS: key -> {"Release": s, "Finale": s ...}), checked against the exported length.
+    The sidecar carries them; Content/Python/mt_setup_rudeus.py turns them into UMTAnimNotify_Event notifies."""
+    out = {}
+    for name in names:
+        ev = getattr(C, "EVENTS", {}).get(name)
+        if not ev:
+            continue
+        length = frames_for(C.CLIPS[name][0]) / C.FPS  # what the importer sees (whole 30 fps frames)
+        for event, t in ev.items():
+            if not 0.0 <= t <= length + 1e-6:
+                raise SystemExit("%s: event %s at %.3f s is outside the exported clip (%.3f s)" % (name, event, t, length))
+        out[name] = {event: round(float(t), 4) for event, t in ev.items()}
+    return out
 
 
 if __name__ == "__main__":

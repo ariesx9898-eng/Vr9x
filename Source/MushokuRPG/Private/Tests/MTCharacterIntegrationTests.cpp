@@ -19,6 +19,7 @@
 #include "Character/MTPlayerCharacter.h"
 #include "Combat/MTEarthWall.h"
 #include "Combat/MTProjectile.h"
+#include "Combat/MTWaterSerpent.h"
 #include "Combat/MTZoneActor.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -536,6 +537,428 @@ bool FMTSpellLeavesCasterTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("the caster takes no damage from their own spell"), CasterAfter, CasterBefore);
 	TestTrue(TEXT("the bolt reaches the target 9 m away"), TargetAfter < TargetBefore);
 	AddInfo(FString::Printf(TEXT("caster %.0f -> %.0f, target %.0f -> %.0f"), CasterBefore, CasterAfter, TargetBefore, TargetAfter));
+	return true;
+}
+
+// ---------------------------------------------------------------------------------------------------- ability overhaul
+// Docs/Ability_Overhaul.md: every upgraded ability does what the design says, from the hotbar path, and leaves nothing
+// behind.
+
+namespace MTTest
+{
+	/** Distance (2D) between two actors. */
+	float Apart(const AActor* A, const AActor* B)
+	{
+		return FVector::Dist2D(A->GetActorLocation(), B->GetActorLocation());
+	}
+
+	int32 CountLive(UWorld* World, UClass* Class)
+	{
+		int32 Count = 0;
+		for (TActorIterator<AActor> It(World, Class); It; ++It)
+		{
+			if (!It->IsActorBeingDestroyed())
+			{
+				++Count;
+			}
+		}
+		return Count;
+	}
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTOverhaulDataTest, "MushokuRPG.Abilities.OverhaulData", MTTest::Flags)
+bool FMTOverhaulDataTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	const UMTDataRegistry* Registry = UMTDataRegistry::Get(Game.World);
+	struct FExpect { const TCHAR* Id; EMTAbilityBehavior Behavior; };
+	const FExpect Expected[] = {
+		{ TEXT("Rudeus_StoneCannon"), EMTAbilityBehavior::Projectile }, { TEXT("Rudeus_Quagmire"), EMTAbilityBehavior::Zone },
+		{ TEXT("Rudeus_ElementalBarrage"), EMTAbilityBehavior::Barrage }, { TEXT("Orsted_DisturbMagic"), EMTAbilityBehavior::Disrupt },
+		{ TEXT("Orsted_DragonStep"), EMTAbilityBehavior::Dash }, { TEXT("Orsted_DragonCrush"), EMTAbilityBehavior::Strike },
+		{ TEXT("Fire_Fireball"), EMTAbilityBehavior::Projectile }, { TEXT("Fire_FlameWave"), EMTAbilityBehavior::Zone },
+		{ TEXT("Fire_Inferno"), EMTAbilityBehavior::Zone }, { TEXT("Water_WaterBullet"), EMTAbilityBehavior::Projectile },
+		{ TEXT("Water_WaterDragon"), EMTAbilityBehavior::Serpent }, { TEXT("Water_Flood"), EMTAbilityBehavior::Zone },
+		{ TEXT("Earth_StoneCannon"), EMTAbilityBehavior::Projectile }, { TEXT("Earth_EarthWall"), EMTAbilityBehavior::Structure },
+		{ TEXT("Earth_EarthSpikes"), EMTAbilityBehavior::Zone }, { TEXT("Wind_WindBlade"), EMTAbilityBehavior::Projectile },
+		{ TEXT("Wind_Tornado"), EMTAbilityBehavior::Zone }, { TEXT("Wind_WindBurst"), EMTAbilityBehavior::Zone },
+	};
+	for (const FExpect& E : Expected)
+	{
+		const FMTAbilityData* Row = Registry->FindAbility(E.Id);
+		if (!TestNotNull(*FString::Printf(TEXT("%s exists"), E.Id), Row))
+		{
+			continue;
+		}
+		TestTrue(FString::Printf(TEXT("%s uses its overhaul behaviour"), E.Id), Row->Behavior == E.Behavior);
+		TestFalse(FString::Printf(TEXT("%s has a runtime effect preset"), E.Id), Row->FX.Preset.IsNone());
+		TestFalse(FString::Printf(TEXT("%s has a casting animation"), E.Id), Row->Montage.IsNull());
+		TestTrue(FString::Printf(TEXT("%s hitbox is honest (x%.2f)"), E.Id, Row->HitForgiveness), Row->HitForgiveness >= 1.f && Row->HitForgiveness <= 1.15f);
+	}
+	for (const FName CharacterId : { FName(TEXT("Rudeus")), FName(TEXT("Orsted")) })
+	{
+		const FMTCharacterData* Character = Registry->FindCharacter(CharacterId);
+		if (TestNotNull(*FString::Printf(TEXT("%s row"), *CharacterId.ToString()), Character))
+		{
+			TestEqual(*FString::Printf(TEXT("%s default loadout fills keys 1-4"), *CharacterId.ToString()), Character->DefaultLoadout.Num(), 4);
+			for (const FName Id : Character->DefaultLoadout)
+			{
+				TestNotNull(*FString::Printf(TEXT("%s loadout ability %s"), *CharacterId.ToString(), *Id.ToString()), Registry->FindAbility(Id));
+			}
+		}
+	}
+	if (const FMTAbilityData* Step = Registry->FindAbility(TEXT("Orsted_DragonStep")))
+	{
+		TestTrue(TEXT("Dragon Step flows into Dragon Crush"), Step->ComboFollowUp == FName(TEXT("Orsted_DragonCrush")));
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTStoneCannonPierceTest, "MushokuRPG.Abilities.StoneCannonPierces", MTTest::Flags)
+bool FMTStoneCannonPierceTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Rudeus = Game.SpawnPlayer(TEXT("Rudeus"), FVector::ZeroVector, 0.f);
+	TArray<AMTEnemyCharacter*> Line;
+	for (int32 i = 0; i < 4; ++i)
+	{
+		Line.Add(Game.SpawnOpponent(TEXT("Enemy_Goblin"), FVector(600.f + 220.f * i, 0.f, 0.f)));
+	}
+	AMTEnemyCharacter* Heavy = Game.SpawnOpponent(TEXT("Elite_WolfAlpha"), FVector(600.f, 900.f, 0.f));
+	if (!TestNotNull(TEXT("Rudeus"), Rudeus) || Line.Contains(nullptr) || !TestNotNull(TEXT("heavy target"), Heavy))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	const FMTAbilityData* Cannon = UMTDataRegistry::Get(Game.World)->FindAbility(TEXT("Rudeus_StoneCannon"));
+	if (!TestNotNull(TEXT("Rudeus_StoneCannon row"), Cannon))
+	{
+		return false;
+	}
+	// Through a line of light enemies: the first three are passed through, the fourth stops it.
+	TArray<float> Before;
+	for (AMTEnemyCharacter* Goblin : Line)
+	{
+		Before.Add(Goblin->GetAttributes()->GetHealth());
+	}
+	const FVector From = Rudeus->GetActorLocation() + FVector(60.f, 0.f, 0.f);
+	UMTAbility_Projectile::FireProjectile(Rudeus, *Cannon, From, From + FVector(3000.f, 0.f, 0.f), 0.f);
+	Game.Tick(0.6f);
+	int32 Damaged = 0;
+	for (int32 i = 0; i < Line.Num(); ++i)
+	{
+		const bool bHit = !IsValid(Line[i]) || Line[i]->GetAttributes()->GetHealth() < Before[i];
+		Damaged += bHit ? 1 : 0;
+		TestTrue(FString::Printf(TEXT("goblin %d in the line is hit"), i + 1), bHit);
+	}
+	// A heavy target (900 max health) stops it on the first contact.
+	const float HeavyBefore = Heavy->GetAttributes()->GetHealth();
+	const FVector HeavyFrom = Rudeus->GetActorLocation() + FVector(60.f, 900.f, 0.f);
+	AMTProjectile* Second = UMTAbility_Projectile::FireProjectile(Rudeus, *Cannon, HeavyFrom, HeavyFrom + FVector(3000.f, 0.f, 0.f), 0.f);
+	TWeakObjectPtr<AMTProjectile> WeakSecond(Second);
+	Game.Tick(0.3f);
+	TestTrue(TEXT("the heavy target is hit"), Heavy->GetAttributes()->GetHealth() < HeavyBefore);
+	TestTrue(TEXT("and the cannon stops on it"), !WeakSecond.IsValid() || WeakSecond->GetVelocity().IsNearlyZero());
+	AddInfo(FString::Printf(TEXT("pierce: %d of 4 goblins hit; heavy target %.0f -> %.0f"), Damaged, HeavyBefore, Heavy->GetAttributes()->GetHealth()));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTQuagmireDepthTest, "MushokuRPG.Abilities.QuagmireDepthAndSink", MTTest::Flags)
+bool FMTQuagmireDepthTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Rudeus = Game.SpawnPlayer(TEXT("Rudeus"), FVector::ZeroVector, 0.f);
+	AMTEnemyCharacter* Centre = Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(1500.f, 0.f, 0.f));
+	AMTEnemyCharacter* Edge = Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(1500.f, 820.f, 0.f));
+	AMTEnemyCharacter* Outside = Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(1500.f, -1400.f, 0.f));
+	const FMTAbilityData* Row = UMTDataRegistry::Get(Game.World)->FindAbility(TEXT("Rudeus_Quagmire"));
+	if (!TestNotNull(TEXT("Rudeus"), Rudeus) || !TestNotNull(TEXT("centre"), Centre) || !TestNotNull(TEXT("edge"), Edge)
+		|| !TestNotNull(TEXT("outside"), Outside) || !TestNotNull(TEXT("Rudeus_Quagmire row"), Row))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	FActorSpawnParameters Params;
+	Params.Owner = Rudeus;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	AMTZoneActor* Zone = Game.World->SpawnActor<AMTZoneActor>(AMTZoneActor::StaticClass(), FVector(1500.f, 0.f, 0.f), FRotator::ZeroRotator, Params);
+	if (!TestNotNull(TEXT("quagmire zone"), Zone))
+	{
+		return false;
+	}
+	Zone->InitZone(*Row, Rudeus, 1.f, false);
+	Game.Tick(0.2f);
+	const float EarlySpeed = Centre->GetCharacterMovement()->MaxWalkSpeed;
+	Game.Tick(1.8f); // past the 1.2 s transformation: the mud has fully formed
+	const float CentreSpeed = Centre->GetCharacterMovement()->MaxWalkSpeed;
+	const float EdgeSpeed = Edge->GetCharacterMovement()->MaxWalkSpeed;
+	const float FreeSpeed = Outside->GetCharacterMovement()->MaxWalkSpeed;
+	TestTrue(TEXT("the centre is in the quagmire"), Centre->GetStateTags().HasTag(MTTags::State_InQuagmire));
+	TestTrue(TEXT("the edge is in the quagmire"), Edge->GetStateTags().HasTag(MTTags::State_InQuagmire));
+	TestFalse(TEXT("outside is not"), Outside->GetStateTags().HasTag(MTTags::State_InQuagmire));
+	TestTrue(FString::Printf(TEXT("the mud bites harder once formed (%.0f -> %.0f)"), EarlySpeed, CentreSpeed), CentreSpeed < EarlySpeed || EarlySpeed <= 0.f);
+	TestTrue(FString::Printf(TEXT("deepest at the centre (%.0f < %.0f < %.0f cm/s)"), CentreSpeed, EdgeSpeed, FreeSpeed), CentreSpeed < EdgeSpeed && EdgeSpeed < FreeSpeed);
+	TestTrue(FString::Printf(TEXT("bodies sink into it (%.1f cm at the centre)"), Centre->GetMudSink()), Centre->GetMudSink() > 12.f);
+	TestTrue(TEXT("less at the edge"), Edge->GetMudSink() < Centre->GetMudSink());
+	Game.Tick(10.f); // 9 s zone: dried
+	TestFalse(TEXT("the quagmire dries"), Centre->GetStateTags().HasTag(MTTags::State_InQuagmire));
+	TestTrue(FString::Printf(TEXT("bodies climb back out (%.1f cm)"), Centre->GetMudSink()), Centre->GetMudSink() < 0.5f);
+	AddInfo(FString::Printf(TEXT("quagmire: speed centre %.0f, edge %.0f, outside %.0f cm/s; sink centre %.1f cm"), CentreSpeed, EdgeSpeed, FreeSpeed,
+		Centre->GetMudSink()));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTDisturbSealTest, "MushokuRPG.Orsted.DisturbMagicSeals", MTTest::Flags)
+bool FMTDisturbSealTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Orsted = Game.SpawnPlayer(TEXT("Orsted"), FVector::ZeroVector, 0.f);
+	AMTEnemyCharacter* Rudeus = Game.SpawnOpponent(TEXT("Arena_Rudeus"), FVector(1200.f, 0.f, 0.f));
+	if (!TestNotNull(TEXT("Orsted"), Orsted) || !TestNotNull(TEXT("Rudeus"), Rudeus))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	// Rudeus starts charging a Stone Cannon (held: it stays in its forming phase).
+	UMTAbilityComponent* RudeusAbilities = Rudeus->GetAbilities();
+	TestTrue(TEXT("Rudeus starts forming a Stone Cannon"), RudeusAbilities->ActivateAbilityById(TEXT("Rudeus_StoneCannon")));
+	Game.Tick(0.2f);
+	const UMTAbility* Forming = RudeusAbilities->GetActiveAbility();
+	TestTrue(TEXT("the spell is still forming"), Forming && Forming->GetPhase() == EMTAbilityPhase::Anticipation);
+	Orsted->SetLockTarget(Rudeus);
+	TestTrue(TEXT("Disturb Magic activates"), Orsted->GetAbilities()->ActivateAbilityById(TEXT("Orsted_DisturbMagic")));
+	Game.Tick(0.6f);
+	const UMTAbility* After = RudeusAbilities->GetActiveAbility();
+	TestTrue(TEXT("the forming spell collapsed"), !After || After->GetAbilityId() != FName(TEXT("Rudeus_StoneCannon")));
+	TestTrue(TEXT("and is sealed for a moment"), RudeusAbilities->IsAbilityLocked(TEXT("Rudeus_StoneCannon")));
+	TestFalse(TEXT("a sealed spell cannot be cast"), RudeusAbilities->ActivateAbilityById(TEXT("Rudeus_StoneCannon")));
+	TestTrue(TEXT("other magic still works (the other hand)"), RudeusAbilities->ActivateAbilityById(TEXT("Rudeus_Basic")));
+	TestTrue(TEXT("Dragon God Knowledge triggers"), Orsted->GetAttributes()->HasStatusEffect(TEXT("DragonGodKnowledge")));
+	TestTrue(FString::Printf(TEXT("most of the cooldown comes back (%.2f s)"), Orsted->GetAbilities()->GetCooldownRemaining(TEXT("Orsted_DisturbMagic"))),
+		Orsted->GetAbilities()->GetCooldownRemaining(TEXT("Orsted_DisturbMagic")) < 3.f);
+	const float RudeusHealth = Rudeus->GetAttributes()->GetHealth();
+	TestEqual(TEXT("Disturb Magic deals no damage"), RudeusHealth, Rudeus->GetAttributes()->GetMaxHealth());
+	Game.Tick(3.2f);
+	TestFalse(TEXT("the seal wears off (never a permanent silence)"), RudeusAbilities->IsAbilityLocked(TEXT("Rudeus_StoneCannon")));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTStepCrushComboTest, "MushokuRPG.Orsted.DragonStepIntoDragonCrush", MTTest::Flags)
+bool FMTStepCrushComboTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Orsted = Game.SpawnPlayer(TEXT("Orsted"), FVector::ZeroVector, 0.f);
+	AMTEnemyCharacter* Target = Game.SpawnOpponent(TEXT("Elite_WolfAlpha"), FVector(1200.f, 150.f, 0.f));
+	AMTEnemyCharacter* Bystander = Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(1300.f, -300.f, 0.f));
+	if (!TestNotNull(TEXT("Orsted"), Orsted) || !TestNotNull(TEXT("target"), Target) || !TestNotNull(TEXT("bystander"), Bystander))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	Orsted->SetLockTarget(Target);
+	UMTAbilityComponent* Abilities = Orsted->GetAbilities();
+	TestTrue(TEXT("Dragon Step activates"), Abilities->ActivateAbilityById(TEXT("Orsted_DragonStep")));
+	Game.Tick(0.3f);
+	const float Beside = MTTest::Apart(Orsted, Target);
+	TestTrue(FString::Printf(TEXT("arrives beside the target (%.0f cm)"), Beside), Beside > 60.f && Beside < 200.f);
+	TestTrue(TEXT("the follow-up window is open"), Abilities->IsComboWindowOpen(TEXT("Orsted_DragonCrush")));
+	const float TargetBefore = Target->GetAttributes()->GetHealth();
+	const float BystanderBefore = Bystander->GetAttributes()->GetHealth();
+	TestTrue(TEXT("Dragon Crush activates out of the step"), Abilities->ActivateAbilityById(TEXT("Orsted_DragonCrush")));
+	const UMTAbility* Crush = Abilities->GetActiveAbility();
+	TestTrue(TEXT("it is the combo version"), Crush && Crush->IsComboActivation());
+	Game.Tick(0.2f); // the combo wind-up is ~0.14 s
+	const float Dealt = TargetBefore - Target->GetAttributes()->GetHealth();
+	TestTrue(FString::Printf(TEXT("the primary target takes the full force (%.0f)"), Dealt), Dealt >= 300.f);
+	Game.Tick(0.3f);
+	TestTrue(TEXT("the shockwave hits the bystander too"), Bystander->GetAttributes()->GetHealth() < BystanderBefore);
+	TestTrue(FString::Printf(TEXT("the primary target is thrown (%.0f cm away)"), MTTest::Apart(Orsted, Target)), MTTest::Apart(Orsted, Target) > 300.f);
+	AddInfo(FString::Printf(TEXT("step -> crush: arrived %.0f cm beside, primary took %.0f, bystander %.0f -> %.0f"), Beside, Dealt, BystanderBefore,
+		Bystander->GetAttributes()->GetHealth()));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTWindBurstTest, "MushokuRPG.Abilities.WindBurstEscape", MTTest::Flags)
+bool FMTWindBurstTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Rudeus = Game.SpawnPlayer(TEXT("Rudeus"), FVector::ZeroVector, 0.f);
+	TArray<AMTEnemyCharacter*> Around;
+	for (int32 i = 0; i < 4; ++i)
+	{
+		const float Angle = i * HALF_PI;
+		Around.Add(Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(FMath::Cos(Angle) * 300.f, FMath::Sin(Angle) * 300.f, 0.f)));
+	}
+	if (!TestNotNull(TEXT("Rudeus"), Rudeus) || Around.Contains(nullptr))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	TestTrue(TEXT("Wind Burst activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Wind_WindBurst")));
+	Game.Tick(0.9f);
+	for (int32 i = 0; i < Around.Num(); ++i)
+	{
+		const float Now = MTTest::Apart(Rudeus, Around[i]);
+		TestTrue(FString::Printf(TEXT("enemy %d is thrown away in every direction (%.0f cm)"), i + 1, Now), Now > 700.f);
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTFloodCarryTest, "MushokuRPG.Abilities.FloodCarries", MTTest::Flags)
+bool FMTFloodCarryTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Rudeus = Game.SpawnPlayer(TEXT("Rudeus"), FVector::ZeroVector, 0.f);
+	AMTEnemyCharacter* Near = Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(600.f, 0.f, 0.f));
+	AMTEnemyCharacter* Wide = Game.SpawnOpponent(TEXT("Enemy_Bandit"), FVector(800.f, 1000.f, 0.f));
+	if (!TestNotNull(TEXT("Rudeus"), Rudeus) || !TestNotNull(TEXT("near"), Near) || !TestNotNull(TEXT("wide"), Wide))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	const float NearStart = Near->GetActorLocation().X;
+	const float WideStart = Wide->GetActorLocation().X;
+	const float HealthBefore = Near->GetAttributes()->GetHealth();
+	TestTrue(TEXT("Flood activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Water_Flood")));
+	Game.Tick(2.2f);
+	TestTrue(TEXT("the wave hits"), Near->GetAttributes()->GetHealth() < HealthBefore);
+	TestTrue(FString::Printf(TEXT("and carries its victims along (%.0f cm)"), Near->GetActorLocation().X - NearStart), Near->GetActorLocation().X - NearStart > 800.f);
+	TestTrue(FString::Printf(TEXT("across its whole 24 m front (%.0f cm at 10 m to the side)"), Wide->GetActorLocation().X - WideStart),
+		Wide->GetActorLocation().X - WideStart > 500.f);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTTornadoLiftTest, "MushokuRPG.Abilities.TornadoLifts", MTTest::Flags)
+bool FMTTornadoLiftTest::RunTest(const FString& Parameters)
+{
+	MTTest::FGameWorld Game;
+	if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+	{
+		return false;
+	}
+	AMTPlayerCharacter* Rudeus = Game.SpawnPlayer(TEXT("Rudeus"), FVector::ZeroVector, 0.f);
+	AMTEnemyCharacter* Small = Game.SpawnOpponent(TEXT("Enemy_Goblin"), FVector(1200.f, 0.f, 0.f));
+	AMTEnemyCharacter* Large = Game.SpawnOpponent(TEXT("Elite_WolfAlpha"), FVector(1200.f, 700.f, 0.f));
+	if (!TestNotNull(TEXT("Rudeus"), Rudeus) || !TestNotNull(TEXT("small"), Small) || !TestNotNull(TEXT("large"), Large))
+	{
+		return false;
+	}
+	Game.Tick(0.4f);
+	Rudeus->SetLockTarget(Small);
+	const float Ground = Small->GetActorLocation().Z;
+	const float LargeStart = FVector::Dist2D(Large->GetActorLocation(), Small->GetActorLocation());
+	TestTrue(TEXT("Tornado activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Wind_Tornado")));
+	float Highest = Ground;
+	for (int32 Frame = 0; Frame < 150; ++Frame)
+	{
+		Game.Tick(1.f / 60.f);
+		Highest = FMath::Max(Highest, Small->GetActorLocation().Z);
+	}
+	TestTrue(FString::Printf(TEXT("a small enemy is lifted into the funnel (%.0f cm up)"), Highest - Ground), Highest - Ground > 120.f);
+	TestTrue(FString::Printf(TEXT("a large one is dragged in, not lifted (%.0f -> %.0f cm)"), LargeStart, FVector::Dist2D(Large->GetActorLocation(), Small->GetActorLocation())),
+		FVector::Dist2D(Large->GetActorLocation(), Small->GetActorLocation()) < LargeStart);
+	Game.Tick(6.f);
+	TestTrue(TEXT("the small enemy is dropped again (walking or falling, not frozen)"),
+		Small->GetCharacterMovement()->MovementMode != MOVE_None);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMTEveryLoadoutAbilityTest, "MushokuRPG.Abilities.EveryLoadoutAbilityFires", MTTest::Flags)
+bool FMTEveryLoadoutAbilityTest::RunTest(const FString& Parameters)
+{
+	// Every ability the ABILITIES menu can put on keys 1-4 fires through the real ability path, reaches its target area,
+	// and leaves no zones, walls, serpents or effects behind.
+	const TCHAR* Shared[] = { TEXT("Fire_Fireball"), TEXT("Fire_FlameWave"), TEXT("Fire_Inferno"), TEXT("Water_WaterBullet"),
+		TEXT("Water_WaterDragon"), TEXT("Water_Flood"), TEXT("Earth_StoneCannon"), TEXT("Earth_EarthWall"), TEXT("Earth_EarthSpikes"),
+		TEXT("Wind_WindBlade"), TEXT("Wind_Tornado"), TEXT("Wind_WindBurst") };
+	struct FCast { FName Character; FName Ability; };
+	TArray<FCast> Casts;
+	for (const TCHAR* Id : Shared)
+	{
+		Casts.Add({ TEXT("Rudeus"), Id });
+		Casts.Add({ TEXT("Orsted"), Id });
+	}
+	for (const TCHAR* Id : { TEXT("Rudeus_StoneCannon"), TEXT("Rudeus_Quagmire"), TEXT("Rudeus_ElementalBarrage") })
+	{
+		Casts.Add({ TEXT("Rudeus"), Id });
+	}
+	for (const TCHAR* Id : { TEXT("Orsted_DisturbMagic"), TEXT("Orsted_DragonStep"), TEXT("Orsted_DragonCrush") })
+	{
+		Casts.Add({ TEXT("Orsted"), Id });
+	}
+	int32 Passed = 0;
+	for (const FCast& Cast : Casts)
+	{
+		MTTest::FGameWorld Game;
+		if (!TestTrue(TEXT("game world with the data registry"), Game.IsValid()))
+		{
+			return false;
+		}
+		AMTPlayerCharacter* Caster = Game.SpawnPlayer(Cast.Character, FVector::ZeroVector, 0.f);
+		AMTEnemyCharacter* Dummy = Game.SpawnOpponent(TEXT("Elite_WolfAlpha"), FVector(420.f, 0.f, 0.f));
+		if (!Caster || !Dummy)
+		{
+			AddError(TEXT("could not spawn the caster or the dummy"));
+			continue;
+		}
+		Game.Tick(0.4f);
+		Caster->SetLockTarget(Dummy);
+		Caster->GetAttributes()->RestoreStamina(1000.f);
+		Caster->GetAttributes()->RestoreMana(10000.f);
+		const float Before = Dummy->GetAttributes()->GetHealth();
+		const bool bStarted = Caster->GetAbilities()->ActivateAbilityById(Cast.Ability);
+		Game.Tick(0.1f);
+		Caster->GetAbilities()->ReleaseAbilityById(Cast.Ability);
+		Game.Tick(5.f);
+		const bool bCooldown = Caster->GetAbilities()->GetCooldownRemaining(Cast.Ability) > 0.f;
+		const bool bHit = Dummy->GetAttributes()->GetHealth() < Before;
+		const FString Name = FString::Printf(TEXT("%s: %s"), *Cast.Character.ToString(), *Cast.Ability.ToString());
+		TestTrue(Name + TEXT(" starts from the hotbar path"), bStarted);
+		TestTrue(Name + TEXT(" executes (goes on cooldown)"), bCooldown || Cast.Ability == FName(TEXT("Orsted_DisturbMagic")));
+		const bool bSupportOnly = Cast.Ability == FName(TEXT("Earth_EarthWall")) || Cast.Ability == FName(TEXT("Rudeus_Quagmire"))
+			|| Cast.Ability == FName(TEXT("Orsted_DisturbMagic"));
+		if (!bSupportOnly)
+		{
+			TestTrue(Name + TEXT(" hits the dummy 4 m ahead"), bHit);
+		}
+		Game.Tick(16.f); // walls stand 15 s; zones, serpents and projectiles end sooner
+		const int32 Leftovers = MTTest::CountLive(Game.World, AMTZoneActor::StaticClass()) + MTTest::CountLive(Game.World, AMTEarthWall::StaticClass())
+			+ MTTest::CountLive(Game.World, AMTWaterSerpent::StaticClass()) + MTTest::CountLive(Game.World, AMTProjectile::StaticClass());
+		const int32 Effects = MTTest::CountLive(Game.World, AMTSpellVFX::StaticClass());
+		TestEqual(*(Name + TEXT(" leaves no spell actors behind")), Leftovers, 0);
+		// Pooled effects idle between uses; anything beyond a small pool is a leak.
+		TestTrue(FString::Printf(TEXT("%s leaves no running effects behind (%d effect actors)"), *Name, Effects), Effects <= 12);
+		Passed += (bStarted && (bCooldown || !bSupportOnly)) ? 1 : 0;
+	}
+	AddInfo(FString::Printf(TEXT("%d of %d hotbar casts started and executed"), Passed, Casts.Num()));
 	return true;
 }
 

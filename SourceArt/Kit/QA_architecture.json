@@ -4239,10 +4239,274 @@
     "closed_shells": 20
    },
    "name": "SM_North_Wall_12m"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Cone.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1024,
+    "verts": 596,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.5,
+     -0.5,
+     0.0
+    ],
+    "bbox_max": [
+     0.5,
+     0.5,
+     1.004
+    ],
+    "size": [
+     1.0,
+     1.0,
+     1.004
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Cone"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_EarthWall_B.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 136,
+    "verts": 288,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -3.001,
+     -0.77,
+     0.0
+    ],
+    "bbox_max": [
+     3.001,
+     0.77,
+     4.0
+    ],
+    "size": [
+     6.002,
+     1.54,
+     4.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 4,
+    "closed_shells": 4
+   },
+   "name": "SM_VFX_EarthWall_B"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_EarthWall_C.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 192,
+    "verts": 370,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -3.0,
+     -0.75,
+     0.0
+    ],
+    "bbox_max": [
+     3.0,
+     0.75,
+     4.0
+    ],
+    "size": [
+     6.0,
+     1.5,
+     4.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 3,
+    "closed_shells": 3
+   },
+   "name": "SM_VFX_EarthWall_C"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Glyph.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1272,
+    "verts": 2032,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.475,
+     -0.475,
+     -0.007
+    ],
+    "bbox_max": [
+     0.475,
+     0.475,
+     0.007
+    ],
+    "size": [
+     0.949,
+     0.949,
+     0.015
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 21,
+    "closed_shells": 21
+   },
+   "name": "SM_VFX_Glyph"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Slab.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 40,
+    "verts": 108,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.457,
+     -0.435,
+     0.0
+    ],
+    "bbox_max": [
+     0.457,
+     0.435,
+     0.246
+    ],
+    "size": [
+     0.913,
+     0.869,
+     0.246
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Slab"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Slug.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 2080,
+    "verts": 1364,
+    "materials": [
+     "MT_Rock"
+    ],
+    "bbox_min": [
+     -0.3,
+     -0.149,
+     -0.148
+    ],
+    "bbox_max": [
+     0.3,
+     0.149,
+     0.148
+    ],
+    "size": [
+     0.6,
+     0.297,
+     0.295
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Slug"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_Spiral.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1156,
+    "verts": 1168,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.515,
+     -0.306,
+     -0.306
+    ],
+    "bbox_max": [
+     0.515,
+     0.306,
+     0.306
+    ],
+    "size": [
+     1.03,
+     0.612,
+     0.612
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_Spiral"
+  },
+  {
+   "file": "SourceArt/Kit/VFX/SM_VFX_WaveSheet.glb",
+   "errors": [],
+   "warnings": [],
+   "info": {
+    "tris": 1052,
+    "verts": 758,
+    "materials": [
+     "VFX"
+    ],
+    "bbox_min": [
+     -0.473,
+     -1.0,
+     0.0
+    ],
+    "bbox_max": [
+     0.473,
+     1.0,
+     1.0
+    ],
+    "size": [
+     0.945,
+     2.0,
+     1.0
+    ],
+    "coplanar_same": 0,
+    "coplanar_back_to_back": 0,
+    "repeated_directed_edges": 0,
+    "shells": 1,
+    "closed_shells": 1
+   },
+   "name": "SM_VFX_WaveSheet"
   }
  ],
  "summary": {
-  "checked": 115,
+  "checked": 123,
   "failed": 0
  }
 }
