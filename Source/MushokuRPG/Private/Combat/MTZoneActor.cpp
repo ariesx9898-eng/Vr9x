@@ -12,6 +12,8 @@
 #include "Core/MTGameplayTags.h"
 #include "Components/DecalComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundBase.h"
 #include "NiagaraComponent.h"
 #include "NiagaraSystem.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -69,6 +71,10 @@ AMTZoneActor::AMTZoneActor()
 	LoopFX = CreateDefaultSubobject<UNiagaraComponent>(TEXT("LoopFX"));
 	LoopFX->SetupAttachment(Root);
 	LoopFX->SetAutoActivate(false);
+
+	BedAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("BedAudio"));
+	BedAudio->SetupAttachment(Root);
+	BedAudio->SetAutoActivate(false);
 }
 
 void AMTZoneActor::InitZone(const FMTAbilityData& InData, AMTCharacterBase* InOwner, float AreaMultiplier, bool bAttachToOwner)
@@ -169,10 +175,19 @@ void AMTZoneActor::InitZone(const FMTAbilityData& InData, AMTCharacterBase* InOw
 		Decal->SetVisibility(false);
 	}
 	MTCombat::SpawnFX(this, Data.FX.Formation, GetActorLocation(), FRotator::ZeroRotator, Radius / 400.f);
-	// The zone's own voice where it appears (the ground turning to mud, the circles igniting, the wave rising); line
-	// eruptions keep the accent for their final spike.
-	const bool bZoneAccent = Data.ZoneKind != EMTZoneKind::LineEruptions && !Data.FX.AccentSound.IsNull();
-	MTCombat::PlaySound(this, bZoneAccent ? Data.FX.AccentSound : Data.FX.CastSound, GetActorLocation());
+	// The caster already played CastSound as the build-up, so the zone does not repeat it. It adds its own voice where
+	// it appears (the ground turning to mud, the circles igniting, the vortex touching down; line eruptions keep the
+	// accent for their final spike) and its sustained bed, TravelSound (the tornado's roar, bubbling mud, burning
+	// ground, the rushing wave), which follows the zone and fades out as it expires.
+	if (Data.ZoneKind != EMTZoneKind::LineEruptions)
+	{
+		MTCombat::PlaySound(this, Data.FX.AccentSound, GetActorLocation());
+	}
+	if (USoundBase* Bed = MTCombat::LoadOptional(Data.FX.TravelSound))
+	{
+		BedAudio->SetSound(Bed);
+		BedAudio->FadeIn(0.35f, 1.f);
+	}
 
 	// Flame Field etc. announce themselves so AI can step out and Demon Eye can show it.
 	if (Data.ZoneKind == EMTZoneKind::Eruptions)
@@ -1206,10 +1221,15 @@ void AMTZoneActor::Destabilize(float TimeScale, float StrengthScale)
 	{
 		VortexShrink *= FMath::Clamp(StrengthScale, 0.1f, 1.f);
 	}
-	// The magic visibly loses its colour and hold.
+	// The magic visibly loses its colour and hold, and its sound sags.
 	if (AMTSpellVFX* Loop = ZoneVFX.Get())
 	{
 		Loop->SetTint(FLinearColor(0.7f, 0.72f, 0.8f));
+	}
+	if (BedAudio && BedAudio->IsPlaying())
+	{
+		BedAudio->SetPitchMultiplier(0.82f);
+		BedAudio->SetVolumeMultiplier(0.7f);
 	}
 }
 
@@ -1238,6 +1258,10 @@ void AMTZoneActor::Expire()
 	if (LoopFX)
 	{
 		LoopFX->Deactivate();
+	}
+	if (BedAudio && BedAudio->IsPlaying())
+	{
+		BedAudio->FadeOut(0.6f, 0.f); // done before the 0.8 s the actor lives on
 	}
 	ReleaseAllLifts();
 	if (Data.ZoneKind == EMTZoneKind::Wave)

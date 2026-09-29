@@ -82,6 +82,8 @@ protected:
 	virtual void OnAnimEvent(FName EventName) {}
 	/** Fades the cast sound if it is still playing (charge build-ups end when the spell fires or is cancelled). */
 	void FadeCastAudio(float Seconds);
+	/** A held full charge keeps sounding: the projectile's looping TravelSound hums at the hand until release. */
+	void StartHoldAudio();
 
 	void EnterPhase(EMTAbilityPhase NewPhase);
 	void FinishAction();
@@ -139,6 +141,8 @@ protected:
 	TWeakObjectPtr<class AMTSpellVFX> FormationVFX;
 	/** The cast sound while it can still be cut. */
 	TWeakObjectPtr<class UAudioComponent> CastAudio;
+	/** The held-charge loop (StartHoldAudio), faded with the cast sound. */
+	TWeakObjectPtr<class UAudioComponent> HoldAudio;
 	/** The clip's Release frame has passed in this activation. */
 	bool bReleaseEventReceived = false;
 	/** Started inside a combo window, and the enemy that opened it. */

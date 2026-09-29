@@ -93,6 +93,7 @@
       "Preset": "RudeusCannon",
       "CastSound": "/Game/LaPlace/Audio/Earth/stone_compress.stone_compress",
       "ReleaseSound": "/Game/LaPlace/Audio/Earth/sonic_boom.sonic_boom",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_spin_loop.stone_spin_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact"
     }
   },
@@ -158,6 +159,7 @@
     "FX": {
       "Preset": "Quagmire",
       "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/quagmire_loop.quagmire_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Earth/mud_squelch.mud_squelch",
       "AccentSound": "/Game/LaPlace/Audio/Earth/quagmire_transform.quagmire_transform"
     }
@@ -496,6 +498,7 @@
       "Preset": "RudeusCannon",
       "CastSound": "/Game/LaPlace/Audio/Earth/stone_compress.stone_compress",
       "ReleaseSound": "/Game/LaPlace/Audio/Earth/sonic_boom.sonic_boom",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_spin_loop.stone_spin_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Earth/crater_impact.crater_impact",
       "PresetScale": 1.25
     }
@@ -562,6 +565,7 @@
     "FX": {
       "Preset": "Quagmire",
       "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/quagmire_loop.quagmire_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Earth/mud_squelch.mud_squelch",
       "AccentSound": "/Game/LaPlace/Audio/Earth/quagmire_transform.quagmire_transform"
     }
@@ -1980,6 +1984,7 @@
       "Preset": "Fireball",
       "CastSound": "/Game/LaPlace/Audio/Fire/fireball_charge.fireball_charge",
       "ReleaseSound": "/Game/LaPlace/Audio/Fire/fireball_launch.fireball_launch",
+      "TravelSound": "/Game/LaPlace/Audio/Fire/fireball_travel_loop.fireball_travel_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Fire/fire_explosion.fire_explosion"
     }
   },
@@ -2074,6 +2079,7 @@
     "FX": {
       "Preset": "Inferno",
       "CastSound": "/Game/LaPlace/Audio/Fire/inferno_charge.inferno_charge",
+      "TravelSound": "/Game/LaPlace/Audio/Fire/flame_burn_loop.flame_burn_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Fire/inferno_pillar.inferno_pillar",
       "AccentSound": "/Game/LaPlace/Audio/Fire/inferno_circle.inferno_circle"
     }
@@ -2206,8 +2212,8 @@
       "Preset": "Flood",
       "CastSound": "/Game/LaPlace/Audio/Water/flood_gather.flood_gather",
       "ReleaseSound": "/Game/LaPlace/Audio/Water/flood_crash.flood_crash",
-      "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash",
-      "AccentSound": "/Game/LaPlace/Audio/Water/flood_wave_loop.flood_wave_loop"
+      "TravelSound": "/Game/LaPlace/Audio/Water/flood_wave_loop.flood_wave_loop",
+      "ImpactSound": "/Game/LaPlace/Audio/Water/water_splash.water_splash"
     }
   },
   {
@@ -2296,6 +2302,7 @@
     "FX": {
       "Preset": "Tornado",
       "CastSound": "/Game/LaPlace/Audio/Wind/wind_gather.wind_gather",
+      "TravelSound": "/Game/LaPlace/Audio/Wind/tornado_loop.tornado_loop",
       "AccentSound": "/Game/LaPlace/Audio/Wind/tornado_form.tornado_form"
     }
   },
@@ -2391,6 +2398,7 @@
       "Preset": "StoneCannon",
       "CastSound": "/Game/LaPlace/Audio/Earth/stone_form.stone_form",
       "ReleaseSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",
+      "TravelSound": "/Game/LaPlace/Audio/Earth/stone_spin_loop.stone_spin_loop",
       "ImpactSound": "/Game/LaPlace/Audio/Earth/rock_impact.rock_impact"
     }
   },
@@ -2501,6 +2509,7 @@
     "Behavior": "Projectile",
     "Element": "Arcane",
     "CharacterRequirement": "Rudeus",
+    "MasteryXP": 2,
     "ManaCost": 0,
     "Cooldown": 0,
     "CastTime": 0,
@@ -2519,7 +2528,6 @@
     "Params": {
       "SplashScale": 1.0
     },
-    "MasteryXP": 2,
     "FX": {
       "Preset": "BarrageFinale",
       "TravelSound": "/Game/LaPlace/Audio/Earth/stone_cannon_launch.stone_cannon_launch",

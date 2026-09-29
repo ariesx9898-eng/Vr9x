@@ -11,6 +11,8 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundBase.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "NiagaraComponent.h"
 #include "NiagaraSystem.h"
@@ -48,6 +50,10 @@ AMTProjectile::AMTProjectile()
 	Light->SetIntensity(0.f);
 	Light->SetCastShadows(false);
 	Light->SetAttenuationRadius(400.f);
+
+	TravelAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("TravelAudio"));
+	TravelAudio->SetupAttachment(Collision);
+	TravelAudio->SetAutoActivate(false);
 
 	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
 	Movement->UpdatedComponent = Collision;
@@ -154,7 +160,18 @@ void AMTProjectile::InitProjectile(const FMTAbilityData& InData, AMTCharacterBas
 	{
 		ApplyPlaceholderLook();
 	}
-	MTCombat::PlaySound(this, Data.FX.TravelSound, GetActorLocation(), 0.7f);
+	// A looping TravelSound rides with the projectile and stops when it lands; a one-shot is its launch voice.
+	USoundBase* TravelLoop = MTCombat::LoadOptional(Data.FX.TravelSound);
+	if (TravelLoop && TravelLoop->IsLooping())
+	{
+		TravelAudio->SetSound(TravelLoop);
+		TravelAudio->SetVolumeMultiplier(0.8f);
+		TravelAudio->Play();
+	}
+	else
+	{
+		MTCombat::PlaySound(this, Data.FX.TravelSound, GetActorLocation(), 0.7f);
+	}
 
 	// Hostiles already inside the sphere at spawn (point-blank casts) are hit now that the caster is known.
 	bInitialized = true;
@@ -519,6 +536,10 @@ void AMTProjectile::Dissipate(bool bSpawnFX)
 	}
 	MTCombat::StopSpellFX(TravelVFX.Get());
 	TravelVFX.Reset();
+	if (TravelAudio && TravelAudio->IsPlaying())
+	{
+		TravelAudio->FadeOut(0.12f, 0.f);
+	}
 	Movement->StopMovementImmediately();
 	Collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Body->SetVisibility(false);

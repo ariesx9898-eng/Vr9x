@@ -31,6 +31,7 @@ Hard rules:
 
 **Not in scope, and why:**
 - **Gameplay Ability System.** The project doesn't use GAS. Its own data-driven ability system (`UMTAbility`, `Abilities.json`) already has everything the brief lists per ability: mana, cooldown, cast time, charge, damage, radius, knockback, status effects, animation, effects and sound. It is structured the same way: abilities are instances with phases, `FMTStatusEffect` plays the role of Gameplay Effects (Quagmire slow, seal, burning, resistances), and presets play the role of Gameplay Cues (cosmetic, spawned by gameplay, never affecting it). Migrating would be a rewrite that cannot be tested here.
+- **Niagara.** Niagara systems can only be authored inside the editor, and this pass was written without one. Every phase is therefore a layered runtime preset. Each preset has flashes, pressure rings and cones, instanced sprite and mesh particles with directional motion, debris that bounces and settles, lights, ground decals and camera shakes, scaled by quality level. A Niagara system can replace any phase later without code changes: fill the row's `FX.Formation`, `FX.Travel`, `FX.Impact` or `FX.Dissipation` and `MTCombat::SpawnSpellFX` uses it instead of the preset.
 - **Multiplayer.** The game has no networking today. The new code keeps damage and hit resolution in gameplay code and all visuals in presets, which already skip dedicated servers. Authoritative replication can be added later without untangling them.
 
 ## 2. How the overhaul plugs into the existing game
@@ -185,7 +186,7 @@ Numbers are visual sizes, where VR is the visual radius. The effective hit size 
   - a dust ring.
 
   `DragonStep.Travel` rides with him: 3 streaked afterimages and a warped-air trail.
-- **Targeted (a lock within 2600 cm).** Orsted reappears beside or slightly behind the target: 115 cm from its centre, on the flank facing his approach, in **0.12 s**, facing it. His arrival (`DragonStep.Arrive`) makes a pressure ring (VR 220) and a light shock of 10 damage and 25 stagger. It opens a **0.9 s follow-up window**: Dragon Crush then winds up ×0.35 faster, auto-targets that enemy and deals ×1.2 damage.
+- **Targeted (a lock within 2600 cm).** Orsted reappears beside or slightly behind the target: 115 cm from its centre, on the flank facing his approach, in **0.12 s**, facing it. His arrival (`DragonStep.Arrive`) makes a pressure ring (VR 220) and a light shock of 10 damage and 25 stagger. It opens a **0.9 s follow-up window**: Dragon Crush then winds up ×0.35 faster, auto-targets that enemy and deals ×1.2 damage. While the window is open, the Dragon Crush hotbar slot pulses white-gold (`SMTHudOverlay::PaintHotbar`), so the player can see when to press.
 - **Free (no target).** An ultra-long dash of 1700 cm in 0.2 s along the movement input or facing (a dodge covers about 400 cm). A capsule sweep shortens it at walls.
 - **Defence.** Invulnerable during the travel.
 - **Params:** `TargetRange` 2600, `ArriveOffset` 115, `TargetDuration` 0.12, `FreeDistance` 1700, `FreeDuration` 0.2, `ComboWindow` 0.9.
@@ -405,6 +406,16 @@ The player's shake never stacks: a new shake only replaces a weaker one (existin
   - **Orsted:** `disturb_pulse`, `disturb_collapse`, `seal`, `dragon_step_arrive`, `dragon_crush_charge`, `dragon_crush_impact`.
   - **Rudeus:** `barrage_orbs`, `barrage_finale`.
 - **Charge sounds.** A `CastSound` on a chargeable ability plays as an audio component and fades out on release or cancel.
+- **Which sound plays when** (the row's `FX.*Sound`, all placed in 3D through `ATT_Spell`):
+  - `CastSound`: the build-up, at the hand, when the ability starts. Zones do not repeat it when they appear.
+  - `ReleaseSound`: at the hand on the release frame.
+  - `TravelSound`, by what carries it:
+    - projectiles: a looping sound rides with the projectile and fades when it lands (`fireball_travel_loop`, `stone_spin_loop`); a one-shot is the launch voice (the Barrage shots);
+    - zones: the sustained bed, attached to the zone, fading in over 0.35 s and out over 0.6 s as it expires (`tornado_loop`, `quagmire_loop`, `flame_burn_loop`, `flood_wave_loop`; Saint Dragon Aura's `aura_hum_loop`);
+    - Water Dragon: the roar when it starts hunting;
+    - Earth Wall: a segment cracking.
+  - `ImpactSound`: every hit, pulse or eruption.
+  - `AccentSound`: a zone's own voice where it appears (the mud transforming, the fire circles, the vortex touching down). It is also the final spike, the crumbling wall, Dragon Step's arrival and Disturb Magic's seal.
 
 ## 7. Contract: animations (`Tools/anim`, both characters, same skeleton)
 

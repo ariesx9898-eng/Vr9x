@@ -72,7 +72,8 @@ ROWS["Rudeus_StoneCannon"] = dict(
     PierceCount=3, PierceMaxHealth=600,
     Montage=clip("StoneCannon_Charge"), ChargeLoopAnim=clip("StoneCannon_Hold"), ReleaseAnim=clip("StoneCannon_Release"),
     CastSocket="hand_r", ActivationTags=CHARGING,
-    FX=fx("RudeusCannon", cast="Earth/stone_compress", release="Earth/sonic_boom", impact="Earth/crater_impact"))
+    FX=fx("RudeusCannon", cast="Earth/stone_compress", release="Earth/sonic_boom", travel="Earth/stone_spin_loop",
+          impact="Earth/crater_impact"))
 
 ROWS["Rudeus_Quagmire"] = dict(
     Behavior="Zone", Element="Earth", ManaCost=90, Cooldown=14, CastTime=0.45, RecoveryTime=0.4, Range=2400,
@@ -84,7 +85,8 @@ ROWS["Rudeus_Quagmire"] = dict(
                 SinkDepth=30, HeavySink=0.35, HeavyPenalty=0.6, MomentumLoss=0.6),
     Montage=clip("Quagmire"), ChargeLoopAnim=clip("Quagmire_Hold"), ReleaseAnim=clip("Quagmire_Release"),
     CastSocket="hand_l", ActivationTags=CHARGING,
-    FX=fx("Quagmire", cast="Earth/stone_form", impact="Earth/mud_squelch", accent="Earth/quagmire_transform"))
+    FX=fx("Quagmire", cast="Earth/stone_form", impact="Earth/mud_squelch", accent="Earth/quagmire_transform",
+          travel="Earth/quagmire_loop"))
 
 ROWS["Rudeus_ElementalBarrage"] = dict(
     Behavior="Barrage", Element="None", ManaCost=140, Cooldown=16, CastTime=0.6, RecoveryTime=0.6, Range=3000,
@@ -134,7 +136,8 @@ ROWS["Fire_Fireball"] = dict(
     Motion="Straight", ProjectileSpeed=5500, ProjectileRadius=30, ProjectileGravity=0, bDisruptable=True,
     Montage=clip("Cast_Fireball"), ChargeLoopAnim=clip("Cast_Fireball_Hold"), ReleaseAnim=clip("Cast_Fireball_Release"),
     ActivationTags=CHARGING,
-    FX=fx("Fireball", cast="Fire/fireball_charge", release="Fire/fireball_launch", impact="Fire/fire_explosion"))
+    FX=fx("Fireball", cast="Fire/fireball_charge", release="Fire/fireball_launch", travel="Fire/fireball_travel_loop",
+          impact="Fire/fire_explosion"))
 
 ROWS["Fire_FlameWave"] = dict(
     Behavior="Zone", Element="Fire", ManaCost=55, Cooldown=8, CastTime=0.42, RecoveryTime=0.35, Range=1300,
@@ -151,7 +154,8 @@ ROWS["Fire_Inferno"] = dict(
     ZoneKind="Eruptions", ActivationDelay=0.6, PulseCount=10, PulseInterval=0.35,
     Params=dict(PillarsPerPulse=3, EnemyBias=0.67, AreaBurnDps=15),
     Montage=clip("Cast_Inferno"), ActivationTags=CASTING,
-    FX=fx("Inferno", cast="Fire/inferno_charge", impact="Fire/inferno_pillar", accent="Fire/inferno_circle"))
+    FX=fx("Inferno", cast="Fire/inferno_charge", impact="Fire/inferno_pillar", accent="Fire/inferno_circle",
+          travel="Fire/flame_burn_loop"))
 
 ROWS["Water_WaterBullet"] = dict(
     Behavior="Projectile", Element="Water", ManaCost=20, Cooldown=1.2, CastTime=0.22, RecoveryTime=0.3, Range=3500,
@@ -174,7 +178,7 @@ ROWS["Water_Flood"] = dict(
     Params=dict(Width=2400, Distance=2600, CarrySpeed=1300, Band=300, TrailSpacing=300),
     Montage=clip("Cast_Flood"), ActivationTags=CASTING,
     FX=fx("Flood", cast="Water/flood_gather", release="Water/flood_crash", impact="Water/water_splash",
-          accent="Water/flood_wave_loop"))
+          travel="Water/flood_wave_loop"))
 
 ROWS["Earth_StoneCannon"] = dict(
     Behavior="Projectile", Element="Earth", ManaCost=32, Cooldown=2.0, CastTime=0.35, RecoveryTime=0.3, Range=3500,
@@ -185,7 +189,8 @@ ROWS["Earth_StoneCannon"] = dict(
     PierceCount=1, PierceMaxHealth=400,
     Montage=clip("Cast_StoneCannon"), ChargeLoopAnim=clip("Cast_StoneCannon_Hold"),
     ReleaseAnim=clip("Cast_StoneCannon_Release"), ActivationTags=CHARGING,
-    FX=fx("StoneCannon", cast="Earth/stone_form", release="Earth/stone_cannon_launch", impact="Earth/rock_impact"))
+    FX=fx("StoneCannon", cast="Earth/stone_form", release="Earth/stone_cannon_launch", travel="Earth/stone_spin_loop",
+          impact="Earth/rock_impact"))
 
 ROWS["Earth_EarthWall"] = dict(
     Behavior="Structure", Element="Earth", ManaCost=70, Cooldown=18, CastTime=0.4, RecoveryTime=0.4, Range=550,
@@ -219,7 +224,7 @@ ROWS["Wind_Tornado"] = dict(
     Params=dict(GrowTo=560, FormTime=0.4, PullScale=2.2, PullSpeed=650, HeavyPullSpeed=250, LiftTime=1.2,
                 LiftHeight=320, OrbitSpeed=300, HeavySlow=0.5),
     Montage=clip("Cast_Tornado"), ActivationTags=CASTING,
-    FX=fx("Tornado", cast="Wind/wind_gather", accent="Wind/tornado_form"))
+    FX=fx("Tornado", cast="Wind/wind_gather", accent="Wind/tornado_form", travel="Wind/tornado_loop"))
 
 ROWS["Wind_WindBurst"] = dict(
     Behavior="Zone", Element="Wind", ManaCost=35, Cooldown=7, CastTime=0.12, RecoveryTime=0.3, Range=0,

@@ -10,6 +10,7 @@
 
 class UDecalComponent;
 class UNiagaraComponent;
+class UAudioComponent;
 class UMaterialInstanceDynamic;
 class AMTCharacterBase;
 
@@ -83,6 +84,8 @@ protected:
 	UPROPERTY(VisibleAnywhere) TObjectPtr<USceneComponent> Root;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UDecalComponent> Decal;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UNiagaraComponent> LoopFX;
+	/** Sustained sound bed (the row's TravelSound): follows the zone and fades out as it expires. */
+	UPROPERTY(VisibleAnywhere) TObjectPtr<UAudioComponent> BedAudio;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> DecalMID;
 
 	FMTAbilityData Data;

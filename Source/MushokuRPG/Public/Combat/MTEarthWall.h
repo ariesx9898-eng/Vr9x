@@ -31,7 +31,8 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 protected:
-	void Crumble();
+	/** Breaks the segment. bTogether: the whole wall is expiring at once (quieter copies after the first, like the rise). */
+	void Crumble(bool bTogether = false);
 	/** Starts the eruption (collision on, rise effect and sound). */
 	void BeginRise();
 	/** 0 intact, 1 cracked (below 66%), 2 badly cracked (below 33%). */

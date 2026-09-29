@@ -188,7 +188,14 @@ int32 SMTHudOverlay::PaintHotbar(const FGeometry& G, FSlateWindowElementList& Ou
 		{
 			MTUI::Glow(Out, Base, G, P + Size * 0.5f, Slot * 0.95f, MTUI::GoldBright.CopyWithNewOpacity(0.45f + 0.2f * FMath::Sin(Now * 10.0)));
 		}
-		MTUI::GoldFrame(Out, Base + 6, G, P, Size, bActive || Flash > 0.f ? 1.f : 0.75f, false);
+		// Follow-up window open (Dragon Step -> Dragon Crush): a fast white-gold pulse says "press now".
+		const bool bComboReady = !bActive && Remaining <= 0.f && Abilities->IsComboWindowOpen(Id);
+		if (bComboReady)
+		{
+			const float ComboPulse = 0.6f + 0.3f * FMath::Sin(Now * 22.0);
+			MTUI::Glow(Out, Base, G, P + Size * 0.5f, Slot * 1.1f, FLinearColor(1.f, 0.93f, 0.72f, ComboPulse));
+		}
+		MTUI::GoldFrame(Out, Base + 6, G, P, Size, bActive || bComboReady || Flash > 0.f ? 1.f : 0.75f, false);
 		if (bActive && Data->bChargeable && Instance)
 		{
 			MTUI::Arc(Out, Base + 7, G, P + Size * 0.5f, Slot * 0.64f, Instance->GetChargeAlpha(), MTUI::GoldBright, 3.f * S);

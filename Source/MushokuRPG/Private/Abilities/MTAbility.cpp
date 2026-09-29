@@ -220,14 +220,38 @@ void UMTAbility::HandleAnimEvent(FName EventName, const UAnimSequenceBase* Anima
 
 void UMTAbility::FadeCastAudio(float Seconds)
 {
-	if (UAudioComponent* Audio = CastAudio.Get())
+	for (TWeakObjectPtr<UAudioComponent>* Slot : { &CastAudio, &HoldAudio })
 	{
-		if (Audio->IsPlaying())
+		if (UAudioComponent* Audio = Slot->Get())
 		{
-			Audio->FadeOut(FMath::Max(0.01f, Seconds), 0.f);
+			if (Audio->IsPlaying())
+			{
+				Audio->FadeOut(FMath::Max(0.01f, Seconds), 0.f);
+			}
 		}
+		Slot->Reset();
 	}
-	CastAudio.Reset();
+}
+
+void UMTAbility::StartHoldAudio()
+{
+	// The build-up sound is authored to settle at full charge; a charge held past it would go silent. The formed spell
+	// hums instead with the loop it will travel with (the cannon slug's spin, the fireball's roar).
+	if (HoldAudio.IsValid() || Data.Behavior != EMTAbilityBehavior::Projectile)
+	{
+		return;
+	}
+	USoundBase* Loop = MTCombat::LoadOptional(Data.FX.TravelSound);
+	AMTCharacterBase* Caster = GetOwnerCharacter();
+	if (!Loop || !Loop->IsLooping() || !Caster)
+	{
+		return;
+	}
+	if (UAudioComponent* Audio = UGameplayStatics::SpawnSoundAtLocation(Caster, Loop, GetCastLocation()))
+	{
+		Audio->FadeIn(0.4f, 0.55f);
+		HoldAudio = Audio;
+	}
 }
 
 void UMTAbility::InputReleased()
@@ -294,9 +318,13 @@ void UMTAbility::Tick(float DeltaTime)
 			if (bInputHeld && !bReleasedDuringAnticipation)
 			{
 				ChargeTime = FMath::Min(ChargeTime + DeltaTime, Data.MaxChargeTime);
-				if (ChargeTime >= Data.MaxChargeTime && PhaseTime > Data.MaxChargeTime + 1.5f)
+				if (ChargeTime >= Data.MaxChargeTime)
 				{
-					bReleasedDuringAnticipation = true;
+					StartHoldAudio();
+					if (PhaseTime > Data.MaxChargeTime + 1.5f)
+					{
+						bReleasedDuringAnticipation = true;
+					}
 				}
 				break;
 			}

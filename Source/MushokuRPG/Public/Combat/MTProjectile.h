@@ -11,6 +11,7 @@ class UStaticMeshComponent;
 class UProjectileMovementComponent;
 class UNiagaraComponent;
 class UPointLightComponent;
+class UAudioComponent;
 class AMTCharacterBase;
 
 UCLASS()
@@ -70,6 +71,8 @@ protected:
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UProjectileMovementComponent> Movement;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UNiagaraComponent> TravelFX;
 	UPROPERTY(VisibleAnywhere) TObjectPtr<UPointLightComponent> Light;
+	/** A looping TravelSound riding with the projectile (fireball roar, cannon-slug whirr). */
+	UPROPERTY(VisibleAnywhere) TObjectPtr<UAudioComponent> TravelAudio;
 
 	FMTAbilityData Data;
 	TWeakObjectPtr<AMTCharacterBase> OwnerCharacter;

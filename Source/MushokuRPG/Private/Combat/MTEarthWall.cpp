@@ -135,7 +135,7 @@ void AMTEarthWall::Tick(float DeltaSeconds)
 
 	if (Age >= Lifetime)
 	{
-		Crumble();
+		Crumble(true);
 	}
 }
 
@@ -173,7 +173,7 @@ void AMTEarthWall::UpdateCracks()
 	MTCombat::PlaySound(this, Data.FX.TravelSound, GetActorLocation());
 }
 
-void AMTEarthWall::Crumble()
+void AMTEarthWall::Crumble(bool bTogether)
 {
 	if (bCrumbling)
 	{
@@ -186,7 +186,8 @@ void AMTEarthWall::Crumble()
 		MTCombat::SpawnFX(this, Data.FX.Dissipation, GetActorLocation(), GetActorRotation());
 		MTCombat::SpawnPresetPhase(this, Data.FX.Preset, TEXT("Crumble"), FTransform(GetActorRotation(), GetActorLocation() - FVector(0.f, 0.f, Extent.Z)), 1.f,
 			nullptr, NAME_None, GetOwner());
-		MTCombat::PlaySound(this, Data.FX.AccentSound, GetActorLocation());
+		// Seven segments expiring within 0.2 s would stack into one deafening crash: full volume for the first only.
+		MTCombat::PlaySound(this, Data.FX.AccentSound, GetActorLocation(), bTogether ? RiseVolume : 1.f);
 	}
 	SetLifeSpan(0.6f);
 }

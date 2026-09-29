@@ -539,6 +539,7 @@ def check_overhaul(abilities, characters, anim_sets):
         warn("Rudeus_Animated.anim.json has no \"events\": CastTime vs Release frame not checked")
     manifest_path = os.path.join(ROOT, "SourceArt", "Audio", "manifest.json")
     audio = None
+    looping = set()
     if os.path.exists(manifest_path):
         try:
             m = json.load(open(manifest_path, encoding="utf-8"))
@@ -549,6 +550,8 @@ def check_overhaul(abilities, characters, anim_sets):
                 parts = f.split("/")
                 if len(parts) >= 2:
                     audio.add((parts[-2], os.path.splitext(parts[-1])[0]))
+                    if e.get("loop"):
+                        looping.add((parts[-2], os.path.splitext(parts[-1])[0]))
         except (json.JSONDecodeError, AttributeError) as e:
             warn(f"SourceArt/Audio/manifest.json unreadable ({e}): sound paths not checked")
     for aid, a in abilities.items():
@@ -643,6 +646,12 @@ def check_overhaul(abilities, characters, anim_sets):
                 continue
             if audio is not None and (sm.group(1), sm.group(2)) not in audio:
                 err(f"{ctx}.FX.{field}: '{sm.group(1)}/{sm.group(2)}' is not in SourceArt/Audio/manifest.json")
+            # A looping sound only stops when something holds it: the bed of a projectile or zone (TravelSound; a Buff's
+            # aura zone too). Anywhere else it is played fire-and-forget and would never stop.
+            aura = b == "Buff" and g("ZoneKind", "") == "Aura" and g("AOERadius") > 0
+            if (sm.group(1), sm.group(2)) in looping and not (field == "TravelSound" and (b in ("Projectile", "Zone") or aura)):
+                err(f"{ctx}.FX.{field}: '{sm.group(1)}/{sm.group(2)}' loops; only a projectile's or zone's TravelSound can "
+                    f"play a loop (it would never stop here)")
 
     # Default loadouts (hotbar 1-4): every entry exists and the character may use it.
     for cid, c in characters.items():
