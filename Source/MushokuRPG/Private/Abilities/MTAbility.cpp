@@ -155,6 +155,7 @@ bool UMTAbility::TryActivate()
 	bInputHeld = true;
 	bReleasedDuringAnticipation = false;
 	bReleaseEventReceived = false;
+	bHoldAudioTried = false;
 	ChargeTime = 0.f;
 	ReleasedChargeAlpha = 0.f;
 	{
@@ -237,10 +238,11 @@ void UMTAbility::StartHoldAudio()
 {
 	// The build-up sound is authored to settle at full charge; a charge held past it would go silent. The formed spell
 	// hums instead with the loop it will travel with (the cannon slug's spin, the fireball's roar).
-	if (HoldAudio.IsValid() || Data.Behavior != EMTAbilityBehavior::Projectile)
+	if (bHoldAudioTried || Data.Behavior != EMTAbilityBehavior::Projectile)
 	{
 		return;
 	}
+	bHoldAudioTried = true;
 	USoundBase* Loop = MTCombat::LoadOptional(Data.FX.TravelSound);
 	AMTCharacterBase* Caster = GetOwnerCharacter();
 	if (!Loop || !Loop->IsLooping() || !Caster)
