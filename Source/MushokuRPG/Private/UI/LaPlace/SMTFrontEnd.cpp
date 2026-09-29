@@ -99,14 +99,17 @@ void SMTFrontEnd::Construct(const FArguments& InArgs)
 void SMTFrontEnd::RefreshLocations()
 {
 	SpawnLocations.Reset();
-	const UMTDataRegistry* Registry = GEngine && GEngine->GameViewport ? UMTDataRegistry::Get(GEngine->GameViewport->GetWorld()) : nullptr;
+	const UWorld* World = GEngine && GEngine->GameViewport ? GEngine->GameViewport->GetWorld() : nullptr;
+	const UMTDataRegistry* Registry = World ? UMTDataRegistry::Get(World) : nullptr;
 	if (!Registry)
 	{
 		return;
 	}
+	// Only the places this map has. Locations.json is the LA PLACE world; the 2 km Fittoa test map (the editor's
+	// start-up map) contains none of its towns, and offering them showed nothing but sky.
 	for (const TPair<FName, FMTLocationData>& Pair : Registry->GetLocations())
 	{
-		if (Pair.Value.bSpawnPoint)
+		if (Pair.Value.bSpawnPoint && UMTFrontEndSubsystem::IsInThisMap(World, Pair.Value.WorldLocation))
 		{
 			SpawnLocations.Add(Pair.Key);
 		}
@@ -116,9 +119,30 @@ void SMTFrontEnd::RefreshLocations()
 		// Older data without spawn flags: offer the fast-travel points.
 		for (const TPair<FName, FMTLocationData>& Pair : Registry->GetLocations())
 		{
-			if (Pair.Value.bFastTravel)
+			if (Pair.Value.bFastTravel && UMTFrontEndSubsystem::IsInThisMap(World, Pair.Value.WorldLocation))
 			{
 				SpawnLocations.Add(Pair.Key);
+			}
+		}
+	}
+	if (SpawnLocations.Num() == 0)
+	{
+		// A map with none of the world's places (the Fittoa test map is Buena's surroundings in its own coordinates):
+		// offer Buena, which SpawnAt resolves to this map's own start.
+		const FName Home(TEXT("Buena"));
+		if (Registry->FindLocation(Home))
+		{
+			SpawnLocations.Add(Home);
+		}
+		else
+		{
+			for (const TPair<FName, FMTLocationData>& Pair : Registry->GetLocations())
+			{
+				if (Pair.Value.bSpawnPoint)
+				{
+					SpawnLocations.Add(Pair.Key);
+					break;
+				}
 			}
 		}
 	}
@@ -753,12 +777,12 @@ int32 SMTFrontEnd::PaintMap(const FGeometry& G, FSlateWindowElementList& Out, in
 	{
 		MTUI::Box(Out, Layer, G, ArtPos, ArtSize, FLinearColor(0.1f, 0.08f, 0.06f, 1.f));
 	}
-	// Live view of the place (scene capture along its preview camera), cross-faded over the painting.
+	// Live view of the place (scene capture along its preview camera), cross-faded over the painting once the place has
+	// streamed in; places this map does not contain keep the painting.
 	const UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(PlayerController.Get());
 	if (const FSlateBrush* Live = FrontEnd ? FrontEnd->GetPreviewBrush() : nullptr)
 	{
-		const float Fade = FMath::Clamp((FrontEnd->GetPreviewAge() - 0.35f) / 1.2f, 0.f, 1.f);
-		MTUI::Box(Out, Layer, G, ArtPos, ArtSize, FLinearColor(1.f, 1.f, 1.f, Fade), Live);
+		MTUI::Box(Out, Layer, G, ArtPos, ArtSize, FLinearColor(1.f, 1.f, 1.f, FrontEnd->GetPreviewFade()), Live);
 	}
 	MTUI::GoldFrame(Out, Layer + 1, G, ArtPos, ArtSize, 1.f, false);
 	float Y = ArtPos.Y + ArtSize.Y + 22.f * S;
