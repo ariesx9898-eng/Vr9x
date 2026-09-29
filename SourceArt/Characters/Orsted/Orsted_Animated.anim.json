@@ -57,10 +57,6 @@
    "duration": 0.45,
    "loop": false
   },
-  "DisturbMagic": {
-   "duration": 0.85,
-   "loop": false
-  },
   "DragonStep": {
    "duration": 0.56,
    "loop": false
@@ -97,6 +93,78 @@
    "duration": 1.4,
    "loop": false
   },
+  "Cast_Fireball": {
+   "duration": 0.2,
+   "loop": false
+  },
+  "Cast_Fireball_Release": {
+   "duration": 0.3333333333333333,
+   "loop": false
+  },
+  "Cast_FlameWave": {
+   "duration": 0.6,
+   "loop": false
+  },
+  "Cast_Inferno": {
+   "duration": 0.9666666666666667,
+   "loop": false
+  },
+  "Cast_WaterBullet": {
+   "duration": 0.36666666666666664,
+   "loop": false
+  },
+  "Cast_WaterDragon": {
+   "duration": 0.9,
+   "loop": false
+  },
+  "Cast_Flood": {
+   "duration": 0.9,
+   "loop": false
+  },
+  "Cast_StoneCannon": {
+   "duration": 0.23333333333333334,
+   "loop": false
+  },
+  "Cast_StoneCannon_Release": {
+   "duration": 0.3,
+   "loop": false
+  },
+  "Cast_EarthWall": {
+   "duration": 0.5333333333333333,
+   "loop": false
+  },
+  "Cast_EarthSpikes": {
+   "duration": 0.5333333333333333,
+   "loop": false
+  },
+  "Cast_WindBlade": {
+   "duration": 0.36666666666666664,
+   "loop": false
+  },
+  "Cast_Tornado": {
+   "duration": 0.6666666666666666,
+   "loop": false
+  },
+  "Cast_WindBurst": {
+   "duration": 0.36666666666666664,
+   "loop": false
+  },
+  "DisturbMagic": {
+   "duration": 0.8666666666666667,
+   "loop": false
+  },
+  "DragonCrush": {
+   "duration": 0.9,
+   "loop": false
+  },
+  "Cast_Fireball_Hold": {
+   "duration": 0.6,
+   "loop": true
+  },
+  "Cast_StoneCannon_Hold": {
+   "duration": 0.6,
+   "loop": true
+  },
   "DodgeForward": {
    "duration": 0.4,
    "loop": false
@@ -118,7 +186,7 @@
    "loop": false
   },
   "StoneCannon_Charge": {
-   "duration": 0.35,
+   "duration": 0.36666666666666664,
    "loop": false
   },
   "StoneCannon_Hold": {
@@ -126,15 +194,23 @@
    "loop": true
   },
   "StoneCannon_Release": {
-   "duration": 0.6,
+   "duration": 0.7,
    "loop": false
   },
   "Quagmire": {
-   "duration": 0.9,
+   "duration": 0.4666666666666667,
+   "loop": false
+  },
+  "Quagmire_Hold": {
+   "duration": 1.0,
+   "loop": true
+  },
+  "Quagmire_Release": {
+   "duration": 0.6,
    "loop": false
   },
   "Barrage": {
-   "duration": 1.45,
+   "duration": 4.6,
    "loop": false
   },
   "DemonEye": {
@@ -168,6 +244,75 @@
   "HardLand": {
    "duration": 0.8,
    "loop": false
+  }
+ },
+ "events": {
+  "DragonStep": {
+   "Release": 0.08
+  },
+  "Cast_Fireball": {
+   "Release": 0.19
+  },
+  "Cast_Fireball_Release": {
+   "Release": 0.04
+  },
+  "Cast_FlameWave": {
+   "Release": 0.26
+  },
+  "Cast_Inferno": {
+   "Release": 0.55
+  },
+  "Cast_WaterBullet": {
+   "Release": 0.14
+  },
+  "Cast_WaterDragon": {
+   "Release": 0.45
+  },
+  "Cast_Flood": {
+   "Release": 0.42
+  },
+  "Cast_StoneCannon": {
+   "Release": 0.22
+  },
+  "Cast_StoneCannon_Release": {
+   "Release": 0.04
+  },
+  "Cast_EarthWall": {
+   "Release": 0.25
+  },
+  "Cast_EarthSpikes": {
+   "Release": 0.25
+  },
+  "Cast_WindBlade": {
+   "Release": 0.15
+  },
+  "Cast_Tornado": {
+   "Release": 0.34
+  },
+  "Cast_WindBurst": {
+   "Release": 0.08
+  },
+  "DisturbMagic": {
+   "Release": 0.06
+  },
+  "DragonCrush": {
+   "Release": 0.4
+  },
+  "StoneCannon_Charge": {
+   "Release": 0.35
+  },
+  "StoneCannon_Release": {
+   "Release": 0.04
+  },
+  "Quagmire": {
+   "Release": 0.45
+  },
+  "Quagmire_Release": {
+   "Release": 0.04
+  },
+  "Barrage": {
+   "Release": 0.6,
+   "Finale": 3.95
   }
  },
  "qa": [
@@ -268,14 +413,6 @@
    "loop_seam_deg": 0.0
   },
   {
-   "clip": "DisturbMagic",
-   "frames": 27,
-   "max_leg_reach": 0.954,
-   "max_target_err_cm": 0.0,
-   "planted_slip_cm_s": 0.0,
-   "loop_seam_deg": 0.0
-  },
-  {
    "clip": "DragonStep",
    "frames": 18,
    "max_leg_reach": 0.954,
@@ -348,6 +485,150 @@
    "loop_seam_deg": 0.0
   },
   {
+   "clip": "Cast_Fireball",
+   "frames": 7,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_Fireball_Release",
+   "frames": 11,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_FlameWave",
+   "frames": 19,
+   "max_leg_reach": 0.955,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_Inferno",
+   "frames": 30,
+   "max_leg_reach": 0.965,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_WaterBullet",
+   "frames": 12,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_WaterDragon",
+   "frames": 28,
+   "max_leg_reach": 0.976,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_Flood",
+   "frames": 28,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_StoneCannon",
+   "frames": 8,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_StoneCannon_Release",
+   "frames": 10,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_EarthWall",
+   "frames": 17,
+   "max_leg_reach": 0.96,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_EarthSpikes",
+   "frames": 17,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_WindBlade",
+   "frames": 12,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_Tornado",
+   "frames": 21,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_WindBurst",
+   "frames": 12,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DisturbMagic",
+   "frames": 27,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "DragonCrush",
+   "frames": 28,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_Fireball_Hold",
+   "frames": 19,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Cast_StoneCannon_Hold",
+   "frames": 19,
+   "max_leg_reach": 0.954,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
    "clip": "DodgeForward",
    "frames": 13,
    "max_leg_reach": 0.981,
@@ -389,7 +670,7 @@
   },
   {
    "clip": "StoneCannon_Charge",
-   "frames": 11,
+   "frames": 12,
    "max_leg_reach": 0.913,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
@@ -398,14 +679,14 @@
   {
    "clip": "StoneCannon_Hold",
    "frames": 31,
-   "max_leg_reach": 0.889,
+   "max_leg_reach": 0.878,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
    "loop_seam_deg": 0.0
   },
   {
    "clip": "StoneCannon_Release",
-   "frames": 19,
+   "frames": 22,
    "max_leg_reach": 0.913,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
@@ -413,7 +694,23 @@
   },
   {
    "clip": "Quagmire",
-   "frames": 28,
+   "frames": 15,
+   "max_leg_reach": 0.913,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Quagmire_Hold",
+   "frames": 31,
+   "max_leg_reach": 0.732,
+   "max_target_err_cm": 0.0,
+   "planted_slip_cm_s": 0.0,
+   "loop_seam_deg": 0.0
+  },
+  {
+   "clip": "Quagmire_Release",
+   "frames": 19,
    "max_leg_reach": 0.913,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
@@ -421,8 +718,8 @@
   },
   {
    "clip": "Barrage",
-   "frames": 45,
-   "max_leg_reach": 0.913,
+   "frames": 139,
+   "max_leg_reach": 0.918,
    "max_target_err_cm": 0.0,
    "planted_slip_cm_s": 0.0,
    "loop_seam_deg": 0.0

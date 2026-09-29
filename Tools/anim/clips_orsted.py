@@ -6,6 +6,7 @@ footing, so idle <-> combat crossfades and every montage blend-in / blend-out le
 are. Steps are always lifted (a foot never moves while it is on the ground)."""
 import math
 import clips as R
+import clips_spells
 from clips import keyed, gait_pose, TAU, FPS
 from pose_compose import DEFAULTS
 
@@ -161,32 +162,23 @@ CLIPS = {
         (0.34, _m(GUARD, {"L_fy": -0.115, "L_fz": 0.03, "R_lower": 44.0, "R_fwd": 40.0, "R_elbow": 36.0, "R_wpitch": -28.0})),
         (0.45, GUARD),
     ], GUARD),
-    # Disturb Magic (window 0.05-0.40 s, 0.45 s recovery on a whiff): the off hand rises toward the spell over three
-    # frames, the fingers flick through the window, then a readable, unhurried reset of the hand.
-    "DisturbMagic": oneshot(0.85, [
-        (0.00, GUARD),
-        (0.12, _m(GUARD, {"L_lower": 32.0, "L_fwd": 60.0, "L_elbow": 66.0, "L_wpitch": -30.0, "L_curl": 4.0, "L_thumb": 6.0,
-                          "head_pitch": -2.0, "sp_yaw": 5.0})),
-        (0.24, _m(GUARD, {"L_lower": 26.0, "L_fwd": 66.0, "L_elbow": 62.0, "L_wpitch": -48.0, "L_curl": 22.0, "L_thumb": 20.0,
-                          "head_pitch": -2.0, "sp_yaw": 5.0})),
-        (0.40, _m(GUARD, {"L_lower": 29.0, "L_fwd": 63.0, "L_elbow": 66.0, "L_wpitch": -42.0, "L_curl": 8.0, "L_thumb": 8.0,
-                          "head_pitch": -1.0, "sp_yaw": 6.0})),
-        (0.62, _m(GUARD, {"L_lower": 46.0, "L_fwd": 40.0, "L_elbow": 52.0, "L_wpitch": -24.0, "L_curl": 8.0})),
-        (0.85, GUARD),
-    ], GUARD),
-    # Dragon Step (launch 0.08 s, 0.18 s glide, arrival strike at 0.26 s, 0.3 s recovery): sink into the launch, a low
-    # glide with the feet just off the ground and the coat snapping flat behind, plant on arrival with a compact palm.
+    # Dragon Step (Release = launch at 0.08 s; targeted travel 0.12 s, free dash 0.2 s; arrival strike, 0.3 s recovery): the
+    # stance drops low, then a blur lean (the feet skim just off the ground, the arms and coat stream back), and the arrival
+    # settles into a knee dip with a compact palm.
     "DragonStep": oneshot(0.56, [
         (0.00, GUARD),
-        (0.06, _m(GUARD, {"pel_z": -0.11, "sp_pitch": 11.0, "L_fpitch": -16.0, "R_fpitch": -22.0, "R_swing": -8.0, "L_swing": -6.0})),
-        (0.14, _m(GUARD, {"ik_w": 0.0, "legs": "fk", "L_hip": 22.0, "L_knee": 30.0, "R_hip": -12.0, "R_knee": 26.0,
-                          "pel_z": -0.075, "pel_pitch": 9.0, "sp_pitch": 14.0, "R_swing": -16.0, "L_swing": -14.0,
-                          "R_elbow": 44.0, "L_elbow": 36.0, "coat_trail": 28.0, "hair_lag": 12.0})),
-        (0.22, _m(GUARD, {"ik_w": 0.0, "legs": "fk", "L_hip": 20.0, "L_knee": 26.0, "R_hip": -8.0, "R_knee": 22.0,
-                          "pel_z": -0.065, "pel_pitch": 7.0, "sp_pitch": 10.0, "L_swing": -8.0, "R_lower": 50.0, "R_fwd": 40.0,
-                          "R_elbow": 58.0, "R_wpitch": -30.0, "coat_trail": 22.0, "hair_lag": 9.0})),
-        (0.29, _m(GUARD, PALM_COMPACT_R, {"ik_w": 1.0, "pel_z": -0.10, "sp_pitch": 5.0, "coat_trail": 8.0, "hair_lag": 3.0})),
-        (0.40, _m(GUARD, PALM_COMPACT_R, {"pel_z": -0.08, "sp_pitch": 3.0, "R_elbow": 30.0, "coat_trail": 2.0})),
+        (0.06, _m(GUARD, {"pel_z": -0.125, "sp_pitch": 12.0, "head_pitch": 3.0, "L_fpitch": -16.0, "R_fpitch": -22.0,
+                          "R_swing": -10.0, "L_swing": -8.0, "coat_flare": 4.0})),
+        (0.15, _m(GUARD, {"ik_w": 0.0, "legs": "fk", "L_hip": 22.0, "L_knee": 31.0, "R_hip": -12.0, "R_knee": 27.0,
+                          "pel_z": -0.08, "pel_pitch": 11.0, "sp_pitch": 16.0, "head_pitch": -6.0, "R_swing": -14.0,
+                          "L_swing": -16.0, "R_elbow": 44.0, "L_elbow": 34.0, "coat_trail": 32.0, "hair_lag": 14.0})),
+        (0.22, _m(GUARD, {"ik_w": 0.0, "legs": "fk", "L_hip": 20.0, "L_knee": 27.0, "R_hip": -9.0, "R_knee": 23.0,
+                          "pel_z": -0.07, "pel_pitch": 7.0, "sp_pitch": 10.0, "head_pitch": -3.0, "L_swing": -10.0,
+                          "R_lower": 50.0, "R_fwd": 40.0, "R_elbow": 58.0, "R_wpitch": -30.0, "coat_trail": 25.0,
+                          "hair_lag": 10.0})),
+        (0.29, _m(GUARD, PALM_COMPACT_R, {"ik_w": 1.0, "pel_z": -0.115, "sp_pitch": 6.0, "coat_trail": 10.0, "hair_lag": 4.0})),
+        (0.37, _m(GUARD, PALM_COMPACT_R, {"pel_z": -0.085, "sp_pitch": 3.5, "R_elbow": 28.0, "coat_trail": 1.0,
+                                          "hair_lag": -1.0})),
         (0.56, GUARD),
     ], GUARD),
     # Saint Dragon Aura: stillness, then the chest opens and the hands turn outward slightly (buff at 0.35 s)
@@ -244,6 +236,13 @@ CLIPS = {
     ], GUARD),
 }
 
+# His own element casts (minimal: 55-65% of Rudeus's length, one small gesture, upright), Disturb Magic (a raised hand,
+# the fingers flick at 0.06 s) and Dragon Crush (arm drawn back, driven palm at 0.40 s, recovered by 0.9 s):
+# clips_spells.py. EVENTS carries each clip's gameplay events for the exporter sidecar.
+_spell_clips, EVENTS = clips_spells.orsted(GUARD, keyed)
+CLIPS.update(_spell_clips)
+EVENTS["DragonStep"] = {"Release": 0.08}
+
 # Everything else re-authors Rudeus's definitions on Orsted's own proportions (IK targets and the ground clamp re-fit
 # them): air and landing clips as they are; reactions and element / race casts on his guard footing, so they blend in
 # and out of his stance without moving a planted foot. Every AnimSet key therefore exists as A_Orsted_<Key>, so his
@@ -252,8 +251,10 @@ READY_FEET = {k: R.READY[k] for k in FEET}
 COMBAT_FEET = {k: R.COMBAT[k] for k in FEET}
 for _name in ("DodgeForward", "DodgeBack", "DodgeLeft", "DodgeRight", "Death"):
     CLIPS[_name] = on_guard_footing(R.CLIPS[_name], READY_FEET)
-for _name in ("StoneCannon_Charge", "StoneCannon_Hold", "StoneCannon_Release", "Quagmire", "Barrage", "DemonEye",
-              "CastTwoHand", "CastGround"):
+for _name in ("StoneCannon_Charge", "StoneCannon_Hold", "StoneCannon_Release", "Quagmire", "Quagmire_Hold",
+              "Quagmire_Release", "Barrage", "DemonEye", "CastTwoHand", "CastGround"):
     CLIPS[_name] = on_guard_footing(R.CLIPS[_name], COMBAT_FEET)
+    if _name in R.EVENTS:
+        EVENTS[_name] = dict(R.EVENTS[_name])  # same motion, same event times
 for _name in R.CLIPS:
     CLIPS.setdefault(_name, R.CLIPS[_name])

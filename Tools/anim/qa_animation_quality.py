@@ -12,6 +12,8 @@ Per clip it reports:
   ankle_gap      closest distance (cm) between the two ankles (feet colliding)
   foot_slide     non-locomotion clips: largest horizontal travel (cm) of a foot while it stays flat
                  on the ground (planted feet must not skate; locomotion slip is measured by the builder)
+  lowest_vertex  lowest skinned vertex over every frame (cm; negative = through the floor). Rise / Fall only play
+                 in the air.
 """
 import argparse
 import importlib
@@ -87,6 +89,7 @@ def main():
         slide = 0.0
         run_len = {"L": 0.0, "R": 0.0}
         prev_ankle = {"L": None, "R": None}
+        lowest = 999.0
         for i in range(n + 1):
             t = min(i / 30.0, duration) if not loop else (i / 30.0) % duration if i < n else 0.0
             D, pel = ground_corrected(rig, mesh, name, fn(t))
@@ -119,6 +122,8 @@ def main():
                 rel = W[L.FORE[s]].to_quaternion().inverted() @ W[L.HAND[s]].to_quaternion()
                 rest_rel = rig.rest3[L.FORE[s]].to_quaternion().inverted() @ rig.rest3[L.HAND[s]].to_quaternion()
                 dq = rest_rel.inverted() @ rel
+                if dq.w < 0.0:
+                    dq.negate()  # q and -q are the same rotation: measure the short way round
                 axis_local = (rig.rest3[L.FORE[s]].transposed() @ (rig.head[L.HAND[s]] - rig.head[L.FORE[s]])).normalized()
                 sw_axis = dq.axis
                 twist_part = abs(math.degrees(dq.angle) * sw_axis.dot(axis_local)) if dq.angle > 1e-6 else 0.0
@@ -141,8 +146,9 @@ def main():
                     elif not planted:
                         run_len[s] = 0.0
                     prev_ankle[s] = ank.copy() if planted else None
+            co, _, _ = preview.evaluate(arm, mesh)
+            lowest = min(lowest, float(co[:, 2].min()))
             if i % 3 == 0:
-                co, _, _ = preview.evaluate(arm, mesh)
                 e = np.stack([np.linalg.norm(co[tri[:, j]] - co[tri[:, (j + 1) % 3]], axis=1) for j in range(3)], 1)
                 ratio = np.where(valid, e / np.maximum(e0, 1e-6), 1.0)
                 k_worst = np.unravel_index(np.argmax(ratio), ratio.shape)
@@ -153,7 +159,7 @@ def main():
              "knee_deg": [round(knee[0], 1), round(knee[1], 1)], "elbow_deg": [round(elbow[0], 1), round(elbow[1], 1)],
              "wrist_twist_deg": round(twist, 1), "stretch": round(stretch, 2), "stretch_region": stretch_region.split("_jnt")[0],
              "hand_to_spine_cm": round(hand_body * 100, 1), "ankle_gap_cm": round(ankle_gap * 100, 1),
-             "foot_slide_cm": None if is_gait else round(slide * 100, 1)}
+             "foot_slide_cm": None if is_gait else round(slide * 100, 1), "lowest_vertex_cm": round(lowest * 100, 1)}
         results.append(r)
         print(json.dumps(r))
     if a.json:

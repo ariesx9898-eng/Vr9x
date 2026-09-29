@@ -2,6 +2,7 @@
 Locomotion clips are in place with planted feet whose ground speed equals the reference speed,
 so the native anim instance can scale play rate by actual speed with no foot sliding."""
 import math
+import sys
 from rudeus_anim_lib import smooth, lerp
 from pose_compose import DEFAULTS
 
@@ -310,15 +311,6 @@ def fall_loop(t):
     return P
 
 
-def hold_loop(t):
-    w = TAU * t / 1.0
-    P = dict(HOLD)
-    P.update({"R_elbow": HOLD["R_elbow"] + 1.6 * math.sin(3 * w), "L_elbow": HOLD["L_elbow"] + 1.6 * math.sin(3 * w + 1.0),
-              "R_fwd": HOLD["R_fwd"] + 1.0 * math.sin(2 * w), "sp_pitch": HOLD["sp_pitch"] + 0.8 * math.sin(w),
-              "pel_z": HOLD["pel_z"] + 0.004 * math.sin(w), "hair_lag": 2.0 + 0.8 * math.sin(2 * w), "coat_flare": 5.0 + 1.0 * math.sin(w)})
-    return P
-
-
 def _m(*dicts):
     out = {}
     for d in dicts:
@@ -454,8 +446,8 @@ ONESHOTS["Death"] = oneshot(1.60, [
 
 # ---- casting (Rudeus: chantless = short readable preparation, then release)
 # Timing contract with Abilities.json: the projectile spawns at CastTime after activation, so the
-# strike reaches full extension then (Basic 0.12-0.14 s, two-hand casts ~0.27 s, Barrage steps at
-# 0.31 / 0.54 / 0.78 / 1.04 s, charged release at the first frames of the release clip).
+# strike reaches full extension then (Basic 0.12-0.14 s, two-hand casts ~0.27 s). The element spells, Stone Cannon,
+# Quagmire and Barrage clips (with their Release / Finale events) are in clips_spells.py, merged at the end of this file.
 ONESHOTS["CastBasic"] = oneshot(0.45, [
     (0.00, {}),
     (0.06, _m(COMBAT, {"R_lower": 42.0, "R_fwd": 36.0, "R_elbow": 64.0, "R_wpitch": -26.0, "pel_yaw": -16.0, "sp_yaw": 10.0})),
@@ -463,35 +455,6 @@ ONESHOTS["CastBasic"] = oneshot(0.45, [
     (0.22, _m(COMBAT, THRUST_R, {"R_lower": 14.0, "R_fwd": 84.0, "R_elbow": 9.0, "R_wpitch": -46.0, "pel_yaw": -9.0, "sp_yaw": 3.0})),
     (0.45, COMBAT),
 ], base=COMBAT)
-ONESHOTS["StoneCannon_Charge"] = oneshot(0.35, [(0.00, COMBAT), (0.35, HOLD)], base=HOLD)
-ONESHOTS["StoneCannon_Release"] = oneshot(0.60, [
-    (0.00, HOLD),
-    (0.08, _m(HOLD, THRUST_R, {"pel_yaw": -6.0, "sp_yaw": -6.0, "L_swing": -20.0, "L_fwd": 20.0, "L_elbow": 70.0, "sp_pitch": 12.0, "hair_lag": 4.0, "coat_trail": 6.0})),
-    (0.20, _m(HOLD, THRUST_R, {"R_elbow": 14.0, "R_wpitch": -44.0, "pel_yaw": -8.0, "sp_yaw": -4.0, "sp_pitch": 4.0, "L_swing": -10.0, "L_fwd": 20.0, "L_elbow": 60.0})),
-    (0.60, COMBAT),
-], base=HOLD)
-ONESHOTS["Quagmire"] = oneshot(0.90, [
-    (0.00, COMBAT),
-    (0.30, _m(COMBAT, {"pel_z": -0.28, "sp_pitch": 36.0, "head_pitch": -14.0, "L_lower": 62.0, "L_swing": 52.0, "L_fwd": 0.0, "L_elbow": 10.0,
-                       "L_wpitch": 48.0, "L_curl": 8.0, "R_lower": 64.0, "R_fwd": 10.0, "R_elbow": 40.0, "coat_flare": 8.0})),
-    (0.45, _m(COMBAT, {"pel_z": -0.30, "sp_pitch": 38.0, "head_pitch": -12.0, "L_lower": 66.0, "L_swing": 56.0, "L_fwd": 0.0, "L_elbow": 6.0,
-                       "L_wpitch": 55.0, "L_curl": 4.0, "R_lower": 64.0, "R_fwd": 10.0, "R_elbow": 40.0, "coat_flare": 10.0})),
-    (0.90, COMBAT),
-], base=COMBAT)
-ONESHOTS["Barrage"] = oneshot(1.45, [
-    (0.00, COMBAT),
-    (0.18, _m(HOLD, RETRACT_R, RETRACT_L)),                                          # formation
-    (0.31, _m(HOLD, THRUST_R, RETRACT_L, {"pel_yaw": -10.0, "sp_yaw": -10.0})),      # stone (right)
-    (0.42, _m(HOLD, RETRACT_R, RETRACT_L)),
-    (0.54, _m(HOLD, RETRACT_R, THRUST_L, {"pel_yaw": -24.0, "sp_yaw": 16.0})),       # wind blade (left)
-    (0.66, _m(HOLD, RETRACT_R, RETRACT_L)),
-    (0.78, _m(HOLD, THRUST_R, RETRACT_L, {"pel_yaw": -12.0, "sp_yaw": -12.0})),      # water cannon (right)
-    (0.91, _m(HOLD, RETRACT_R, RETRACT_L)),
-    (1.04, _m(HOLD, THRUST_R, THRUST_L, {"pel_yaw": -16.0, "sp_yaw": 4.0, "sp_pitch": 12.0, "coat_trail": 6.0})),  # fire burst
-    (1.14, _m(HOLD, THRUST_R, THRUST_L, {"R_elbow": 9.0, "L_elbow": 9.0, "R_wpitch": -46.0, "L_wpitch": -46.0,
-                                        "pel_yaw": -15.0, "sp_yaw": 4.0, "sp_pitch": 11.0, "coat_trail": 5.0})),
-    (1.45, COMBAT),
-], base=HOLD)
 ONESHOTS["DemonEye"] = oneshot(0.80, [
     (0.00, COMBAT),
     (0.26, _m(COMBAT, {"L_lower": 48.0, "L_fwd": 58.0, "L_elbow": 128.0, "L_swing": 30.0, "L_wpitch": -20.0, "L_curl": 16.0,
@@ -542,6 +505,12 @@ CLIPS = {
     "RunBack": loop_gait("RunBack"),
     "Rise": (0.6, True, rise_loop),
     "Fall": (0.6, True, fall_loop),
-    "StoneCannon_Hold": (1.0, True, hold_loop),
 }
 CLIPS.update(ONESHOTS)
+
+# Element spells and the signature upgrades of the ability overhaul (Docs/Ability_Overhaul.md §7): every spell has its own
+# clip, and EVENTS carries each clip's gameplay events ({"Release": s, "Finale": s}) for the exporter sidecar.
+import clips_spells  # noqa: E402  (imported last: it builds on COMBAT and keyed above)
+
+_spell_clips, EVENTS = clips_spells.rudeus(sys.modules[__name__])
+CLIPS.update(_spell_clips)

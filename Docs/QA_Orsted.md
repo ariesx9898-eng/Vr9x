@@ -58,34 +58,35 @@ What remains is the intended smooth hand-over between coat and trousers, not tea
 
 ---
 
-## 2. Animation — 40 clips on his own proportions (A: offline)
+## 2. Animation — 59 clips on his own proportions (A: offline)
 
-Authored by `Tools/anim/build_rudeus_anims.py --character Orsted` from `Tools/anim/clips_orsted.py`, then measured on
-the actually skinned mesh every frame (`qa_animation_quality.py`) and re-parsed independently with numpy
-(`verify_glb.py`: **VERIFY: PASS**, 136 joints matching the shared skeleton, 1.950 m, feet at 0, faces +Z, 40 clips with
-exact durations). Full JSON: `Docs/QA_Animation_Metrics_Orsted.json`, per-clip contact sheets `Docs/Images/Animation/A_Orsted_*.png`.
+Authored by `Tools/anim/build_rudeus_anims.py --character Orsted` from `Tools/anim/clips_orsted.py` (and, since the
+ability overhaul, `Tools/anim/clips_spells.py`), then measured on the actually skinned mesh every frame
+(`qa_animation_quality.py`) and re-parsed independently with numpy (`verify_glb.py`: **VERIFY: PASS**, 136 joints
+matching the shared skeleton, 1.950 m, feet at 0, faces +Z, 59 clips with exact durations). 40 of them were imported
+into UE 5.8 on 2026-09-27 (§3); the 19 clips added by the ability overhaul (§2.1) have not been imported yet. Full JSON: `Docs/QA_Animation_Metrics_Orsted.json`, per-clip contact sheets `Docs/Images/Animation/A_Orsted_*.png`.
 
 Column meanings are those of `Docs/QA_Animation.md` (leg reach 1.0 = straight leg; slip = planted-foot speed error;
 seam = loop end vs start; peak = fastest major-bone rotation per 30 fps frame, the snap detector; stretch = worst
 edge-length ratio vs the bind pose; foot slide = travel of a flat, planted foot in one-shots; lowest vertex = the
-verifier's floor check). Rise is an airborne-only loop.
+lowest skinned vertex over every frame, measured per frame since the ability overhaul pass, so Death shows its true
+−1.7 cm while lying down where the 6-sample verifier reported −1.0). Rise is an airborne-only loop.
 
 | Clip | Duration s | Type | Ref speed cm/s | Leg reach | IK err cm | Planted slip cm/s | Seam ° | Peak °/frame | Knee ° | Stretch | Hand–spine cm | Ankle gap cm | Foot slide cm | Lowest vertex cm |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Idle | 4.000 | loop |  | 0.977 | 0.00 | 0.00 | 0.000 | 0.1 | 24.6–31.2 | 4.75 | 25.5 | 31.6 | 0.0 | 0.0 |
 | CombatIdle | 2.000 | loop |  | 0.954 | 0.00 | 0.00 | 0.000 | 0.1 | 34.8–39.4 | 3.99 | 38.1 | 31.6 | 0.0 | 0.0 |
-| Walk | 1.000 | loop | 145 | 0.985 | 0.00 | 0.00 | 0.000 | 11.9 | 19.9–54.9 | 4.79 | 28.1 | 18.5 | — | -0.3 |
-| WalkBack | 1.000 | loop | 110 | 0.985 | 0.00 | 0.00 | 0.000 | 13.4 | 19.9–51.3 | 4.78 | 28.2 | 18.0 | — | -0.1 |
+| Walk | 1.000 | loop | 145 | 0.985 | 0.00 | 0.00 | 0.000 | 11.9 | 19.9–54.9 | 4.79 | 28.1 | 18.5 | — | -0.4 |
+| WalkBack | 1.000 | loop | 110 | 0.985 | 0.00 | 0.00 | 0.000 | 13.4 | 19.9–51.3 | 4.78 | 28.2 | 18.0 | — | -0.2 |
 | StrafeLeft | 0.600 | loop | 115 | 0.985 | 0.00 | 0.00 | 0.000 | 6.4 | 19.9–51.8 | 4.69 | 29.6 | 15.7 | — | -0.2 |
 | StrafeRight | 0.600 | loop | 115 | 0.985 | 0.00 | 0.00 | 0.000 | 6.4 | 19.9–51.8 | 4.69 | 29.6 | 15.7 | — | -0.2 |
 | Run | 0.700 | loop | 420 | 0.985 | 0.00 | 0.00 | 0.000 | 17.5 | 19.9–95.3 | 5.55 | 29.0 | 25.5 | — | -0.4 |
-| Sprint | 0.633 | loop | 660 | 0.985 | 0.00 | 0.00 | 0.000 | 28.1 | 19.9–109.6 | 6.82 | 28.5 | 31.2 | — | -0.7 |
-| RunStrafeLeft | 0.700 | loop | 380 | 0.985 | 0.00 | 0.00 | 0.000 | 15.3 | 19.9–84.9 | 5.30 | 30.5 | 20.7 | — | -0.6 |
-| RunStrafeRight | 0.700 | loop | 380 | 0.985 | 0.00 | 0.00 | 0.000 | 16.5 | 19.9–85.1 | 5.03 | 30.5 | 19.9 | — | -0.6 |
-| RunBack | 0.700 | loop | 330 | 0.985 | 0.00 | 0.00 | 0.000 | 15.7 | 19.9–76.7 | 6.18 | 33.0 | 20.3 | — | -0.4 |
-| CastBasic (palm strike) | 0.450 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 30.0 | 34.8–55.1 | 4.22 | 31.1 | 31.6 | 0.6 | -0.0 |
-| DisturbMagic | 0.850 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 26.8 | 34.8–39.4 | 3.99 | 38.2 | 31.6 | 0.0 | 0.0 |
-| DragonStep | 0.560 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 31.9 | 25.4–67.5 | 4.10 | 31.1 | 31.6 | 0.9 | -0.5 |
+| Sprint | 0.633 | loop | 660 | 0.985 | 0.00 | 0.00 | 0.000 | 28.1 | 19.9–109.6 | 6.82 | 28.5 | 31.2 | — | -0.6 |
+| RunStrafeLeft | 0.700 | loop | 380 | 0.985 | 0.00 | 0.00 | 0.000 | 15.3 | 19.9–84.9 | 5.30 | 30.5 | 20.7 | — | -0.4 |
+| RunStrafeRight | 0.700 | loop | 380 | 0.985 | 0.00 | 0.00 | 0.000 | 16.5 | 19.9–85.1 | 5.03 | 30.5 | 19.9 | — | -0.4 |
+| RunBack | 0.700 | loop | 330 | 0.985 | 0.00 | 0.00 | 0.000 | 15.7 | 19.9–76.7 | 6.18 | 33.0 | 20.3 | — | -0.2 |
+| CastBasic (palm strike) | 0.450 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 30.0 | 34.8–55.1 | 4.22 | 31.1 | 31.6 | 0.6 | 0.0 |
+| DragonStep | 0.560 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 31.2 | 26.6–70.9 | 4.13 | 31.2 | 31.6 | 0.8 | -0.8 |
 | Aura | 0.900 | one-shot |  | 0.976 | 0.00 | 0.00 | 0.000 | 8.2 | 25.4–39.4 | 4.19 | 32.8 | 31.6 | 0.0 | 0.0 |
 | Awakening | 1.500 | one-shot |  | 0.977 | 0.00 | 0.00 | 0.000 | 7.3 | 24.6–39.4 | 4.77 | 28.4 | 31.6 | 0.0 | 0.0 |
 | HitFront | 0.330 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 14.4 | 34.8–44.5 | 3.99 | 38.2 | 31.6 | 0.0 | 0.0 |
@@ -94,29 +95,50 @@ verifier's floor check). Rise is an airborne-only loop.
 | HitRight | 0.330 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 10.9 | 34.8–44.5 | 3.99 | 35.6 | 31.6 | 0.0 | 0.0 |
 | Stagger | 0.800 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 12.2 | 34.8–60.4 | 3.99 | 38.1 | 31.6 | 1.5 | 0.0 |
 | Knockdown | 1.400 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 22.3 | 34.8–116.7 | 6.27 | 26.6 | 31.6 | 1.4 | -0.8 |
+| Cast_Fireball | 0.200 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 17.6 | 34.8–39.4 | 3.99 | 37.5 | 31.6 | 0.0 | 0.0 |
+| Cast_Fireball_Release | 0.333 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 21.6 | 34.8–39.4 | 3.99 | 37.7 | 31.6 | 0.0 | 0.0 |
+| Cast_FlameWave | 0.600 | one-shot |  | 0.955 | 0.00 | 0.00 | 0.000 | 25.9 | 34.6–39.4 | 3.99 | 35.8 | 31.6 | 0.0 | 0.0 |
+| Cast_Inferno | 0.967 | one-shot |  | 0.965 | 0.00 | 0.00 | 0.000 | 28.7 | 30.4–49.2 | 3.99 | 37.1 | 31.6 | 0.0 | 0.0 |
+| Cast_WaterBullet | 0.367 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 25.9 | 34.8–39.4 | 4.28 | 38.2 | 31.6 | 0.0 | 0.0 |
+| Cast_WaterDragon | 0.900 | one-shot |  | 0.976 | 0.00 | 0.00 | 0.000 | 25.4 | 25.3–39.4 | 4.86 | 33.2 | 31.6 | 0.0 | 0.0 |
+| Cast_Flood | 0.900 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 26.4 | 34.8–49.2 | 5.04 | 32.9 | 31.6 | 0.0 | 0.0 |
+| Cast_StoneCannon | 0.233 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 20.5 | 34.8–39.4 | 3.99 | 38.2 | 31.6 | 0.0 | 0.0 |
+| Cast_StoneCannon_Release | 0.300 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 26.1 | 34.8–39.4 | 4.25 | 38.1 | 31.6 | 0.0 | 0.0 |
+| Cast_EarthWall | 0.533 | one-shot |  | 0.960 | 0.00 | 0.00 | 0.000 | 23.3 | 32.7–42.8 | 3.99 | 37.7 | 31.6 | 0.0 | 0.0 |
+| Cast_EarthSpikes | 0.533 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 25.6 | 34.8–46.2 | 4.00 | 37.0 | 31.6 | 0.0 | 0.0 |
+| Cast_WindBlade | 0.367 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 30.6 | 34.7–39.4 | 3.99 | 38.0 | 31.6 | 0.0 | 0.0 |
+| Cast_Tornado | 0.667 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 22.9 | 34.8–39.4 | 3.99 | 38.1 | 31.6 | 0.0 | 0.0 |
+| Cast_WindBurst | 0.367 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 23.3 | 34.8–42.9 | 4.24 | 35.2 | 31.6 | 0.0 | 0.0 |
+| DisturbMagic | 0.867 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 15.6 | 34.8–39.4 | 3.99 | 38.2 | 31.6 | 0.0 | 0.0 |
+| DragonCrush | 0.900 | one-shot |  | 0.954 | 0.00 | 0.00 | 0.000 | 25.0 | 34.8–75.0 | 5.13 | 33.5 | 31.6 | 0.6 | 0.0 |
+| Cast_Fireball_Hold | 0.600 | loop |  | 0.954 | 0.00 | 0.00 | 0.000 | 0.7 | 34.8–39.4 | 3.99 | 37.7 | 31.6 | 0.0 | 0.0 |
+| Cast_StoneCannon_Hold | 0.600 | loop |  | 0.954 | 0.00 | 0.00 | 0.000 | 0.5 | 34.8–39.4 | 3.99 | 38.2 | 31.6 | 0.0 | 0.0 |
 | DodgeForward | 0.400 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 31.3 | 22.3–72.7 | 4.91 | 31.8 | 31.6 | 1.1 | -0.1 |
 | DodgeBack | 0.400 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 30.1 | 3.6–52.7 | 4.74 | 32.4 | 31.5 | 1.4 | -0.4 |
-| DodgeLeft | 0.400 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 19.5 | 9.2–44.5 | 4.56 | 29.9 | 31.6 | 2.5 | -0.0 |
-| DodgeRight | 0.400 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 19.5 | 12.9–48.0 | 4.55 | 29.8 | 31.6 | 4.4 | -0.0 |
-| Death | 1.600 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 11.8 | 7.9–106.9 | 5.34 | 27.3 | 31.0 | 1.8 | -1.0 |
-| StoneCannon_Charge | 0.350 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 7.3 | 48.2–57.9 | 3.91 | 36.8 | 31.6 | 0.0 | 0.0 |
-| StoneCannon_Hold | 1.000 | loop |  | 0.889 | 0.00 | 0.00 | 0.000 | 1.3 | 54.5–58.9 | 3.97 | 39.9 | 31.6 | 0.0 | 0.0 |
-| StoneCannon_Release | 0.600 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 27.5 | 48.2–58.0 | 4.22 | 36.8 | 31.6 | 0.0 | 0.0 |
-| Quagmire | 0.900 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 10.9 | 48.2–96.2 | 5.09 | 35.2 | 31.6 | 0.0 | -0.0 |
-| Barrage | 1.450 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 28.0 | 48.2–58.0 | 4.22 | 36.8 | 31.6 | 0.0 | 0.0 |
+| DodgeLeft | 0.400 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 19.5 | 9.2–44.5 | 4.56 | 29.9 | 31.6 | 2.5 | -0.2 |
+| DodgeRight | 0.400 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 19.5 | 12.9–48.0 | 4.55 | 29.8 | 31.6 | 4.4 | -0.2 |
+| Death | 1.600 | one-shot |  | 0.981 | 0.00 | 0.00 | 0.000 | 11.8 | 7.9–106.9 | 5.34 | 27.3 | 31.0 | 1.8 | -1.7 |
+| StoneCannon_Charge | 0.367 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 19.5 | 48.2–60.5 | 4.05 | 27.2 | 31.6 | 0.0 | 0.0 |
+| StoneCannon_Hold | 1.000 | loop |  | 0.878 | 0.00 | 0.00 | 0.000 | 2.8 | 57.3–61.2 | 4.08 | 34.0 | 31.6 | 0.0 | 0.0 |
+| StoneCannon_Release | 0.700 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 25.3 | 48.2–60.5 | 4.79 | 31.6 | 31.6 | 0.0 | 0.0 |
+| Quagmire | 0.467 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 16.1 | 48.2–89.3 | 4.95 | 36.8 | 31.6 | 0.0 | 0.0 |
+| Quagmire_Hold | 1.000 | loop |  | 0.732 | 0.00 | 0.00 | 0.000 | 1.7 | 85.9–90.4 | 4.98 | 42.2 | 31.6 | 0.0 | 0.0 |
+| Quagmire_Release | 0.600 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 13.7 | 48.2–92.8 | 5.02 | 36.8 | 31.6 | 0.0 | 0.0 |
+| Barrage | 4.600 | one-shot |  | 0.918 | 0.00 | 0.00 | 0.000 | 29.7 | 46.7–67.6 | 5.04 | 36.1 | 31.6 | 0.0 | 0.0 |
 | DemonEye | 0.800 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 18.2 | 48.2–51.2 | 3.70 | 20.3 | 31.6 | 0.0 | 0.0 |
 | CastTwoHand | 0.650 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 26.2 | 48.2–58.0 | 4.22 | 36.8 | 31.6 | 0.0 | 0.0 |
-| CastGround | 0.800 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 12.1 | 48.2–87.4 | 4.93 | 32.0 | 31.6 | 0.0 | -0.0 |
+| CastGround | 0.800 | one-shot |  | 0.913 | 0.00 | 0.00 | 0.000 | 12.1 | 48.2–87.4 | 4.93 | 32.0 | 31.6 | 0.0 | 0.0 |
 | Rise | 0.600 | loop |  | — | 0.00 | 0.00 | 0.000 | 1.0 | 36.8–64.7 | 4.62 | 53.8 | 34.1 | 0.0 | -3.9 (air only) |
-| Fall | 0.600 | loop |  | — | 0.00 | 0.00 | 0.000 | 1.4 | 18.8–28.8 | 3.34 | 62.8 | 34.2 | 0.0 | 0.5 |
+| Fall | 0.600 | loop |  | — | 0.00 | 0.00 | 0.000 | 1.4 | 18.8–28.8 | 3.34 | 62.8 | 34.2 | 0.0 | 0.5 (air only) |
 | JumpStart | 0.260 | one-shot |  | 0.969 | 0.00 | 0.00 | 0.000 | 27.4 | 16.5–62.5 | 4.67 | 32.2 | 19.8 | 0.9 | -0.6 |
 | Land | 0.400 | one-shot |  | 1.000 | 0.01 | 0.00 | 0.000 | 18.5 | 3.6–66.8 | 4.55 | 32.4 | 19.8 | 0.0 | -0.0 |
 | HardLand | 0.800 | one-shot |  | 1.000 | 0.01 | 0.00 | 0.000 | 27.7 | 3.6–97.5 | 5.07 | 32.4 | 19.8 | 0.0 | -0.0 |
 
 Summary: IK error ≤ 0.01 cm, planted slip 0.00 cm/s, loop seams 0.000°, no knee hyperextension (min 3.6°), no quaternion
-flips, fastest limb 31.9°/frame (Rudeus's accepted maximum: 31.3), no hand through the torso (closest 20.3 cm), boots
-never touch (closest 15.7 cm), planted-foot slide ≤ 2.5 cm except the side dodge landing (4.4 cm, the dash root motion
-still carrying the body: same class as Rudeus's 3.1–3.5 cm), every floor-contact clip within 1.0 cm of the floor.
+flips, fastest limb 31.3°/frame (Dodge Forward; Dragon Step 31.2, was 31.9), no hand through the torso (closest
+20.3 cm), boots never touch (closest 15.7 cm), planted-foot slide ≤ 2.5 cm except the side dodge landing (4.4 cm, the
+dash root motion still carrying the body: same class as Rudeus's 3.1–3.5 cm), every floor-contact clip within 1.0 cm of
+the floor except Death while lying down (−1.7 cm on a few frames, per-frame check; unchanged clip).
 
 ### What the clip pass fixed (first full run → final)
 
@@ -136,6 +158,66 @@ still carrying the body: same class as Rudeus's 3.1–3.5 cm), every floor-conta
 | Element / race casts blending in and out of his stance | Rudeus's combat footing (5–8 cm off his) | 0 | inherited casts remapped onto his guard footing |
 | Shoulder cap stretch (idle) | 8.96 | 4.75 | shoulder weight smoothing |
 
+### 2.1 Ability overhaul pass (2026-09-29): his casting clips
+
+Orsted gets his own version of all 16 element keys, re-authored Disturb Magic and Dragon Step, and the new Dragon Crush
+(`Docs/Animation_Pipeline.md` §0.1 has the per-key table). His personality (`Docs/Ability_Overhaul.md` §4): each clip is
+55–65% as long as Rudeus's, one small gesture of one hand from his guard, calm and upright (a slight knee bend on the
+heavy techniques only), and his `Release` notifies fire earlier (§7). The silhouettes stay those of the spell: the
+Inferno hand still rises overhead and comes down, Flame Wave is still a sweep, Water Dragon still twirls up and points.
+
+- **Disturb Magic** (`Release` 0.06): the right hand (the ability's cast socket) rises from the guard with no wind-up,
+  the fingers flick open at 0.06 s while it is still rising, the ward hand holds at the chest through the 0.35 s window,
+  then an unhurried return. It used to raise the left hand; the peak is now 15.6°/frame (was 26.8).
+- **Dragon Step** (`Release` 0.08): a lower launch stance, a stronger blur lean with the arms and coat streaming back,
+  and an arrival knee dip with the compact palm. Peak 31.2°/frame (was 31.9).
+- **Dragon Crush** (new, `Release` 0.40 = impact): the right arm draws back to the hip while the hips coil and the weight
+  goes back, then a 0.2 s drive into the palm with a front-foot step (lifted, planted before the impact); the palm keeps
+  travelling a few centimetres past the impact frame so the strike does not decelerate into it, is held to 0.55 s, and
+  he is back on his guard footing by 0.82 s (clip 0.9 s). Peak 25.0°/frame, planted-foot slide 0.6 cm.
+
+His own casting clips (the last column is the length as a share of Rudeus's):
+
+| Clip | Length s | Events | Hand | Loop | Leg reach | IK err cm | Seam ° | Peak °/frame | Knee ° | Stretch | Hand–spine cm | Foot slide cm | Lowest vertex cm | vs Rudeus |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Cast_Fireball | 0.200 | Release 0.19 | R |  | 0.954 | 0.00 | 0.000 | 17.6 (arm\_R0\_2) | 34.8–39.4 | 3.99 | 37.5 | 0.0 | 0.0 | 60% |
+| Cast_Fireball_Hold | 0.600 | – | R | loop | 0.954 | 0.00 | 0.000 | 0.7 (arm\_R0\_2) | 34.8–39.4 | 3.99 | 37.7 | 0.0 | 0.0 | – |
+| Cast_Fireball_Release | 0.333 | Release 0.04 | R |  | 0.954 | 0.00 | 0.000 | 21.6 (arm\_R0\_0) | 34.8–39.4 | 3.99 | 37.7 | 0.0 | 0.0 | 59% |
+| Cast_FlameWave | 0.600 | Release 0.26 | R |  | 0.955 | 0.00 | 0.000 | 25.9 (arm\_R0\_2) | 34.6–39.4 | 3.99 | 35.8 | 0.0 | 0.0 | 60% |
+| Cast_Inferno (full body) | 0.967 | Release 0.55 | R |  | 0.965 | 0.00 | 0.000 | 28.7 (arm\_R0\_2) | 30.4–49.2 | 3.99 | 37.1 | 0.0 | 0.0 | 60% |
+| Cast_WaterBullet | 0.367 | Release 0.14 | R |  | 0.954 | 0.00 | 0.000 | 25.9 (arm\_R0\_2) | 34.8–39.4 | 4.28 | 38.2 | 0.0 | 0.0 | 61% |
+| Cast_WaterDragon (full body) | 0.900 | Release 0.45 | both, R points |  | 0.976 | 0.00 | 0.000 | 25.4 (arm\_L0\_0) | 25.3–39.4 | 4.86 | 33.2 | 0.0 | 0.0 | 60% |
+| Cast_Flood (full body) | 0.900 | Release 0.42 | both |  | 0.954 | 0.00 | 0.000 | 26.4 (arm\_R0\_0) | 34.8–49.2 | 5.04 | 32.9 | 0.0 | 0.0 | 60% |
+| Cast_StoneCannon | 0.233 | Release 0.22 | R |  | 0.954 | 0.00 | 0.000 | 20.5 (arm\_R0\_2) | 34.8–39.4 | 3.99 | 38.2 | 0.0 | 0.0 | 64% |
+| Cast_StoneCannon_Hold | 0.600 | – | R | loop | 0.954 | 0.00 | 0.000 | 0.5 (arm\_R0\_2) | 34.8–39.4 | 3.99 | 38.2 | 0.0 | 0.0 | – |
+| Cast_StoneCannon_Release | 0.300 | Release 0.04 | R |  | 0.954 | 0.00 | 0.000 | 26.1 (arm\_R0\_2) | 34.8–39.4 | 4.25 | 38.1 | 0.0 | 0.0 | 60% |
+| Cast_EarthWall | 0.533 | Release 0.25 | R |  | 0.960 | 0.00 | 0.000 | 23.3 (arm\_R0\_2) | 32.7–42.8 | 3.99 | 37.7 | 0.0 | 0.0 | 59% |
+| Cast_EarthSpikes | 0.533 | Release 0.25 | R |  | 0.954 | 0.00 | 0.000 | 25.6 (arm\_R0\_1) | 34.8–46.2 | 4.00 | 37.0 | 0.0 | 0.0 | 59% |
+| Cast_WindBlade | 0.367 | Release 0.15 | R |  | 0.954 | 0.00 | 0.000 | 30.6 (arm\_R0\_2) | 34.7–39.4 | 3.99 | 38.0 | 0.0 | 0.0 | 61% |
+| Cast_Tornado | 0.667 | Release 0.34 | R |  | 0.954 | 0.00 | 0.000 | 22.9 (arm\_R0\_2) | 34.8–39.4 | 3.99 | 38.1 | 0.0 | 0.0 | 61% |
+| Cast_WindBurst | 0.367 | Release 0.08 | both |  | 0.954 | 0.00 | 0.000 | 23.3 (arm\_L0\_2) | 34.8–42.9 | 4.24 | 35.2 | 0.0 | 0.0 | 61% |
+| DisturbMagic | 0.867 | Release 0.06 | R |  | 0.954 | 0.00 | 0.000 | 15.6 (arm\_R0\_2) | 34.8–39.4 | 3.99 | 38.2 | 0.0 | 0.0 | – |
+| DragonStep | 0.560 | Release 0.08 | R (arrival palm) |  | 0.954 | 0.00 | 0.000 | 31.2 (arm\_R0\_2) | 26.6–70.9 | 4.13 | 31.2 | 0.8 | -0.8 | – |
+| DragonCrush (full body) | 0.900 | Release 0.40 | R |  | 0.954 | 0.00 | 0.000 | 25.0 (arm\_R0\_0) | 34.8–75.0 | 5.13 | 33.5 | 0.6 | 0.0 | – |
+
+Rudeus's signature sets on his guard footing (so every key resolves on his skeleton; the same events as Rudeus's):
+
+| Clip | Length s | Events | Hand | Loop | Leg reach | IK err cm | Seam ° | Peak °/frame | Knee ° | Stretch | Hand–spine cm | Foot slide cm | Lowest vertex cm |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| StoneCannon_Charge | 0.367 | Release 0.35 | R (L braces) |  | 0.913 | 0.00 | 0.000 | 19.5 (arm\_L0\_1) | 48.2–60.5 | 4.05 | 27.2 | 0.0 | 0.0 |
+| StoneCannon_Hold | 1.000 | – | R (L braces) | loop | 0.878 | 0.00 | 0.000 | 2.8 (arm\_R0\_2) | 57.3–61.2 | 4.08 | 34.0 | 0.0 | 0.0 |
+| StoneCannon_Release | 0.700 | Release 0.04 | R |  | 0.913 | 0.00 | 0.000 | 25.3 (arm\_R0\_0) | 48.2–60.5 | 4.79 | 31.6 | 0.0 | 0.0 |
+| Quagmire | 0.467 | Release 0.45 | L |  | 0.913 | 0.00 | 0.000 | 16.1 (arm\_R0\_0) | 48.2–89.3 | 4.95 | 36.8 | 0.0 | 0.0 |
+| Quagmire_Hold | 1.000 | – | L | loop | 0.732 | 0.00 | 0.000 | 1.7 (arm\_L0\_1) | 85.9–90.4 | 4.98 | 42.2 | 0.0 | 0.0 |
+| Quagmire_Release | 0.600 | Release 0.04 | L |  | 0.913 | 0.00 | 0.000 | 13.7 (arm\_R0\_0) | 48.2–92.8 | 5.02 | 36.8 | 0.0 | 0.0 |
+| Barrage | 4.600 | Release 0.60, Finale 3.95 | both, R points |  | 0.918 | 0.00 | 0.000 | 29.7 (arm\_L0\_2) | 46.7–67.6 | 5.04 | 36.1 | 0.0 | 0.0 |
+
+Worst values over these 26 clips: IK error **0.00 cm**, planted slip **0.00 cm/s**, loop seams **0.000°**, fastest bone
+**31.2°/frame** (Dragon Step), planted-foot slide ≤ **0.8 cm** (Dragon Step's arrival), lowest vertex **−0.8 cm** (Dragon
+Step's glide), stretch ≤ 5.13, closest hand to the torso 27.2 cm. **Loops:** `Cast_Fireball_Hold`,
+`Cast_StoneCannon_Hold` (0.6 s, almost still: a slow finger wave), `StoneCannon_Hold`, `Quagmire_Hold` (1.0 s); seams
+0.000°.
+
 ---
 
 ## 3. Unreal Engine 5.8.3 on this Mac (B: real engine, headless)
@@ -154,7 +236,7 @@ First ever compile of the module. Three compile errors, all fixed; final build *
 | Data (`validate_data.py`) | ALL CHECKS PASSED |
 | Materials | 4 / 4 created (zone decal was FAIL: the script used an expression class that does not exist) |
 | Rudeus import | 46 passed, 0 failed: `SK_Rudeus` 161.7 cm, 37 clips, `MI_Rudeus_Toon`, 6 sockets |
-| **Orsted import** | **49 passed, 0 failed: `SK_Orsted` 195.0 cm, 40 clips (loop flags, lengths vs the exporter sidecar), `MI_Orsted_Toon`, 6 sockets** |
+| **Orsted import** | **49 passed, 0 failed: `SK_Orsted` 195.0 cm, 40 clips (loop flags, lengths vs the exporter sidecar), `MI_Orsted_Toon`, 6 sockets** (before the ability overhaul: the 59-clip GLB and its event notifies still have to be imported) |
 | World (`L_Fittoa`, World Partition) | created: day/night controller, Buena generator, nav bounds, player start, HLOD layer (type now set), data layers |
 | World validation (`MTValidateWorld` commandlet, every WP actor loaded) | 0 errors, 0 warnings |
 | Automation tests | 7 / 7 passed |

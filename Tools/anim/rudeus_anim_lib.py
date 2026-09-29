@@ -191,12 +191,19 @@ class Rig:
         return out, knee
 
 
-def arm_D(side, lower=75.0, swing=0.0, twist=0.0, elbow=15.0, wrist_pitch=0.0, wrist_yaw=0.0, raise_fwd=0.0, spread=0.0):
+ROLL_FOREARM_SHARE = 0.5  # forearm roll is spread over the forearm (half) and the wrist (the rest): no candy-wrapper wrist
+
+
+def arm_D(side, lower=75.0, swing=0.0, twist=0.0, elbow=15.0, wrist_pitch=0.0, wrist_yaw=0.0, raise_fwd=0.0, spread=0.0,
+          roll=0.0):
     """Semantic arm pose from the T-pose.
     lower: degrees the arm drops from horizontal toward the body side.
     swing: forward (+) / backward (-) swing about the lateral axis (after lowering).
     raise_fwd: horizontal sweep toward the front at shoulder height (casting reach).
-    elbow: flexion (forearm toward the front / chest)."""
+    elbow: flexion (forearm toward the front / chest).
+    roll: forearm rotation about its own axis, mirror-symmetric: + = supination (with the forearm pointing forward and
+    the thumb up, +90 turns the palm up), - = pronation. Half of it twists the forearm bone, the wrist does the rest,
+    and the elbow's flexion plane is unchanged (unlike twist, which turns the whole arm at the shoulder)."""
     s = SIDES[side]
     r_twist = rot((1, 0, 0), s * twist)
     r_lower = rot((0, 1, 0), s * lower)
@@ -204,18 +211,32 @@ def arm_D(side, lower=75.0, swing=0.0, twist=0.0, elbow=15.0, wrist_pitch=0.0, w
     r_swing = rot((1, 0, 0), -swing)
     r_spread = rot((0, 0, 1), s * spread)
     d_upper = r_swing @ r_sweep @ r_spread @ r_lower @ r_twist
-    d_fore = d_upper @ rot((0, 0, 1), -s * elbow)
-    d_hand = d_fore @ rot((0, 1, 0), s * wrist_pitch) @ rot((0, 0, 1), -s * wrist_yaw)
+    d_elbow = d_upper @ rot((0, 0, 1), -s * elbow)
+    if roll:
+        d_fore = d_elbow @ rot((1, 0, 0), -roll * ROLL_FOREARM_SHARE)
+        d_wrist = d_elbow @ rot((1, 0, 0), -roll)
+    else:
+        d_fore = d_wrist = d_elbow
+    d_hand = d_wrist @ rot((0, 1, 0), s * wrist_pitch) @ rot((0, 0, 1), -s * wrist_yaw)
     return {UPPER[side]: d_upper, FORE[side]: d_fore, HAND[side]: d_hand}
 
 
-def finger_D(side, hand_D, curl=20.0, thumb=15.0):
-    """Curl fingers about the hand's hinge axis (rest: fingers point along the arm)."""
+# Finger fan (abduction) weights, index .. pinky: the index and pinky fan out most, the middle finger barely moves.
+FAN = (1.0, 0.3, -0.35, -1.0)
+
+
+def finger_D(side, hand_D, curl=20.0, thumb=15.0, fan=0.0, extra=(0.0, 0.0, 0.0, 0.0)):
+    """Curl fingers about the hand's hinge axis (rest: fingers point along the arm).
+    fan: fingers spread apart (+) or squeezed together (-), degrees at the index / pinky.
+    extra: additional curl per finger (index, middle, ring, pinky), e.g. a two-finger point = fist + (-curl, -curl, 0, 0)."""
     s = SIDES[side]
     out = {}
     for i, chain in enumerate(FINGERS[side]):
-        amount = thumb if i == 0 else curl * (1.0 + 0.12 * (i - 1))
+        amount = thumb if i == 0 else curl * (1.0 + 0.12 * (i - 1)) + extra[i - 1]
         acc = hand_D
+        if i and fan:
+            # about the palm normal (rest Z), before the curl: the whole curled finger swings sideways at its root
+            acc = acc @ rot((0, 0, 1), -s * FAN[i - 1] * fan)
         for j, bone in enumerate(chain):
             ax = (0, 0, 1) if i == 0 else (0, 1, 0)
             acc = acc @ rot(ax, (s if i else -s) * amount * (0.8 + 0.25 * j))

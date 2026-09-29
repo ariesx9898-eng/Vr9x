@@ -20,6 +20,9 @@ DEFAULTS = {
     "R_lower": 74.0, "R_swing": 0.0, "R_fwd": 0.0, "R_twist": 0.0, "R_elbow": 14.0, "R_wpitch": 0.0, "R_wyaw": 0.0, "R_spread": 0.0,
     "L_curl": 18.0, "R_curl": 18.0, "L_thumb": 12.0, "R_thumb": 12.0,
     "L_clav": 0.0, "R_clav": 0.0,
+    # hands (casting): forearm roll (+ supination: palm up), finger fan (+ spread apart), extra curl per finger
+    "L_roll": 0.0, "R_roll": 0.0, "L_fan": 0.0, "R_fan": 0.0,
+    "L_ci": 0.0, "L_cm": 0.0, "L_cr": 0.0, "L_cp": 0.0, "R_ci": 0.0, "R_cm": 0.0, "R_cr": 0.0, "R_cp": 0.0,
     # legs: IK foot targets (ground-relative ankle placement) or FK angles
     "legs": "ik",
     "L_fx": 0.095, "L_fy": 0.0, "L_fz": 0.0, "L_fyaw": 4.0, "L_fpitch": 0.0, "L_pivot": 0.0,
@@ -108,10 +111,12 @@ def compose(rig, params):
         drop = CLAV_FOLLOW * P[s + "_lower"] - CLAV_LIFT * max(0.0, P[s + "_fwd"] - 60.0) - P[s + "_clav"]
         D[L.CLAV[s]] = chest @ rot((0, 1, 0), sign * drop)
         a = L.arm_D(s, lower=P[s + "_lower"], swing=P[s + "_swing"], twist=P[s + "_twist"], elbow=P[s + "_elbow"],
-                    wrist_pitch=P[s + "_wpitch"], wrist_yaw=P[s + "_wyaw"], raise_fwd=P[s + "_fwd"], spread=P[s + "_spread"])
+                    wrist_pitch=P[s + "_wpitch"], wrist_yaw=P[s + "_wyaw"], raise_fwd=P[s + "_fwd"], spread=P[s + "_spread"],
+                    roll=P[s + "_roll"])
         for bone, m in a.items():
             D[bone] = chest @ m
-        D.update(L.finger_D(s, D[L.HAND[s]], P[s + "_curl"], P[s + "_thumb"]))
+        D.update(L.finger_D(s, D[L.HAND[s]], P[s + "_curl"], P[s + "_thumb"], fan=P[s + "_fan"],
+                            extra=(P[s + "_ci"], P[s + "_cm"], P[s + "_cr"], P[s + "_cp"])))
 
     # solve once for hip positions (legs depend on the pelvis pose)
     full = rig.apply(D, pel_off)
