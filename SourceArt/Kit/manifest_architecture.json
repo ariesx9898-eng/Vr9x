@@ -4,7 +4,7 @@
  "units": "metres; Blender Z-up (glTF files are Y-up, the exporter converts); +X right, fronts face -Y",
  "pivot": "base: centre of the XY bounding box at ground level z = 0 (buildings have a buried foundation skirt down to min_z); base_point: the base attachment point at z = 0 (see notes); center: bounding-box centre; hub: see anchors",
  "uv": "box-projected, 1 UV unit = 1 m (roof slopes planar along the slope); VFX meshes use the UVs described in their notes",
- "count": 115,
+ "count": 123,
  "assets": [
   {
    "name": "SM_Asura_House_S_A",
@@ -2808,6 +2808,342 @@
     ]
    ],
    "notes": "Stone bullet (Stone Cannon): compressed six-sided stone slug 0.5 m long pointing +Z, radius ~0.1 m, faceted; bounding-box centre on the origin; slot MT_Rock, box-projected UVs."
+  },
+  {
+   "name": "SM_VFX_Slug",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Slug.glb",
+   "footprint": [
+    0.6,
+    0.3
+   ],
+   "height": 0.15,
+   "min_z": -0.15,
+   "size": [
+    0.6,
+    0.297,
+    0.295
+   ],
+   "tris": 2080,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.3,
+     -0.149,
+     -0.148
+    ],
+    [
+     0.3,
+     0.149,
+     0.148
+    ]
+   ],
+   "notes": "Stone Cannon drill slug: 0.6 m long along +X (pointed ogive nose at +X), radius 0.15 m, five narrow rifling grooves twisting about a third of a turn from tail to nose, a bevelled flat tail; bounding-box centre on the origin; slot MT_Rock. UV: u = 0..2 around, v = 0..3 from tail to nose."
+  },
+  {
+   "name": "SM_VFX_Spiral",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Spiral.glb",
+   "footprint": [
+    1.03,
+    0.61
+   ],
+   "height": 0.31,
+   "min_z": -0.31,
+   "size": [
+    1.03,
+    0.612,
+    0.612
+   ],
+   "tris": 1156,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.515,
+     -0.306,
+     -0.306
+    ],
+    [
+     0.515,
+     0.306,
+     0.306
+    ]
+   ],
+   "notes": "Helix ribbon along +X: 3 turns over 1.0 m at a radius of 0.3 m, the ribbon 0.12 m wide (tapering at both ends) and 1.2 cm thick, lying on the cylinder like a spring band; bounding-box centre on the origin. UV: u = 0..1 across the ribbon, v = 0..3 along it (one unit per turn)."
+  },
+  {
+   "name": "SM_VFX_WaveSheet",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_WaveSheet.glb",
+   "footprint": [
+    0.95,
+    2.0
+   ],
+   "height": 1.0,
+   "min_z": 0.0,
+   "size": [
+    0.945,
+    2.0,
+    1.0
+   ],
+   "tris": 1052,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "base",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.473,
+     -1.0,
+     0.0
+    ],
+    [
+     0.473,
+     1.0,
+     1.0
+    ]
+   ],
+   "notes": "Wave face: a breaking wall of water 2.0 m wide (Y) and 1.0 m tall whose lip curls forward (+X) over a concave front, a closed body about 0.9 m deep with a sloping back, the crest rolling gently along its width; base at z = 0. UV: u = 0..1 across (Y); v = 0 at the back foot, over the crest and the lip, to 1 at the front foot (the underside continues past 1)."
+  },
+  {
+   "name": "SM_VFX_EarthWall_B",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_EarthWall_B.glb",
+   "footprint": [
+    6.0,
+    1.54
+   ],
+   "height": 4.0,
+   "min_z": 0.0,
+   "size": [
+    6.002,
+    1.54,
+    4.0
+   ],
+   "tris": 136,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "base",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -3.001,
+     -0.77,
+     0.0
+    ],
+    [
+     3.001,
+     0.77,
+     4.0
+    ]
+   ],
+   "notes": "Earth wall variant B on the SM_VFX_EarthWall footprint (6.0 m x 1.5 m x 4.0 m, base at z = 0, faces -Y): four leaning stone columns with broken, faceted tops and narrow cracks between them; slot MT_Rock, faceted, box-projected UVs."
+  },
+  {
+   "name": "SM_VFX_EarthWall_C",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_EarthWall_C.glb",
+   "footprint": [
+    6.0,
+    1.5
+   ],
+   "height": 4.0,
+   "min_z": 0.0,
+   "size": [
+    6.0,
+    1.5,
+    4.0
+   ],
+   "tris": 192,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "base",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -3.0,
+     -0.75,
+     0.0
+    ],
+    [
+     3.0,
+     0.75,
+     4.0
+    ]
+   ],
+   "notes": "Earth wall variant C on the SM_VFX_EarthWall footprint (6.0 m x 1.5 m x 4.0 m, base at z = 0, faces -Y): two slabs split by a jagged diagonal fracture, jagged tops, and a chunk broken off the top of the right slab; slot MT_Rock, faceted, box-projected UVs."
+  },
+  {
+   "name": "SM_VFX_Slab",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Slab.glb",
+   "footprint": [
+    0.91,
+    0.87
+   ],
+   "height": 0.25,
+   "min_z": 0.0,
+   "size": [
+    0.913,
+    0.869,
+    0.246
+   ],
+   "tris": 40,
+   "materials": [
+    "MT_Rock"
+   ],
+   "pivot": "base",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.457,
+     -0.435,
+     0.0
+    ],
+    [
+     0.457,
+     0.435,
+     0.246
+    ]
+   ],
+   "notes": "Raised ground slab (Dragon Crush, crater rims): an irregular broken plate of earth about 1.0 m x 1.0 m x 0.25 m with a faceted, slightly domed top and sides tapering to a smaller base; base at z = 0; slot MT_Rock, box-projected UVs."
+  },
+  {
+   "name": "SM_VFX_Glyph",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Glyph.glb",
+   "footprint": [
+    0.95,
+    0.95
+   ],
+   "height": 0.01,
+   "min_z": -0.01,
+   "size": [
+    0.949,
+    0.949,
+    0.015
+   ],
+   "tris": 1272,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "center",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.475,
+     -0.475,
+     -0.007
+    ],
+    [
+     0.475,
+     0.475,
+     0.007
+    ]
+   ],
+   "notes": "Disturb Magic glyph: a flat dragon-line sigil 1.0 m across in the XY plane, about 1.5 cm thick: a broken outer ring of four arcs with twelve ticks inside it, a thin inner ring, and an angular serpentine dragon line with a chevron head and two whiskers; every line is a thin closed ribbon; centred on the origin. UV: u = distance along each line (m), v = 0..1 across it."
+  },
+  {
+   "name": "SM_VFX_Cone",
+   "category": "VFX",
+   "style": "VFX",
+   "kind": "vfx",
+   "file": "SourceArt/Kit/VFX/SM_VFX_Cone.glb",
+   "footprint": [
+    1.0,
+    1.0
+   ],
+   "height": 1.0,
+   "min_z": 0.0,
+   "size": [
+    1.0,
+    1.0,
+    1.004
+   ],
+   "tris": 1024,
+   "materials": [
+    "VFX"
+   ],
+   "pivot": "base_point",
+   "foundation": 0.0,
+   "front": "-Y",
+   "budget": [
+    8,
+    3000
+   ],
+   "bounds": [
+    [
+     -0.5,
+     -0.5,
+     0.0
+    ],
+    [
+     0.5,
+     0.5,
+     1.004
+    ]
+   ],
+   "notes": "Pressure cone: an open cone 1.0 m long with its apex at the origin, opening along +Z to a 0.5 m radius mouth; a 1 cm double wall so both sides render. UV: u = 0..1 around, v = 0 at the apex to 1 at the mouth (outer and inner surfaces)."
   },
   {
    "name": "SM_Demon_Hut_A",
