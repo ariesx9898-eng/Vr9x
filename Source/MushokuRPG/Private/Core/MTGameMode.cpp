@@ -54,6 +54,16 @@ AMTPlayerController::AMTPlayerController()
 void AMTPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	// The LA PLACE front end (title, pause, its ABILITIES page) sets the input mode and cursor itself while it is
+	// open; the journal's CHANGE HOTBAR opens it right after closing, which must not flip input back to the game.
+	if (const UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(this))
+	{
+		if (FrontEnd->IsOpen())
+		{
+			bMenuMode = false;
+			return;
+		}
+	}
 	const AMTHUD* MTHUD = Cast<AMTHUD>(GetHUD());
 	const bool bWantMenu = MTHUD && MTHUD->IsMenuOpen();
 	if (bWantMenu == bMenuMode)

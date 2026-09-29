@@ -1,6 +1,7 @@
 #include "UI/MTHUD.h"
 #include "Engine/GameViewportClient.h"
 #include "UI/LaPlace/SMTHudOverlay.h"
+#include "UI/LaPlace/SMTJournal.h"
 #include "Abilities/MTAbility.h"
 #include "Abilities/MTAbilityComponent.h"
 #include "Character/MTAttributeComponent.h"
@@ -60,12 +61,15 @@ void AMTHUD::BeginPlay()
 		Events->OnNotification.AddDynamic(this, &AMTHUD::HandleNotification);
 	}
 
-	// The hotbar and vitals are Slate (SMTHudOverlay), layered above the canvas so nothing can cover them.
+	// The hotbar and vitals are Slate (SMTHudOverlay), layered above the canvas so nothing can cover them. The
+	// journal sits above them (it hides them while open) and below the front end's pause menu (50).
 	if (GEngine && GEngine->GameViewport && PlayerOwner)
 	{
 		SlateHud = SNew(SMTHudOverlay).PlayerController(PlayerOwner);
 		SlateHudContainer = SlateHud;
 		GEngine->GameViewport->AddViewportWidgetContent(SlateHudContainer.ToSharedRef(), 20);
+		Journal = SNew(SMTJournal).PlayerController(PlayerOwner).HUD(TWeakObjectPtr<AMTHUD>(this));
+		GEngine->GameViewport->AddViewportWidgetContent(Journal.ToSharedRef(), 30);
 	}
 }
 
@@ -83,8 +87,13 @@ void AMTHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	{
 		GEngine->GameViewport->RemoveViewportWidgetContent(SlateHudContainer.ToSharedRef());
 	}
+	if (Journal.IsValid() && GEngine && GEngine->GameViewport)
+	{
+		GEngine->GameViewport->RemoveViewportWidgetContent(Journal.ToSharedRef());
+	}
 	SlateHudContainer.Reset();
 	SlateHud.Reset();
+	Journal.Reset();
 	if (UMTGameEvents* Events = UMTGameEvents::Get(this))
 	{
 		Events->OnNotification.RemoveDynamic(this, &AMTHUD::HandleNotification);
@@ -108,128 +117,79 @@ void AMTHUD::HandleNotification(FText Message, FLinearColor Color)
 
 void AMTHUD::ToggleMenu(EMTMenuPage Page)
 {
-	if (Page == EMTMenuPage::None || (OpenPage == Page && !bDialogOpen))
+	if (!Journal.IsValid())
 	{
-		CloseAll();
 		return;
 	}
-	bDialogOpen = false;
-	OpenPageInternal(Page);
+	if (Page == EMTMenuPage::None || (Journal->GetPage() == Page && !Journal->IsDialogOpen()))
+	{
+		Journal->CloseAll();
+		return;
+	}
+	Journal->OpenPage(Page);
 }
 
 void AMTHUD::CloseAll()
 {
-	FinishRollAnimation();
-	OpenPage = EMTMenuPage::None;
-	bDialogOpen = false;
-	DialogNpcId = NAME_None;
-	DialogQuestId = NAME_None;
-	FocusedButton = NAME_None;
+	if (Journal.IsValid())
+	{
+		Journal->CloseAll();
+	}
+}
+
+bool AMTHUD::IsMenuOpen() const
+{
+	return Journal.IsValid() && Journal->IsOpen();
+}
+
+EMTMenuPage AMTHUD::GetOpenPage() const
+{
+	return Journal.IsValid() ? Journal->GetPage() : EMTMenuPage::None;
+}
+
+bool AMTHUD::IsDialogOpen() const
+{
+	return Journal.IsValid() && Journal->IsDialogOpen();
 }
 
 void AMTHUD::MenuNavigate(FIntPoint Direction)
 {
-	if (!IsMenuOpen() || Buttons.Num() == 0 || (Direction.X == 0 && Direction.Y == 0))
+	if (Journal.IsValid())
 	{
-		return;
-	}
-	const FHudButton* Current = Buttons.FindByPredicate([this](const FHudButton& B) { return B.Id == FocusedButton; });
-	if (!Current)
-	{
-		for (const FHudButton& B : Buttons)
-		{
-			if (B.bEnabled)
-			{
-				FocusedButton = B.Id;
-				break;
-			}
-		}
-		return;
-	}
-
-	const FVector2D From = Current->Pos + Current->Size * 0.5;
-	const FVector2D Dir = FVector2D(static_cast<double>(Direction.X), static_cast<double>(Direction.Y)).GetSafeNormal();
-	double BestScore = TNumericLimits<double>::Max();
-	FName Best = NAME_None;
-	for (const FHudButton& B : Buttons)
-	{
-		if (!B.bEnabled || B.Id == FocusedButton)
-		{
-			continue;
-		}
-		const FVector2D Delta = (B.Pos + B.Size * 0.5) - From;
-		const double Along = FVector2D::DotProduct(Delta, Dir);
-		if (Along <= 1.0)
-		{
-			continue;
-		}
-		const double Perp = FMath::Abs(FVector2D::CrossProduct(Delta, Dir));
-		const double Score = Along + Perp * 2.5;
-		if (Score < BestScore)
-		{
-			BestScore = Score;
-			Best = B.Id;
-		}
-	}
-	if (!Best.IsNone())
-	{
-		FocusedButton = Best;
+		Journal->Navigate(Direction);
 	}
 }
 
 void AMTHUD::MenuConfirm()
 {
-	if (bRollAnimating)
+	if (Journal.IsValid())
 	{
-		FinishRollAnimation();
-		return;
-	}
-	const FHudButton* Focused = Buttons.FindByPredicate([this](const FHudButton& B) { return B.Id == FocusedButton; });
-	if (Focused && Focused->bEnabled)
-	{
-		HandleButton(FocusedButton);
+		Journal->Confirm();
 	}
 }
 
 void AMTHUD::MenuBack()
 {
-	if (bRollAnimating)
+	if (Journal.IsValid())
 	{
-		FinishRollAnimation();
-		return;
+		Journal->Back();
 	}
-	if (bDialogOpen)
-	{
-		bDialogOpen = false;
-		DialogNpcId = NAME_None;
-		FocusedButton = NAME_None;
-		return;
-	}
-	CloseAll();
 }
 
 void AMTHUD::MenuNextTab(int32 Dir)
 {
-	if (bDialogOpen || OpenPage == EMTMenuPage::None)
+	if (Journal.IsValid())
 	{
-		return;
+		Journal->NextTab(Dir);
 	}
-	const int32 First = static_cast<int32>(EMTMenuPage::Character);
-	const int32 Count = static_cast<int32>(EMTMenuPage::Roll) - First + 1;
-	const int32 Current = static_cast<int32>(OpenPage) - First;
-	const int32 Next = ((Current + (Dir >= 0 ? 1 : -1)) % Count + Count) % Count;
-	OpenPageInternal(static_cast<EMTMenuPage>(First + Next));
 }
 
 void AMTHUD::OpenNPCDialog(FName NpcId, const FText& NpcName)
 {
-	FinishRollAnimation();
-	OpenPage = EMTMenuPage::None;
-	bDialogOpen = true;
-	DialogNpcId = NpcId;
-	DialogNpcName = NpcName.IsEmpty() ? FText::FromName(NpcId) : NpcName;
-	DialogQuestId = NAME_None;
-	FocusedButton = NAME_None;
+	if (Journal.IsValid())
+	{
+		Journal->OpenDialog(NpcId, NpcName);
+	}
 }
 
 void AMTHUD::AddDamageNumber(const FVector& WorldLocation, float Amount, EMTElement Element, bool bHeavy)
@@ -255,23 +215,6 @@ void AMTHUD::ShowCenterMessage(const FText& Text, float Duration)
 	CenterDuration = FMath::Max(0.3f, Duration);
 }
 
-void AMTHUD::NotifyHitBoxClick(FName BoxName)
-{
-	Super::NotifyHitBoxClick(BoxName);
-
-	if (bRollAnimating)
-	{
-		// Any click skips the reveal; clicking the roll button again must not start another roll.
-		FinishRollAnimation();
-		if (BoxName.ToString().StartsWith(TEXT("Roll")))
-		{
-			return;
-		}
-	}
-	FocusedButton = BoxName;
-	HandleButton(BoxName);
-}
-
 // ============================================================================ Frame
 
 void AMTHUD::TickTransient(float DeltaSeconds)
@@ -293,15 +236,6 @@ void AMTHUD::TickTransient(float DeltaSeconds)
 		}
 	}
 	CenterAge += DeltaSeconds;
-	RollRevealAge += DeltaSeconds;
-	if (bRollAnimating)
-	{
-		RollAnimTime += DeltaSeconds;
-		if (RollAnimTime >= RollAnimDuration)
-		{
-			FinishRollAnimation();
-		}
-	}
 }
 
 void AMTHUD::DrawHUD()
@@ -312,7 +246,7 @@ void AMTHUD::DrawHUD()
 		return;
 	}
 
-	// Real time so menus animate while the game is paused.
+	// Real time so the HUD animates while the game is paused.
 	const double Now = FPlatformTime::Seconds();
 	FrameDelta = LastDrawSeconds > 0.0 ? FMath::Clamp(static_cast<float>(Now - LastDrawSeconds), 0.f, 0.1f) : 0.f;
 	LastDrawSeconds = Now;
@@ -322,20 +256,6 @@ void AMTHUD::DrawHUD()
 	{
 		FitCache.Reset();
 		FitCacheScale = UIScale;
-	}
-
-	Buttons.Reset();
-	HitBoxPriority = 0;
-	bMouseValid = false;
-	if (PlayerOwner)
-	{
-		float MX = 0.f;
-		float MY = 0.f;
-		if (PlayerOwner->GetMousePosition(MX, MY))
-		{
-			MousePos = FVector2D(MX, MY);
-			bMouseValid = true;
-		}
 	}
 
 	TickTransient(FrameDelta);
@@ -362,22 +282,9 @@ void AMTHUD::DrawHUD()
 		}
 	}
 
-	if (OpenPage != EMTMenuPage::None)
-	{
-		DrawMenu();
-	}
-	if (bDialogOpen)
-	{
-		DrawNPCDialog();
-	}
+	// The journal and the NPC dialog are Slate (SMTJournal) and draw themselves above the canvas.
 	DrawCenterMessage();
 	DrawToasts();
-
-	// Keep keyboard focus valid for the buttons that exist this frame.
-	if (IsMenuOpen() && !FocusedButton.IsNone() && !Buttons.ContainsByPredicate([this](const FHudButton& B) { return B.Id == FocusedButton; }))
-	{
-		FocusedButton = NAME_None;
-	}
 }
 
 // ============================================================================ World scan
@@ -1101,6 +1008,21 @@ void AMTHUD::DrawStateOverlays(AMTCharacterBase* Char)
 	}
 }
 
+FString AMTHUD::GetQuestTitle(FName QuestId) const
+{
+	if (const UMTDataRegistry* Registry = UMTDataRegistry::Get(this))
+	{
+		if (const FMTQuestData* Quest = Registry->FindQuest(QuestId))
+		{
+			if (!Quest->Title.IsEmpty())
+			{
+				return Quest->Title.ToString();
+			}
+		}
+	}
+	return QuestId.ToString();
+}
+
 // ============================================================================ Drawing helpers
 
 UFont* AMTHUD::SmallFont() const { return GEngine ? GEngine->GetSmallFont() : nullptr; }
@@ -1191,48 +1113,6 @@ void AMTHUD::DrawStr(const FString& Str, float X, float Y, const FLinearColor& C
 	DrawText(Str, Color, DX, DY, Font, Scale);
 }
 
-float AMTHUD::DrawWrapped(const FString& Str, float X, float Y, float MaxW, const FLinearColor& Color, UFont* Font, float Scale, int32 MaxLines)
-{
-	const float LineH = LineHeight(Font, Scale);
-	TArray<FString> Paragraphs;
-	Str.ParseIntoArray(Paragraphs, TEXT("\n"), false);
-	float CY = Y;
-	int32 Lines = 0;
-	for (const FString& Paragraph : Paragraphs)
-	{
-		TArray<FString> Words;
-		Paragraph.ParseIntoArrayWS(Words);
-		FString Line;
-		for (const FString& Word : Words)
-		{
-			const FString Candidate = Line.IsEmpty() ? Word : Line + TEXT(" ") + Word;
-			if (!Line.IsEmpty() && MeasureStr(Candidate, Font, Scale).X > MaxW)
-			{
-				if (Lines >= MaxLines)
-				{
-					return CY - Y;
-				}
-				DrawStr(Line, X, CY, Color, Font, Scale);
-				CY += LineH;
-				++Lines;
-				Line = Word;
-			}
-			else
-			{
-				Line = Candidate;
-			}
-		}
-		if (Lines >= MaxLines)
-		{
-			break;
-		}
-		DrawStr(Line, X, CY, Color, Font, Scale);
-		CY += LineH;
-		++Lines;
-	}
-	return CY - Y;
-}
-
 FString AMTHUD::FitStr(const FString& Str, float MaxW, UFont* Font, float Scale)
 {
 	const FString Key = FString::Printf(TEXT("%s|%d|%d|%p"), *Str, FMath::RoundToInt(MaxW), FMath::RoundToInt(Scale * 100.f), Font);
@@ -1261,42 +1141,6 @@ FString AMTHUD::FitStr(const FString& Str, float MaxW, UFont* Font, float Scale)
 	}
 	FitCache.Add(Key, Result);
 	return Result;
-}
-
-bool AMTHUD::DrawButtonBox(FName Id, const FString& Label, float X, float Y, float W, float H, bool bEnabled, bool bActive, const FLinearColor& Accent)
-{
-	FHudButton& Button = Buttons.AddDefaulted_GetRef();
-	Button.Id = Id;
-	Button.Pos = FVector2D(X, Y);
-	Button.Size = FVector2D(W, H);
-	Button.bEnabled = bEnabled;
-
-	const bool bHover = bMouseValid && MousePos.X >= X && MousePos.X <= X + W && MousePos.Y >= Y && MousePos.Y <= Y + H;
-	const bool bFocus = FocusedButton == Id;
-	if (bEnabled && !GetHitBoxWithName(Id))
-	{
-		AddHitBox(FVector2D(X, Y), FVector2D(W, H), Id, true, HitBoxPriority);
-	}
-
-	FLinearColor Bg = bActive ? FLinearColor(0.32f, 0.25f, 0.12f, 0.92f) : FLinearColor(0.08f, 0.09f, 0.15f, 0.92f);
-	if (bEnabled && (bHover || bFocus))
-	{
-		Bg = bActive ? FLinearColor(0.42f, 0.33f, 0.16f, 0.95f) : FLinearColor(0.14f, 0.15f, 0.24f, 0.95f);
-	}
-	if (!bEnabled)
-	{
-		Bg.A *= 0.55f;
-	}
-	FillRect(X, Y, W, H, Bg);
-	float TextX = X + W * 0.5f;
-	if (Accent.A > 0.f)
-	{
-		FillRect(X, Y, Sc(4.f), H, Accent);
-		TextX += Sc(2.f);
-	}
-	StrokeRect(X, Y, W, H, (bEnabled && (bHover || bFocus)) ? Gold() : Gold(bActive ? 0.8f : 0.35f), bFocus ? FMath::Max(1.f, Sc(2.f)) : 1.f);
-	DrawStr(FitStr(Label, W - Sc(12.f), SmallFont(), UIScale), TextX, Y + H * 0.5f, bEnabled ? Parchment() : Dim(0.8f), SmallFont(), UIScale, 0.5f, 0.5f);
-	return bHover;
 }
 
 void AMTHUD::StrokeCircle(const FVector2D& Center, float Radius, const FLinearColor& Color, float Thickness, int32 Segments)

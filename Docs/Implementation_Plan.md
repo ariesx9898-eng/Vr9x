@@ -25,7 +25,9 @@ Source/MushokuRPG/
                MTEnemySpawner (validated spawns), MTTestArenaGameMode (Rudeus vs Orsted)
   World/       MTTimeOfDaySubsystem, MTDayNightController, MTPlacementValidator, MTVillageGenerator (Buena),
                MTWorldValidationLibrary + MTValidateWorld commandlet (z-fighting/overlap/floating scans)
-  UI/          MTHUD (canvas HUD + all menus + roll screen, zero asset dependencies)
+  UI/          MTHUD (canvas HUD: quest tracker, minimap, prompts, toasts; owns the journal) and LaPlace/ Slate
+               widgets: SMTFrontEnd (title, world map, EDIT, ABILITIES, settings, pause), SMTHudOverlay
+               (hotbar, vitals), SMTJournal (journal pages, roll screen, NPC quest dialog)
 Content/Data/  Characters, Abilities, Elements, Races, Quests, Enemies, Items, Locations, RollConfigs (JSON)
 Content/Python/ editor automation (Rudeus import + IK Rig/Retargeter, materials, world setup, validation)
 Tools/         offline tools (GLB inspection and normalisation, terrain generation, data validation, roll simulation)
@@ -50,7 +52,7 @@ Adding a character later means adding one row to `Characters.json` plus its abil
 | 10 Fittoa | Terrain generated; Buena generator and validation done; setup script ready | Real meshes (currently blockout), foliage, landscape material, lighting pass |
 | 11 Quests | Framework and a variety of quests done | Dialogue presentation polish, quest content in world |
 | 12 AI | Utility enemy AI, boss phases, NPC schedules with LOD | Tuning, animation content |
-| 13 UI | Canvas HUD and menus (functional) | UMG/Common UI visual polish pass |
+| 13 UI | LA PLACE Slate UI: front end, hotbar and vitals, journal (all ten pages), roll screen and NPC dialog; the canvas still draws the quest tracker, minimap, prompts and toasts | In-engine review of the journal (`?UITour=1` shots 08-18), restyle the remaining canvas pieces |
 | 14 Save | Versioned save with autosave | In-engine save/load round-trip test |
 | 15 Polish | Not started | Everything above, in-engine |
 

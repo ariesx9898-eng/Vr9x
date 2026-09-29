@@ -42,12 +42,12 @@ On other platforms, do the same steps by hand:
 | Dodge (directional) | Ctrl | B |
 | Lock-on | Tab or middle mouse | R3 |
 | Basic attack | LMB | RT |
-| Character abilities 1–3 | 1, 2, 3 (hold to charge Stone Cannon) | RB, LB, LT |
-| Special (Demon Eye) / Awakening | F / G | Y / – |
-| Element slot A / B | 4–6 / 7–9 | – |
-| Race active / transformation | R / T | – |
+| Hotbar 1–4 (your loadout, set in ABILITIES) | 1, 2, 3, 4 (hold to charge Stone Cannon) | RB, LB, LT, D-pad up |
+| Special (Demon Eye) / Awakening | F / G | Y / D-pad down |
 | Interact | E | X |
-| Menus: character / roll / quests / map / inventory / settings | C / K / J / M / I / Esc | Start |
+| Journal: character / roll / quests / map / inventory | C / K / J / M / I | – |
+| Journal: switch page / move / select / close | Q, E / arrows / Enter / Esc | D-pad right / – / – / Start |
+| Pause menu (abilities, settings) | Esc | Start |
 
 Dev console commands: `MTGiveSpins 10`, `MTSetCharacter Orsted`, `MTSaveNow`.
 

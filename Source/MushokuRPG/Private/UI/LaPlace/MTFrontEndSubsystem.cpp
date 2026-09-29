@@ -159,8 +159,62 @@ bool UMTFrontEndSubsystem::TickTour(float DeltaTime)
 		TourClock = 0.f;
 		return true;
 	}
-	if (TourStep == NumPages + 4 && TourClock > 1.5f)
+	// The Adventurer's Journal: every page, then an NPC dialog.
+	struct FJournalShot { EMTMenuPage Page; const TCHAR* Name; };
+	static const FJournalShot JournalShots[] = {
+		{ EMTMenuPage::Character, TEXT("08_Journal_Character") },
+		{ EMTMenuPage::Element, TEXT("09_Journal_Element") },
+		{ EMTMenuPage::Race, TEXT("10_Journal_Race") },
+		{ EMTMenuPage::Mastery, TEXT("11_Journal_Mastery") },
+		{ EMTMenuPage::Inventory, TEXT("12_Journal_Inventory") },
+		{ EMTMenuPage::Quests, TEXT("13_Journal_Quests") },
+		{ EMTMenuPage::Map, TEXT("14_Journal_Map") },
+		{ EMTMenuPage::Party, TEXT("15_Journal_Party") },
+		{ EMTMenuPage::Settings, TEXT("16_Journal_Settings") },
+		{ EMTMenuPage::Roll, TEXT("17_Journal_Roll") },
+	};
+	constexpr int32 NumJournal = UE_ARRAY_COUNT(JournalShots);
+	const int32 JournalStart = NumPages + 4;
+	AMTHUD* HUD = Cast<AMTHUD>(PC->GetHUD());
+	if (TourStep >= JournalStart && TourStep < JournalStart + NumJournal)
 	{
+		const FJournalShot& Step = JournalShots[TourStep - JournalStart];
+		if (IsOpen())
+		{
+			Close(); // leave the pause menu captured above
+		}
+		if (HUD && HUD->GetOpenPage() != Step.Page)
+		{
+			HUD->ToggleMenu(Step.Page);
+		}
+		if (TourClock > 1.2f)
+		{
+			Shot(Step.Name);
+			++TourStep;
+			TourClock = 0.f;
+		}
+		return true;
+	}
+	if (TourStep == JournalStart + NumJournal)
+	{
+		if (HUD && !HUD->IsDialogOpen())
+		{
+			HUD->OpenNPCDialog(TEXT("UITourVillager"), FText::FromString(TEXT("Villager")));
+		}
+		if (TourClock > 1.2f)
+		{
+			Shot(TEXT("18_Journal_Dialog"));
+			++TourStep;
+			TourClock = 0.f;
+		}
+		return true;
+	}
+	if (TourStep == JournalStart + NumJournal + 1 && TourClock > 1.5f)
+	{
+		if (HUD)
+		{
+			HUD->CloseAll();
+		}
 		FPlatformMisc::RequestExit(false, TEXT("UI tour finished"));
 		return false;
 	}
@@ -170,6 +224,16 @@ bool UMTFrontEndSubsystem::TickTour(float DeltaTime)
 void UMTFrontEndSubsystem::OpenPause(APlayerController* PC)
 {
 	Show(PC, EMTFrontPage::Pause, false);
+}
+
+void UMTFrontEndSubsystem::OpenAbilities(APlayerController* PC)
+{
+	// Opened through the pause menu so the page's BACK leads there, not to the title screen.
+	Show(PC, EMTFrontPage::Pause, false);
+	if (Widget.IsValid())
+	{
+		Widget->ShowPage(EMTFrontPage::Abilities);
+	}
 }
 
 void UMTFrontEndSubsystem::OpenPage(APlayerController* PC, EMTFrontPage Page)

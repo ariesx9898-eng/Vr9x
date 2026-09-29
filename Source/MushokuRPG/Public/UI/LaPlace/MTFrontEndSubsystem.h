@@ -22,6 +22,8 @@ public:
 	void OpenTitle(APlayerController* PC);
 	/** In-game pause menu (ESC). */
 	void OpenPause(APlayerController* PC);
+	/** In-game: the pause menu's ABILITIES page (loadout editor); BACK there returns to the pause menu. */
+	void OpenAbilities(APlayerController* PC);
 	/** Directly to a page (tests, tools). */
 	void OpenPage(APlayerController* PC, EMTFrontPage Page);
 	void Close();
@@ -33,7 +35,7 @@ public:
 
 	virtual void Deinitialize() override;
 
-	/** Development: screenshots every front-end page and the in-game HUD, then quits (?UITour=1). */
+	/** Development: screenshots every front-end page, the in-game HUD and every journal page, then quits (?UITour=1). */
 	void StartTour(APlayerController* PC);
 
 private:
