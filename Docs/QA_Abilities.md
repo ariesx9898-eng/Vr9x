@@ -43,6 +43,7 @@ The following **cannot** be verified offline, and are the Mac's job:
    - `USoundBase::IsLooping()` and `UWorld::SweepMultiByObjectType` in `MTProjectile.cpp`;
    - `SetUsingAbsoluteLocation/Rotation/Scale` in `MTWaterSerpent.cpp`;
    - `UAudioComponent::FadeIn/FadeOut/SetPitchMultiplier` on the zone and projectile sound beds.
+   - Editor Python, not C++: `unreal.AnimationLibrary` notify calls in `mt_setup_rudeus.py` (`add_animation_notify_track`, `add_animation_notify_event`, `remove_animation_notify_events_by_track`, reading them back). The log should have 19 `PASS [mt_setup_rudeus] events A_Rudeus_...` lines and 22 for Orsted, and no `MANUAL ... MTAnimNotify_Event` line (that one means the C++ module was not compiled into the editor yet).
 
 2. **Automated checks.**
 
@@ -64,6 +65,12 @@ The following **cannot** be verified offline, and are the Mac's job:
 4. **Play it.** Run `Tools/mac/play.sh` (Rudeus) and `Tools/mac/play.sh --as Orsted`:
    - Put every spell on keys 1–4 through the ABILITIES menu and use each one against the arena opponent.
    - Play the two signature combos: Rudeus 1 → 2 → 3 (Stone Cannon → Quagmire → Elemental Barrage), and Orsted 1 → 2 → 3 (Disturb Magic while the opponent casts → Dragon Step → Dragon Crush inside the 0.9 s window).
+
+   Timing to judge while playing (all measured offline, none seen yet):
+   - A charged Stone Cannon or Fireball fires on the frame the key is let go; the release clip's arm reaches full extension about 0.10 s later. If the slug looks like it leaves before the push, move the release clip's `Release` later in `Tools/anim/cast_design`, or shorten the thrust.
+   - Targeted Dragon Step arrives after about 0.20 s, but the clip lands at 0.29 s. If Orsted looks like he lands after arriving, set `TargetDuration` to about 0.2 in `Tools/laplace/overhaul_abilities.py`, or land the clip earlier.
+   - The awakened Stone Cannon and Quagmire fire slightly before their clips' release pose (`CastTime` 0.30/0.40 against 0.35/0.45).
+   - Dragon Crush's ground-break sound is 85 ms after the blow, on the hit-stop release.
 
 5. **Grade** each category 1–10 in §3. Compute the average.
    - **Below 8.5, or any category below 8.0:** fix the weakest categories (§4 lists where each lives), rebuild, and repeat from step 2.
