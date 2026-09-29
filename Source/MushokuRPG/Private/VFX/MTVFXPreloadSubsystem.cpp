@@ -17,17 +17,19 @@ void UMTVFXPreloadSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	using namespace MTVFX;
 	for (const TCHAR* Path : { Paths::Ring, Paths::ShockRing, Paths::Disc, Paths::Crescent, Paths::Spike, Paths::RockChunk,
 			 Paths::RockChunkB, Paths::Funnel, Paths::Flame, Paths::DragonHead, Paths::DragonSegment, Paths::Beam, Paths::EarthWall,
-			 Paths::Crystal })
+			 Paths::Crystal, Paths::SpikeB, Paths::RockChunkLong, Paths::RockChunkD, Paths::EarthWallB, Paths::EarthWallC, Paths::Slug,
+			 Paths::Spiral, Paths::WaveSheet, Paths::Slab, Paths::Glyph, Paths::ConeShell })
 	{
 		Assets.Add(LoadMesh(Path));
 	}
 	// Loading a material loads the textures it samples.
 	for (const TCHAR* Path : { Paths::MatGlow, Paths::MatSprite, Paths::MatSmoke, Paths::MatWater, Paths::MatAir, Paths::MatRock,
-			 Paths::MatGhost, Paths::DecalScorch, Paths::DecalCracks, Paths::DecalWet, Paths::DecalCircle, MTCombat::ZoneDecalMaterialPath })
+			 Paths::MatGhost, Paths::DecalScorch, Paths::DecalCracks, Paths::DecalWet, Paths::DecalCircle, Paths::DecalMud,
+			 Paths::DecalCrater, Paths::DecalAimLine, MTCombat::ZoneDecalMaterialPath })
 	{
 		Assets.Add(LoadMaterial(Path));
 	}
-	for (const TCHAR* Path : { Paths::TexDot, Paths::TexPuff, Paths::TexStreak })
+	for (const TCHAR* Path : { Paths::TexDot, Paths::TexPuff, Paths::TexStreak, Paths::TexFlame, Paths::TexFirePuff, Paths::TexLeaf })
 	{
 		Assets.Add(LoadTexture(Path));
 	}
@@ -43,7 +45,8 @@ void UMTVFXPreloadSubsystem::WarmUpDecals(AActor* Around)
 		return;
 	}
 	using namespace MTVFX;
-	for (const TCHAR* Path : { Paths::DecalScorch, Paths::DecalCracks, Paths::DecalWet, Paths::DecalCircle, MTCombat::ZoneDecalMaterialPath })
+	for (const TCHAR* Path : { Paths::DecalScorch, Paths::DecalCracks, Paths::DecalWet, Paths::DecalCircle, Paths::DecalMud, Paths::DecalCrater,
+			 Paths::DecalAimLine, MTCombat::ZoneDecalMaterialPath })
 	{
 		UMaterialInterface* Material = LoadMaterial(Path);
 		if (!Material || !Material->GetMaterial() || !Material->GetMaterial()->IsDeferredDecal())
