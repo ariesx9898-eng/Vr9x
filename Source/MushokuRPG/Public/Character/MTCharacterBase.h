@@ -148,6 +148,12 @@ protected:
 	/** Recomputes CharacterMovement speeds from lineage + status modifiers. */
 	virtual void UpdateMovementFromModifiers();
 	virtual void PlayHitReaction(EMTHitReaction Reaction, const FVector& FromDirection);
+	/** Launches the body for a hit. It keeps its momentum in the air: the braking friction tuned for jumps is off until
+	 *  the body stops falling (otherwise a throw dies within a couple of metres). */
+	void ThrowByHit(const FVector& Velocity);
+	virtual void OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode = 0) override;
+	bool bThrownByHit = false;
+	float BrakingFrictionBeforeThrow = 6.f;
 	/**
 	 * Fills the reaction animations below from the lineage's AnimSet. Only touches values that are unset or that were
 	 * auto-filled by a previous lineage; anything a designer set (Blueprint defaults or at runtime) is kept.

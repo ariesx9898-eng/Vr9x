@@ -455,12 +455,36 @@ void AMTCharacterBase::HandleDamaged(const FMTDamageSpec& Spec, const FMTDamageR
 		// Launching hits throw the body whatever the poise reaction: heavy (crowd-control immune) targets take 35%.
 		const float Weight = (Attributes && Attributes->bCrowdControlImmune) ? 0.35f : 1.f;
 		const FVector Push = Spec.HitDirection.GetSafeNormal2D() * Spec.Knockback * Weight + FVector(0.f, 0.f, Spec.Launch * Weight);
-		LaunchCharacter(Push, true, true);
+		ThrowByHit(Push);
 	}
 	else if (Spec.Knockback > 0.f && (Result.Reaction == EMTHitReaction::Knockback || Result.Reaction == EMTHitReaction::Knockdown))
 	{
 		const FVector Push = Spec.HitDirection.GetSafeNormal2D() * Spec.Knockback + FVector(0.f, 0.f, Result.Reaction == EMTHitReaction::Knockdown ? 250.f : 60.f);
 		LaunchCharacter(Push, true, true);
+	}
+}
+
+void AMTCharacterBase::ThrowByHit(const FVector& Velocity)
+{
+	UCharacterMovementComponent* Move = GetCharacterMovement();
+	if (!bThrownByHit)
+	{
+		BrakingFrictionBeforeThrow = Move->BrakingFriction;
+		bThrownByHit = true;
+	}
+	// BrakingFriction also brakes a falling body that has no input or is over its walk speed: a thrown one, always.
+	Move->BrakingFriction = 0.f;
+	LaunchCharacter(Velocity, true, true);
+}
+
+void AMTCharacterBase::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
+{
+	Super::OnMovementModeChanged(PrevMovementMode, PreviousCustomMode);
+	// The throw ends when the body stops falling (lands, swims, is lifted, dies): the usual braking is back.
+	if (bThrownByHit && PrevMovementMode == MOVE_Falling && GetCharacterMovement()->MovementMode != MOVE_Falling)
+	{
+		bThrownByHit = false;
+		GetCharacterMovement()->BrakingFriction = BrakingFrictionBeforeThrow;
 	}
 }
 

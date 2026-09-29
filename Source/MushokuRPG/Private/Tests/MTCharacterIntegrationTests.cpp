@@ -39,6 +39,7 @@
 #include "GameFramework/WorldSettings.h"
 #include "UObject/UObjectGlobals.h"
 #include "VFX/MTSpellVFX.h"
+#include "VFX/MTVFXSubsystem.h"
 
 namespace MTTest
 {
@@ -792,6 +793,7 @@ bool FMTStepCrushComboTest::RunTest(const FString& Parameters)
 	TestTrue(FString::Printf(TEXT("the primary target takes the full force (%.0f)"), Dealt), Dealt >= 300.f);
 	Game.Tick(0.3f);
 	TestTrue(TEXT("the shockwave hits the bystander too"), Bystander->GetAttributes()->GetHealth() < BystanderBefore);
+	Game.Tick(0.6f); // the launch is in flight: measure where it carried the target
 	TestTrue(FString::Printf(TEXT("the primary target is thrown (%.0f cm away)"), MTTest::Apart(Orsted, Target)), MTTest::Apart(Orsted, Target) > 300.f);
 	AddInfo(FString::Printf(TEXT("step -> crush: arrived %.0f cm beside, primary took %.0f, bystander %.0f -> %.0f"), Beside, Dealt, BystanderBefore,
 		Bystander->GetAttributes()->GetHealth()));
@@ -819,7 +821,7 @@ bool FMTWindBurstTest::RunTest(const FString& Parameters)
 	}
 	Game.Tick(0.4f);
 	TestTrue(TEXT("Wind Burst activates"), Rudeus->GetAbilities()->ActivateAbilityById(TEXT("Wind_WindBurst")));
-	Game.Tick(0.9f);
+	Game.Tick(1.8f); // the burst goes off on the cast's Release frame; the bandits land about a second later
 	for (int32 i = 0; i < Around.Num(); ++i)
 	{
 		const float Now = MTTest::Apart(Rudeus, Around[i]);
@@ -872,6 +874,8 @@ bool FMTTornadoLiftTest::RunTest(const FString& Parameters)
 		return false;
 	}
 	Game.Tick(0.4f);
+	// Kept alive through the funnel's damage: a dead body has its movement switched off, which is not "frozen".
+	Small->GetAttributes()->bGodMode = true;
 	Rudeus->SetLockTarget(Small);
 	const float Ground = Small->GetActorLocation().Z;
 	const float LargeStart = FVector::Dist2D(Large->GetActorLocation(), Small->GetActorLocation());
@@ -937,8 +941,13 @@ bool FMTEveryLoadoutAbilityTest::RunTest(const FString& Parameters)
 		const bool bStarted = Caster->GetAbilities()->ActivateAbilityById(Cast.Ability);
 		Game.Tick(0.1f);
 		Caster->GetAbilities()->ReleaseAbilityById(Cast.Ability);
-		Game.Tick(5.f);
-		const bool bCooldown = Caster->GetAbilities()->GetCooldownRemaining(Cast.Ability) > 0.f;
+		// A short cooldown (Wind Blade 1 s) is over again long before 5 s: note whether it went on cooldown at all.
+		bool bCooldown = false;
+		for (int32 Step = 0; Step < 50; ++Step)
+		{
+			Game.Tick(0.1f);
+			bCooldown |= Caster->GetAbilities()->GetCooldownRemaining(Cast.Ability) > 0.f;
+		}
 		const bool bHit = Dummy->GetAttributes()->GetHealth() < Before;
 		const FString Name = FString::Printf(TEXT("%s: %s"), *Cast.Character.ToString(), *Cast.Ability.ToString());
 		TestTrue(Name + TEXT(" starts from the hotbar path"), bStarted);
@@ -952,10 +961,11 @@ bool FMTEveryLoadoutAbilityTest::RunTest(const FString& Parameters)
 		Game.Tick(16.f); // walls stand 15 s; zones, serpents and projectiles end sooner
 		const int32 Leftovers = MTTest::CountLive(Game.World, AMTZoneActor::StaticClass()) + MTTest::CountLive(Game.World, AMTEarthWall::StaticClass())
 			+ MTTest::CountLive(Game.World, AMTWaterSerpent::StaticClass()) + MTTest::CountLive(Game.World, AMTProjectile::StaticClass());
-		const int32 Effects = MTTest::CountLive(Game.World, AMTSpellVFX::StaticClass());
+		// Pooled effect actors idle between uses; only an effect still playing is a leak.
+		const UMTVFXSubsystem* VFX = UMTVFXSubsystem::Get(Game.World);
+		const int32 Effects = VFX ? VFX->GetLiveEffects() : MTTest::CountLive(Game.World, AMTSpellVFX::StaticClass());
 		TestEqual(*(Name + TEXT(" leaves no spell actors behind")), Leftovers, 0);
-		// Pooled effects idle between uses; anything beyond a small pool is a leak.
-		TestTrue(FString::Printf(TEXT("%s leaves no running effects behind (%d effect actors)"), *Name, Effects), Effects <= 12);
+		TestTrue(FString::Printf(TEXT("%s leaves no running effects behind (%d still playing)"), *Name, Effects), Effects == 0);
 		Passed += (bStarted && (bCooldown || !bSupportOnly)) ? 1 : 0;
 	}
 	AddInfo(FString::Printf(TEXT("%d of %d hotbar casts started and executed"), Passed, Casts.Num()));

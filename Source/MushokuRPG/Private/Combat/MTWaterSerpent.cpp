@@ -163,9 +163,20 @@ void AMTWaterSerpent::Tick(float DeltaSeconds)
 		const FVector Wanted = (Goal - Previous).GetSafeNormal();
 		if (!Wanted.IsNearlyZero())
 		{
-			const float MaxTurn = FMath::DegreesToRadians(Data.GetParam(TEXT("TurnRate"), 160.f)) * DeltaSeconds;
-			const float Between = FMath::Acos(FMath::Clamp(FVector::DotProduct(Heading, Wanted), -1.f, 1.f));
-			Heading = Between <= MaxTurn ? Wanted : FMath::Lerp(Heading, Wanted, MaxTurn / Between).GetSafeNormal();
+			// The turn rate grows as the prey gets close. At full speed the base rate is a ~10 m turning circle, which
+			// would orbit a near target until the hunt ran out; close in, the serpent lunges onto it instead.
+			const float CloseBoost = FMath::Clamp(1600.f / FMath::Max(FVector::Dist(Goal, Previous), 1.f), 1.f, 6.f);
+			const float MaxStep = Data.GetParam(TEXT("TurnRate"), 160.f) * CloseBoost * DeltaSeconds;
+			// Yaw round toward the prey first, level, and only pitch onto it once it is roughly ahead. Out of its circle
+			// the serpent heads away from a prey in front of the caster; the shortest 3-D turn from there runs through
+			// "straight down", and it dived into the ground behind the caster instead of coming round.
+			const float Yaw = FMath::RadiansToDegrees(FMath::Atan2(Heading.Y, Heading.X));
+			const float WantedYaw = FMath::RadiansToDegrees(FMath::Atan2(Wanted.Y, Wanted.X));
+			const float NewYaw = Yaw + FMath::Clamp(FMath::FindDeltaAngleDegrees(Yaw, WantedYaw), -MaxStep, MaxStep);
+			const float Pitch = FMath::RadiansToDegrees(FMath::Asin(FMath::Clamp(Heading.Z, -1.f, 1.f)));
+			const bool bAhead = FMath::Abs(FMath::FindDeltaAngleDegrees(NewYaw, WantedYaw)) < 60.f;
+			const float WantedPitch = bAhead ? FMath::RadiansToDegrees(FMath::Asin(FMath::Clamp(Wanted.Z, -1.f, 1.f))) : 0.f;
+			Heading = FRotator(Pitch + FMath::Clamp(WantedPitch - Pitch, -MaxStep, MaxStep), NewYaw, 0.f).Vector();
 		}
 		Next = Previous + Heading * Data.GetParam(TEXT("Speed"), 2800.f) * DeltaSeconds;
 
