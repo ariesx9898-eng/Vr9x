@@ -37,6 +37,13 @@ The following **cannot** be verified offline, and are the Mac's job:
 
    The generator markers were moved to files that only the new generators create, so the new meshes, textures and sounds are generated even on a machine that ran the old ones. If a step is skipped anyway, delete `SourceArt/Audio`, `SourceArt/VFX/Textures` and `SourceArt/Kit/VFX` and re-run.
 
+   Two independent reviews found no compile errors in the overhaul's gameplay code, but nothing here has been through a compiler. If the first build fails, these engine APIs are used for the first time in this project, so look at them first:
+   - `FRootMotionSource_ConstantForce` (`Force`, `Priority`, `FinishVelocityParams`) and `MovementMode == MOVE_None` in `MTZoneActor.cpp` (Tornado pull and lift);
+   - `AActor::CustomTimeDilation` and `FTimerDelegate::CreateLambda` in `MTCombatStatics.cpp` (Dragon Crush hit-stop);
+   - `USoundBase::IsLooping()` and `UWorld::SweepMultiByObjectType` in `MTProjectile.cpp`;
+   - `SetUsingAbsoluteLocation/Rotation/Scale` in `MTWaterSerpent.cpp`;
+   - `UAudioComponent::FadeIn/FadeOut/SetPitchMultiplier` on the zone and projectile sound beds.
+
 2. **Automated checks.**
 
    ```bash
