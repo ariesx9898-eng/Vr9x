@@ -2,7 +2,11 @@
 #include "AI/MTEnemyCharacter.h"
 #include "Character/MTPlayerCharacter.h"
 #include "Character/MTAttributeComponent.h"
+#include "Abilities/MTAbility.h"
 #include "Abilities/MTAbilityComponent.h"
+#include "Combat/MTZoneActor.h"
+#include "Combat/MTProjectile.h"
+#include "Combat/MTWaterSerpent.h"
 #include "Core/MTDataRegistry.h"
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
@@ -11,6 +15,7 @@
 #include "UnrealClient.h"
 #include "Misc/Paths.h"
 #include "Engine/World.h"
+#include "EngineUtils.h"
 #include "CollisionQueryParams.h"
 #include "VFX/MTVFXLibrary.h"
 #if WITH_EDITOR
@@ -28,10 +33,16 @@ namespace
 		TEXT("Earth_StoneCannon"), TEXT("Earth_EarthWall"), TEXT("Earth_EarthSpikes"),
 		TEXT("Orsted_Basic"), TEXT("Orsted_DisturbMagic"), TEXT("Orsted_DragonStep"), TEXT("Orsted_DragonCrush"),
 		TEXT("Orsted_SaintDragonAura"), TEXT("Orsted_Awakening_DragonGod"),
+		// Orsted casts the same element magic: shorter, cleaner, just as hard.
+		TEXT("Orsted:Fire_Fireball"), TEXT("Orsted:Fire_Inferno"), TEXT("Orsted:Water_WaterDragon"), TEXT("Orsted:Earth_EarthSpikes"),
+		TEXT("Orsted:Wind_WindBlade"), TEXT("Orsted:Wind_Tornado"),
+		// The two signature combos.
+		TEXT("Rudeus_StoneCannon+Rudeus_Quagmire+Rudeus_ElementalBarrage"),
+		TEXT("Orsted_DisturbMagic+Orsted_DragonStep+Orsted_DragonCrush"),
 	};
-	constexpr float SecondsPerAbility = 3.8f;
+	const FName ShowcaseDisturb(TEXT("Orsted_DisturbMagic"));
 
-	FVector Ground(UWorld* World, const FVector& P)
+	FVector ShowcaseGround(UWorld* World, const FVector& P)
 	{
 		FHitResult Hit;
 		FCollisionObjectQueryParams Objects(ECC_WorldStatic);
@@ -41,13 +52,70 @@ namespace
 		}
 		return P;
 	}
+
+	/** Seconds an entry needs to play out: wind-up, its effect, and a beat of aftermath. */
+	float ShowcaseSeconds(const FMTAbilityData& Row)
+	{
+		float Life = Row.CastTime + Row.RecoveryTime + 1.6f;
+		if (Row.bChargeable)
+		{
+			Life += 1.0f;
+		}
+		if (Row.Behavior == EMTAbilityBehavior::Zone || Row.Behavior == EMTAbilityBehavior::Structure)
+		{
+			Life += FMath::Min(Row.Duration, 5.f);
+		}
+		else if (Row.Behavior == EMTAbilityBehavior::Barrage)
+		{
+			Life += Row.GetParam(TEXT("BarrageTime"), 3.f) + Row.GetParam(TEXT("CollapseTime"), 0.35f) + 0.6f;
+		}
+		else if (Row.Behavior == EMTAbilityBehavior::Serpent)
+		{
+			Life += Row.GetParam(TEXT("CircleTime"), 0.5f) + 1.6f;
+		}
+		return FMath::Clamp(Life, 3.8f, 9.f);
+	}
 }
 
 AMTShowcaseGameMode::AMTShowcaseGameMode()
 {
 	bFrontEndOnStart = false;
 	PrimaryActorTick.bCanEverTick = true;
-	ShotTimes = { 0.2f, 0.45f, 0.8f, 1.2f, 1.7f, 2.4f, 3.3f };
+	// Fractions of each entry's length.
+	ShotTimes = { 0.05f, 0.12f, 0.22f, 0.33f, 0.46f, 0.62f, 0.85f };
+}
+
+void AMTShowcaseGameMode::AddEntry(const FString& Token)
+{
+	FString Body = Token.TrimStartAndEnd();
+	if (Body.IsEmpty())
+	{
+		return;
+	}
+	FShowcaseEntry Entry;
+	FString Prefix;
+	FString Rest;
+	if (Body.Split(TEXT(":"), &Prefix, &Rest))
+	{
+		Entry.Lineage = FName(*Prefix.TrimStartAndEnd());
+		Body = Rest;
+	}
+	TArray<FString> Parts;
+	Body.ParseIntoArray(Parts, TEXT("+"), true);
+	for (const FString& Part : Parts)
+	{
+		Entry.Chain.Add(FName(*Part.TrimStartAndEnd()));
+	}
+	if (Entry.Chain.Num() == 0)
+	{
+		return;
+	}
+	Entry.Label = Body.Replace(TEXT("+"), TEXT("-"));
+	if (!Entry.Lineage.IsNone())
+	{
+		Entry.Label = Entry.Lineage.ToString() + TEXT("-") + Entry.Label;
+	}
+	Entries.Add(Entry);
 }
 
 void AMTShowcaseGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
@@ -56,18 +124,18 @@ void AMTShowcaseGameMode::InitGame(const FString& MapName, const FString& Option
 	const FString List = UGameplayStatics::ParseOption(Options, TEXT("Abilities"));
 	if (!List.IsEmpty())
 	{
-		TArray<FString> Parts;
-		List.ParseIntoArray(Parts, TEXT(","), true);
-		for (const FString& Part : Parts)
+		TArray<FString> Tokens;
+		List.ParseIntoArray(Tokens, TEXT(","), true);
+		for (const FString& Token : Tokens)
 		{
-			Abilities.Add(FName(*Part.TrimStartAndEnd()));
+			AddEntry(Token);
 		}
 	}
 	else
 	{
-		for (const TCHAR* Id : DefaultShowcase)
+		for (const TCHAR* Token : DefaultShowcase)
 		{
-			Abilities.Add(FName(Id));
+			AddEntry(Token);
 		}
 	}
 }
@@ -86,28 +154,39 @@ void AMTShowcaseGameMode::SetupStage()
 	{
 		return;
 	}
-	StageOrigin = Ground(World, Player->GetActorLocation());
+	StageOrigin = ShowcaseGround(World, Player->GetActorLocation());
 	Player->SetActorLocationAndRotation(StageOrigin + FVector(0.f, 0.f, Player->GetSimpleCollisionHalfHeight() + 5.f), FRotator::ZeroRotator,
 		false, nullptr, ETeleportType::TeleportPhysics);
 
-	FActorSpawnParameters Params;
-	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-	const FTransform DummyAt(FRotator(0.f, 180.f, 0.f), StageOrigin + FVector(1200.f, 0.f, 100.f));
-	if (AMTEnemyCharacter* Target = World->SpawnActorDeferred<AMTEnemyCharacter>(AMTEnemyCharacter::StaticClass(), DummyAt, nullptr, nullptr,
-		ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn))
+	// The main dummy (a caster, so Disturb Magic has something to disturb) and a crowd around it: area spells should
+	// visibly catch several enemies.
+	auto SpawnDummy = [World](FName EnemyId, const FVector& Where) -> AMTEnemyCharacter*
 	{
-		Target->EnemyId = TEXT("Arena_Rudeus");
-		Target->AutoPossessAI = EAutoPossessAI::Disabled;
-		Target->FinishSpawning(DummyAt);
-		Dummy = Target;
+		const FTransform At(FRotator(0.f, 180.f, 0.f), Where);
+		AMTEnemyCharacter* Target = World->SpawnActorDeferred<AMTEnemyCharacter>(AMTEnemyCharacter::StaticClass(), At, nullptr, nullptr,
+			ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
+		if (Target)
+		{
+			Target->EnemyId = EnemyId;
+			Target->AutoPossessAI = EAutoPossessAI::Disabled;
+			Target->FinishSpawning(At);
+		}
+		return Target;
+	};
+	Dummy = SpawnDummy(TEXT("Arena_Rudeus"), StageOrigin + FVector(1200.f, 0.f, 100.f));
+	for (int32 i = 0; i < 4; ++i)
+	{
+		Crowd.Add(SpawnDummy(TEXT("Enemy_Bandit"), StageOrigin + FVector(1200.f, (i < 2 ? -1.f : 1.f) * (i % 2 == 0 ? 220.f : 440.f), 100.f)));
 	}
 
-	ACameraActor* Cam = World->SpawnActor<ACameraActor>(ACameraActor::StaticClass(), StageOrigin + FVector(450.f, -1350.f, 420.f), FRotator::ZeroRotator, Params);
+	FActorSpawnParameters Params;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	ACameraActor* Cam = World->SpawnActor<ACameraActor>(ACameraActor::StaticClass(), StageOrigin + FVector(450.f, -1550.f, 520.f), FRotator::ZeroRotator, Params);
 	if (Cam)
 	{
-		const FVector Look = StageOrigin + FVector(550.f, 0.f, 140.f);
+		const FVector Look = StageOrigin + FVector(600.f, 0.f, 140.f);
 		Cam->SetActorRotation((Look - Cam->GetActorLocation()).Rotation());
-		Cam->GetCameraComponent()->SetFieldOfView(70.f);
+		Cam->GetCameraComponent()->SetFieldOfView(75.f);
 		if (APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0))
 		{
 			PC->SetViewTarget(Cam);
@@ -115,33 +194,49 @@ void AMTShowcaseGameMode::SetupStage()
 		Camera = Cam;
 	}
 	bStaged = true;
-	UE_LOG(LogMushoku, Display, TEXT("[Showcase] Stage at %s, %d abilities"), *StageOrigin.ToCompactString(), Abilities.Num());
+	UE_LOG(LogMushoku, Display, TEXT("[Showcase] Stage at %s, %d entries"), *StageOrigin.ToCompactString(), Entries.Num());
 }
 
-void AMTShowcaseGameMode::StartAbility(int32 Index)
+void AMTShowcaseGameMode::StartEntry(int32 Index)
 {
 	Current = Index;
-	AbilityClock = 0.f;
+	EntryClock = 0.f;
+	StepClock = 0.f;
+	ChainIndex = 0;
+	Executed = 0;
 	NextShot = 0;
 	bReleased = false;
 	AMTPlayerCharacter* Player = Cast<AMTPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
 	const UMTDataRegistry* Registry = UMTDataRegistry::Get(this);
-	if (!Player || !Registry || !Abilities.IsValidIndex(Index))
+	if (!Player || !Registry || !Entries.IsValidIndex(Index))
 	{
 		return;
 	}
-	const FName Id = Abilities[Index];
-	const FMTAbilityData* Row = Registry->FindAbility(Id);
-	if (!Row)
+	FShowcaseEntry& Entry = Entries[Index];
+	const FMTAbilityData* First = Registry->FindAbility(Entry.Chain[0]);
+	if (!First)
 	{
-		UE_LOG(LogMushoku, Warning, TEXT("[Showcase] unknown ability %s"), *Id.ToString());
+		UE_LOG(LogMushoku, Warning, TEXT("[Showcase] unknown ability %s"), *Entry.Chain[0].ToString());
 		return;
 	}
-	const FName Lineage = Row->CharacterRequirement == TEXT("Orsted") ? FName(TEXT("Orsted")) : FName(TEXT("Rudeus"));
+	FName Lineage = Entry.Lineage;
+	if (Lineage.IsNone())
+	{
+		Lineage = First->CharacterRequirement == TEXT("Orsted") ? FName(TEXT("Orsted")) : FName(TEXT("Rudeus"));
+	}
 	if (Player->GetCharacterId() != Lineage)
 	{
 		Player->ApplyCharacterLineage(Lineage);
 	}
+	Entry.Seconds = 0.f;
+	for (const FName Id : Entry.Chain)
+	{
+		if (const FMTAbilityData* Row = Registry->FindAbility(Id))
+		{
+			Entry.Seconds += ShowcaseSeconds(*Row);
+		}
+	}
+	Entry.Seconds = FMath::Clamp(Entry.Seconds, 3.8f, 18.f);
 	Player->SetActorLocationAndRotation(StageOrigin + FVector(0.f, 0.f, Player->GetSimpleCollisionHalfHeight() + 5.f), FRotator::ZeroRotator,
 		false, nullptr, ETeleportType::TeleportPhysics);
 	if (AController* Controller = Player->GetController())
@@ -149,23 +244,46 @@ void AMTShowcaseGameMode::StartAbility(int32 Index)
 		Controller->SetControlRotation(FRotator::ZeroRotator);
 	}
 	float Distance = 1200.f;
-	if (Row->Behavior == EMTAbilityBehavior::Melee)
+	if (First->Behavior == EMTAbilityBehavior::Melee || First->Behavior == EMTAbilityBehavior::Strike)
 	{
-		Distance = 250.f;
+		Distance = 320.f;
 	}
-	else if (Row->ZoneKind == EMTZoneKind::Burst && Row->Behavior == EMTAbilityBehavior::Zone)
+	else if (First->Behavior == EMTAbilityBehavior::Zone && (First->ZoneKind == EMTZoneKind::Burst || First->ZoneKind == EMTZoneKind::Arc))
 	{
-		Distance = 450.f;
+		Distance = First->ZoneKind == EMTZoneKind::Arc ? 800.f : 450.f;
 	}
-	if (AMTEnemyCharacter* Target = Dummy.Get())
+	auto Place = [this](AMTEnemyCharacter* Target, const FVector& Offset)
 	{
-		Target->SetActorLocationAndRotation(StageOrigin + FVector(Distance, 0.f, Target->GetSimpleCollisionHalfHeight() + 5.f), FRotator(0.f, 180.f, 0.f),
+		if (!Target)
+		{
+			return;
+		}
+		Target->SetActorLocationAndRotation(StageOrigin + Offset + FVector(0.f, 0.f, Target->GetSimpleCollisionHalfHeight() + 5.f), FRotator(0.f, 180.f, 0.f),
 			false, nullptr, ETeleportType::TeleportPhysics);
 		if (UMTAttributeComponent* Attr = Target->GetAttributes())
 		{
 			Attr->InitializeAttributes(100000.f, 1000.f, 100.f, 100000.f, 0.f);
 		}
+		if (UMTAbilityComponent* TargetAbilities = Target->GetAbilities())
+		{
+			TargetAbilities->CancelAll();
+		}
+	};
+	Place(Dummy.Get(), FVector(Distance, 0.f, 0.f));
+	for (int32 i = 0; i < Crowd.Num(); ++i)
+	{
+		const float Side = (i < 2 ? -1.f : 1.f) * (i % 2 == 0 ? 230.f : 460.f);
+		Place(Crowd[i].Get(), FVector(Distance + (i % 2 == 0 ? 120.f : -60.f), Side, 0.f));
+	}
+	if (AMTEnemyCharacter* Target = Dummy.Get())
+	{
 		Player->SetLockTarget(Target);
+		DummyHealthAtStart = Target->GetAttributes() ? Target->GetAttributes()->GetHealth() : 0.f;
+		// Something for Disturb Magic to disturb: the dummy starts forming a Stone Cannon.
+		if (Entry.Chain.Contains(ShowcaseDisturb) && Target->GetAbilities())
+		{
+			Target->GetAbilities()->ActivateAbilityById(TEXT("Rudeus_StoneCannon"));
+		}
 	}
 	if (UMTAttributeComponent* Attr = Player->GetAttributes())
 	{
@@ -173,8 +291,56 @@ void AMTShowcaseGameMode::StartAbility(int32 Index)
 		Attr->RestoreStamina(1000.f);
 		Attr->AddAwakeningMeter(100.f);
 	}
-	const bool bOk = Player->GetAbilities()->ActivateAbilityById(Id);
-	UE_LOG(LogMushoku, Display, TEXT("[Showcase] %02d %s (%s): %s"), Index, *Id.ToString(), *Lineage.ToString(), bOk ? TEXT("activated") : TEXT("FAILED to activate"));
+	const bool bOk = Player->GetAbilities()->ActivateAbilityById(Entry.Chain[0]);
+	Executed += bOk ? 1 : 0;
+	UE_LOG(LogMushoku, Display, TEXT("[Showcase] %02d %s (%s): %s"), Index, *Entry.Label, *Lineage.ToString(), bOk ? TEXT("activated") : TEXT("FAILED to activate"));
+}
+
+void AMTShowcaseGameMode::AdvanceChain()
+{
+	AMTPlayerCharacter* Player = Cast<AMTPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+	if (!Player || !Entries.IsValidIndex(Current))
+	{
+		return;
+	}
+	const FShowcaseEntry& Entry = Entries[Current];
+	if (!Entry.Chain.IsValidIndex(ChainIndex + 1))
+	{
+		return;
+	}
+	// The next link starts as soon as the previous one lets go (combo inputs are buffered in play; here we wait).
+	UMTAbilityComponent* Abilities = Player->GetAbilities();
+	if (StepClock < 0.35f || Abilities->IsCasting())
+	{
+		return;
+	}
+	++ChainIndex;
+	StepClock = 0.f;
+	bReleased = false;
+	Player->GetAttributes()->RestoreMana(100000.f);
+	Player->GetAttributes()->RestoreStamina(1000.f);
+	const bool bOk = Abilities->ActivateAbilityById(Entry.Chain[ChainIndex]);
+	Executed += bOk ? 1 : 0;
+	UE_LOG(LogMushoku, Display, TEXT("[Showcase]    + %s: %s"), *Entry.Chain[ChainIndex].ToString(), bOk ? TEXT("activated") : TEXT("FAILED to activate"));
+}
+
+void AMTShowcaseGameMode::FinishEntry()
+{
+	if (!Entries.IsValidIndex(Current))
+	{
+		return;
+	}
+	const FShowcaseEntry& Entry = Entries[Current];
+	const AMTEnemyCharacter* Target = Dummy.Get();
+	const float Dealt = (Target && Target->GetAttributes()) ? DummyHealthAtStart - Target->GetAttributes()->GetHealth() : 0.f;
+	int32 CrowdHit = 0;
+	for (const TWeakObjectPtr<AMTEnemyCharacter>& Weak : Crowd)
+	{
+		const AMTEnemyCharacter* Member = Weak.Get();
+		CrowdHit += (Member && Member->GetAttributes() && Member->GetAttributes()->GetHealth() < 100000.f) ? 1 : 0;
+	}
+	UE_LOG(LogMushoku, Display, TEXT("[Showcase] RESULT %02d %s: %s (%d/%d cast), main dummy took %.0f, %d of %d crowd dummies hit"),
+		Current, *Entry.Label, Executed == Entry.Chain.Num() ? TEXT("PASS") : TEXT("FAIL"), Executed, Entry.Chain.Num(), Dealt, CrowdHit, Crowd.Num());
 }
 
 void AMTShowcaseGameMode::Capture(const FString& Label)
@@ -190,7 +356,6 @@ void AMTShowcaseGameMode::Tick(float DeltaSeconds)
 	if (!bStaged)
 	{
 		// Let streaming and the pawn settle, and compile every effect material, before building the stage.
-		static bool bWarmed = false;
 		if (Clock > 2.5f && !bWarmed)
 		{
 			bWarmed = true;
@@ -207,21 +372,24 @@ void AMTShowcaseGameMode::Tick(float DeltaSeconds)
 		if (Clock > 3.f && (!bCompiling || Clock > 240.f))
 		{
 			SetupStage();
-			StartAbility(0);
+			StartEntry(0);
 		}
 		return;
 	}
-	if (!Abilities.IsValidIndex(Current))
+	if (!Entries.IsValidIndex(Current))
 	{
-		if (Clock > 1.f && Current >= Abilities.Num())
+		if (Clock > 1.f && Current >= Entries.Num())
 		{
 			FPlatformMisc::RequestExit(false, TEXT("Showcase finished"));
 		}
 		return;
 	}
-	AbilityClock += DeltaSeconds;
-	const FName Id = Abilities[Current];
-	if (!bReleased && AbilityClock > 1.0f)
+	EntryClock += DeltaSeconds;
+	StepClock += DeltaSeconds;
+	const FShowcaseEntry& Entry = Entries[Current];
+	const FName Id = Entry.Chain[ChainIndex];
+	// Charged spells are held for a second (full-looking charge), everything else is a tap.
+	if (!bReleased && StepClock > 1.0f)
 	{
 		bReleased = true;
 		if (AMTPlayerCharacter* Player = Cast<AMTPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0)))
@@ -229,20 +397,25 @@ void AMTShowcaseGameMode::Tick(float DeltaSeconds)
 			Player->GetAbilities()->ReleaseAbilityById(Id);
 		}
 	}
-	if (ShotTimes.IsValidIndex(NextShot) && AbilityClock >= ShotTimes[NextShot])
+	if (bReleased || StepClock > 0.35f)
 	{
-		Capture(FString::Printf(TEXT("%02d_%s_%04d"), Current, *Id.ToString(), FMath::RoundToInt(ShotTimes[NextShot] * 1000.f)));
+		AdvanceChain();
+	}
+	if (ShotTimes.IsValidIndex(NextShot) && EntryClock >= ShotTimes[NextShot] * Entry.Seconds)
+	{
+		Capture(FString::Printf(TEXT("%02d_%s_%04d"), Current, *Entry.Label, FMath::RoundToInt(ShotTimes[NextShot] * Entry.Seconds * 1000.f)));
 		++NextShot;
 	}
-	if (AbilityClock >= SecondsPerAbility)
+	if (EntryClock >= Entry.Seconds)
 	{
-		if (Current + 1 < Abilities.Num())
+		FinishEntry();
+		if (Current + 1 < Entries.Num())
 		{
-			StartAbility(Current + 1);
+			StartEntry(Current + 1);
 		}
 		else
 		{
-			Current = Abilities.Num();
+			Current = Entries.Num();
 			Clock = 0.f;
 		}
 	}
