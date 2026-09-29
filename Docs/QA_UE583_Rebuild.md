@@ -22,6 +22,21 @@ Backup made first: an APFS clone of the whole project (no build caches) in
 | `PresentationFallbacks` test failed | It predates the runtime travel effect that now draws projectiles | Test accepts the attached travel effect |
 | UE 5.8 deprecation warnings (would break in the next release) | `Virtual_Accept`, HLOD layer spatial loading, `bCustomizedCollision` | Updated to the 5.8 APIs |
 
+## Ability overhaul merged and made to work (later the same day)
+
+A parallel cloud session pushed the LA PLACE ability overhaul (152 files: gameplay for the 18 abilities, layered effect
+presets, a casting clip per ability, 26 new sounds, new tests), written without an engine. On this Mac it compiled first
+time (0 errors, 0 warnings); its generators were re-run (VFX textures, sounds, VFX kit meshes; the building meshes came
+out byte-identical), the effects, sounds and both characters re-imported (Rudeus 55 clips, Orsted 59). Its tests then
+showed four problems, fixed here:
+
+| Problem | Cause | Fix |
+|---|---|---|
+| Knockbacks died within ~2 m (Wind Burst threw bandits 2.2 m, designed ~8) | `BrakingFriction 6` (tuned for jumps) also brakes a falling body with no input or over walk speed | A hit's launch switches it off until the body stops falling |
+| Water Dragon missed any prey within ~10 m | Its steering blended headings linearly; out of the circle it flipped and dived into the ground behind the caster | Yaw round level first, pitch onto the prey once it is ahead, turn rate grows near the prey |
+| Loadout test: short cooldowns "never started", 13-15 "leaked" effects | Cooldowns checked after they had ended; idle pooled effects counted | Cooldown sampled during the cast; only effects still playing count |
+| Tornado / Dragon Crush tests | The goblin died in the funnel (death disables movement); the throw was measured mid-flight | Goblin kept alive; measured after the flight |
+
 ## Verification (real engine)
 
 | Check | Result |
@@ -31,16 +46,16 @@ Backup made first: an APFS clone of the whole project (no build caches) in
 | Full pipeline (`build_and_setup.sh`): materials, UI/audio/VFX, Rudeus, Orsted, Fittoa, kit (172 meshes), LA PLACE world, HLODs | Every step ran. Every asset in the list taken before the rebuild is back (except two water meshes of the retired dev test map), plus the new LA PLACE world assets; `L_Fittoa` lost only its duplicate actors |
 | LA PLACE world build | Landscape 6097 x 4573, ocean + 11 lakes + 14 rivers, 8 956 city and 85 864 foliage instances, 0 errors |
 | HLODs (`build_hlods.sh`) | 517 / 517 built, 0 errors |
-| Automation tests (`run_automation_tests.sh`) | 9 / 9 pass |
+| Automation tests (`run_automation_tests.sh`) | 18 / 18 pass after the overhaul (9 / 9 before it) |
 | `MushokuRPG.Abilities.RequiredSet` | All 17 must-keep abilities (Stone Cannon, Quagmire, Elemental Barrage, Disturb Magic, Dragon Step, Dragon Crush, Fireball, Flame Wave, Inferno, Water Bullet, Water Dragon, Flood, Earth Wall, Earth Spikes, Wind Blade, Tornado, Wind Burst) activate, show a runtime effect and damage / spawn their zone, wall or dash |
-| Asset validation (`mt_validate_assets.py`) | 721 assets load, 0 failed; 2 030 packages (1 307 World Partition actors) with 0 missing hard references; both maps open |
+| Asset validation (`mt_validate_assets.py`) | 803 assets load, 0 failed; 2 112 packages (1 307 World Partition actors) with 0 missing hard references; both maps open |
 | `CompileAllBlueprints` | 0 errors, 0 warnings (the project has no Blueprint assets of its own; engine / plugin Blueprints compiled) |
 | `MTValidateWorld` on `L_Fittoa` | 0 errors, 0 warnings |
-| Ability showcase (17 abilities, screenshots reviewed) | 17 / 17 activate, no errors, no "missing Nanite usage" warnings |
+| Ability showcase (screenshots reviewed) | Before the overhaul 17 / 17; after it the overhaul's full showcase: 32 / 32 entries PASS (every ability, Orsted casting the element spells, both signature combos), no errors |
 | UI tour on `L_LaPlace` (screenshots reviewed) | Title, map, edit, abilities, settings, HUD, pause, admin prompt and panel; the real 1+0 key press opens the admin popup; code accepted |
 | World tour on `L_LaPlace` (19 screenshots reviewed) | Buena, Roa, Ars, Sharia, Rikarisu, Millishion, Rapan (view + on foot) and 5 aerials; 24-38 fps average at 1920x1080, one 2 s hitch on the first visit to Roa |
 | Arena (`play.sh` default) on `L_LaPlace` | Arena Orsted spawns and fights at Buena |
-| Unreal Editor opens `MushokuRPG.uproject` on `L_LaPlace` | Engine initialized, editor ready in 19 s, 0 errors (2 harmless warnings: audio sample-rate query, old window layout) |
+| Unreal Editor opens `MushokuRPG.uproject` | Engine initialized, editor ready in 19 s, 0 errors (2 harmless warnings: audio sample-rate query, old window layout). With `L_LaPlace` open the editor grew to ~20 GB (every landscape edit layer is loaded) and swapped this 18 GB Mac to a halt, so the editor starts on `L_Fittoa`; the game runs `L_LaPlace` fine |
 
 Automated game runs never write the player's save (`-MTNoSave`, or the save moved aside and restored byte for byte).
 
@@ -56,4 +71,5 @@ Automated game runs never write the player's save (`-MTNoSave`, or the save move
 ## Needs a person
 
 Playing it: combat feel, camera, how the world and effects read at full speed, and whether the LA PLACE map should replace
-Fittoa in every mode (the launcher and the editor now open `L_LaPlace`).
+Fittoa in every mode (the launcher and the game default now use `L_LaPlace`), and grading the overhaul's effects and animation timing
+(`Docs/QA_Abilities.md` §3).
