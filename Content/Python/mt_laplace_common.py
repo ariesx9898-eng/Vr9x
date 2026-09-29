@@ -185,13 +185,15 @@ def import_glb_mesh(glb, dest_dir, name, material_for):
             break
     if mesh is None:
         return None
-    # Our materials by slot name, so the importer's per-file material copies can go.
-    materials = mesh.get_editor_property("static_materials")
-    for i, entry in enumerate(materials):
-        slot = str(entry.get_editor_property("material_slot_name"))
-        material = material_for(slot)
-        if material:
-            mesh.set_material(i, material)
+    # Our materials by slot name, so the importer's per-file material copies can go. (material_for=None: the caller
+    # assigns them itself, e.g. in one batch: every set_material call rebuilds the mesh and its distance field.)
+    if material_for is not None:
+        materials = mesh.get_editor_property("static_materials")
+        for i, entry in enumerate(materials):
+            slot = str(entry.get_editor_property("material_slot_name"))
+            material = material_for(slot)
+            if material:
+                mesh.set_material(i, material)
     if EAL.does_asset_exist(flat):
         EAL.delete_asset(flat)
     EAL.rename_asset(mesh.get_path_name().split(".")[0], flat)

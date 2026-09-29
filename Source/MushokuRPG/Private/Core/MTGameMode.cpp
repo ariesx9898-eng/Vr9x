@@ -5,6 +5,7 @@
 #include "UI/MTHUD.h"
 #include "UI/LaPlace/MTFrontEndSubsystem.h"
 #include "Dev/MTWorldTourSubsystem.h"
+#include "UI/LaPlace/MTAdminSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
 AMTGameMode::AMTGameMode()
@@ -54,15 +55,31 @@ AMTPlayerController::AMTPlayerController()
 void AMTPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
-	// The LA PLACE front end (title, pause, its ABILITIES page) sets the input mode and cursor itself while it is
-	// open; the journal's CHANGE HOTBAR opens it right after closing, which must not flip input back to the game.
-	if (const UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(this))
+	// Admin popup: 1 and 0 pressed together (works in game and on the menus, which pass these keys through).
+	const bool bAdminCombo = IsInputKeyDown(EKeys::One) && IsInputKeyDown(EKeys::Zero);
+	if (bAdminCombo && !bAdminComboHeld)
 	{
-		if (FrontEnd->IsOpen())
+		if (UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(this))
 		{
-			bMenuMode = false;
-			return;
+			Admin->Toggle(this);
 		}
+	}
+	bAdminComboHeld = bAdminCombo;
+	// The LA PLACE front end (title, pause, its ABILITIES page) and the admin popup set the input mode and cursor
+	// themselves while they are open (the journal's CHANGE HOTBAR opens the front end right after closing, which must
+	// not flip input back to the game). Once they close, the journal's mode is re-applied below if it is still open.
+	const UMTFrontEndSubsystem* FrontEnd = UMTFrontEndSubsystem::Get(this);
+	const UMTAdminSubsystem* AdminPopup = UMTAdminSubsystem::Get(this);
+	if ((FrontEnd && FrontEnd->IsOpen()) || (AdminPopup && AdminPopup->IsOpen()))
+	{
+		if (bMenuMode)
+		{
+			// Hand over from the journal: undo its look lock too, or the camera would stay frozen after they close.
+			bMenuMode = false;
+			bEnableClickEvents = false;
+			ResetIgnoreLookInput();
+		}
+		return;
 	}
 	const AMTHUD* MTHUD = Cast<AMTHUD>(GetHUD());
 	const bool bWantMenu = MTHUD && MTHUD->IsMenuOpen();

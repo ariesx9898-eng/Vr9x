@@ -44,6 +44,9 @@ AMTCharacterBase::AMTCharacterBase(const FObjectInitializer& ObjectInitializer)
 	CMC->BrakingFriction = 6.f;
 	CMC->GroundFriction = 8.f;
 	CMC->MaxAcceleration = 2048.f;
+	// Sea and lakes are water volumes in the LA PLACE world: float with the head above the surface.
+	CMC->Buoyancy = 1.3f;
+	CMC->MaxSwimSpeed = 380.f;
 	CMC->BrakingDecelerationWalking = 2048.f;
 	CMC->bCanWalkOffLedgesWhenCrouching = true;
 	CMC->PerchRadiusThreshold = 12.f;  // avoid perching on prop edges

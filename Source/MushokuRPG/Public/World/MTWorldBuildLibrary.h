@@ -12,6 +12,7 @@ class ULandscapeLayerInfoObject;
 class UMaterialInterface;
 class UStaticMesh;
 class UWorld;
+class UHLODLayer;
 
 UCLASS()
 class MUSHOKURPG_API UMTWorldBuildLibrary : public UBlueprintFunctionLibrary
@@ -51,6 +52,14 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|World Build")
 	static int32 ConfigureWorldPartitionGrid(int32 CellSizeCm, int32 LoadingRangeCm);
+
+	/**
+	 * Registers HLOD layers with the editor world's runtime hash set (UE 5.4+ World Partition only builds HLODs for
+	 * layers listed in a partition's HLOD setups). Each layer gets its own setup on the first (main) partition with an
+	 * LHGrid of CellSizeCm / LoadingRangeCm; layers already listed are left alone. Returns the number added.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Mushoku|World Build")
+	static int32 RegisterHLODLayers(const TArray<UHLODLayer*>& Layers, int32 CellSizeCm, int32 LoadingRangeCm);
 
 	/** Heightfield sample (cm, world space) from a raw heightmap loaded with LoadHeightmapForQueries. */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|World Build")
@@ -97,6 +106,13 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|World Build")
 	static bool SetTrunkCollision(UStaticMesh* Mesh, float Radius, float Height);
+
+	/**
+	 * Assigns materials by slot name and the Nanite settings in one go, so the mesh (and its distance field) is rebuilt
+	 * once instead of once per change. PreserveArea keeps foliage cards from thinning out in the distance.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Mushoku|World Build")
+	static bool ConfigureKitMesh(UStaticMesh* Mesh, const TMap<FName, UMaterialInterface*>& SlotMaterials, bool bNanite, bool bPreserveArea);
 
 	/** Collision from the render mesh itself (walls, rocks): complex as simple, no simple shapes. */
 	UFUNCTION(BlueprintCallable, Category = "Mushoku|World Build")

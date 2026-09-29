@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Containers/Ticker.h"
+#include "Styling/SlateBrush.h"
 #include "UI/LaPlace/SMTFrontEnd.h"
 #include "MTFrontEndSubsystem.generated.h"
 
@@ -30,12 +31,23 @@ public:
 	bool IsOpen() const { return Widget.IsValid(); }
 	/** Places the player at a spawn location (Locations.json) and hands control back. */
 	bool SpawnAt(FName LocationId);
+	/** Admin / debug teleport: spawns there like the map's SPAWN button, closing the menus first if they are open. */
+	void TeleportTo(FName LocationId);
 	/** The player the front end acts on (set by the pages; tools that skip the menus set it directly). */
 	void SetController(APlayerController* PC) { Controller = PC; }
 
 	virtual void Deinitialize() override;
 
-	/** Development: screenshots every front-end page, the in-game HUD and every journal page, then quits (?UITour=1). */
+	/**
+	 * Live preview of a spawn location for the map page: a scene capture drifting slowly along the location's
+	 * PreviewCamera (Locations.json). None stops it. GetPreviewBrush is null until the first frames are captured.
+	 */
+	void SetPreviewLocation(FName LocationId);
+	const FSlateBrush* GetPreviewBrush() const;
+	/** Seconds since the current preview started (for the cross-fade from the painted art). */
+	float GetPreviewAge() const;
+
+	/** Development: screenshots every front-end page, the in-game HUD, the admin popup and every journal page, then quits (?UITour=1). */
 	void StartTour(APlayerController* PC);
 
 private:
@@ -54,6 +66,16 @@ private:
 	bool bPawnParked = false;
 	UPROPERTY(Transient) TObjectPtr<class UAudioComponent> Music;
 	FTSTicker::FDelegateHandle TourHandle;
+
+	bool TickPreview(float DeltaTime);
+	UPROPERTY(Transient) TObjectPtr<class ASceneCapture2D> PreviewCapture;
+	UPROPERTY(Transient) TObjectPtr<class UTextureRenderTarget2D> PreviewTarget;
+	TSharedPtr<FSlateBrush> PreviewBrush;
+	FName PreviewId;
+	FVector PreviewStart = FVector::ZeroVector;
+	FRotator PreviewRotation = FRotator::ZeroRotator;
+	double PreviewSince = 0.0;
+	FTSTicker::FDelegateHandle PreviewTicker;
 	float TourClock = 0.f;
 	int32 TourStep = 0;
 };

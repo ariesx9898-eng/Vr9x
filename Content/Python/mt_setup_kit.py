@@ -1,7 +1,8 @@
 """LA PLACE kit: palette materials (MI_<Slot>) and the Blender kit meshes (nature + architecture) for the world.
 
     Tools/mac/run_editor_python.sh mt_setup_kit.py
-Environment: MT_KIT_CATEGORIES=Trees,Rocks limits the mesh folders; MT_KIT_SKIP_MESHES=1 rebuilds materials only.
+Environment: MT_KIT_CATEGORIES=Trees,Rocks limits the mesh folders; MT_KIT_SKIP_MESHES=1 rebuilds materials only;
+MT_KIT_SKIP_EXISTING=1 imports only meshes that do not exist yet; MT_KIT_SKIP_TEXTURES=1 keeps the imported textures.
 
   /Game/LaPlace/Textures/Palette   T_<Name>_{D,N,M,E}   (SourceArt/Textures/Palette, Tools/textures)
   /Game/LaPlace/Kit/Materials      M_Kit_Surface, M_Kit_Foliage, M_Kit_Crystal masters; MI_<Slot> per palette slot
@@ -48,6 +49,8 @@ def texture_manifest():
 # --------------------------------------------------------------------------------------------- textures
 
 def import_palette_textures():
+    if os.environ.get("MT_KIT_SKIP_TEXTURES") == "1":
+        return 0
     if not os.path.isdir(TEX_SRC):
         warn("no palette textures yet (%s): materials use the palette colours" % TEX_SRC)
         return 0
@@ -263,7 +266,7 @@ def build_instances():
         if EAL.does_asset_exist(base + "_M"):
             textures["MaskTex"] = base + "_M"
         tint = (1.0, 1.0, 1.0) if has_d else linear
-        tile_m = float(row.get("tile_m", 1.0 if slot in CARD_SLOTS else 2.0))
+        tile_m = float(row.get("tile_m") or (1.0 if slot in CARD_SLOTS else 2.0))
         if slot == "MT_Crystal":
             make_instance(slot, crystal, {"Glow": 6.0}, {"Tint": linear}, {})
         elif slot in CARD_SLOTS:
@@ -305,11 +308,14 @@ def kit_manifest():
 def configure_mesh(mesh, row, category):
     kind = (row or {}).get("kind", "")
     foliage = category in ("Trees", "Plants")
-    nanite = mesh.get_editor_property("nanite_settings")
-    nanite.set_editor_property("enabled", True)
-    if foliage:
-        nanite.set_editor_property("preserve_area", True)
-    mesh.set_editor_property("nanite_settings", nanite)
+    slots = {}
+    for entry in mesh.get_editor_property("static_materials"):
+        slot = str(entry.get_editor_property("material_slot_name"))
+        material = slot_material(slot)
+        if material:
+            slots[slot] = material
+    # One rebuild for materials + Nanite (foliage keeps its area in the distance).
+    WB.configure_kit_mesh(mesh, slots, True, foliage)
     if category == "Trees" and kind != "dead_log":
         fp = (row or {}).get("footprint", [6.0, 6.0])
         height = (row or {}).get("height", 10.0)
@@ -335,7 +341,9 @@ def import_meshes(categories):
             if not fname.lower().endswith(".glb"):
                 continue
             name = os.path.splitext(fname)[0]
-            mesh = import_glb_mesh(os.path.join(folder, fname), dest, name, slot_material)
+            if os.environ.get("MT_KIT_SKIP_EXISTING") == "1" and EAL.does_asset_exist("%s/%s" % (dest, name)):
+                continue
+            mesh = import_glb_mesh(os.path.join(folder, fname), dest, name, None)
             if mesh is None:
                 warn("import failed: %s/%s" % (category, fname))
                 continue

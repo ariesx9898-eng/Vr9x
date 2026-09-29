@@ -10,7 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "LandscapeProxy.h"
 #include "Misc/Paths.h"
-#include "MushokuRPG.h"
+#include "Core/MTTypes.h"
 #include "UI/MTHUD.h"
 #include "UI/LaPlace/MTFrontEndSubsystem.h"
 #include "UnrealClient.h"
@@ -187,12 +187,20 @@ bool UMTWorldTourSubsystem::Tick(float DeltaTime)
 	}
 	Clock += DeltaTime;
 	ReadyClock = IsWorldReady() ? ReadyClock + DeltaTime : 0.f;
+	if (ReadyClock > 0.5f && !bCaptured)
+	{
+		FrameTimeSum += DeltaTime;
+		FrameTimeMax = FMath::Max(FrameTimeMax, DeltaTime);
+		++FrameCount;
+	}
 	if (!bCaptured && Clock >= Shot.Wait && (ReadyClock > 1.5f || Clock > 90.f))
 	{
 		const FString Dir = FPaths::ProjectSavedDir() / TEXT("Screenshots") / TEXT("WorldTour");
 		const FString File = Dir / FString::Printf(TEXT("%02d_%s.png"), Index + 1, *Shot.Name);
 		FScreenshotRequest::RequestScreenshot(File, !Shot.SpawnAt.IsNone(), false);
-		UE_LOG(LogMushoku, Log, TEXT("[WorldTour] %s (ready after %.1f s)"), *File, Clock);
+		const float AvgMs = FrameCount > 0 ? 1000.f * FrameTimeSum / FrameCount : 0.f;
+		UE_LOG(LogMushoku, Log, TEXT("[WorldTour] %s (ready after %.1f s) frame %.1f ms avg (%.0f fps), %.1f ms worst over %d frames"), *File, Clock,
+			AvgMs, AvgMs > 0.f ? 1000.f / AvgMs : 0.f, FrameTimeMax * 1000.f, FrameCount);
 		bCaptured = true;
 	}
 	if (bCaptured && Clock >= Shot.Wait + 1.f && ReadyClock > 0.f)
@@ -201,6 +209,8 @@ bool UMTWorldTourSubsystem::Tick(float DeltaTime)
 		Clock = 0.f;
 		ReadyClock = 0.f;
 		bCaptured = false;
+		FrameTimeSum = FrameTimeMax = 0.f;
+		FrameCount = 0;
 	}
 	return true;
 }

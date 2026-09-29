@@ -143,6 +143,10 @@ float UMTAbilityComponent::GetCooldownFraction(FName AbilityId) const
 
 void UMTAbilityComponent::StartCooldown(FName AbilityId, float Seconds)
 {
+	if (bNoCooldowns)
+	{
+		return;
+	}
 	if (const UWorld* World = GetWorld())
 	{
 		CooldownEnd.Add(AbilityId, World->GetTimeSeconds() + Seconds);

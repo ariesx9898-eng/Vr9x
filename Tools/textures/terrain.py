@@ -29,7 +29,7 @@ TERRAIN = {
     "Farmland": dict(
         sources=["Terrain_Farmland_A"], tile_m=4.0, xf="h", rows=12, delight=64, flatten=80, overlap=96,
         sat=0.9, target=(104, 78, 56),
-        height=dict(bands=[(0, 6, 0.8), (6, 24, 0.8), (24, 96, 1.2)]), tilt=20,
+        height=dict(bands=[(0, 6, 0.8), (6, 24, 0.8)], row_relief=1.6), tilt=20,
         ao=([0.006, 0.02, 0.06], 0.6), rough=dict(base=0.9, h=-0.3, lo=0.7, hi=1.0)),
     "ForestFloor": dict(
         sources=["Terrain_ForestFloor_A"], tile_m=4.0, xf="d", delight=64, flatten=72,
@@ -157,8 +157,9 @@ def build(name, R, log=print, size=SIZE, group="Terrain", prefix=None, entry_nam
     rng = rng_for(group + "_" + name)
     if R.get("single"):
         # the source covers the full tile at native density: only the wrap seams need removing
-        a = T.degrid(load_ai(R["sources"][0]))
-        a, _ = T.make_tileable(a, overlap=R.get("overlap", 128))
+        a = T.degrid(T.periodic_component(load_ai(R["sources"][0])))
+        a = np.clip(T.delight(a, R["delight"]), 0.0, 1.0)
+        a, _ = T.make_tileable(a, overlap=R.get("overlap", 128), presmoothed=True)
         out = T.resize_periodic(a, (size, size))
         picks = []
     else:
@@ -178,6 +179,13 @@ def build(name, R, log=print, size=SIZE, group="Terrain", prefix=None, entry_nam
     else:
         hs = R["height"]
         h = SF.height_luma(out, hs["bands"], hs.get("grooves"), hs.get("ridges"))
+        if hs.get("row_relief"):
+            # furrows: the clod-covered ridges are the brighter rows; their row-mean brightness (periodic, since
+            # quilting kept the row phase) becomes a smooth ridge / furrow profile added to the height
+            prof = T.luma(out).mean(1)
+            prof = T.blur_periodic(np.repeat(prof[:, None], 8, 1), size / R["rows"] / 8.0)[:, 0]
+            prof = (prof - prof.mean()) / max(float(prof.std()), 1e-6)
+            h = h + hs["row_relief"] * prof[:, None]
         h01 = T.normalize01(h, 0.5, 99.5)
     if "puddles" in R:
         out, h01, wet = _puddles(out, h01, R["puddles"])

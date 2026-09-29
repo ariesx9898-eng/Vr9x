@@ -1,4 +1,5 @@
 #include "Save/MTSaveSubsystem.h"
+#include "Misc/CommandLine.h"
 #include "Save/MTSaveGame.h"
 #include "Progression/MTProgressionSubsystem.h"
 #include "Core/MTGameEvents.h"
@@ -177,7 +178,9 @@ void UMTSaveSubsystem::ApplyToPawn(APawn* Pawn)
 
 bool UMTSaveSubsystem::SaveGame(const FString& Slot)
 {
-	if (bSaving || Slot.IsEmpty())
+	// -MTNoSave: automated test runs (UI / world tours) never touch the player's saves.
+	static const bool bNoSave = FParse::Param(FCommandLine::Get(), TEXT("MTNoSave"));
+	if (bSaving || Slot.IsEmpty() || bNoSave)
 	{
 		return false;
 	}

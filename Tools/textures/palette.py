@@ -1,7 +1,8 @@
 """Mesh material palette (Spec section 6): SourceArt/Textures/Palette/T_<Name>_{D,N,M}.png, 1024 px, seamless.
 
-AI-sourced materials: degrid -> lattice-aware min-cut seam removal (rows of roof tiles, masonry courses and planks
-stay whole across the wrap) -> Moisan periodic component -> low-frequency delighting -> colour grade to the Spec
+AI-sourced materials (see prepare()): non-periodic delight -> Moisan periodic component -> degrid -> seam closing
+(coursed materials get their vertical wrap cropped onto a joint line, everything else a lattice-aware min-cut
+self-overlap with wrap-consistent cuts) -> resize -> removal of tile-scale blotches -> colour grade to the Spec
 palette colour -> height (band-passed luma + joints / cracks as grooves) -> normal / AO / roughness.
 Cloth colours share one neutral woven source; Snow reuses the terrain snow pipeline at mesh scale; Iron, Gold, Glass
 and Crystal are procedural (procedural.py). Cards (alpha-masked foliage) live in cards.py.
@@ -24,118 +25,120 @@ SIZE = 1024
 # period so staggered slates / scales stay consistent across the wrap), or None (free min-cut seam).
 # target: sRGB 0..255 mean colour (Spec palette colours, toned for 'rich but not neon'); tile_m in metres.
 ARCH = {
-    "Plaster": dict(src="Palette_Plaster_A", tile_m=2.0, delight=220, sat=0.9, target=(222, 212, 190),
+    "Plaster": dict(src="Palette_Plaster_A", tile_m=2.0, sat=0.9, target=(222, 212, 190),
                     soften=(6, 140, 0.55),
                     height=dict(bands=[(0, 3, 0.6), (3, 40, 1.0)], grooves=(2, 0.6, 0.6)), tilt=5,
                     ao=([0.004, 0.02], 0.3), rough=dict(base=0.9, lum=-0.2, lo=0.78, hi=0.98)),
-    "PlasterTan": dict(src="Palette_PlasterTan_A", tile_m=2.0, delight=220, sat=0.78, target=(204, 168, 122),
+    "PlasterTan": dict(src="Palette_PlasterTan_A", tile_m=2.0, sat=0.78, target=(204, 168, 122),
                        height=dict(bands=[(0, 3, 0.6), (3, 40, 1.0)], grooves=(2, 0.7, 0.6)), tilt=6,
                        ao=([0.004, 0.02], 0.35), rough=dict(base=0.92, lo=0.8, hi=1.0)),
-    "Timber": dict(src="Palette_Timber_A", tile_m=1.0, delight=200, sat=0.9, target=(80, 56, 38),
+    "Timber": dict(src="Palette_Timber_A", tile_m=1.0, sat=0.9, target=(80, 56, 38),
                    height=dict(bands=[(0, 2, 0.7), (2, 20, 1.0)], grooves=(2, 0.9, 0.5)), tilt=13,
                    ao=([0.002, 0.01], 0.45), rough=dict(base=0.76, lum=-0.3, lo=0.6, hi=0.9)),
-    "WoodPlanks": dict(src="Palette_WoodPlanks_A", tile_m=2.0, rows=("est", 70, 150), delight=260, sat=0.85,
+    "WoodPlanks": dict(src="Palette_WoodPlanks_A", joints="dark", tile_m=2.0, rows=("est", 70, 150), sat=0.85,
                        target=(140, 103, 66),
                        height=dict(bands=[(0, 2, 0.5), (2, 16, 0.8)], grooves=(4, 1.2, 0.8)), tilt=11,
                        ao=([0.003, 0.012], 0.5), rough=dict(base=0.8, lum=-0.2, lo=0.62, hi=0.95)),
-    "Stone": dict(src="Palette_Stone_A", tile_m=2.0, rows=("est", 110, 200), delight=300, sat=0.8,
+    "Stone": dict(src="Palette_Stone_A", joints="bright", tile_m=2.0, rows=("est", 110, 200), sat=0.8,
                   target=(136, 134, 127),
                   height=dict(bands=[(0, 3, 0.5), (3, 30, 0.7)], lines=[("bright", 7, -1.3, 1.2)]), tilt=15,
                   ao=([0.004, 0.02, 0.05], 0.55), rough=dict(base=0.84, h=-0.3, lo=0.66, hi=0.97)),
-    "StoneWhite": dict(src="Palette_StoneWhite_A", tile_m=2.0, rows=("est", 200, 320), delight=300, sat=0.7,
+    "StoneWhite": dict(src="Palette_StoneWhite_A", joints="dark", tile_m=2.0, rows=("est", 200, 320), sat=0.7,
                        target=(228, 225, 215),
                        height=dict(bands=[(0, 3, 0.4), (3, 40, 0.5)], grooves=(4, 1.2, 0.7)), tilt=6,
                        ao=([0.004, 0.02], 0.4), rough=dict(base=0.58, lum=0.2, lo=0.42, hi=0.75)),
-    "Cobble": dict(src="Palette_Cobble_A", tile_m=2.0, delight=260, sat=0.85, target=(120, 115, 107),
+    "Cobble": dict(src="Palette_Cobble_A", tile_m=1.5, sat=0.85, target=(120, 115, 107),
                    height=dict(bands=[(0, 3, 0.4), (3, 28, 1.0)], grooves=(8, 1.2, 1.0)), tilt=18,
                    ao=([0.004, 0.02, 0.05], 0.6), rough=dict(base=0.8, h=-0.3, lo=0.6, hi=0.95)),
-    "Sandstone": dict(src="Palette_Sandstone_A", tile_m=2.0, rows=("est", 150, 300), delight=320, sat=0.72,
+    "Sandstone": dict(src="Palette_Sandstone_A", joints="dark", tile_m=2.0, rows=("est", 170, 260), sat=0.72,
                       target=(212, 178, 128),
                       height=dict(bands=[(0, 3, 0.5), (3, 40, 0.7)], grooves=(5, 1.2, 0.8)), tilt=9,
                       ao=([0.004, 0.02], 0.45), rough=dict(base=0.9, lo=0.78, hi=1.0)),
-    "DemonRock": dict(src="Palette_DemonRock_A", tile_m=2.0, delight=300, sat=0.9, target=(92, 50, 40),
+    "DemonRock": dict(src="Palette_DemonRock_A", tile_m=2.0, sat=0.9, target=(92, 50, 40),
                       height=dict(bands=[(0, 3, 0.6), (3, 30, 1.0)], grooves=(6, 1.0, 0.8)), tilt=22,
                       ao=([0.004, 0.02, 0.05], 0.6), rough=dict(base=0.86, h=-0.2, lo=0.66, hi=0.98)),
     "RoofRed": dict(src="Palette_RoofRed_A", tile_m=2.0, rows=("est", 120, 300), cols=("est", 60, 200),
-                    delight=400, sat=0.85, target=(176, 86, 54),
+                    sat=0.85, target=(176, 86, 54),
                     height=dict(bands=[(0, 3, 0.25), (3, 16, 0.5), (8, 70, 1.6)], grooves=(4, 0.8, 0.8)),
                     tilt=24, ao=([0.004, 0.02, 0.06], 0.6), rough=dict(base=0.72, lum=-0.3, lo=0.55, hi=0.9)),
-    "RoofBlue": dict(src="Palette_RoofBlue_A", tile_m=2.0, rows=("est", 200, 300, "stagger"), cols=("est", 150, 260),
-                     delight=400, sat=0.8, target=(86, 102, 128),
+    "RoofBlue": dict(src="Palette_RoofBlue_A", joints="dark", tile_m=2.0, rows=("est", 90, 160, "stagger"), cols=("est", 150, 260),
+                     sat=0.8, target=(86, 102, 128),
                      height=dict(bands=[(0, 3, 0.4), (3, 30, 0.8)], grooves=(4, 1.2, 0.8)), tilt=15,
                      ao=([0.004, 0.02, 0.05], 0.55), rough=dict(base=0.55, lum=0.2, lo=0.4, hi=0.75)),
-    "RoofDark": dict(src="Palette_RoofDark_A", tile_m=2.0, rows=("est", 230, 330, "stagger"), delight=400, sat=0.8,
+    "RoofDark": dict(src="Palette_RoofDark_A", joints="dark", tile_m=2.0, rows=("est", 110, 200, "stagger"), sat=0.8,
                      target=(54, 57, 66),
                      height=dict(bands=[(0, 3, 0.4), (3, 30, 0.8)], grooves=(4, 1.2, 0.8)), tilt=16,
                      ao=([0.004, 0.02, 0.05], 0.55), rough=dict(base=0.62, lum=0.2, lo=0.45, hi=0.8)),
-    "RoofThatch": dict(src="Palette_RoofThatch_A", tile_m=2.0, rows=("est", 150, 300), delight=400, sat=0.8,
+    "RoofThatch": dict(src="Palette_RoofThatch_A", joints="dark", tile_m=2.0, rows=("est", 150, 300), sat=0.8,
                        target=(166, 136, 84),
                        height=dict(bands=[(0, 2, 0.6), (2, 12, 0.8), (12, 80, 1.0)]), tilt=24,
                        ao=([0.003, 0.015, 0.06], 0.65), rough=dict(base=0.94, lo=0.82, hi=1.0)),
-    "RoofSilver": dict(src="Palette_RoofSilver_A", tile_m=2.0, rows=("est", 200, 330, "stagger"),
-                       cols=("est", 100, 220), delight=400, sat=0.7, target=(196, 204, 216), metallic=1,
+    "RoofSilver": dict(src="Palette_RoofSilver_A", tile_m=2.0, rows=("est", 90, 160, "stagger"),
+                       cols=("est", 100, 220), sat=0.7, target=(196, 204, 216), metallic=1,
                        height=dict(bands=[(0, 3, 0.2), (3, 40, 1.0)], grooves=(4, 1.0, 0.8)), tilt=16,
                        ao=([0.004, 0.02, 0.05], 0.5),
                        rough=dict(base=0.34, lum=-0.2, noise=(0.05, 6), lo=0.2, hi=0.5)),
-    "RoofGreen": dict(src="Palette_RoofGreen_A", tile_m=2.0, cols=("est", 100, 260), delight=400, sat=0.8,
+    "RoofGreen": dict(src="Palette_RoofGreen_A", tile_m=2.0, cols=("est", 100, 260), sat=0.8,
                       target=(96, 160, 138),
                       height=dict(bands=[(0, 3, 0.3), (3, 30, 0.5)], ridges=(5, 1.2, 1.0)), tilt=9,
                       ao=([0.004, 0.02], 0.4), rough=dict(base=0.62, lum=0.2, lo=0.45, hi=0.8)),
-    "Hide": dict(src="Palette_Hide_A", tile_m=1.0, delight=220, sat=0.85, target=(148, 112, 80),
+    "Hide": dict(src="Palette_Hide_A", tile_m=1.0, sat=0.85, target=(148, 112, 80), flat_k=4.0,
+                 soften=(4, 60, 0.6),
                  height=dict(bands=[(0, 2, 0.6), (2, 30, 1.0)], grooves=(2, 0.6, 0.6)), tilt=8,
                  ao=([0.002, 0.01], 0.35), rough=dict(base=0.72, lum=-0.3, lo=0.55, hi=0.88)),
-    "Bone": dict(src="Palette_Bone_A", tile_m=1.0, delight=220, sat=0.7, target=(218, 206, 174),
+    "Bone": dict(src="Palette_Bone_A", tile_m=1.0, sat=0.7, target=(218, 206, 174),
                  height=dict(bands=[(0, 2, 0.6), (2, 30, 1.0)], grooves=(2, 0.8, 0.5)), tilt=8,
                  ao=([0.002, 0.01], 0.4), rough=dict(base=0.62, lum=-0.2, lo=0.45, hi=0.8)),
 }
 
 # one neutral woven source, four dyes (colourised in linear light, detail kept)
-CLOTH_BASE = dict(src="Palette_Cloth_A", tile_m=1.0, delight=160, height=dict(bands=[(0, 1.5, 1.0), (1.5, 8, 0.6)]),
+CLOTH_BASE = dict(src="Palette_Cloth_A", tile_m=1.0, height=dict(bands=[(0, 1.5, 1.0), (1.5, 8, 0.6)]),
                   tilt=12, ao=([0.001, 0.004], 0.4), rough=dict(base=0.88, lo=0.78, hi=0.98))
 CLOTH = {"ClothRed": (166, 46, 38), "ClothBlue": (48, 76, 140), "ClothGreen": (62, 112, 64),
          "ClothTan": (202, 176, 128)}
 
 NATURE = {
-    "BarkOak": dict(src="Palette_BarkOak_A", tile_m=1.0, delight=240, sat=0.85, target=(92, 74, 58),
+    "BarkOak": dict(src="Palette_BarkOak_A", tile_m=1.0, sat=0.85, target=(92, 74, 58),
                     height=dict(bands=[(0, 3, 0.5), (3, 30, 1.0)], grooves=(6, 1.0, 0.8)), tilt=28,
                     ao=([0.003, 0.015, 0.04], 0.7), rough=dict(base=0.9, lo=0.78, hi=1.0)),
-    "BarkBirch": dict(src="Palette_BarkBirch_A", tile_m=1.0, delight=240, sat=0.7, target=(214, 210, 198),
+    "BarkBirch": dict(src="Palette_BarkBirch_A", tile_m=1.0, sat=0.7, target=(214, 210, 198),
                       height=dict(bands=[(0, 3, 0.6), (3, 30, 0.6)], grooves=(4, 1.2, 0.6)), tilt=10,
                       ao=([0.003, 0.012], 0.45), rough=dict(base=0.8, lum=0.2, lo=0.62, hi=0.95)),
-    "BarkPine": dict(src="Palette_BarkPine_A", tile_m=1.0, delight=240, sat=0.85, target=(116, 76, 52),
+    "BarkPine": dict(src="Palette_BarkPine_A", tile_m=1.0, sat=0.85, target=(116, 76, 52),
                      height=dict(bands=[(0, 3, 0.5), (3, 30, 1.0)], grooves=(6, 1.0, 0.8)), tilt=26,
                      ao=([0.003, 0.015, 0.04], 0.7), rough=dict(base=0.88, lo=0.75, hi=1.0)),
-    "BarkDead": dict(src="Palette_BarkDead_A", tile_m=1.0, delight=240, sat=0.6, target=(142, 132, 118),
+    "BarkDead": dict(src="Palette_BarkDead_A", tile_m=1.0, sat=0.6, target=(142, 132, 118),
                      height=dict(bands=[(0, 3, 0.5), (3, 24, 0.8)], grooves=(4, 1.1, 0.6)), tilt=16,
                      ao=([0.003, 0.012, 0.03], 0.55), rough=dict(base=0.86, lo=0.72, hi=0.98)),
-    "BarkGiant": dict(src="Palette_BarkGiant_A", tile_m=1.0, delight=240, sat=0.85, target=(92, 86, 60),
+    "BarkGiant": dict(src="Palette_BarkGiant_A", tile_m=1.0, sat=0.85, target=(92, 86, 60),
                       height=dict(bands=[(0, 3, 0.5), (3, 36, 1.0)], grooves=(7, 1.0, 0.8)), tilt=28,
                       ao=([0.003, 0.015, 0.05], 0.7), rough=dict(base=0.9, lo=0.78, hi=1.0)),
-    "BarkDemon": dict(src="Palette_BarkDemon_A", tile_m=1.0, delight=240, sat=0.9, target=(62, 38, 50),
+    "BarkDemon": dict(src="Palette_BarkDemon_A", tile_m=1.0, sat=0.9, target=(62, 38, 50),
                       height=dict(bands=[(0, 3, 0.5), (3, 30, 1.0)], grooves=(5, 1.0, 0.8)), tilt=24,
                       ao=([0.003, 0.015, 0.04], 0.65), rough=dict(base=0.74, lum=-0.3, lo=0.55, hi=0.9)),
-    "MushroomCap": dict(src="Palette_MushroomCap_A", tile_m=2.0, delight=260, sat=0.85, target=(158, 72, 64),
+    "MushroomCap": dict(src="Palette_MushroomCap_A", tile_m=2.0, sat=0.85, target=(158, 72, 64),
                         height=dict(bands=[(0, 3, 0.5), (3, 40, 1.0)]), tilt=8, ao=([0.004, 0.02], 0.35),
                         rough=dict(base=0.6, lum=0.2, lo=0.45, hi=0.8)),
-    "MushroomStem": dict(src="Palette_MushroomStem_A", tile_m=1.0, delight=240, sat=0.7, target=(218, 206, 178),
+    "MushroomStem": dict(src="Palette_MushroomStem_A", tile_m=1.0, sat=0.7, target=(218, 206, 178),
                          height=dict(bands=[(0, 2, 0.6), (2, 24, 1.0)]), tilt=9, ao=([0.002, 0.01], 0.35),
                          rough=dict(base=0.7, lo=0.55, hi=0.85)),
-    "Rock": dict(src="Palette_Rock_A", tile_m=2.0, delight=280, sat=0.8, target=(122, 118, 112),
+    "Rock": dict(src="Palette_Rock_A", tile_m=2.0, sat=0.8, target=(122, 118, 112),
                  height=dict(bands=[(0, 3, 0.4), (3, 16, 0.7), (16, 80, 1.0)], grooves=(5, 0.9, 0.8)), tilt=26,
                  ao=([0.004, 0.02, 0.06], 0.65), rough=dict(base=0.86, h=-0.2, lo=0.66, hi=0.98)),
-    "RockMossy": dict(src="Palette_RockMossy_A", tile_m=2.0, delight=280, sat=0.85, target=(98, 112, 72),
+    "RockMossy": dict(src="Palette_RockMossy_A", tile_m=2.0, sat=0.85, target=(98, 112, 72),
+                      hue_fix=(0.55, 0.99, (150, 158, 128), 1.0),
                       height=dict(bands=[(0, 3, 0.5), (3, 16, 0.7), (16, 80, 1.0)]), tilt=22,
                       ao=([0.004, 0.02, 0.06], 0.65), rough=dict(base=0.9, lo=0.72, hi=1.0)),
-    "RockSnow": dict(src="Palette_RockSnow_A", tile_m=2.0, delight=280, sat=0.75, target=(104, 108, 116),
+    "RockSnow": dict(src="Palette_RockSnow_A", tile_m=2.0, sat=0.75, target=(104, 108, 116),
                      height=dict(bands=[(0, 3, 0.4), (3, 16, 0.7), (16, 80, 1.0)], grooves=(5, 0.9, 0.8)),
                      tilt=26, ao=([0.004, 0.02, 0.06], 0.65), rough=dict(base=0.82, lum=-0.3, lo=0.55, hi=0.95)),
-    "RockDesert": dict(src="Palette_RockDesert_A", tile_m=2.0, delight=280, sat=0.78, target=(190, 146, 104),
+    "RockDesert": dict(src="Palette_RockDesert_A", tile_m=2.0, sat=0.78, target=(190, 146, 104),
                        height=dict(bands=[(0, 3, 0.4), (3, 16, 0.7), (16, 80, 1.0)], grooves=(5, 0.9, 0.8)),
                        tilt=22, ao=([0.004, 0.02, 0.06], 0.6), rough=dict(base=0.9, lo=0.75, hi=1.0)),
-    "RockDemon": dict(src="Palette_RockDemon_A", tile_m=2.0, delight=280, sat=0.9, target=(56, 38, 40),
+    "RockDemon": dict(src="Palette_RockDemon_A", tile_m=2.0, sat=0.9, target=(56, 38, 40),
                       height=dict(bands=[(0, 3, 0.4), (3, 20, 0.8), (20, 80, 1.0)], grooves=(5, 0.8, 0.8)),
                       tilt=20, ao=([0.004, 0.02, 0.06], 0.55), rough=dict(base=0.36, lum=0.3, lo=0.18, hi=0.6)),
-    "RockPale": dict(src="Palette_RockPale_A", tile_m=2.0, delight=280, sat=0.7, target=(200, 196, 186),
+    "RockPale": dict(src="Palette_RockPale_A", tile_m=2.0, sat=0.7, target=(200, 196, 186),
                      height=dict(bands=[(0, 3, 0.4), (3, 16, 0.7), (16, 80, 1.0)], grooves=(5, 0.8, 0.8)),
                      tilt=20, ao=([0.004, 0.02, 0.06], 0.55), rough=dict(base=0.84, lo=0.66, hi=0.98)),
 }
@@ -154,25 +157,58 @@ NATURE_ORDER = ["BarkOak", "BarkBirch", "BarkPine", "BarkDead", "BarkGiant", "Ba
 NAMES = ARCH_ORDER + NATURE_ORDER
 KIND = {**{n: "Architecture" for n in ARCH_ORDER}, **{n: "Nature" for n in NATURE_ORDER}}
 
+ROOF_NOTE = ("roof 'slope' UVs: tile rows run along U (the eave), V points up the slope; the image has its ridge "
+             "side at the top, each row overlapping the row below")
+ORIENT = {
+    "RoofRed": ROOF_NOTE, "RoofBlue": ROOF_NOTE, "RoofDark": ROOF_NOTE, "RoofThatch": ROOF_NOTE,
+    "RoofSilver": ROOF_NOTE, "RoofGreen": ROOF_NOTE + "; standing seams run along V (down the slope)",
+    "Timber": "grain along V (vertical on box-projected walls / posts)",
+    "WoodPlanks": "boards along U (horizontal on box-projected walls)",
+    "Stone": "courses along U", "StoneWhite": "courses along U", "Sandstone": "courses along U",
+    "BarkOak": "grain along V (branch axis); U wraps whole 1 m tiles", "BarkBirch": "V = branch axis",
+    "BarkPine": "V = branch axis", "BarkDead": "V = branch axis", "BarkGiant": "V = branch axis",
+    "BarkDemon": "V = branch axis", "MushroomStem": "fibres along V",
+}
+
 
 def _period(a, spec, axis):
     if not spec:
         return None
     _, lo, hi = spec[:3]
-    p, strength = T.estimate_period(a, axis, lo, hi)
-    return p if strength > 0.08 else None
+    p, prominence = T.estimate_period(a, axis, lo, hi)
+    return p if prominence > 0.03 else None
 
 
 def prepare(src, R, size=SIZE):
-    """AI source -> seamless, delit, resized image. Returns (image, info)."""
+    """AI source -> seamless, delit, resized image. Returns (image, info).
+    1. non-periodic delight (reflect-padded blur, sigma `pre` px): removes lighting gradients before any seam
+       matching, so the two ends of the image agree in brightness;
+    2. Moisan periodic component + degrid;
+    3. coursed materials: crop to a whole number of courses between two joints (vertical wrap on a joint);
+       then min-cut self-overlap for the remaining axes (lattice-aware);
+    4. resize, then remove tile-scale blotches (Fourier modes below `flat_k` cycles per tile)."""
     a = load_ai(src)
-    a = T.degrid(a)
-    py = _period(a, R.get("rows"), 0)
+    a = np.clip(T.delight(a, R.get("pre", 110), periodic=False), 0.0, 1.0)
+    a = T.degrid(T.periodic_component(a))
+    if R.get("joints") and R.get("rows"):
+        p, prom = T.joint_period(a, R["rows"][1], R["rows"][2], dark=R["joints"] == "dark")
+        py = p if prom > 0.05 else None
+    else:
+        py = _period(a, R.get("rows"), 0)
     px = _period(a, R.get("cols"), 1)
-    a, reps = T.make_tileable(a, px, py, overlap=R.get("overlap", 96))
-    a = T.resize_periodic(a, (size, size))
-    a = np.clip(T.delight(a, R["delight"] * size / 1024.0), 0.0, 1.0)
-    return a, dict(repeats_x=reps[0], repeats_y=reps[1])
+    courses = 0
+    if py and R.get("joints"):
+        # coursed material: put the vertical wrap exactly on a joint line
+        crop, courses = T.crop_to_joints(a, py, dark=R["joints"] == "dark", even="stagger" in R["rows"])
+        if crop is not None:
+            a = crop
+    if py and not courses and "stagger" in R.get("rows", ()):
+        py = 2 * py                     # staggered rows repeat every second course
+    a, reps = T.make_tileable(a, px, None if courses else py, overlap=R.get("overlap", 96), presmoothed=True,
+                              y_done=bool(courses))
+    a = np.clip(T.resize_periodic(a, (size, size)), 0.0, 1.0)
+    a = T.flatten_lowfreq(a, R.get("flat_k", 2.5))
+    return a, dict(repeats_x=reps[0], repeats_y=courses or reps[1], wrap_on_joint=bool(courses))
 
 
 def finish(name, R, D, rng, extra=None, src_names=(), size=SIZE):
@@ -189,6 +225,8 @@ def finish(name, R, D, rng, extra=None, src_names=(), size=SIZE):
                  seam=[round(v, 2) for v in T.seam_error(D)])
     if extra:
         entry.update(extra)
+    if name in ORIENT:
+        entry["orientation"] = ORIENT[name]
     return entry, dict(D=D, N=N, M=M)
 
 
@@ -231,8 +269,11 @@ def build(name, log=print):
     D, info = prepare(R["src"], R)
     if R.get("soften"):
         D = soften_band(D, *R["soften"])
+    if R.get("hue_fix"):
+        lo, hi, col, k = R["hue_fix"]
+        D = T.replace_hue(D, lo, hi, col, k)
     D = T.saturate(D, R.get("sat", 1.0))
     D = T.match_mean_lin(D, np.asarray(R["target"], np.float32) / 255.0)
     entry, imgs = finish(name, R, D, rng, info, [R["src"]])
-    log(f"Palette {name}: tilt {entry.get('height_m')} m, seam {entry['seam']}, repeats {info}")
+    log(f"Palette {name}: height {entry.get('height_m')} m, seam {entry['seam']}, repeats {info}")
     return entry, imgs

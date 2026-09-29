@@ -379,11 +379,40 @@ def main():
     return finish(args)
 
 
+OUTPUTS = [os.path.join("SourceArt", "World", "Height.r16")] + \
+    [os.path.join("SourceArt", "World", "Layers", n + ".png") for n in C.LAYERS] + \
+    [os.path.join("SourceArt", "World", "Regions.png")] + \
+    [os.path.join("SourceArt", "World", "Density", k + ".png") for k in C.DENSITY_KINDS] + \
+    [os.path.join("SourceArt", "World", "WorldMap.png"), os.path.join("Docs", "Images", "LaPlace_World_Preview.png"),
+     os.path.join("Content", "Data", "World.json"), os.path.join("Content", "Data", "Locations.json")]
+
+
 def finish(args):
     info["fails"] = fails
     info["warnings"] = warns
     with open(args.json, "w") as f:
         json.dump(info, f, indent=1)
+    # merge a summary into the generator's log (the checker never touches world data)
+    logp = os.path.join(C.OUT_WORLD, "generation_log.json")
+    try:
+        log = json.load(open(logp))
+    except Exception:
+        log = {}
+    log["files"] = {p: os.path.getsize(os.path.join(C.ROOT, p)) for p in OUTPUTS if os.path.exists(os.path.join(C.ROOT, p))}
+    log["regenerate"] = {
+        "all": "~/.venvs/mushoku-bpy311/bin/python Tools/world/generate_world.py",
+        "validate": "~/.venvs/mushoku-bpy311/bin/python Tools/world/check_world.py",
+        "redraw_maps_only": "~/.venvs/mushoku-bpy311/bin/python Tools/world/generate_world.py --maps-only",
+        "redraw_preview_only": "~/.venvs/mushoku-bpy311/bin/python Tools/world/generate_world.py --preview-only",
+    }
+    log["validation"] = {"failures": len(fails), "warnings": len(warns), "fails": fails, "warning_list": warns,
+                         "report": os.path.relpath(args.json, C.ROOT),
+                         "summary": {k: info.get(k) for k in ("height_m_min", "height_m_max", "land_percent",
+                                                                 "continent_land_km2", "regions",
+                                                                 "slope_histogram_deg", "isolated_spikes_or_pits_gt2m",
+                                                                 "layer_sum_bad_vertices")}}
+    with open(logp, "w") as f:
+        json.dump(log, f, indent=1, default=str)
     print("\n%d failures, %d warnings  (report: %s)" % (len(fails), len(warns), args.json))
     return 1 if fails else 0
 

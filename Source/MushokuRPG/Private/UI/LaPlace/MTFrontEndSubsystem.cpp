@@ -1,4 +1,8 @@
 #include "UI/LaPlace/MTFrontEndSubsystem.h"
+#include "UI/LaPlace/MTAdminSubsystem.h"
+#include "Components/SceneCaptureComponent2D.h"
+#include "Engine/SceneCapture2D.h"
+#include "Engine/TextureRenderTarget2D.h"
 #include "Misc/Paths.h"
 #include "UnrealClient.h"
 #include "Sound/SoundBase.h"
@@ -30,6 +34,7 @@ UMTFrontEndSubsystem* UMTFrontEndSubsystem::Get(const UObject* WorldContext)
 
 void UMTFrontEndSubsystem::Deinitialize()
 {
+	SetPreviewLocation(NAME_None);
 	Close();
 	Super::Deinitialize();
 }
@@ -159,29 +164,76 @@ bool UMTFrontEndSubsystem::TickTour(float DeltaTime)
 		TourClock = 0.f;
 		return true;
 	}
+	// Admin popup: the code prompt, a wrong code, then the unlocked panel.
+	if (TourStep == NumPages + 4 && TourClock > 1.5f)
+	{
+		HandleResume();
+		if (UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(PC))
+		{
+			Admin->Toggle(PC);
+		}
+		++TourStep;
+		TourClock = 0.f;
+		return true;
+	}
+	if (TourStep == NumPages + 5 && TourClock > 1.5f)
+	{
+		Shot(TEXT("08_Admin_Code"));
+		++TourStep;
+		TourClock = 0.f;
+		return true;
+	}
+	if (TourStep == NumPages + 6 && TourClock > 1.f)
+	{
+		if (UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(PC))
+		{
+			UE_LOG(LogMushoku, Log, TEXT("[UITour] admin: wrong code accepted=%d"), Admin->TryUnlock(TEXT("letmein")) ? 1 : 0);
+			UE_LOG(LogMushoku, Log, TEXT("[UITour] admin: right code accepted=%d"), Admin->TryUnlock(TEXT("AishaYams")) ? 1 : 0);
+			UE_LOG(LogMushoku, Log, TEXT("[UITour] admin: %s | %s | %s"), *Admin->DoAction(TEXT("Toggle"), TEXT("God")),
+				*Admin->DoAction(TEXT("Awaken"), NAME_None), *Admin->DoAction(TEXT("Levels"), NAME_None));
+		}
+		++TourStep;
+		TourClock = 0.f;
+		return true;
+	}
+	if (TourStep == NumPages + 7 && TourClock > 1.5f)
+	{
+		Shot(TEXT("09_Admin_Panel"));
+		++TourStep;
+		TourClock = 0.f;
+		return true;
+	}
 	// The Adventurer's Journal: every page, then an NPC dialog.
 	struct FJournalShot { EMTMenuPage Page; const TCHAR* Name; };
 	static const FJournalShot JournalShots[] = {
-		{ EMTMenuPage::Character, TEXT("08_Journal_Character") },
-		{ EMTMenuPage::Element, TEXT("09_Journal_Element") },
-		{ EMTMenuPage::Race, TEXT("10_Journal_Race") },
-		{ EMTMenuPage::Mastery, TEXT("11_Journal_Mastery") },
-		{ EMTMenuPage::Inventory, TEXT("12_Journal_Inventory") },
-		{ EMTMenuPage::Quests, TEXT("13_Journal_Quests") },
-		{ EMTMenuPage::Map, TEXT("14_Journal_Map") },
-		{ EMTMenuPage::Party, TEXT("15_Journal_Party") },
-		{ EMTMenuPage::Settings, TEXT("16_Journal_Settings") },
-		{ EMTMenuPage::Roll, TEXT("17_Journal_Roll") },
+		{ EMTMenuPage::Character, TEXT("10_Journal_Character") },
+		{ EMTMenuPage::Element, TEXT("11_Journal_Element") },
+		{ EMTMenuPage::Race, TEXT("12_Journal_Race") },
+		{ EMTMenuPage::Mastery, TEXT("13_Journal_Mastery") },
+		{ EMTMenuPage::Inventory, TEXT("14_Journal_Inventory") },
+		{ EMTMenuPage::Quests, TEXT("15_Journal_Quests") },
+		{ EMTMenuPage::Map, TEXT("16_Journal_Map") },
+		{ EMTMenuPage::Party, TEXT("17_Journal_Party") },
+		{ EMTMenuPage::Settings, TEXT("18_Journal_Settings") },
+		{ EMTMenuPage::Roll, TEXT("19_Journal_Roll") },
 	};
 	constexpr int32 NumJournal = UE_ARRAY_COUNT(JournalShots);
-	const int32 JournalStart = NumPages + 4;
+	const int32 JournalStart = NumPages + 8;
 	AMTHUD* HUD = Cast<AMTHUD>(PC->GetHUD());
 	if (TourStep >= JournalStart && TourStep < JournalStart + NumJournal)
 	{
 		const FJournalShot& Step = JournalShots[TourStep - JournalStart];
+		// Leave the admin panel captured above (the tour unlocked everything, so every page has content).
+		if (UMTAdminSubsystem* Admin = UMTAdminSubsystem::Get(PC))
+		{
+			if (Admin->IsOpen())
+			{
+				Admin->Close();
+			}
+		}
 		if (IsOpen())
 		{
-			Close(); // leave the pause menu captured above
+			Close();
 		}
 		if (HUD && HUD->GetOpenPage() != Step.Page)
 		{
@@ -203,7 +255,7 @@ bool UMTFrontEndSubsystem::TickTour(float DeltaTime)
 		}
 		if (TourClock > 1.2f)
 		{
-			Shot(TEXT("18_Journal_Dialog"));
+			Shot(TEXT("20_Journal_Dialog"));
 			++TourStep;
 			TourClock = 0.f;
 		}
@@ -304,8 +356,98 @@ void UMTFrontEndSubsystem::SetPawnParked(bool bParked)
 	}
 }
 
+void UMTFrontEndSubsystem::SetPreviewLocation(FName LocationId)
+{
+	if (LocationId == PreviewId)
+	{
+		return;
+	}
+	PreviewId = LocationId;
+	APlayerController* PC = Controller.Get();
+	const UMTDataRegistry* Registry = PC ? UMTDataRegistry::Get(PC) : nullptr;
+	const FMTLocationData* Loc = Registry && !LocationId.IsNone() ? Registry->FindLocation(LocationId) : nullptr;
+	USceneCaptureComponent2D* Capture = PreviewCapture ? PreviewCapture->GetCaptureComponent2D() : nullptr;
+	if (!Loc || Loc->PreviewCamera.Location.IsNearlyZero() || !PC->GetWorld())
+	{
+		// No preview: stop rendering the capture (it costs a second scene render every frame).
+		if (Capture)
+		{
+			Capture->bCaptureEveryFrame = false;
+		}
+		PreviewBrush.Reset();
+		FTSTicker::GetCoreTicker().RemoveTicker(PreviewTicker);
+		PreviewTicker.Reset();
+		return;
+	}
+	if (!PreviewTarget)
+	{
+		PreviewTarget = NewObject<UTextureRenderTarget2D>(this);
+		PreviewTarget->ClearColor = FLinearColor::Black;
+		PreviewTarget->InitCustomFormat(1024, 576, PF_B8G8R8A8, false);
+		PreviewTarget->UpdateResourceImmediate(true);
+	}
+	if (!PreviewCapture)
+	{
+		FActorSpawnParameters Params;
+		Params.ObjectFlags |= RF_Transient;
+		PreviewCapture = PC->GetWorld()->SpawnActor<ASceneCapture2D>(Params);
+		Capture = PreviewCapture ? PreviewCapture->GetCaptureComponent2D() : nullptr;
+		if (Capture)
+		{
+			Capture->TextureTarget = PreviewTarget;
+			Capture->CaptureSource = ESceneCaptureSource::SCS_FinalColorLDR;
+			Capture->FOVAngle = 62.f;
+			Capture->bCaptureOnMovement = false;
+			Capture->bAlwaysPersistRenderingState = true;
+		}
+	}
+	if (!Capture)
+	{
+		return;
+	}
+	PreviewStart = Loc->PreviewCamera.Location;
+	PreviewRotation = Loc->PreviewCamera.Rotation;
+	PreviewCapture->SetActorLocationAndRotation(PreviewStart, PreviewRotation);
+	Capture->bCaptureEveryFrame = true;
+	PreviewSince = FPlatformTime::Seconds();
+	PreviewBrush = MakeShared<FSlateBrush>();
+	PreviewBrush->SetResourceObject(PreviewTarget);
+	PreviewBrush->ImageSize = FVector2D(1024.f, 576.f);
+	if (!PreviewTicker.IsValid())
+	{
+		PreviewTicker = FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this, &UMTFrontEndSubsystem::TickPreview));
+	}
+}
+
+bool UMTFrontEndSubsystem::TickPreview(float DeltaTime)
+{
+	if (!PreviewCapture || PreviewId.IsNone())
+	{
+		PreviewTicker.Reset();
+		return false;
+	}
+	// A slow cinematic drift: glide forward and turn a little, like a crane shot settling on the town.
+	const float T = GetPreviewAge();
+	const FVector Forward = PreviewRotation.Vector();
+	const FVector Location = PreviewStart + Forward * (T * 220.f) + FVector(0.f, 0.f, -T * 25.f);
+	const FRotator Rotation(PreviewRotation.Pitch + FMath::Min(T, 12.f) * 0.15f, PreviewRotation.Yaw + T * 1.2f, 0.f);
+	PreviewCapture->SetActorLocationAndRotation(Location, Rotation);
+	return true;
+}
+
+const FSlateBrush* UMTFrontEndSubsystem::GetPreviewBrush() const
+{
+	return PreviewBrush.IsValid() && GetPreviewAge() > 0.35f ? PreviewBrush.Get() : nullptr;
+}
+
+float UMTFrontEndSubsystem::GetPreviewAge() const
+{
+	return PreviewSince > 0.0 ? float(FPlatformTime::Seconds() - PreviewSince) : 0.f;
+}
+
 void UMTFrontEndSubsystem::Close()
 {
+	SetPreviewLocation(NAME_None);
 	APlayerController* PC = Controller.Get();
 	if (Widget.IsValid() && GEngine && GEngine->GameViewport)
 	{
@@ -368,6 +510,17 @@ bool UMTFrontEndSubsystem::SpawnAt(FName LocationId)
 		Save->SaveGame(TEXT("Slot0"));
 	}
 	return true;
+}
+
+void UMTFrontEndSubsystem::TeleportTo(FName LocationId)
+{
+	if (IsOpen())
+	{
+		HandleSpawn(LocationId);
+		Close();
+		return;
+	}
+	SpawnAt(LocationId);
 }
 
 void UMTFrontEndSubsystem::HandleSpawn(FName LocationId)
