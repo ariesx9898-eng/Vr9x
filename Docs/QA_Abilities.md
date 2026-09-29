@@ -125,10 +125,12 @@ Filled in by the cloud session when the overhaul was delivered (see the commit t
 
 | Run | Result |
 |---|---|
-| `Tools/validate_data.py` | pending |
-| `Tools/vfx/check_presets.py` | pending |
-| Animation QA | pending |
-| Audio analysis | pending |
+| `Tools/validate_data.py` | ALL CHECKS PASSED: 65 ability rows, both default loadouts valid, every hit size within x1.0–1.15, every non-chargeable `CastTime` within one frame of its clip's `Release`, every sound in the manifest and no loop where it could never stop. 13 warnings are older shared clips (CastBasic, DemonEye, DodgeForward, CastTwoHand, CastGround) that deliberately have no `Release` event. |
+| `Tools/vfx/check_presets.py` | 127 presets (115 base, 12 Orsted formation styles); all 103 phases the gameplay spawns exist |
+| Animation QA (`Tools/anim`) | New and upgraded clips: IK error 0.00 cm, planted-foot slip 0, loop seams 0, no ground penetration. The worst peak is 30.3°/frame (Rudeus Cast_EarthWall hand) and 31.2 (Orsted Dragon Step). Rebuilding both GLBs from the sources reproduces the committed ones (worst difference 0.0000°). |
+| Audio analysis (`Tools/audio`) | 26 new sounds, each within 0.1 LU of its loudness tier, true peak ≤ −1.03 dBTP, tails ≤ −20 dB. The 67 existing sounds are byte-identical, and builds are deterministic across worker counts. |
+| Kit QA (effect meshes) | 25 / 25 pass (8 new) |
+| C++ reviews (no compiler) | Two independent reviews of the gameplay C++ found no compile errors. They found two gaps, now fixed: the ABILITIES menu category for the new behaviours, and the AI's use of Disturb Magic and Dragon Crush. The effects C++ (runtime, pool, presets) gets the same two-reviewer pass; its fixes are in the commit log. |
 
 ## 6. Prompt for a Claude session on the Mac
 
