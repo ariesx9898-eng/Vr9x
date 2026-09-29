@@ -134,7 +134,7 @@ ROWS["Fire_Fireball"] = dict(
     bChargeable=True, MaxChargeTime=1.2, ChargeSpeedScale=1.25, ChargeDamageScale=2.5, ChargeStaggerScale=2.0,
     ChargeManaScale=1.6, ChargeSizeScale=1.5, ChargeRadiusScale=1.75, ChargeKnockbackScale=1.5,
     Motion="Straight", ProjectileSpeed=5500, ProjectileRadius=30, ProjectileGravity=0, bDisruptable=True,
-    Montage=clip("Cast_Fireball"), ChargeLoopAnim=clip("Cast_Fireball_Hold"), ReleaseAnim=clip("Cast_Fireball_Release"),
+    Montage=clip("Cast_Fireball"), CastSocket="hand_r", ChargeLoopAnim=clip("Cast_Fireball_Hold"), ReleaseAnim=clip("Cast_Fireball_Release"),
     ActivationTags=CHARGING,
     FX=fx("Fireball", cast="Fire/fireball_charge", release="Fire/fireball_launch", travel="Fire/fireball_travel_loop",
           impact="Fire/fire_explosion"))
@@ -144,7 +144,7 @@ ROWS["Fire_FlameWave"] = dict(
     AOERadius=1300, Damage=75, Stagger=30, Knockback=450, Launch=150, BurnSeconds=4, BurnDamagePerSecond=8,
     Duration=1.3, bDisruptable=True, ZoneKind="Arc",
     Params=dict(ArcDegrees=120, StartRadius=150, EndRadius=1300, TravelTime=0.9, Band=180, Segments=11),
-    Montage=clip("Cast_FlameWave"), ActivationTags=CASTING,
+    Montage=clip("Cast_FlameWave"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("FlameWave", cast="Fire/flamewave_cast", accent="Fire/flamewave_roar"))
 
 ROWS["Fire_Inferno"] = dict(
@@ -153,7 +153,7 @@ ROWS["Fire_Inferno"] = dict(
     BurnSeconds=3, BurnDamagePerSecond=10, Duration=4.3, bDisruptable=True, bFullBodyCommit=True,
     ZoneKind="Eruptions", ActivationDelay=0.6, PulseCount=10, PulseInterval=0.35,
     Params=dict(PillarsPerPulse=3, EnemyBias=0.67, AreaBurnDps=15),
-    Montage=clip("Cast_Inferno"), ActivationTags=CASTING,
+    Montage=clip("Cast_Inferno"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("Inferno", cast="Fire/inferno_charge", impact="Fire/inferno_pillar", accent="Fire/inferno_circle",
           travel="Fire/flame_burn_loop"))
 
@@ -161,7 +161,7 @@ ROWS["Water_WaterBullet"] = dict(
     Behavior="Projectile", Element="Water", ManaCost=20, Cooldown=1.2, CastTime=0.22, RecoveryTime=0.3, Range=3500,
     AOERadius=150, Damage=48, Stagger=30, Knockback=750, Launch=150, Motion="Piercing", ProjectileSpeed=8000,
     ProjectileRadius=20, ProjectileGravity=0, bDisruptable=True, PierceCount=1,
-    Montage=clip("Cast_WaterBullet"), ActivationTags=CASTING,
+    Montage=clip("Cast_WaterBullet"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("WaterBullet", cast="Water/water_gather", release="Water/water_lance", impact="Water/water_splash"))
 
 ROWS["Water_WaterDragon"] = dict(
@@ -187,7 +187,7 @@ ROWS["Earth_StoneCannon"] = dict(
     ChargeManaScale=1.4, ChargeSizeScale=1.3, ChargeRadiusScale=1.4, ChargeKnockbackScale=1.4,
     Motion="Straight", ProjectileSpeed=6500, ProjectileRadius=22, ProjectileGravity=0, bDisruptable=True,
     PierceCount=1, PierceMaxHealth=400,
-    Montage=clip("Cast_StoneCannon"), ChargeLoopAnim=clip("Cast_StoneCannon_Hold"),
+    Montage=clip("Cast_StoneCannon"), CastSocket="hand_r", ChargeLoopAnim=clip("Cast_StoneCannon_Hold"),
     ReleaseAnim=clip("Cast_StoneCannon_Release"), ActivationTags=CHARGING,
     FX=fx("StoneCannon", cast="Earth/stone_form", release="Earth/stone_cannon_launch", travel="Earth/stone_spin_loop",
           impact="Earth/rock_impact"))
@@ -197,7 +197,7 @@ ROWS["Earth_EarthWall"] = dict(
     Damage=10, Stagger=25, Duration=15, bDisruptable=True,
     StructureCount=7, StructureHealth=450, StructureExtent={"X": 45, "Y": 85, "Z": 150},
     Params=dict(ArcRadius=550, RiseStep=0.06, Tilt=6, HeightJitter=0.15),
-    Montage=clip("Cast_EarthWall"), ActivationTags=CASTING,
+    Montage=clip("Cast_EarthWall"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("EarthWall", cast="Earth/stone_form", travel="Earth/earth_wall_crack", impact="Earth/earth_wall_rise",
           accent="Earth/earth_wall_crumble", **WALL_MESH))
 
@@ -207,14 +207,14 @@ ROWS["Earth_EarthSpikes"] = dict(
     ZoneKind="LineEruptions", ActivationDelay=0.05, PulseCount=4, PulseInterval=0.12,
     Params=dict(Spike1=320, Spike2=640, Spike3=960, Final=1300, FinalRadius=300, FinalDamage=140, FinalLaunch=950,
                 CrumbleAfter=1.2),
-    Montage=clip("Cast_EarthSpikes"), ActivationTags=CASTING,
+    Montage=clip("Cast_EarthSpikes"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("EarthSpikes", cast="Earth/ground_crack_run", impact="Earth/earth_spike", accent="Earth/spike_final"))
 
 ROWS["Wind_WindBlade"] = dict(
     Behavior="Projectile", Element="Wind", ManaCost=22, Cooldown=1.4, CastTime=0.25, RecoveryTime=0.25, Range=2600,
     AOERadius=0, Damage=50, Stagger=30, Knockback=650, Launch=120, Motion="Wave", ProjectileSpeed=9000,
     ProjectileRadius=30, ProjectileWidth=520, ProjectileGravity=0, bDisruptable=True, PierceCount=99,
-    Montage=clip("Cast_WindBlade"), ActivationTags=CASTING,
+    Montage=clip("Cast_WindBlade"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("WindBlade", cast="Wind/wind_gather", release="Wind/wind_slash", impact="Wind/wind_blade_impact"))
 
 ROWS["Wind_Tornado"] = dict(
@@ -223,7 +223,7 @@ ROWS["Wind_Tornado"] = dict(
     ZoneMoveSpeed=220, PulseInterval=0.25,
     Params=dict(GrowTo=560, FormTime=0.4, PullScale=2.2, PullSpeed=650, HeavyPullSpeed=250, LiftTime=1.2,
                 LiftHeight=320, OrbitSpeed=300, HeavySlow=0.5),
-    Montage=clip("Cast_Tornado"), ActivationTags=CASTING,
+    Montage=clip("Cast_Tornado"), CastSocket="hand_r", ActivationTags=CASTING,
     FX=fx("Tornado", cast="Wind/wind_gather", accent="Wind/tornado_form", travel="Wind/tornado_loop"))
 
 ROWS["Wind_WindBurst"] = dict(

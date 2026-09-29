@@ -1968,6 +1968,7 @@
     "ProjectileGravity": 0,
     "bDisruptable": true,
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Fireball.A_Rudeus_Cast_Fireball",
+    "CastSocket": "hand_r",
     "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Fireball_Hold.A_Rudeus_Cast_Fireball_Hold",
     "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Fireball_Release.A_Rudeus_Cast_Fireball_Release",
     "ActivationTags": {
@@ -2021,6 +2022,7 @@
       "Segments": 11
     },
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_FlameWave.A_Rudeus_Cast_FlameWave",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2069,6 +2071,7 @@
       "AreaBurnDps": 15
     },
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Inferno.A_Rudeus_Cast_Inferno",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2110,6 +2113,7 @@
     "bDisruptable": true,
     "PierceCount": 1,
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_WaterBullet.A_Rudeus_Cast_WaterBullet",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2243,6 +2247,7 @@
     "bDisruptable": true,
     "PierceCount": 99,
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_WindBlade.A_Rudeus_Cast_WindBlade",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2292,6 +2297,7 @@
       "HeavySlow": 0.5
     },
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_Tornado.A_Rudeus_Cast_Tornado",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2382,6 +2388,7 @@
     "PierceCount": 1,
     "PierceMaxHealth": 400,
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_StoneCannon.A_Rudeus_Cast_StoneCannon",
+    "CastSocket": "hand_r",
     "ChargeLoopAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_StoneCannon_Hold.A_Rudeus_Cast_StoneCannon_Hold",
     "ReleaseAnim": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_StoneCannon_Release.A_Rudeus_Cast_StoneCannon_Release",
     "ActivationTags": {
@@ -2434,6 +2441,7 @@
       "HeightJitter": 0.15
     },
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_EarthWall.A_Rudeus_Cast_EarthWall",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
@@ -2488,6 +2496,7 @@
       "CrumbleAfter": 1.2
     },
     "Montage": "/Game/Characters/Rudeus/Animations/A_Rudeus_Cast_EarthSpikes.A_Rudeus_Cast_EarthSpikes",
+    "CastSocket": "hand_r",
     "ActivationTags": {
       "GameplayTags": [
         {
