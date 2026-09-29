@@ -9,9 +9,9 @@ import numpy as np
 from dsp import (SR, TAU, bubble, db2lin, early_reflections, env, eq, noise, norm_peak, norm_rms, ns,
                  periodic_lfo, perc, place, saturate, saw, slap_echoes, smooth_random, sweep, transient_shape,
                  tvec, formant_filter)
-from layers import (bubbles, burst, click, crackle, droplets, fpath, mix, moving_noise, rumble, shimmer, space,
-                    sub_boom, thump, turbulence, whoosh)
-from reg import L, LOOP_BIG, M, S, XL, sound
+from layers import (bubbles, burst, click, crack, crackle, droplets, fpath, glug, mix, moving_noise, place_reversed,
+                    rumble, shimmer, space, sub_boom, thump, turbulence, whoosh)
+from reg import L, LOOP_BIG, M, MP, S, XL, sound
 
 G = lambda d: float(db2lin(d))  # noqa: E731
 
@@ -175,3 +175,89 @@ def flood_crash(rng, n):
     y = transient_shape(y, 2.5)
     y = early_reflections(y, rng, level_db=-9)
     return space(y, rng, rt60=1.5, wet_db=-16, hf_ratio=0.4)
+
+
+# ============================================================================================ ability overhaul
+# Docs/Ability_Overhaul.md section 6 (Water).
+@sound("Water", 0.6, target=MP, use="Water_WaterBullet as the Water Lance (WaterBullet.Release) / Barrage_WaterCannon: a high-pressure water jet fires with a hard hiss-crack")
+def water_lance(rng, n):
+    t0 = 0.003
+    ck = click(rng, n, t0, amp=1.0, hp=3000.0, decay_ms=0.6)
+    cr = crack(rng, n, t0, fc=5200.0, q=0.7, tau_ms=3.0, drive_db=12, hp=2000.0)
+    hit = burst(rng, n, t0, 0.5, 30.0, "white", (("hp", 2200.0),), amp=1.0)
+    # the jet: pressurised hiss with a resonant whistle, receding (its brightness falls as it leaves)
+    e_j = env([(t0, 0.0), (0.008, 1.0), (0.17, 0.8), (0.46, 0.0)], n, [-1.0, -0.5, -2.2])
+    jet = moving_noise(rng, n, e_j * turbulence(rng, n, ((70.0, 0.35), (140.0, 0.25))), "bp", fpath([(0.0, 7500.0), (0.4, 3200.0)]),
+                       0.9, "white")
+    whis = formant_filter(noise(n, rng, "white"), [(fpath([(0.0, 3300.0), (0.4, 2700.0)]), 22.0, 0.0)])
+    whis = norm_peak(whis * e_j)
+    core = moving_noise(rng, n, e_j * turbulence(rng, n, ((30.0, 0.4),)), "bp", fpath([(0.0, 1600.0), (0.4, 900.0)]), 1.2, "pink")
+    mass = whoosh(rng, n, t0, 0.45, [(0.0, 1300.0), (0.4, 450.0)], q=1.0, peak_at=0.08, rise_curve=-1.0, flutter=0.3, flutter_rate=35.0)
+    th = thump(n, t0, 150, 65, 18, 45, amp=1.0, drive_db=4)
+    # a trail of mist and fine spray
+    mist = crackle(rng, n, lambda x: 4000.0 * np.exp(-(x - 0.02) / 0.12), 0.01, 0.5, band=(5000.0, 12000.0), tick_ms=(0.05, 0.2),
+                   pop_prob=0.0)
+    drops = droplets(rng, n, lambda x: 110.0 * np.exp(-(x - 0.05) / 0.12), 0.03, 0.45, f_lo=2500.0, f_hi=7000.0)
+    y = mix(ck * G(-8), cr * G(-3), hit * G(-6), saturate(jet, 5), whis * G(-12), saturate(core, 4) * G(-2), mass * G(-4),
+            th * G(-10), norm_peak(mist) * G(-12), norm_peak(drops) * G(-14))
+    y = transient_shape(y, 2.0)
+    return early_reflections(y, rng, level_db=-11)
+
+
+@sound("Water", 2.0, target=L, use="Water_WaterDragon hunting (WaterDragon.Travel, after water_dragon_rise): the water serpent surges and roars as it hunts its target")
+def water_dragon_roar(rng, n):
+    T = n / SR
+    t = tvec(n)
+    # roar pitch contour: a lunge up, a long guttural fall, then a shorter snarl as it turns on the target
+    f0 = fpath([(0.0, 78.0), (0.22, 118.0), (0.7, 92.0), (1.25, 68.0), (1.32, 88.0), (1.55, 104.0), (T, 70.0)])(t)
+    f0 = f0 * (1.0 + 0.05 * smooth_random(n, rng, 9.0))
+    src = saw(f0, n, 0.2) + 0.55 * saw(f0 * 0.5, n, 0.6) + 0.5 * noise(n, rng, "pink")
+    src = src * np.maximum(1.0 + 0.4 * smooth_random(n, rng, 38.0), 0.0)  # throat rattle
+    vow = formant_filter(src, [(fpath([(0.0, 600.0), (0.3, 780.0), (1.2, 520.0), (1.5, 700.0), (T, 480.0)]), 4.5, 0.0),
+                               (fpath([(0.0, 1050.0), (0.3, 1250.0), (1.2, 880.0), (1.5, 1150.0), (T, 820.0)]), 5.0, -3.0),
+                               (2600.0, 6.0, -9.0)], floor=0.03)
+    e_g = env([(0.03, 0.0), (0.2, 1.0), (0.75, 0.8), (1.22, 0.1), (1.32, 0.0), (1.4, 0.75), (1.62, 0.6), (T - 0.12, 0.0)], n,
+              [-1.0, 0.0, -1.5, 0.0, -1.0, 0.0, -2.0])
+    growl = saturate(norm_peak(vow * e_g), 11.0)
+    # its throat is water: the growl gargles (bubbles riding its envelope)
+    garg = bubbles(rng, n, lambda x: 40.0 + 700.0 * np.interp(x, t, e_g), 0.02, T - 0.15, f_lo=180.0, f_hi=1400.0, rise=(0.2, 0.9),
+                   decay_mult=(1.0, 2.5))
+    # the body: a torrent surging with the serpent's undulation (~3 Hz), its brightness swaying as it turns
+    und = 1.0 + 0.3 * np.sin(TAU * np.cumsum(2.6 + 0.9 * smooth_random(n, rng, 0.8)) / SR)
+    e_w = env([(0.0, 0.0), (0.12, 1.0), (1.55, 0.8), (T - 0.12, 0.0)], n, [-1.0, 0.0, -2.0]) * und
+    tor = rush(rng, n, e_w, 250.0, 7000.0, lp=fpath([(0.0, 3500.0), (0.4, 6500.0), (0.9, 3000.0), (1.4, 5500.0), (T, 2500.0)]))
+    low = eq(noise(n, rng, "brown"), ("lp", 260.0), ("hp", 35.0))
+    low = norm_peak(norm_rms(low) * e_w)
+    sub = np.sin(TAU * np.cumsum(f0 * 0.5) / SR) * e_g
+    spray = droplets(rng, n, lambda x: 60.0 + 60.0 * np.interp(x, t, e_w), 0.05, T - 0.1, f_lo=1800.0, f_hi=6000.0)
+    y = mix(growl, norm_peak(garg) * G(-10), tor * G(-5), low * G(-9), norm_peak(sub) * G(-16), norm_peak(spray) * G(-15))
+    y = early_reflections(y, rng, level_db=-10)
+    return space(y, rng, rt60=1.1, wet_db=-16, hf_ratio=0.45)
+
+
+@sound("Water", 1.0, target=MP, use="Water_Flood formation (Flood.Formation, behind the caster; flood_crash / flood_wave_loop follow): water rapidly piles up and swells")
+def flood_gather(rng, n):
+    t = tvec(n)
+    tp = 0.66  # the swell crests just before the Flood release (cast time 0.70 s); the wave sound takes over
+    e_s = env([(0.0, 0.0), (tp, 1.0), (tp + 0.16, 0.0)], n, [2.2, -2.5])
+    # the mass of water heaves up: a rising torrent, a deepening low surge and a swelling hollow
+    swell = rush(rng, n, e_s * (1.0 + 0.25 * np.sin(TAU * np.cumsum(2.0 + 2.5 * t) / SR)), 150.0, 6000.0,
+                 lp=fpath([(0.0, 600.0), (tp, 4500.0)]), fast=((12.0, 0.4), (30.0, 0.3)))
+    mass = eq(noise(n, rng, "brown"), ("lp", 220.0), ("hp", 30.0))
+    mass = norm_peak(norm_rms(mass) * turbulence(rng, n, ((2.0, 0.3), (5.0, 0.2))) * e_s)
+    heave = np.sin(TAU * np.cumsum(38.0 + 20.0 * np.clip(t / tp, 0, 1)) / SR) * env([(0.1, 0.0), (tp, 1.0), (tp + 0.16, 0.0)], n, [1.5, -2.5])
+    hollow = formant_filter(noise(n, rng, "pink"), [(fpath([(0.0, 330.0), (tp, 950.0)]), 6.0, 0.0), (fpath([(0.0, 800.0), (tp, 2100.0)]), 7.0, -5.0)])
+    hollow = norm_peak(hollow * e_s)
+    # streams converge from all around: splashes played backwards, sucked into the mass
+    streams = np.zeros(n)
+    for te in (0.18, 0.3, 0.4, 0.48, 0.54, 0.59, 0.63, 0.66):
+        m = ns(rng.uniform(0.12, 0.22))
+        spl = eq(noise(m, rng, "white") * np.exp(-tvec(m) / rng.uniform(0.02, 0.05)), ("bp", rng.uniform(1200.0, 3500.0), 0.9))
+        place_reversed(streams, norm_peak(spl) * (0.4 + 0.6 * te / tp), te)
+    bub = bubbles(rng, n, lambda x: 30.0 + 500.0 * np.clip(x / tp, 0, 1) ** 2 * np.clip((tp + 0.12 - x) / 0.12, 0, 1), 0.05,
+                  tp + 0.12, f_lo=200.0, f_hi=1800.0, rise=(0.2, 0.8), decay_mult=(1.0, 2.5))
+    gl = mix(*[glug(rng, n, tg, f0=float(rng.uniform(170.0, 260.0)), count=3) for tg in (0.24, 0.42, 0.56)])
+    y = mix(swell, mass * G(-6), norm_peak(heave) * G(-15), hollow * G(-7), norm_peak(streams) * G(-8), norm_peak(bub) * G(-10),
+            gl * G(-10))
+    y = early_reflections(y, rng, level_db=-10)
+    return space(y, rng, rt60=0.6, wet_db=-19, hf_ratio=0.45)

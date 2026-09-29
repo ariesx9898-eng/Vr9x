@@ -33,7 +33,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 6.43,
+  "render_s": 10.66,
   "sha1": "f61bb689e924dfc9c7fff4f5b13bd398fd46beb3"
  },
  "amb_desert_wind": {
@@ -70,7 +70,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 7.25,
+  "render_s": 11.88,
   "sha1": "9b0a446dd9fc0b335adb3c389ed353078df2c950"
  },
  "amb_forest": {
@@ -107,7 +107,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 9.61,
+  "render_s": 12.58,
   "sha1": "5c0ae2b963640a6c9a4f40b7e3d90b3785914b76"
  },
  "amb_ocean": {
@@ -144,7 +144,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 12.02,
+  "render_s": 17.84,
   "sha1": "0f6e02b36e39451646d091f81a24b2b88507e16c"
  },
  "amb_plains_wind": {
@@ -181,7 +181,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 5.08,
+  "render_s": 8.32,
   "sha1": "e0cd3e24fac5359381146e7b3bd33df020e13ed4"
  },
  "amb_snow_wind": {
@@ -218,7 +218,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 8.08,
+  "render_s": 12.57,
   "sha1": "026f8d2c8b1c82621651aff4bd68bc7d0ddcc20a"
  },
  "amb_town": {
@@ -255,7 +255,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 23.22,
+  "render_s": 68.32,
   "sha1": "b6356f1e616021b562f683c05fe65d8314ac7169"
  },
  "aura_activate": {
@@ -287,7 +287,7 @@
   "limiter_gr_db": 1.93,
   "clip_db": 1.11,
   "target_capped": false,
-  "render_s": 1.25,
+  "render_s": 0.81,
   "sha1": "8d6c4cbf5ee0dd93030d1aa65367bf4a2ac52104"
  },
  "aura_hum_loop": {
@@ -322,7 +322,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.42,
+  "render_s": 0.36,
   "sha1": "57e599afc4fb954a4b377e7752c0c4e4e7adb382"
  },
  "awakening": {
@@ -354,8 +354,72 @@
   "limiter_gr_db": 1.89,
   "clip_db": 0.3,
   "target_capped": false,
-  "render_s": 1.93,
+  "render_s": 1.83,
   "sha1": "0fd3d328259894f01656752ff3b46fce84c40743"
+ },
+ "barrage_finale": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -15.96,
+  "dc_offset": 4.76e-05,
+  "lufs_i": -14.61,
+  "lufs_m_max": -11.05,
+  "lufs_s_max": -16.42,
+  "crest_db": 14.93,
+  "bands_pct": {
+   "sub": 13.5,
+   "bass": 28.3,
+   "lowmid": 28.8,
+   "mid": 21.7,
+   "himid": 6.1,
+   "high": 1.3,
+   "air": 0.3
+  },
+  "peak_time_s": 0.405,
+  "end_level_dbfs": -78.3,
+  "prefade_tail_db": -38.3,
+  "target": {
+   "metric": "M",
+   "lufs": -11.0
+  },
+  "gain_db": -6.7,
+  "limiter_gr_db": 1.99,
+  "clip_db": 1.52,
+  "target_capped": false,
+  "render_s": 6.22,
+  "sha1": "ac7bb929f2ba5c6e3ec69a0968c5614f03a24714"
+ },
+ "barrage_orbs": {
+  "peak_dbfs": -1.04,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.05,
+  "dc_offset": 9.06e-05,
+  "lufs_i": -15.21,
+  "lufs_m_max": -13.05,
+  "lufs_s_max": -21.2,
+  "crest_db": 15.01,
+  "bands_pct": {
+   "sub": 1.2,
+   "bass": 3.6,
+   "lowmid": 20.1,
+   "mid": 55.6,
+   "himid": 17.3,
+   "high": 1.9,
+   "air": 0.3
+  },
+  "peak_time_s": 0.14,
+  "end_level_dbfs": -42.6,
+  "prefade_tail_db": -21.4,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -1.51,
+  "limiter_gr_db": 1.67,
+  "clip_db": 0.23,
+  "target_capped": false,
+  "render_s": 0.37,
+  "sha1": "401bd970c148626150a917a0ada3001968effb2e"
  },
  "cast_small": {
   "peak_dbfs": -2.52,
@@ -420,7 +484,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.22,
+  "render_s": 0.16,
   "sha1": "79377a93ab4c224dd79db1301cc0583ec00c1779"
  },
  "crater_impact": {
@@ -452,7 +516,7 @@
   "limiter_gr_db": 2.04,
   "clip_db": 3.03,
   "target_capped": true,
-  "render_s": 3.03,
+  "render_s": 4.13,
   "sha1": "2590e9dff6bbafbe1b3f4e8a9a124682aded0378"
  },
  "death_thud": {
@@ -484,7 +548,7 @@
   "limiter_gr_db": 2.0,
   "clip_db": 3.0,
   "target_capped": true,
-  "render_s": 0.88,
+  "render_s": 0.46,
   "sha1": "1daec1c2ee5b3814a9e24a37f2d1c0d06b483115"
  },
  "demon_eye": {
@@ -516,8 +580,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.14,
+  "render_s": 0.12,
   "sha1": "111aa09cc8eaeba3b5a9bae7768fa8a00d930ecd"
+ },
+ "disturb_collapse": {
+  "peak_dbfs": -2.02,
+  "true_peak_dbtp": -2.02,
+  "rms_dbfs": -19.47,
+  "dc_offset": 6.23e-08,
+  "lufs_i": -17.65,
+  "lufs_m_max": -14.0,
+  "lufs_s_max": -22.65,
+  "crest_db": 17.45,
+  "bands_pct": {
+   "sub": 0.7,
+   "bass": 0.6,
+   "lowmid": 31.3,
+   "mid": 35.4,
+   "himid": 28.9,
+   "high": 2.9,
+   "air": 0.2
+  },
+  "peak_time_s": 0.018,
+  "end_level_dbfs": -70.3,
+  "prefade_tail_db": -43.1,
+  "target": {
+   "metric": "M",
+   "lufs": -14.0
+  },
+  "gain_db": -4.03,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.12,
+  "sha1": "d8768c4c6f9f7512d9a19358c4f748d899668471"
  },
  "disturb_magic": {
   "peak_dbfs": -1.03,
@@ -548,8 +644,40 @@
   "limiter_gr_db": 2.4,
   "clip_db": 0.68,
   "target_capped": false,
-  "render_s": 0.57,
+  "render_s": 0.38,
   "sha1": "f0c3c2098d38d03062b9f6dc502a5110c8caa25c"
+ },
+ "disturb_pulse": {
+  "peak_dbfs": -3.43,
+  "true_peak_dbtp": -3.17,
+  "rms_dbfs": -20.99,
+  "dc_offset": 9e-08,
+  "lufs_i": -20.77,
+  "lufs_m_max": -18.0,
+  "lufs_s_max": -26.75,
+  "crest_db": 17.56,
+  "bands_pct": {
+   "sub": 0.0,
+   "bass": 0.0,
+   "lowmid": 6.2,
+   "mid": 68.2,
+   "himid": 22.6,
+   "high": 2.5,
+   "air": 0.4
+  },
+  "peak_time_s": 0.007,
+  "end_level_dbfs": -63.5,
+  "prefade_tail_db": -48.9,
+  "target": {
+   "metric": "M",
+   "lufs": -18.0
+  },
+  "gain_db": -5.53,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.03,
+  "sha1": "b6f58ab836bcf062631c16ddd7f52f5b3f87b030"
  },
  "dodge_whoosh": {
   "peak_dbfs": -1.72,
@@ -580,8 +708,72 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.05,
+  "render_s": 0.04,
   "sha1": "c3ec7725456855e34b1376ae87ded7852ecd4c8d"
+ },
+ "dragon_crush_charge": {
+  "peak_dbfs": -1.32,
+  "true_peak_dbtp": -1.31,
+  "rms_dbfs": -14.32,
+  "dc_offset": 3.22e-07,
+  "lufs_i": -14.36,
+  "lufs_m_max": -14.0,
+  "lufs_s_max": -22.75,
+  "crest_db": 13.0,
+  "bands_pct": {
+   "sub": 6.5,
+   "bass": 23.1,
+   "lowmid": 52.9,
+   "mid": 16.5,
+   "himid": 0.9,
+   "high": 0.1,
+   "air": 0.0
+  },
+  "peak_time_s": 0.369,
+  "end_level_dbfs": -48.9,
+  "prefade_tail_db": -23.8,
+  "target": {
+   "metric": "M",
+   "lufs": -14.0
+  },
+  "gain_db": 3.77,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.05,
+  "sha1": "4e5f5d40b3d49a73433408d3598107bdeace1d24"
+ },
+ "dragon_crush_impact": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.98,
+  "dc_offset": 1.16e-05,
+  "lufs_i": -19.08,
+  "lufs_m_max": -11.1,
+  "lufs_s_max": -18.91,
+  "crest_db": 15.95,
+  "bands_pct": {
+   "sub": 43.4,
+   "bass": 23.2,
+   "lowmid": 13.1,
+   "mid": 10.9,
+   "himid": 6.3,
+   "high": 1.5,
+   "air": 1.4
+  },
+  "peak_time_s": 0.169,
+  "end_level_dbfs": -68.0,
+  "prefade_tail_db": -31.0,
+  "target": {
+   "metric": "M",
+   "lufs": -11.0
+  },
+  "gain_db": -2.74,
+  "limiter_gr_db": 2.18,
+  "clip_db": 2.62,
+  "target_capped": false,
+  "render_s": 2.73,
+  "sha1": "bd52d45ff489872086ddf137924d2b2759e4ec22"
  },
  "dragon_god_awaken": {
   "peak_dbfs": -1.03,
@@ -612,7 +804,7 @@
   "limiter_gr_db": 2.05,
   "clip_db": 3.0,
   "target_capped": true,
-  "render_s": 3.05,
+  "render_s": 3.97,
   "sha1": "a42d0d08550bfb561f07ec27ea7e47de2ace8fde"
  },
  "dragon_step": {
@@ -644,8 +836,40 @@
   "limiter_gr_db": 2.19,
   "clip_db": 2.22,
   "target_capped": false,
-  "render_s": 0.16,
+  "render_s": 0.11,
   "sha1": "27dc49d4f1055dcbe8551e6b9e69393b03840123"
+ },
+ "dragon_step_arrive": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -15.69,
+  "dc_offset": 0.000114,
+  "lufs_i": -17.28,
+  "lufs_m_max": -14.04,
+  "lufs_s_max": -22.79,
+  "crest_db": 14.66,
+  "bands_pct": {
+   "sub": 17.3,
+   "bass": 10.1,
+   "lowmid": 30.3,
+   "mid": 31.9,
+   "himid": 8.2,
+   "high": 2.0,
+   "air": 0.2
+  },
+  "peak_time_s": 0.055,
+  "end_level_dbfs": -45.0,
+  "prefade_tail_db": -30.4,
+  "target": {
+   "metric": "M",
+   "lufs": -14.0
+  },
+  "gain_db": -3.31,
+  "limiter_gr_db": 2.02,
+  "clip_db": 2.74,
+  "target_capped": false,
+  "render_s": 0.24,
+  "sha1": "cd6b7318b779ca2fec91a4d6aa9de3ed554e6488"
  },
  "earth_spike": {
   "peak_dbfs": -1.03,
@@ -676,8 +900,72 @@
   "limiter_gr_db": 2.22,
   "clip_db": 3.01,
   "target_capped": true,
-  "render_s": 0.38,
+  "render_s": 0.21,
   "sha1": "e96c1827c4596773bd1a373946dfb3874f6910e8"
+ },
+ "earth_wall_crack": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.01,
+  "dc_offset": 0.000107,
+  "lufs_i": -16.34,
+  "lufs_m_max": -13.03,
+  "lufs_s_max": -21.74,
+  "crest_db": 14.98,
+  "bands_pct": {
+   "sub": 0.2,
+   "bass": 18.6,
+   "lowmid": 41.4,
+   "mid": 31.5,
+   "himid": 6.7,
+   "high": 1.3,
+   "air": 0.4
+  },
+  "peak_time_s": 0.048,
+  "end_level_dbfs": -55.8,
+  "prefade_tail_db": -38.8,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -4.43,
+  "limiter_gr_db": 2.26,
+  "clip_db": 2.97,
+  "target_capped": false,
+  "render_s": 0.11,
+  "sha1": "a8283050cacc9d164fe7ef939e8048bb2d5270db"
+ },
+ "earth_wall_crumble": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.79,
+  "dc_offset": 2.58e-05,
+  "lufs_i": -14.92,
+  "lufs_m_max": -12.08,
+  "lufs_s_max": -18.9,
+  "crest_db": 15.76,
+  "bands_pct": {
+   "sub": 21.0,
+   "bass": 24.1,
+   "lowmid": 6.6,
+   "mid": 20.4,
+   "himid": 18.9,
+   "high": 4.9,
+   "air": 4.0
+  },
+  "peak_time_s": 0.371,
+  "end_level_dbfs": -80.8,
+  "prefade_tail_db": -46.1,
+  "target": {
+   "metric": "M",
+   "lufs": -12.0
+  },
+  "gain_db": 0.35,
+  "limiter_gr_db": 1.76,
+  "clip_db": 0.28,
+  "target_capped": false,
+  "render_s": 0.92,
+  "sha1": "0593ec7970dd150c8b3d8da2bd8dffe62b01c9c1"
  },
  "earth_wall_rise": {
   "peak_dbfs": -1.03,
@@ -708,7 +996,7 @@
   "limiter_gr_db": 1.81,
   "clip_db": 0.63,
   "target_capped": false,
-  "render_s": 0.97,
+  "render_s": 1.06,
   "sha1": "7621c276e237fd52bb248f3d50c30ffc93f1d282"
  },
  "fire_explosion": {
@@ -740,7 +1028,7 @@
   "limiter_gr_db": 2.07,
   "clip_db": 1.78,
   "target_capped": false,
-  "render_s": 2.57,
+  "render_s": 2.95,
   "sha1": "69a99c901325e946aa2b19ee90be45df9b807e6a"
  },
  "fire_gather": {
@@ -772,8 +1060,40 @@
   "limiter_gr_db": 0.61,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.13,
+  "render_s": 0.1,
   "sha1": "03d14c9abe086b19b2c939014be134810ab6c309"
+ },
+ "fireball_charge": {
+  "peak_dbfs": -2.18,
+  "true_peak_dbtp": -1.85,
+  "rms_dbfs": -18.47,
+  "dc_offset": 1.23e-07,
+  "lufs_i": -16.84,
+  "lufs_m_max": -14.0,
+  "lufs_s_max": -20.64,
+  "crest_db": 16.29,
+  "bands_pct": {
+   "sub": 0.6,
+   "bass": 15.3,
+   "lowmid": 27.8,
+   "mid": 41.0,
+   "himid": 12.9,
+   "high": 2.0,
+   "air": 0.4
+  },
+  "peak_time_s": 1.029,
+  "end_level_dbfs": -61.4,
+  "prefade_tail_db": -23.7,
+  "target": {
+   "metric": "M",
+   "lufs": -14.0
+  },
+  "gain_db": -6.26,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.18,
+  "sha1": "9b666847b23ac83146be743fd6434d95efa16782"
  },
  "fireball_launch": {
   "peak_dbfs": -1.03,
@@ -804,7 +1124,7 @@
   "limiter_gr_db": 1.95,
   "clip_db": 1.24,
   "target_capped": false,
-  "render_s": 0.83,
+  "render_s": 0.43,
   "sha1": "57e574f26e315b3697ff6fe9e4f02c48ce1d0dbf"
  },
  "fireball_travel_loop": {
@@ -839,7 +1159,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.29,
+  "render_s": 0.34,
   "sha1": "5c59b9d5704dbedf070e78a2e7bd1a34fe464866"
  },
  "flame_burn_loop": {
@@ -874,7 +1194,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.27,
+  "render_s": 0.42,
   "sha1": "46384465fa2638de8510ec8228283ed30c20ebf8"
  },
  "flamewave_cast": {
@@ -906,8 +1226,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.41,
+  "render_s": 0.25,
   "sha1": "aa70c873233778d39fd33d6da1d65817d458e731"
+ },
+ "flamewave_roar": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -14.35,
+  "dc_offset": 4.55e-05,
+  "lufs_i": -14.32,
+  "lufs_m_max": -12.05,
+  "lufs_s_max": -18.38,
+  "crest_db": 13.32,
+  "bands_pct": {
+   "sub": 14.5,
+   "bass": 25.6,
+   "lowmid": 27.8,
+   "mid": 26.5,
+   "himid": 4.6,
+   "high": 0.9,
+   "air": 0.1
+  },
+  "peak_time_s": 0.407,
+  "end_level_dbfs": -57.2,
+  "prefade_tail_db": -27.3,
+  "target": {
+   "metric": "M",
+   "lufs": -12.0
+  },
+  "gain_db": -9.54,
+  "limiter_gr_db": 1.13,
+  "clip_db": 0.04,
+  "target_capped": false,
+  "render_s": 0.45,
+  "sha1": "877ddf7e450550cd3b17c21802bd45ef759eb5db"
  },
  "flood_crash": {
   "peak_dbfs": -1.03,
@@ -938,8 +1290,40 @@
   "limiter_gr_db": 2.36,
   "clip_db": 2.15,
   "target_capped": false,
-  "render_s": 1.98,
+  "render_s": 2.39,
   "sha1": "581e977ee14e7ecb5221d9e4c6ec5d2994c8e91b"
+ },
+ "flood_gather": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.23,
+  "dc_offset": 0.000118,
+  "lufs_i": -15.11,
+  "lufs_m_max": -13.09,
+  "lufs_s_max": -21.23,
+  "crest_db": 15.2,
+  "bands_pct": {
+   "sub": 15.8,
+   "bass": 23.8,
+   "lowmid": 29.8,
+   "mid": 22.1,
+   "himid": 7.5,
+   "high": 0.7,
+   "air": 0.1
+  },
+  "peak_time_s": 0.628,
+  "end_level_dbfs": -64.7,
+  "prefade_tail_db": -36.2,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -2.54,
+  "limiter_gr_db": 1.97,
+  "clip_db": 1.59,
+  "target_capped": false,
+  "render_s": 0.26,
+  "sha1": "8a61b41f15156578446195935c3ee4703f05ec26"
  },
  "flood_wave_loop": {
   "peak_dbfs": -2.81,
@@ -973,7 +1357,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.27,
+  "render_s": 0.39,
   "sha1": "c5e6c9f73da00f4aa3945bed1a9235792978e356"
  },
  "ground_crack": {
@@ -1005,8 +1389,40 @@
   "limiter_gr_db": 2.24,
   "clip_db": 3.01,
   "target_capped": true,
-  "render_s": 1.2,
+  "render_s": 0.64,
   "sha1": "47b552c5364bbbafee3a3a80df64aac4a441c1f3"
+ },
+ "ground_crack_run": {
+  "peak_dbfs": -2.45,
+  "true_peak_dbtp": -2.44,
+  "rms_dbfs": -17.03,
+  "dc_offset": 2.07e-07,
+  "lufs_i": -16.63,
+  "lufs_m_max": -14.0,
+  "lufs_s_max": -22.0,
+  "crest_db": 14.58,
+  "bands_pct": {
+   "sub": 3.3,
+   "bass": 9.8,
+   "lowmid": 22.4,
+   "mid": 51.3,
+   "himid": 12.1,
+   "high": 1.1,
+   "air": 0.0
+  },
+  "peak_time_s": 0.027,
+  "end_level_dbfs": -80.8,
+  "prefade_tail_db": -34.4,
+  "target": {
+   "metric": "M",
+   "lufs": -14.0
+  },
+  "gain_db": -6.13,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.12,
+  "sha1": "65f7f79a97dce1689ea2bcda7eba42c028ae2a2d"
  },
  "ground_rumble_loop": {
   "peak_dbfs": -5.37,
@@ -1040,7 +1456,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.13,
+  "render_s": 0.07,
   "sha1": "047c47c59c27ada06ba31fac4a5ed32f59c48458"
  },
  "hit_heavy": {
@@ -1072,7 +1488,7 @@
   "limiter_gr_db": 2.28,
   "clip_db": 3.0,
   "target_capped": true,
-  "render_s": 0.17,
+  "render_s": 0.12,
   "sha1": "ed454f7edb04c687ff3f1a34134744a14a7d70ed"
  },
  "hit_light": {
@@ -1104,7 +1520,7 @@
   "limiter_gr_db": 2.02,
   "clip_db": 3.01,
   "target_capped": true,
-  "render_s": 0.09,
+  "render_s": 0.08,
   "sha1": "e9ccfc1fb2af4c2ebb97401a207904ebb982bcc2"
  },
  "hit_magic": {
@@ -1136,7 +1552,7 @@
   "limiter_gr_db": 2.15,
   "clip_db": 3.02,
   "target_capped": true,
-  "render_s": 0.32,
+  "render_s": 0.25,
   "sha1": "deeec502eb4550809eac05392a441cc82c036780"
  },
  "inferno_charge": {
@@ -1168,8 +1584,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.26,
+  "render_s": 0.18,
   "sha1": "6913c95f168936a608e1b1e898fada34c6bae831"
+ },
+ "inferno_circle": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -14.16,
+  "dc_offset": 2.94e-07,
+  "lufs_i": -14.16,
+  "lufs_m_max": -13.0,
+  "lufs_s_max": -18.88,
+  "crest_db": 13.13,
+  "bands_pct": {
+   "sub": 9.1,
+   "bass": 43.3,
+   "lowmid": 22.0,
+   "mid": 23.1,
+   "himid": 2.1,
+   "high": 0.4,
+   "air": 0.1
+  },
+  "peak_time_s": 0.927,
+  "end_level_dbfs": -51.6,
+  "prefade_tail_db": -20.1,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -2.9,
+  "limiter_gr_db": 0.01,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.37,
+  "sha1": "63860ca9d56568b4579f31ddb26026ce64a56440"
  },
  "inferno_eruption": {
   "peak_dbfs": -1.03,
@@ -1200,8 +1648,40 @@
   "limiter_gr_db": 2.14,
   "clip_db": 2.48,
   "target_capped": false,
-  "render_s": 4.59,
+  "render_s": 6.62,
   "sha1": "230ece46148cb58aa291f895f40007fb44ef48cf"
+ },
+ "inferno_pillar": {
+  "peak_dbfs": -6.57,
+  "true_peak_dbtp": -6.57,
+  "rms_dbfs": -20.93,
+  "dc_offset": 6.79e-08,
+  "lufs_i": -21.57,
+  "lufs_m_max": -18.0,
+  "lufs_s_max": -26.35,
+  "crest_db": 14.36,
+  "bands_pct": {
+   "sub": 18.7,
+   "bass": 38.5,
+   "lowmid": 25.7,
+   "mid": 15.8,
+   "himid": 1.2,
+   "high": 0.1,
+   "air": 0.0
+  },
+  "peak_time_s": 0.111,
+  "end_level_dbfs": -90.3,
+  "prefade_tail_db": -77.7,
+  "target": {
+   "metric": "M",
+   "lufs": -18.0
+  },
+  "gain_db": -10.24,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.16,
+  "sha1": "b72807e24d91b6951d9e71f4805ac8d132cf94f2"
  },
  "level_up": {
   "peak_dbfs": -7.8,
@@ -1234,7 +1714,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.71,
+  "render_s": 1.1,
   "sha1": "9799afeb98180220026b6b7bbeb2aa1d90317974"
  },
  "mana_empty": {
@@ -1266,7 +1746,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.08,
+  "render_s": 0.06,
   "sha1": "e71ab5a5b2eb6ec50bb5be06d18a4d7bc34676b3"
  },
  "map_select": {
@@ -1300,8 +1780,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.19,
+  "render_s": 0.2,
   "sha1": "8d415a4b8b2a85e844b2319308453039faaa773f"
+ },
+ "mud_squelch": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -15.56,
+  "dc_offset": 0.000119,
+  "lufs_i": -16.01,
+  "lufs_m_max": -16.01,
+  "lufs_s_max": -24.76,
+  "crest_db": 14.53,
+  "bands_pct": {
+   "sub": 1.6,
+   "bass": 32.8,
+   "lowmid": 57.7,
+   "mid": 7.7,
+   "himid": 0.1,
+   "high": 0.0,
+   "air": 0.0
+  },
+  "peak_time_s": 0.059,
+  "end_level_dbfs": -90.3,
+  "prefade_tail_db": -31.1,
+  "target": {
+   "metric": "M",
+   "lufs": -16.0
+  },
+  "gain_db": -0.97,
+  "limiter_gr_db": 1.97,
+  "clip_db": 1.58,
+  "target_capped": false,
+  "render_s": 0.17,
+  "sha1": "7459e4c4d006645660a2e4a4e12f894e80540251"
  },
  "music_spawn_sting": {
   "peak_dbfs": -4.87,
@@ -1334,7 +1846,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 2.31,
+  "render_s": 4.22,
   "sha1": "66127656d7a308c5a1ed7405406d5fec903cabd0"
  },
  "music_title_theme": {
@@ -1371,7 +1883,7 @@
   "limiter_gr_db": 0.09,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 27.69,
+  "render_s": 89.67,
   "sha1": "fd971a410b71299b575a106e3136afb4b038fc0d"
  },
  "palm_strike": {
@@ -1403,7 +1915,7 @@
   "limiter_gr_db": 2.17,
   "clip_db": 3.0,
   "target_capped": true,
-  "render_s": 0.15,
+  "render_s": 0.11,
   "sha1": "a584fc44c9add74f0cc958c9b525f678e345062d"
  },
  "quagmire_loop": {
@@ -1438,8 +1950,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.29,
+  "render_s": 0.38,
   "sha1": "ee6f391e74c827a2b851b6c1dc918284fce479fc"
+ },
+ "quagmire_transform": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -14.28,
+  "dc_offset": 6.31e-05,
+  "lufs_i": -14.59,
+  "lufs_m_max": -13.04,
+  "lufs_s_max": -18.1,
+  "crest_db": 13.25,
+  "bands_pct": {
+   "sub": 5.4,
+   "bass": 42.9,
+   "lowmid": 40.7,
+   "mid": 9.3,
+   "himid": 1.6,
+   "high": 0.1,
+   "air": 0.0
+  },
+  "peak_time_s": 0.974,
+  "end_level_dbfs": -67.4,
+  "prefade_tail_db": -22.4,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -1.29,
+  "limiter_gr_db": 1.73,
+  "clip_db": 0.42,
+  "target_capped": false,
+  "render_s": 0.27,
+  "sha1": "b560724e0e8976ad48794e7f6d457deb1f761fe7"
  },
  "rock_impact": {
   "peak_dbfs": -1.03,
@@ -1470,8 +2014,40 @@
   "limiter_gr_db": 2.07,
   "clip_db": 2.62,
   "target_capped": false,
-  "render_s": 1.11,
+  "render_s": 0.57,
   "sha1": "45f14fca83eb89806b1e2517e8ccc26ea559f9c9"
+ },
+ "seal": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -17.3,
+  "dc_offset": 4.83e-06,
+  "lufs_i": -18.37,
+  "lufs_m_max": -16.04,
+  "lufs_s_max": -24.72,
+  "crest_db": 16.27,
+  "bands_pct": {
+   "sub": 30.2,
+   "bass": 47.8,
+   "lowmid": 3.5,
+   "mid": 18.5,
+   "himid": 0.0,
+   "high": 0.0,
+   "air": 0.0
+  },
+  "peak_time_s": 0.18,
+  "end_level_dbfs": -90.3,
+  "prefade_tail_db": -73.7,
+  "target": {
+   "metric": "M",
+   "lufs": -16.0
+  },
+  "gain_db": 1.88,
+  "limiter_gr_db": 1.79,
+  "clip_db": 0.55,
+  "target_capped": false,
+  "render_s": 0.32,
+  "sha1": "f859ae513be2d7c06e294e09c876168b0a801d8b"
  },
  "shockwave_boom": {
   "peak_dbfs": -1.03,
@@ -1502,8 +2078,72 @@
   "limiter_gr_db": 2.0,
   "clip_db": 2.68,
   "target_capped": false,
-  "render_s": 1.41,
+  "render_s": 0.88,
   "sha1": "8d23d9aa2118e01f608b72b614c05089f7d203c6"
+ },
+ "sonic_boom": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -15.81,
+  "dc_offset": 0.000101,
+  "lufs_i": -16.14,
+  "lufs_m_max": -12.06,
+  "lufs_s_max": -20.66,
+  "crest_db": 14.78,
+  "bands_pct": {
+   "sub": 34.4,
+   "bass": 4.7,
+   "lowmid": 8.2,
+   "mid": 44.7,
+   "himid": 7.3,
+   "high": 0.7,
+   "air": 0.1
+  },
+  "peak_time_s": 0.082,
+  "end_level_dbfs": -69.5,
+  "prefade_tail_db": -38.2,
+  "target": {
+   "metric": "M",
+   "lufs": -12.0
+  },
+  "gain_db": -1.28,
+  "limiter_gr_db": 2.26,
+  "clip_db": 2.07,
+  "target_capped": false,
+  "render_s": 0.41,
+  "sha1": "4d589236bdbf7d3ad5673710cf0fbde76541b5df"
+ },
+ "spike_final": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -15.99,
+  "dc_offset": 3.71e-05,
+  "lufs_i": -16.52,
+  "lufs_m_max": -11.07,
+  "lufs_s_max": -18.98,
+  "crest_db": 14.96,
+  "bands_pct": {
+   "sub": 38.3,
+   "bass": 18.2,
+   "lowmid": 15.9,
+   "mid": 24.0,
+   "himid": 2.6,
+   "high": 0.5,
+   "air": 0.5
+  },
+  "peak_time_s": 0.041,
+  "end_level_dbfs": -53.8,
+  "prefade_tail_db": -25.1,
+  "target": {
+   "metric": "M",
+   "lufs": -11.0
+  },
+  "gain_db": -4.29,
+  "limiter_gr_db": 2.25,
+  "clip_db": 2.38,
+  "target_capped": false,
+  "render_s": 0.98,
+  "sha1": "80b863483675d00fe6ccc6eacba7e8594061c767"
  },
  "stone_cannon_launch": {
   "peak_dbfs": -1.03,
@@ -1534,8 +2174,40 @@
   "limiter_gr_db": 2.03,
   "clip_db": 3.04,
   "target_capped": true,
-  "render_s": 0.79,
+  "render_s": 0.56,
   "sha1": "e9d5fb7b0d4de077d079b65ffba8e5c4fdedbbd1"
+ },
+ "stone_compress": {
+  "peak_dbfs": -1.1,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -18.77,
+  "dc_offset": 2.26e-06,
+  "lufs_i": -17.48,
+  "lufs_m_max": -14.05,
+  "lufs_s_max": -20.06,
+  "crest_db": 17.67,
+  "bands_pct": {
+   "sub": 5.4,
+   "bass": 24.6,
+   "lowmid": 28.4,
+   "mid": 30.8,
+   "himid": 9.3,
+   "high": 1.2,
+   "air": 0.3
+  },
+  "peak_time_s": 1.4,
+  "end_level_dbfs": -76.3,
+  "prefade_tail_db": -26.1,
+  "target": {
+   "metric": "M",
+   "lufs": -14.0
+  },
+  "gain_db": -2.2,
+  "limiter_gr_db": 0.77,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.39,
+  "sha1": "35dcf12c177a6971a7193c107c47304302acfd05"
  },
  "stone_form": {
   "peak_dbfs": -1.21,
@@ -1566,7 +2238,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.04,
+  "render_s": 0.05,
   "sha1": "c8a50c9cf0a9b5921933fa2b16a5bcdd547ee747"
  },
  "stone_spin_loop": {
@@ -1601,8 +2273,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.07,
+  "render_s": 0.04,
   "sha1": "e11fc059f006b1639a014c1c847f705f98fd0a03"
+ },
+ "tornado_form": {
+  "peak_dbfs": -2.1,
+  "true_peak_dbtp": -2.1,
+  "rms_dbfs": -15.8,
+  "dc_offset": 9.46e-08,
+  "lufs_i": -15.14,
+  "lufs_m_max": -13.0,
+  "lufs_s_max": -20.25,
+  "crest_db": 13.7,
+  "bands_pct": {
+   "sub": 24.0,
+   "bass": 13.3,
+   "lowmid": 19.5,
+   "mid": 37.6,
+   "himid": 4.6,
+   "high": 0.8,
+   "air": 0.2
+  },
+  "peak_time_s": 0.616,
+  "end_level_dbfs": -90.3,
+  "prefade_tail_db": -56.8,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": 0.87,
+  "limiter_gr_db": 0.0,
+  "clip_db": 0.0,
+  "target_capped": false,
+  "render_s": 0.19,
+  "sha1": "1388b1984a06b9579824b2c9aabda70503b5ba1b"
  },
  "tornado_loop": {
   "peak_dbfs": -4.22,
@@ -1636,7 +2340,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.36,
+  "render_s": 0.6,
   "sha1": "d90ffd03ac0f95e86209f1a0c672cc6018290797"
  },
  "tornado_start": {
@@ -1668,7 +2372,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.36,
+  "render_s": 0.23,
   "sha1": "2b8b94bc55adc9d8ff2ed4e99d0f6b4a8ccbbd34"
  },
  "ui_click": {
@@ -1702,7 +2406,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.04,
+  "render_s": 0.03,
   "sha1": "515d543c3651f4ee1e7aaf4b39997b635d2212ee"
  },
  "ui_close": {
@@ -1736,7 +2440,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.07,
+  "render_s": 0.04,
   "sha1": "1cfba2d0fa3bdeb5239f638df0e57309ffa64df9"
  },
  "ui_confirm": {
@@ -1770,7 +2474,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.19,
+  "render_s": 0.11,
   "sha1": "b109c04c21eb077337b931c01668ecf6694ee0ed"
  },
  "ui_error": {
@@ -1872,7 +2576,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.09,
+  "render_s": 0.06,
   "sha1": "7ed8a8cb802bd8afad509ab9ca4d9943eacca1af"
  },
  "ui_spawn": {
@@ -1906,7 +2610,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.53,
+  "render_s": 0.67,
   "sha1": "7da20ab6de5cd77c60cbc82e80a3133c2275846d"
  },
  "ui_tab": {
@@ -1940,7 +2644,7 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.04,
+  "render_s": 0.03,
   "sha1": "8a398f64c56b65984ad3b9031e764cd53138e745"
  },
  "water_bullet_launch": {
@@ -1972,7 +2676,7 @@
   "limiter_gr_db": 2.06,
   "clip_db": 0.88,
   "target_capped": false,
-  "render_s": 0.19,
+  "render_s": 0.18,
   "sha1": "61e7d396c4ff9c5c229902182c006cab165e2403"
  },
  "water_dragon_impact": {
@@ -2004,7 +2708,7 @@
   "limiter_gr_db": 2.21,
   "clip_db": 3.01,
   "target_capped": true,
-  "render_s": 3.33,
+  "render_s": 4.13,
   "sha1": "b888361f6797bb9f2fe646d8d857d9415f81582a"
  },
  "water_dragon_rise": {
@@ -2036,8 +2740,40 @@
   "limiter_gr_db": 1.98,
   "clip_db": 1.67,
   "target_capped": false,
-  "render_s": 1.57,
+  "render_s": 1.33,
   "sha1": "4b4628a6c4bbe75262e4431179786ae4c88f26ff"
+ },
+ "water_dragon_roar": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -13.82,
+  "dc_offset": 1.14e-05,
+  "lufs_i": -14.16,
+  "lufs_m_max": -12.03,
+  "lufs_s_max": -16.23,
+  "crest_db": 12.79,
+  "bands_pct": {
+   "sub": 26.3,
+   "bass": 20.0,
+   "lowmid": 27.9,
+   "mid": 17.9,
+   "himid": 6.9,
+   "high": 0.9,
+   "air": 0.0
+  },
+  "peak_time_s": 0.472,
+  "end_level_dbfs": -65.2,
+  "prefade_tail_db": -22.6,
+  "target": {
+   "metric": "M",
+   "lufs": -12.0
+  },
+  "gain_db": 0.95,
+  "limiter_gr_db": 1.32,
+  "clip_db": 0.08,
+  "target_capped": false,
+  "render_s": 1.68,
+  "sha1": "daf90590da9fd01e493e27619c772622a85d61e5"
  },
  "water_gather": {
   "peak_dbfs": -1.44,
@@ -2068,8 +2804,40 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.06,
+  "render_s": 0.05,
   "sha1": "0d4e9b5c31d167451fa7212acbab89c88bbf1bf8"
+ },
+ "water_lance": {
+  "peak_dbfs": -1.03,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.89,
+  "dc_offset": 3.74e-06,
+  "lufs_i": -15.79,
+  "lufs_m_max": -13.05,
+  "lufs_s_max": -21.8,
+  "crest_db": 15.86,
+  "bands_pct": {
+   "sub": 0.0,
+   "bass": 1.5,
+   "lowmid": 13.6,
+   "mid": 26.5,
+   "himid": 32.3,
+   "high": 18.9,
+   "air": 7.2
+  },
+  "peak_time_s": 0.008,
+  "end_level_dbfs": -78.3,
+  "prefade_tail_db": -75.3,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -1.08,
+  "limiter_gr_db": 3.09,
+  "clip_db": 2.72,
+  "target_capped": false,
+  "render_s": 0.2,
+  "sha1": "a220b561c8526b85a6039291f3c91b8ada46ec69"
  },
  "water_splash": {
   "peak_dbfs": -1.03,
@@ -2100,7 +2868,7 @@
   "limiter_gr_db": 2.06,
   "clip_db": 1.19,
   "target_capped": false,
-  "render_s": 0.65,
+  "render_s": 0.33,
   "sha1": "b29dee0e7cbcf3ecfb72206ccbc582296ad9d60c"
  },
  "wind_blade_impact": {
@@ -2132,7 +2900,7 @@
   "limiter_gr_db": 3.14,
   "clip_db": 3.04,
   "target_capped": true,
-  "render_s": 0.37,
+  "render_s": 0.23,
   "sha1": "589f699ed43968e392e59fc7eb82005ebe0e42fd"
  },
  "wind_blade_swish": {
@@ -2164,7 +2932,7 @@
   "limiter_gr_db": 2.05,
   "clip_db": 0.67,
   "target_capped": false,
-  "render_s": 0.12,
+  "render_s": 0.08,
   "sha1": "12bd0ffb77e91adba3fb044cc197ed372e69a7f9"
  },
  "wind_burst": {
@@ -2196,8 +2964,40 @@
   "limiter_gr_db": 2.05,
   "clip_db": 1.96,
   "target_capped": false,
-  "render_s": 1.11,
+  "render_s": 0.66,
   "sha1": "846c4d9a3717ecfedfc5a363bd1451f8f97e2061"
+ },
+ "wind_compress": {
+  "peak_dbfs": -1.11,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -15.84,
+  "dc_offset": 0.000258,
+  "lufs_i": -16.06,
+  "lufs_m_max": -16.06,
+  "lufs_s_max": -24.81,
+  "crest_db": 14.73,
+  "bands_pct": {
+   "sub": 2.6,
+   "bass": 13.7,
+   "lowmid": 7.8,
+   "mid": 56.3,
+   "himid": 17.9,
+   "high": 1.3,
+   "air": 0.4
+  },
+  "peak_time_s": 0.116,
+  "end_level_dbfs": -46.2,
+  "prefade_tail_db": -26.7,
+  "target": {
+   "metric": "M",
+   "lufs": -16.0
+  },
+  "gain_db": 0.21,
+  "limiter_gr_db": 2.21,
+  "clip_db": 2.18,
+  "target_capped": false,
+  "render_s": 0.09,
+  "sha1": "22b14a9104ed67b6a693e716b21e4daaea62512e"
  },
  "wind_gather": {
   "peak_dbfs": -1.15,
@@ -2228,7 +3028,39 @@
   "limiter_gr_db": 0.0,
   "clip_db": 0.0,
   "target_capped": false,
-  "render_s": 0.07,
+  "render_s": 0.05,
   "sha1": "c54c20a7c8be617d85e4bd6a040f5c3bac9d9f53"
+ },
+ "wind_slash": {
+  "peak_dbfs": -1.15,
+  "true_peak_dbtp": -1.03,
+  "rms_dbfs": -16.26,
+  "dc_offset": 7.1e-05,
+  "lufs_i": -16.17,
+  "lufs_m_max": -13.06,
+  "lufs_s_max": -21.8,
+  "crest_db": 15.11,
+  "bands_pct": {
+   "sub": 4.2,
+   "bass": 2.8,
+   "lowmid": 21.0,
+   "mid": 52.4,
+   "himid": 16.3,
+   "high": 2.3,
+   "air": 0.9
+  },
+  "peak_time_s": 0.024,
+  "end_level_dbfs": -70.3,
+  "prefade_tail_db": -50.0,
+  "target": {
+   "metric": "M",
+   "lufs": -13.0
+  },
+  "gain_db": -1.33,
+  "limiter_gr_db": 2.4,
+  "clip_db": 2.55,
+  "target_capped": false,
+  "render_s": 0.21,
+  "sha1": "0a296422905246ac4c2f46e368087ea40b313296"
  }
 }

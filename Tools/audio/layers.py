@@ -397,3 +397,165 @@ def space(x, rng, rt60=1.2, wet_db=-14.0, hf_ratio=0.4, predelay=0.01, stereo=Fa
           circular=False):
     ir = make_ir(rt60, rng, predelay=predelay, stereo=stereo, hf_ratio=hf_ratio, er_level=er_level)
     return reverb(x, ir, wet_db, circular=circular)
+
+
+# --------------------------------------------------------------------------------------------- overhaul layers
+# Added for the ability overhaul (Docs/Ability_Overhaul.md section 6). New functions only: the layers above are
+# untouched, so every earlier sound still renders byte-identically.
+def place_reversed(buf, x, t_end):
+    """Add x time-reversed into buf so that it ends at t_end: a decaying puff becomes a swell that is 'sucked
+    in' (inward gestures, charges, implosions)."""
+    r = np.ascontiguousarray(np.asarray(x, dtype=np.float64)[::-1])
+    place(buf, r, ns(t_end) - r.shape[-1])
+
+
+def pulse_train(freq, n, sharp=4, phase0=0.0):
+    """Raised-cosine pulses (0..1) on a (time-varying) frequency. (0.5 + 0.5 cos)^k holds exactly k harmonics,
+    so the train stays alias-free while it glides."""
+    from dsp import phase
+    return (0.5 + 0.5 * np.cos(TAU * phase(freq, n, phase0))) ** int(sharp)
+
+
+def rotor(rng, n, rot_hz, e, flutes=3, sharp=4, fc=None, q=1.3, tone_db=-5.0, jitter=0.004, amp=1.0,
+          color="pink"):
+    """Spinning object (fluted slug, vortex core): air 'whup' pulses at the flute-pass rate rot_hz * flutes
+    (per-sample array) that fuse into a pitched whine as the spin accelerates. fc: band-pass centre of the air
+    (defaults to following the pass rate)."""
+    rot = np.broadcast_to(np.asarray(rot_hz, dtype=np.float64), (int(n),))
+    fp = rot * flutes * (1.0 + jitter * smooth_random(n, rng, 30.0))
+    pt = pulse_train(fp, n, sharp, rng.random())
+    fcv = fc if fc is not None else np.clip(650.0 + 2.6 * fp, 650.0, 7000.0)
+    air = norm_rms(moving_noise(rng, n, pt, "bp", fcv, q, color, amp=None))
+    from dsp import smooth
+    tone = pt - smooth(pt, 30.0)  # periodic part only
+    w = np.clip((fp - 45.0) / 130.0, 0.0, 1.0)  # the pulses fuse into a pitch above roughly 45-175 Hz
+    tone = norm_rms(tone * w) if np.any(w > 0) else np.zeros(int(n))
+    return norm_peak((air + float(db2lin(tone_db)) * tone) * e) * amp
+
+
+def buzz(rng, n, e, fc=3200.0, am_hz=95.0, am_depth=0.8, partials=(1.0, 1.48, 2.07), jitter=0.006, amp=1.0):
+    """Tight high-frequency vibration (a rotor at its limit, a stressed crystal): a small inharmonic cluster
+    under fast, jittery amplitude modulation. fc may be a per-sample array."""
+    fcv = np.broadcast_to(np.asarray(fc, dtype=np.float64), (int(n),))
+    y = np.zeros(int(n))
+    for i, r in enumerate(partials):
+        f = fcv * r * (1.0 + jitter * smooth_random(n, rng, 25.0))
+        y += np.sin(TAU * np.cumsum(f) / SR + rng.random() * TAU) / (1.0 + i)
+    amf = am_hz * (1.0 + 0.15 * smooth_random(n, rng, 8.0))
+    am = 1.0 - am_depth * (0.5 + 0.5 * np.sin(TAU * np.cumsum(amf) / SR))
+    am = am * np.maximum(1.0 + 0.3 * smooth_random(n, rng, 60.0), 0.0)
+    return norm_peak(y * am * e) * amp
+
+
+def groan(rng, n, e, rate=(20.0, 60.0), t0=0.0, t1=None, body=(95.0, 150.0, 235.0, 360.0, 520.0), tau=0.045,
+          jitter=0.35, amp=1.0):
+    """Material under load (stone, packed earth): stick-slip impulses whose rate glides rate[0] -> rate[1] over
+    [t0, t1], each exciting a low modal body. Slow rates creak, fast ones groan with a pitch."""
+    T = n / SR
+    t1 = T if t1 is None else t1
+    t = tvec(n)
+    r = np.interp(t, [t0, t1], [rate[0], rate[1]]) * np.maximum(1.0 + jitter * smooth_random(n, rng, 6.0), 0.1)
+    ph = np.cumsum(r) / SR
+    k = np.nonzero(np.diff(np.floor(ph)) > 0)[0] + 1
+    k = k[(t[k] >= t0) & (t[k] < t1)]
+    out = np.zeros(n)
+    if k.size == 0:
+        return out
+    amps = rng.uniform(0.3, 1.0, k.size) * np.where(rng.random(k.size) < 0.5, 1.0, -1.0)
+    freqs = np.asarray(body, dtype=np.float64) * (1.0 + 0.03 * rng.standard_normal(len(body)))
+    decays = tau / np.sqrt(np.arange(len(body)) + 1.0)
+    ker = modal(freqs, decays, 1.0 / (1.0 + 0.4 * np.arange(len(body))), rng=rng)
+    _conv_events(out, k, amps, norm_peak(ker), False)
+    return norm_peak(out * e) * amp
+
+
+def glug(rng, n, t, f0=260.0, count=4, spacing=(0.018, 0.045), fall=0.88, amp=1.0, body_db=-8.0):
+    """Gurgle: a quick run of large bubbles escaping one after another through a narrow opening, each a little
+    lower as the pocket empties, with a short noisy 'gulp' under each."""
+    from dsp import bubble
+    out = np.zeros(n)
+    tt, f = t, f0
+    for i in range(int(count)):
+        b = bubble(f, rise=rng.uniform(0.2, 0.6), decay_mult=rng.uniform(0.7, 1.4), max_len=0.12)
+        g = rng.uniform(0.6, 1.0) * 0.85 ** i
+        place(out, b * g, ns(tt))
+        L = ns(0.03)
+        gulp = eq(rng.standard_normal(L) * np.exp(-tvec(L) / 0.008), ("bp", f * 1.8, 2.0))
+        place(out, norm_peak(gulp) * g * float(db2lin(body_db)), ns(tt))
+        tt += rng.uniform(*spacing)
+        f *= fall * rng.uniform(0.95, 1.05)
+    return norm_peak(out) * amp
+
+
+def gravel(rng, n, rate, t0=0.0, t1=None, size=(0.0, 0.35), amp_fn=None, variants=10, dark=0.0, amp=1.0,
+           alpha=2.2):
+    """Gravel pour / rubble trickle: dense small modal rock ticks (a bank of rock_piece kernels) without the
+    bounce model, so thousands of grains stay cheap. rate: events/s or callable(t)."""
+    t1 = n / SR if t1 is None else t1
+    ts = poisson_times(rate, t0, t1, rng)
+    out = np.zeros(n)
+    if ts.size == 0:
+        return out
+    bank = []
+    for i in range(int(variants)):
+        s = size[0] + (size[1] - size[0]) * (i + rng.random()) / variants
+        k = rock_piece(rng, s)
+        if dark > 0:
+            k = eq(k, ("lp", 6000.0 * (1.0 - 0.7 * dark)))
+        bank.append((k, (0.25 + s) ** 1.1))
+    amps = np.minimum(rng.pareto(alpha, ts.size) + 1.0, 10.0) / 10.0
+    if amp_fn is not None:
+        amps = amps * amp_fn(ts)
+    which = rng.integers(0, len(bank), ts.size)
+    idx = np.round(ts * SR).astype(np.int64)
+    for j, (k, a) in enumerate(bank):
+        sel = which == j
+        _conv_events(out, idx[sel], amps[sel] * a, k, False)
+    return norm_peak(out) * amp
+
+
+def boulder(rng, n, t, size=1.0, amp=1.0, thump_db=-6.0):
+    """A big rock chunk landing: a low, heavily damped modal body (about 380 Hz for a rock, 120 Hz for a slab
+    corner), crunchy contact noise and a short low thump."""
+    base = 380.0 * (120.0 / 380.0) ** size
+    ratios = np.array([1.0, rng.uniform(1.4, 1.7), rng.uniform(2.2, 2.7), rng.uniform(3.0, 3.8), rng.uniform(4.3, 5.4)])
+    decays = rng.uniform(0.02, 0.04) * (1.0 + size) / ratios ** 0.7
+    body = modal(base * ratios, decays, np.array([1.0, 0.8, 0.6, 0.4, 0.25]) * rng.uniform(0.6, 1.0, 5), rng=rng)
+    k = min(body.shape[0], ns(0.012))
+    body[:k] += 1.3 * rng.standard_normal(k) * np.exp(-np.arange(k) / (k / 4.0))
+    body = norm_peak(eq(body, ("hp", 60.0)))
+    out = np.zeros(n)
+    place(out, body, ns(t))
+    th = thump(n, t, 110.0 * (0.7 + 0.3 * (1.0 - size)), 55.0, 18.0, 55.0 + 40.0 * size, amp=float(db2lin(thump_db)),
+               drive_db=6.0)
+    return norm_peak(out + th) * amp
+
+
+def comb_warp(x, delay_ms, depth=0.7):
+    """Feed-forward comb with a moving delay (scalar or per-sample ms): the swept notches of a flanger, i.e. the
+    'jet' / warped-air colour. Cubic interpolation keeps it smooth for any delay curve."""
+    from dsp import hermite
+    x = np.asarray(x, dtype=np.float64)
+    n = x.shape[-1]
+    d = np.broadcast_to(np.asarray(delay_ms, dtype=np.float64), (n,)) * 1e-3 * SR
+    return x + depth * hermite(x, np.arange(n) - d)
+
+
+def n_wave(n, t0=0.004, dur_ms=12.0, rise_ms=0.06, tail=0.9, amp=1.0, os=8):
+    """Supersonic N-wave (the pressure signature of a sonic boom or a ballistic crack): a shock up to +1, a
+    linear fall through zero to -tail, and a second shock back to rest. The two shocks are the double crack,
+    the ramp carries the thump. Built 8x oversampled with finite rise times, then band-limited exactly."""
+    from dsp import downsample
+    D = dur_ms * 1e-3
+    pre = 0.001
+    L = ns(pre + D + 0.003) + 64
+    m = L * os
+    tt = np.arange(m) / (SR * os) - pre
+    p = np.where((tt >= 0.0) & (tt < D), 1.0 - (1.0 + tail) * tt / D, 0.0)
+    k = max(int(rise_ms * 1e-3 * SR * os), 2)
+    ker = np.hanning(k + 2)[1:-1]
+    p = np.convolve(p, ker / ker.sum(), mode="same")
+    y = downsample(p, os, L)
+    out = np.zeros(n)
+    place(out, norm_peak(y) * amp, ns(t0) - ns(pre))
+    return out

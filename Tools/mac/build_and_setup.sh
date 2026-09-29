@@ -95,9 +95,10 @@ if [[ $DO_SETUP -eq 1 ]]; then
           run_logged "$LOG_DIR/mt_generate.log" "$BPY" "$REPO_ROOT/$@" || fail_step "generate:$(basename "$1")"
         fi
       }
+      # Markers are the newest file each generator makes, so a machine that ran an older generator still gets the new assets.
       gen SourceArt/VFX/Textures/T_VFX_Noise.png Tools/vfx/make_vfx_textures.py
       gen SourceArt/UI/Icons Tools/ui/prepare_ui_art.py
-      gen SourceArt/Audio/Fire/fire_gather.wav Tools/audio/synth_sfx.py
+      gen SourceArt/Audio/Rudeus/barrage_finale.wav Tools/audio/synth_sfx.py
       gen SourceArt/Kit/VFX/SM_VFX_Ring.glb Tools/kit/build_architecture_kit.py
       gen SourceArt/Kit/Trees/SM_Tree_Oak_A.glb Tools/kit/build_nature_kit.py
       [[ -f "$REPO_ROOT/Tools/world/generate_world.py" ]] && gen SourceArt/World/Height.r16 Tools/world/generate_world.py
